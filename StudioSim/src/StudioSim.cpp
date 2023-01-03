@@ -2,9 +2,13 @@
 //
 
 #include <GLFW/glfw3.h>
+#include <fmod.h>
 
 int main(void)
 {
+    
+    
+
     GLFWwindow* window;
 
     /* Initialize the library */
