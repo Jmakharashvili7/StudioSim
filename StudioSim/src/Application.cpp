@@ -1,10 +1,13 @@
 // StudioSim.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <GLFW/glfw3.h>
+#include <BasicIncludes.h>
 
 int main(void)
 {
+    QuackEngine::Log::Init();
+    QE_ENGINE_ERROR("test");
+
     GLFWwindow* window;
 
     /* Initialize the library */
