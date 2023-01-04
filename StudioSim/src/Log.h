@@ -52,16 +52,16 @@ namespace QuackEngine {
 
 // definitions to quickly print out engine errors
 // Main difference between them is the color of the message
-#define QE_ENGINE_ERROR(...) QuackEngine::Log::GetEngineLogger()->error(__VA_ARGS__)
-#define QE_ENGINE_WARN(...) QuackEngine::Log::GetEngineLogger()->warn(__VA_ARGS__)
-#define QE_ENGINE_INFO(...) QuackEngine::Log::GetEngineLogger()->info(__VA_ARGS__)
-#define QE_ENGINE_TRACE(...) QuackEngine::Log::GetEngineLogger()->trace(__VA_ARGS__)
-#define QE_ENGINE_FATAL(...) QuackEngine::Log::GetEngineLogger()->info(__VA_ARGS__)
+#define QE_ERROR(...) QuackEngine::Log::GetEngineLogger()->error(__VA_ARGS__)
+#define QE_WARN(...) QuackEngine::Log::GetEngineLogger()->warn(__VA_ARGS__)
+#define QE_INFO(...) QuackEngine::Log::GetEngineLogger()->info(__VA_ARGS__)
+#define QE_TRACE(...) QuackEngine::Log::GetEngineLogger()->trace(__VA_ARGS__)
+#define QE_INFO(...) QuackEngine::Log::GetEngineLogger()->info(__VA_ARGS__)
 
 // definitions to quickly print out engine errors
 // Main difference between them is the color of the message
-#define QE_APP_ERROR(...) QuackEngine::Log::GetAppLogger()->error(__VA_ARGS__)
-#define QE_APP_WARN(...) QuackEngine::Log::GetAppLogger()->warn(__VA_ARGS__)
-#define QE_APP_INFO(...) QuackEngine::Log::GetAppLogger()->info(__VA_ARGS__)
-#define QE_APP_TRACE(...) QuackEngine::Log::GetAppLogger()->trace(__VA_ARGS__)
-#define QE_APP_FATAL(...) QuackEngine::Log::GetAppLogger()->info(__VA_ARGS__)
+#define APP_ERROR(...) QuackEngine::Log::GetAppLogger()->error(__VA_ARGS__)
+#define APP_WARN(...) QuackEngine::Log::GetAppLogger()->warn(__VA_ARGS__)
+#define APP_INFO(...) QuackEngine::Log::GetAppLogger()->info(__VA_ARGS__)
+#define APP_TRACE(...) QuackEngine::Log::GetAppLogger()->trace(__VA_ARGS__)
+#define APP_FATAL(...) QuackEngine::Log::GetAppLogger()->info(__VA_ARGS__)

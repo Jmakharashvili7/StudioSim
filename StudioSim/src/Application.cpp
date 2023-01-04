@@ -6,7 +6,7 @@
 int main(void)
 {
     QuackEngine::Log::Init();
-    QE_ENGINE_ERROR("test");
+    QE_ERROR("test");
 
     GLFWwindow* window;
 
