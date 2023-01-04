@@ -1,8 +1,8 @@
-#pragma once
+//#pragma once
 #include <fmod.h>
 #include <fmod.hpp>
 #include <fmod_studio.hpp>
-#include <vector>
+#include "BasicIncludes.h"
 
 /// <summary>
 /// Vector used to position the sound in the game
@@ -29,7 +29,7 @@ struct Init
 
 class AudioEngine
 {
-
+	AudioEngine();
 	
 };
 

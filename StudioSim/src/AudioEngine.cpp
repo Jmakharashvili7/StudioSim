@@ -9,14 +9,18 @@ Init::Init()
 	//Error Check
 	if (m_Result != FMOD_OK)
 	{
-		printf("Error initializing FMOD! (%d) %s\n", m_Result, FMOD_ERRORCALLBACK_INFO());
+		printf("Error creating the main system FMOD! (%d)\n", m_Result);
 		exit(-1);
 	}
 
 	//Fmod Initialization
 	m_Result = pSystem->init(512, FMOD_INIT_NORMAL, 0); 
 
-	if(r)
+	if (m_Result != FMOD_OK)
+	{
+		printf("Error initializing FMOD! (%d)", m_Result);
+		exit(-1);
+	}
 
 
 }

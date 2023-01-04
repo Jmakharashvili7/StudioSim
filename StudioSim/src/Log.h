@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BasicIncludes.h"
-#include "spdlog\spdlog.h"
+#include "spdlog/spdlog.h"
 
 using namespace spdlog;
 
@@ -65,3 +65,4 @@ namespace QuackEngine {
 #define APP_INFO(...) QuackEngine::Log::GetAppLogger()->info(__VA_ARGS__)
 #define APP_TRACE(...) QuackEngine::Log::GetAppLogger()->trace(__VA_ARGS__)
 #define APP_FATAL(...) QuackEngine::Log::GetAppLogger()->info(__VA_ARGS__)
+
