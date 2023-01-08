@@ -52,11 +52,6 @@ void Shader::SetUniform4f(const std::string& name, float f0, float f1, float f2,
     GLCall(glUniform4f(GetUniformLocation(name), f0, f1, f2, f3));
 }
 
-enum ShaderType
-{
-    NONE = -1, VERTEX = 0, FRAGMENT = 1
-};
-
 struct ShaderProgramSource Shader::ParseShader(const std::string& filepath)
 {
 

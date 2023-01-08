@@ -4,6 +4,11 @@
 #include <unordered_map>
 #include "BasicIncludes.h"
 
+enum ShaderType
+{
+    NONE = -1, VERTEX = 0, FRAGMENT = 1
+};
+
 struct ShaderProgramSource
 {
     std::string vertexSource;
