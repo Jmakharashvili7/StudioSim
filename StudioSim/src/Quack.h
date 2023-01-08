@@ -12,7 +12,7 @@ public:
 	~Quack();
 
 	int InitEngine();
-	void Update(float deltatime);
+	void Update(float deltatime, Quack* engineInstance);
 	void GetFrameRate(float deltatime);
 
 private:

@@ -3,6 +3,7 @@
 Quack::Quack()
 {
 	m_window = nullptr;
+	m_engineInstance = this;
 
 	m_running = true;
 
@@ -56,7 +57,7 @@ int Quack::InitEngine()
 
 		GetFrameRate(m_deltaTime);
 
-		Update(m_deltaTime);
+		Update(m_deltaTime, this);
 
 		m_lastTime = m_currentTime;
 	}
@@ -64,7 +65,7 @@ int Quack::InitEngine()
 	return 0;
 }
 
-void Quack::Update(float deltatime)
+void Quack::Update(float deltatime, Quack* engineInstance)
 {
 	//Add renderer into this function
 
