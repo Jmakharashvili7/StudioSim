@@ -5,4 +5,5 @@
 #include <memory>
 #include <GL/glew.h> // must be included before GLFW
 #include <GLFW\glfw3.h>
+#include <iostream>
 #include "Log.h"
