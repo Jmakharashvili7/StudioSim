@@ -3,7 +3,6 @@
 Quack::Quack()
 {
 	m_window = nullptr;
-	m_engineInstance = this;
 
 	m_running = true;
 
