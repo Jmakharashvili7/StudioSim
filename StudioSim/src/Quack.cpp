@@ -49,6 +49,8 @@ int Quack::InitEngine()
 	//Main Engine Loop
 	while (m_running)
 	{
+		//Delta time is time between frames
+		//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
 		m_currentTime = glfwGetTime();
 		m_deltaTime = m_currentTime - m_lastTime;
 
@@ -87,6 +89,8 @@ void Quack::GetFrameRate(float deltatime)
 	if (m_frameTime > 1.0f)
 	{
 		m_currentFrameRate = m_frameCounter;
+
+		//resetting values so frames for the next second can be calculated
 		m_frameCounter = 0;
 		m_frameTime = 0;
 	}
