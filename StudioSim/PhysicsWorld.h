@@ -27,7 +27,7 @@ public:
 	{
 		for (Object* obj : m_Objects)
 		{
-			//obj->Force += obj->Mass * m_Gravity;
+			//obj->Force += obj->Mass *  m_Gravity;
 		}
 	}
 };
