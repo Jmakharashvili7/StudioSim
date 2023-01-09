@@ -132,7 +132,7 @@ void Quack::Update(float deltatime, Quack* engineInstance)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 
-	QE_INFO("Testing!");
+	//QE_INFO("Testing!");
 
 	////shader.Bind();
 	/*va.Bind();
