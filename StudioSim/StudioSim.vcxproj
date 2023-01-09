@@ -159,6 +159,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PhysicsWorld.cpp" />
+    <ClCompile Include="QuackMath.cpp" />
+    <ClCompile Include="src\AudioEngine.cpp" />
     <ClCompile Include="src\Quack.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
@@ -170,6 +173,8 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PhysicsWorld.h" />
+    <ClInclude Include="QuackMath.h" />
     <ClInclude Include="src\AudioEngine.h" />
     <ClInclude Include="src\Quack.h" />
     <ClInclude Include="src\Shader.h" />
