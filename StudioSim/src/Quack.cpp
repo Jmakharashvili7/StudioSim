@@ -9,7 +9,7 @@ Quack::Quack()
 {
 	m_window = nullptr;
 
-	m_running = true;
+	m_running = false;
 
 	m_deltaTime = 0;
 	m_currentTime = 0;
@@ -42,8 +42,10 @@ int Quack::InitEngine()
 	}
 
 	m_window = glfwCreateWindow(640, 480, "Studio Sim", NULL, NULL);
-	if (!m_window)
+	
+	if (m_window == NULL)
 	{
+		glfwDestroyWindow(m_window);
 		glfwTerminate();
 		m_running = false;
 		return -1;
@@ -106,20 +108,25 @@ int Quack::InitEngine()
 	*/
 #pragma endregion
 
-	//Main Engine Loop
-	while (m_running)
+	while (!glfwWindowShouldClose(m_window))
 	{
-		//Delta time is time between frames
-		//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
-		m_currentTime = glfwGetTime();
-		m_deltaTime = m_currentTime - m_lastTime;
+			//Delta time is time between frames
+	//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
+	m_currentTime = glfwGetTime();
+	m_deltaTime = m_currentTime - m_lastTime;
 
-		GetFrameRate(m_deltaTime);
+	GetFrameRate(m_deltaTime);
 
-		Update(m_deltaTime, this);
+	Update(m_deltaTime, this);
 
-		m_lastTime = m_currentTime;
+	m_lastTime = m_currentTime;
+
+	Display();
+
 	}
+
+	glfwDestroyWindow(m_window);
+	glfwTerminate();
 
 	return 0;
 }
@@ -166,6 +173,12 @@ void Quack::GetFrameRate(float deltatime)
 	}
 
 	std::cout << "FPS: " << m_currentFrameRate << std::endl;
+}
+
+void Quack::Display()
+{
+	static const GLfloat red[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	glClearBufferfv(GL_COLOR, 0, red);
 }
 
 

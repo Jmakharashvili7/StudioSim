@@ -19,7 +19,7 @@ public:
 	int InitEngine();
 	void Update(float deltatime, Quack* engineInstance);
 	void GetFrameRate(float deltatime);
-
+	void Display();
 private:
 
 	GLFWwindow* m_window;
