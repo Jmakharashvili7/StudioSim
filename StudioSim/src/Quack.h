@@ -1,6 +1,11 @@
 #pragma once
 
 #include "BasicIncludes.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
+#include "VertexBufferLayout.h"
+#include "Shader.h"
+#include "IndexBuffer.h"
 
 #define MAX_FRAME_RATE 144
 
@@ -18,6 +23,12 @@ public:
 private:
 
 	GLFWwindow* m_window;
+
+	//temporary
+	/*VertexArray m_va;
+	VertexBuffer m_vb;
+	IndexBuffer m_ib;
+	Shader m_shader;*/
 
 	bool m_running;
 

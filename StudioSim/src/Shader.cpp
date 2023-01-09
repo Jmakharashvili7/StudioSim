@@ -33,13 +33,14 @@ int Shader::GetUniformLocation(const std::string& name)
     if (m_uniformLocation.find(name) != m_uniformLocation.end())
         return m_uniformLocation[name];
 
-    GLCall(int location = glGetUniformLocation(m_RendererID, name.c_str()));
+    GLCall(int location = glGetUniformLocation(m_rendererID, name.c_str()));
     if (location == -1)
         std::cout << "No active uniform variable with name " << name << " found" << std::endl;
 
     m_uniformLocation[name] = location;
 
     return location;
+
 }
 
 void Shader::SetUniform1f(const std::string& name, float value)

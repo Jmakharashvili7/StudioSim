@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Quack.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Quack.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\BasicIncludes.h" />
