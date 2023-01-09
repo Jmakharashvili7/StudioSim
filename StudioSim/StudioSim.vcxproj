@@ -168,9 +168,11 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\stb_image\stb_image.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysicsWorld.h" />
@@ -182,9 +184,11 @@
     <ClInclude Include="src\BasicIncludes.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\stb_image\stb_image.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
+    <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.shader" />
