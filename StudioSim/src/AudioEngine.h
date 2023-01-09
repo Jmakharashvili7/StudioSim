@@ -30,12 +30,24 @@ struct Init
 	//Maps
 	typedef map<string, FMOD::Sound*> pSoundMap;
 	typedef map<int, FMOD::Channel*> pChannelMap;
+	typedef map<string, FMOD::Studio::Bank*> pBankMap;
+	typedef map<string, FMOD::Studio::EventDescription*> pEventMap;
 
 	void InitUpdate();
 
 	//System, Studio System and Result
+
+	/// <summary>
+	/// Low Level FMOD system
+	/// </summary>
 	FMOD::System* pSystem;
+
+	/// <summary>
+	/// Fmod studio system
+	/// </summary>
 	FMOD::Studio::System* pStudioSystem;
+
+
 	FMOD_RESULT m_Result;
 
 	//Channels
@@ -43,8 +55,8 @@ struct Init
 
 	//Calls to map
 	pSoundMap m_SoundMap;
-	//pBankMap m_BankMap;
-	//pEventMap m_EventMap;
+	pBankMap m_BankMap;
+	pEventMap m_EventMap;
 	pChannelMap m_ChannelsMap;
 
 };
@@ -59,13 +71,28 @@ public:
 	//Variables
 	
 	//Loading Functions
-	void LoadSound(const string& soundName, bool isloop, bool is3D);
-	void UnloadingSound(const string& soundName);
+
+	/// <summary>
+	/// This function is used to load sounds
+	/// </summary>
+	/// <param name="pathToSound"> ->Path to the sound </param>
+	/// <param name="isloop"> ->Set to true if sound needs to loop </param>
+	/// <param name="is3D"> ->Set to false and keep it if 2D game </param>
+	/// <param name="isStream"> -> set to true if Larger Sounds, set to false if smaller sounds </param> 
+	void LoadSound(const string& pathToSound, bool isloop, bool is3D, bool isStream);
+	
+	/// <summary>
+	/// This function is used to load bank
+	/// </summary>
+	/// <param name="pathToSound"></param>
+	void LoadBank(const string& pathToSound);
+
+	void UnloadingSound(const string& pathToSound);
 
 	//Playing Functions
-	void PlaySound(const string& soundName, const Vector2D& pos = Vector2D{ 0,0 }, float DBVolume = 0.0f);
+	void PlaySound(const string& pathToSound, const Vector2D& pos = Vector2D{ 0,0 }, float DBVolume = 0.0f);
 	
-	bool IsSoundPlaying(const string& soundName);
+	bool IsSoundPlaying(const string& pathToSound);
 	
 	//Volume Control
 	void SetChannelVolume(int channelID, float volume);
@@ -78,5 +105,10 @@ public:
 	float ChangingVolumeToDB(float volume);
 
 	FMOD_VECTOR ChangingVectorToFmodVector(const Vector2D& pos);
+
+	FMOD_RESULT m_EngineResult;
 };
 
+//Books and reference
+//https://www.programmer-books.com/wp-content/uploads/2018/08/Game-Programming-in-C-Creating-3D-Games.pdf
+//https://www.fmod.com/docs/2.02/api/studio-guide.html

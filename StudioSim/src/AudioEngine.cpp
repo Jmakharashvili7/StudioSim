@@ -1,6 +1,5 @@
 #include "AudioEngine.h"
 
-//FMOD construction 
 
 //Calculation Functions
 
@@ -39,6 +38,7 @@ FMOD_VECTOR AudioEngine::ChangingVectorToFmodVector(const Vector2D& pos)
 	return fVector;
 }
 
+//FMOD construction 
 
 /// <summary>
 /// Creating FMOD studio system, Initializing FMOD studio System, Getting Low Level core system
@@ -57,7 +57,7 @@ Init::Init()
 		exit(-1);
 	}
 
-	//Initialize Studio System
+	//Initialize Studio System/ Witth studio System a connection with FMOD Studio can be made so live mixing can happen
 	m_Result = pStudioSystem->initialize(64, FMOD_STUDIO_INIT_LIVEUPDATE, FMOD_INIT_PROFILE_ENABLE, NULL);
 	if (m_Result != FMOD_OK)
 	{
@@ -65,7 +65,7 @@ Init::Init()
 		exit(-1);
 	}
 
-	//Gets core system
+	//Gets core system / Used to handle lower level system
 	m_Result = pStudioSystem->getCoreSystem(&pSystem);
 	if (m_Result != FMOD_OK)
 	{
@@ -87,10 +87,92 @@ Init::~Init()
 
 /// <summary>
 /// Update Function for the initialization
+/// ->Checks if a channel stopped playing, if yes, Destroy it
+/// ->Call Fmod System update
 /// </summary>
 void Init::InitUpdate()
 {
+	vector<pChannelMap::iterator> channelStopped;
 
+	// Loops channels map to check if channels stopped playing, if yes detroy it clearing up channel to use 
+	for (auto i = m_ChannelsMap.begin(), iEnd = m_ChannelsMap.end(); i != iEnd; i++)
+	{
+		bool isSoundPlaying = false;
+		i->second->isPlaying(&isSoundPlaying);
+
+		if (!isSoundPlaying)
+		{
+			channelStopped.push_back(i);
+		}
+	}
+	for (auto& i : channelStopped)
+	{
+		m_ChannelsMap.erase(i);
+	}
+
+	//Calls studio Update
+	m_Result = pStudioSystem->update();
+	if (m_Result != FMOD_OK)
+	{
+		std::cout << "ERROR UPDATING FMOD STUDIO SYSTEM: " << m_Result << endl;
+		exit(-1);
+	}
+
+	
 }
 
+/// <summary>
+/// Creating instance of the FMOD initialization
+/// </summary>
+Init* pInit = nullptr;
+
 //AudioEngine
+
+//Create a new instance of the FMOD initialization
+void AudioEngine::Start()
+{
+	pInit = new Init();
+}
+
+//Calls the update of the FMOD initialization
+void AudioEngine::Update()
+{
+	pInit->InitUpdate();
+}
+
+void AudioEngine::LoadSound(const string& pathToSound, bool isloop, bool is3D, bool isStream)
+{
+	//Look for the sound in the map
+	auto foundSound = pInit->m_SoundMap.find(pathToSound);
+	
+	//Prevents double loading
+	if (foundSound != pInit->m_SoundMap.end())
+	{
+		return;
+	}
+
+	FMOD_MODE mode = FMOD_DEFAULT;
+
+	mode = is3D ? FMOD_3D : FMOD_2D;
+	mode = isloop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+	mode = isStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+
+	FMOD::Sound* pSound = nullptr;
+	m_EngineResult = pInit->pSystem->createSound(
+		pathToSound.c_str(),
+		mode,
+		nullptr,
+		&pSound
+	);
+	if (m_EngineResult != FMOD_OK)
+	{
+		std::cout << "ERROR CREATING SOUND: " << m_EngineResult << endl;
+	}
+	
+	if (pSound)
+	{
+		pInit->m_SoundMap[pathToSound] = pSound;
+	}
+	
+
+}
