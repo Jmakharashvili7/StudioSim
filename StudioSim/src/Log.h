@@ -2,6 +2,7 @@
 
 #include "BasicIncludes.h"
 #include "spdlog\spdlog.h"
+#include <stdexcept>
 
 using namespace spdlog;
 
