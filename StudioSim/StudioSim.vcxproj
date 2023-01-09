@@ -166,6 +166,7 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PhysicsFunctions.h" />
     <ClInclude Include="src\Quack.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\IndexBuffer.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
+    <ClInclude Include="src\Structures.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.shader" />

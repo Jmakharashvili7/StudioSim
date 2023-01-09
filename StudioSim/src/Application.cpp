@@ -14,7 +14,7 @@ int main(void)
 {
     QuackEngine::Log::Init();
 
-    //c
+    
 
    Quack* quackEngine = new Quack();
    quackEngine->InitEngine();
