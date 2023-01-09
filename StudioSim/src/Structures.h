@@ -1,8 +1,9 @@
 #pragma once
 #include <math.h>
 #include<assert.h>
+#include "BasicIncludes.h"
 
-#define GRAVITY 260.0f
+#define GFORCE 9.81
 
 
 struct Vector2
@@ -69,10 +70,13 @@ struct Vector2
 		return Vector2(x = vec.x, y = vec.y);
 	}
 };
+
 struct RigidBody
 {
-	Vector2 center;
+	Vector2 position;
+	float mass;
 };
+
 struct BoundingBox
 {
 	Vector2 center;

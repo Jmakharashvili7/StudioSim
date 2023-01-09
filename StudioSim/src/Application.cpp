@@ -77,7 +77,7 @@ int main(void)
     //va.Unbind();
     //vb.Unbind();
     //ib.Unbind();
-    //shader.Unbind();
+    //shader.Unbind(); 
 
     //GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
     //GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
@@ -103,7 +103,7 @@ int main(void)
     //    /* Poll for and process events */
     //    glfwPollEvents();
     //}
-
+   
     
     glfwTerminate();
 
