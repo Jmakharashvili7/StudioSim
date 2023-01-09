@@ -116,7 +116,7 @@ int Quack::InitEngine()
 
 		GetFrameRate(m_deltaTime);
 
-		Update(m_deltaTime, this);
+		RenderUpdate(m_deltaTime);
 
 		m_lastTime = m_currentTime;
 	}
@@ -124,7 +124,7 @@ int Quack::InitEngine()
 	return 0;
 }
 
-void Quack::Update(float deltatime, Quack* engineInstance)
+void Quack::RenderUpdate(float deltatime)
 {
 	//Add renderer into this function
 
@@ -148,6 +148,11 @@ void Quack::Update(float deltatime, Quack* engineInstance)
 	glfwPollEvents();
 }
 
+void Quack::PhysicsUpdate(float deltatime)
+{
+	//do physics stuff here
+}
+
 void Quack::GetFrameRate(float deltatime)
 {
 	m_frameCounter++;
@@ -165,7 +170,7 @@ void Quack::GetFrameRate(float deltatime)
 		m_frameTime = 0;
 	}
 
-	std::cout << "FPS: " << m_currentFrameRate << std::endl;
+	QE_INFO("Current FPS: " + std::to_string(m_currentFrameRate));
 }
 
 
