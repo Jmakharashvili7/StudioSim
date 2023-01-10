@@ -24,12 +24,6 @@ private:
 
 	GLFWwindow* m_window;
 
-	//temporary
-	/*VertexArray m_va;
-	VertexBuffer m_vb;
-	IndexBuffer m_ib;
-	Shader m_shader;*/
-
 	bool m_running;
 
 	//Frame related variables
