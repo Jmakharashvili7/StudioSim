@@ -21,6 +21,9 @@ struct Vector2D
 
 /// <summary>
 /// Responsible for calling FMOD API 
+/// Bank -> A container for events, sample data and streaming data
+/// Sample data is the raw audio data that events reference.
+/// Streaming data is sample data that streams intor memory in small pieces at a time.
 /// </summary>
 struct Init
 {
@@ -28,6 +31,7 @@ struct Init
 	~Init();
 
 	//Maps
+
 	typedef map<string, FMOD::Sound*> pSoundMap;
 	typedef map<int, FMOD::Channel*> pChannelMap;
 	typedef map<string, FMOD::Studio::Bank*> pBankMap;
@@ -40,7 +44,7 @@ struct Init
 	/// <summary>
 	/// Low Level FMOD system
 	/// </summary>
-	FMOD::System* pSystem;
+	FMOD::System* pLowLevelSystem;
 
 	/// <summary>
 	/// Fmod studio system
@@ -80,14 +84,15 @@ public:
 	/// <param name="is3D"> ->Set to false and keep it if 2D game </param>
 	/// <param name="isStream"> -> set to true if Larger Sounds, set to false if smaller sounds </param> 
 	void LoadSound(const string& pathToSound, bool isloop, bool is3D, bool isStream);
+	void UnloadingSound(const string& pathToSound);
 	
 	/// <summary>
 	/// This function is used to load bank
 	/// </summary>
 	/// <param name="pathToSound"></param>
 	void LoadBank(const string& pathToSound);
+	void UnLoadingBank(const string& pathToSound);
 
-	void UnloadingSound(const string& pathToSound);
 
 	//Playing Functions
 	void PlaySound(const string& pathToSound, const Vector2D& pos = Vector2D{ 0,0 }, float DBVolume = 0.0f);

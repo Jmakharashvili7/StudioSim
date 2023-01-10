@@ -46,7 +46,7 @@ FMOD_VECTOR AudioEngine::ChangingVectorToFmodVector(const Vector2D& pos)
 /// </summary>
 Init::Init()
 {
-	pSystem = NULL;
+	pLowLevelSystem = NULL;
 	pStudioSystem = NULL;
 
 	//Creates core system
@@ -66,7 +66,7 @@ Init::Init()
 	}
 
 	//Gets core system / Used to handle lower level system
-	m_Result = pStudioSystem->getCoreSystem(&pSystem);
+	m_Result = pStudioSystem->getCoreSystem(&pLowLevelSystem);
 	if (m_Result != FMOD_OK)
 	{
 		std::cout << "ERROR GETTING CORE SYSTEM: " << m_Result << endl;
@@ -158,11 +158,11 @@ void AudioEngine::LoadSound(const string& pathToSound, bool isloop, bool is3D, b
 	mode = isStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
 	FMOD::Sound* pSound = nullptr;
-	m_EngineResult = pInit->pSystem->createSound(
-		pathToSound.c_str(),
-		mode,
-		nullptr,
-		&pSound
+	m_EngineResult = pInit->pLowLevelSystem->createSound(
+		pathToSound.c_str(), // File name 
+		mode, // Mode
+		nullptr, //Extended information for creating the sound-> optinal 
+		&pSound // Save to pointer 
 	);
 	if (m_EngineResult != FMOD_OK)
 	{
@@ -175,4 +175,62 @@ void AudioEngine::LoadSound(const string& pathToSound, bool isloop, bool is3D, b
 	}
 	
 
+}
+
+void AudioEngine::LoadBank(const string& pathToSound)
+{
+	//Look for the sound in the map
+	auto foundSound = pInit->m_BankMap.find(pathToSound);
+
+	//Preventing double louading
+	if (foundSound != pInit->m_BankMap.end())
+	{
+		return;
+	}
+
+	//Loading Bank
+	FMOD::Studio::Bank* pBank = nullptr;
+
+	FMOD_RESULT m_result = pInit->pStudioSystem->loadBankFile(
+		pathToSound.c_str(), //File name of bank
+		FMOD_STUDIO_LOAD_BANK_NORMAL, // Normal Loading
+		&pBank // Saving pointer
+
+	);
+
+	//Needs to be constant
+	const int maxPathLenght = 64;
+
+	if (m_result == FMOD_OK)
+	{
+		//Adding bank to map
+		pInit->m_BankMap.emplace(pathToSound, pBank);
+		//Loading non-streaming sample data
+		pBank->loadSampleData();
+		//Number of events
+		int eventsNumber = 0;
+		pBank->getEventCount(&eventsNumber);
+
+		if (eventsNumber > 0)
+		{
+			//Getting list of event descriptions in this bank
+			std::vector<FMOD::Studio::EventDescription*> events{ eventsNumber };
+			pBank->getEventList(events.data(), eventsNumber, &eventsNumber);
+			char eventName[maxPathLenght];
+
+			for (int i = 0; i < eventsNumber; i++)
+			{
+				FMOD::Studio::EventDescription* event = events[i];
+				//Getting path pf the event
+				event->getPath(
+					eventName, 
+					maxPathLenght, 
+					nullptr
+				);
+				//Add to map
+				pInit->m_EventMap.emplace(eventName, event);
+			}
+
+		}
+	}
 }
