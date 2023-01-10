@@ -4,8 +4,26 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
+#include "KeyboardClass.h"
 
-Quack::Quack()
+// Input handling
+void Quack::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	switch (action)
+	{
+	case GLFW_PRESS:
+		KeyboardClass::OnKeyPressed(key);
+		break;
+	case GLFW_RELEASE:
+		KeyboardClass::OnKeyReleased(key);
+		QE_INFO('w');
+		break;
+	}
+}
+
+
+Quack::Quack() : 
+	m_mainCamera(-1.0f, 1.0f, -1.0f, 1.0f)
 {
 	m_window = nullptr;
 
@@ -55,6 +73,15 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
+	/* Initialize the keyboard class*/
+	KeyboardClass::Init();
+
+	glfwSetKeyCallback(m_window, Quack::key_callback);
+
+	// get mouse position
+	double xpos, ypos;
+	glfwGetCursorPos(m_window, &xpos, &ypos);
+
 	float positions[] = {
 	-0.5f, -0.5f, // 0
 	 0.5f, -0.5f, // 1
@@ -75,6 +102,9 @@ int Quack::InitEngine()
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	
+	// Setup input to be recorded
+	glfwSetKeyCallback(m_window, Quack::key_callback);
+
 	VertexArray va;
 	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 	
@@ -87,6 +117,7 @@ int Quack::InitEngine()
 	Shader shader("shaders/basic.shader");
 	shader.Bind();
 	shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+	shader.SetUniform4x4("u_viewProjection", m_mainCamera.GetViewProjectionMatrix());
 	
 	va.Unbind();
 	vb.Unbind();
@@ -95,7 +126,7 @@ int Quack::InitEngine()
 	
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-
+	bool done = true;
 	//Main Engine Loop
 	while (m_running)
 	{
@@ -105,6 +136,16 @@ int Quack::InitEngine()
 		m_deltaTime = m_currentTime - m_lastTime;
 
 		GetFrameRate(m_deltaTime);
+
+		KeyEvent key = KeyboardClass::ReadKey();
+		if (key.GetKeyCode() == 87 && key.IsPressed())
+		{
+			QE_INFO(key.IsPressed());
+			glm::vec3 temp = m_mainCamera.GetPosition();
+			temp.x += 0.3f;
+			m_mainCamera.SetPosition(temp);
+			shader.SetUniform4x4("u_viewProjection", m_mainCamera.GetViewProjectionMatrix());
+		}
 
 		va.Bind();
 		vb.Bind();
@@ -149,8 +190,6 @@ void Quack::GetFrameRate(float deltatime)
 		m_frameCounter = 0;
 		m_frameTime = 0;
 	}
-
-	std::cout << "FPS: " << m_currentFrameRate << std::endl;
 }
 
 

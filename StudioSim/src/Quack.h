@@ -6,6 +6,7 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
+#include "OrthographicCamera.h"
 
 #define MAX_FRAME_RATE 144
 
@@ -19,9 +20,11 @@ public:
 	int InitEngine();
 	void Update(float deltatime, Quack* engineInstance);
 	void GetFrameRate(float deltatime);
-
 private:
-
+	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+public:
+	bool m_capFrames;
+private:
 	GLFWwindow* m_window;
 
 	bool m_running;
@@ -36,6 +39,5 @@ private:
 	int m_frameCounter;
 	int m_currentFrameRate;
 
-public:
-	bool m_capFrames;
+	OrthographicCamera m_mainCamera;
 };

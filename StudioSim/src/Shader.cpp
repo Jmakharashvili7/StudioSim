@@ -4,10 +4,6 @@ Shader::Shader(const std::string& filepath)
     : m_filePath(filepath), m_rendererID(0)
 {
     ShaderProgramSource source = ParseShader(filepath);
-
-    std::cout << "VERTEX" << std::endl << source.vertexSource << std::endl;
-    std::cout << "FRAGMENT" << std::endl << source.fragmentSource << std::endl;
-
     m_rendererID = CreateShader(source.vertexSource, source.fragmentSource);
 
     GLCall(glUseProgram(m_rendererID));
@@ -51,6 +47,11 @@ void Shader::SetUniform1f(const std::string& name, float value)
 void Shader::SetUniform4f(const std::string& name, float f0, float f1, float f2, float f3)
 {
     GLCall(glUniform4f(GetUniformLocation(name), f0, f1, f2, f3));
+}
+
+void Shader::SetUniform4x4(const std::string& name, glm::mat4 viewProj)
+{
+    GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &viewProj[0][0]));
 }
 
 struct ShaderProgramSource Shader::ParseShader(const std::string& filepath)
