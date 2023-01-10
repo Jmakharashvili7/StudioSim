@@ -20,7 +20,6 @@ Quack::Quack()
 	m_currentFrameRate = 0;
 	m_frameCounter = 0;
 	m_frameDelay = 0;
-
 }
 
 Quack::~Quack()
@@ -56,8 +55,6 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-#pragma region  temporary rectangle
-	/*
 	float positions[] = {
 	-0.5f, -0.5f, // 0
 	 0.5f, -0.5f, // 1
@@ -66,8 +63,8 @@ int Quack::InitEngine()
 	};
 
 	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 0
+	    0, 1, 2,
+	    2, 3, 0
 	};
 
 	GLuint vertexbuffer;
@@ -83,7 +80,7 @@ int Quack::InitEngine()
 
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	m_va.AddBuffer(vb, layout);
+	va.AddBuffer(vb, layout);
 
 	IndexBuffer ib(indices, 6);
 
@@ -91,20 +88,13 @@ int Quack::InitEngine()
 	shader.Bind();
 	shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 
-	m_va = va;
-	m_vb = vb;
-	m_ib = ib;
-	m_shader = shader;
-
-	m_va.Unbind();
-	m_vb.Unbind();
-	m_ib.Unbind();
-	m_shader.Unbind();
+	va.Unbind();
+	vb.Unbind();
+	ib.Unbind();
+	shader.Unbind();
 
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-	*/
-#pragma endregion
 
 	//Main Engine Loop
 	while (m_running)
@@ -116,7 +106,11 @@ int Quack::InitEngine()
 
 		GetFrameRate(m_deltaTime);
 
-		RenderUpdate(m_deltaTime);
+		va.Bind();
+		vb.Bind();
+		ib.Bind();
+		shader.Bind();
+		Update(m_deltaTime, this);
 
 		m_lastTime = m_currentTime;
 	}
@@ -131,16 +125,7 @@ void Quack::RenderUpdate(float deltatime)
 	/* Render here */
 	glClear(GL_COLOR_BUFFER_BIT);
 
-
-	//QE_INFO("Testing!");
-
-	////shader.Bind();
-	/*va.Bind();
-	ib.Bind();
-	vb.Bind();
-	shader.Bind();*/
-
-
+	GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window);
 
@@ -172,5 +157,3 @@ void Quack::GetFrameRate(float deltatime)
 
 	QE_INFO("Current FPS: " + std::to_string(m_currentFrameRate));
 }
-
-
