@@ -47,13 +47,13 @@ void Actor::UpdateActor(float _deltaTime)
 void Actor::AddComponent(Component* _component)
 {
 	m_Components.push_back(_component);
-	sort(m_Components.begin(), m_Components.end(), SortComponents);
+	//sort(m_Components.begin(), m_Components.end(), SortComponents);
 }
 
 void Actor::RemoveComponent(Component* _component)
 {
 	remove(m_Components.begin(), m_Components.end(), _component);
-	sort(m_Components.begin(), m_Components.end(), SortComponents);
+	//(m_Components.begin(), m_Components.end(), SortComponents);
 }
 
 bool Actor::SortComponents(Component* i, Component* j)
