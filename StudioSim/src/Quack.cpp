@@ -75,6 +75,20 @@ int Quack::InitEngine()
 	-1.0f, 1.0f, 0.0f, 0.0f // 3
 	};
 
+	//float positions[] = {
+	//-0.5f, -0.5f, 0.0f, 1.0f, // 0
+	// 0.5f, -0.5f, 1.0f, 1.0f, // 1
+	// 0.5f, 0.5f, 1.0f, 0.0f, // 2
+	//-0.5f, 0.5f, 0.0f, 0.0f // 3
+	//};
+
+	//float positions[] = {
+	//-0.25f, -0.25f, 0.0f, 1.0f, // 0
+	// 0.25f, -0.25f, 1.0f, 1.0f, // 1
+	// 0.25f, 0.25f, 1.0f, 0.0f, // 2
+	//-0.25f, 0.25f, 0.0f, 0.0f // 3
+	//};
+
 	unsigned int indices[] = {
 		0, 1, 2,
 		2, 3, 0
@@ -116,6 +130,7 @@ int Quack::InitEngine()
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
 	//Main Engine Loop
+	//while (!glfwWindowShouldClose(m_window))
 	while (m_running)
 	{
 		//Delta time is time between frames
