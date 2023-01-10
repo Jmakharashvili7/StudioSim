@@ -3,6 +3,7 @@
 #include <fmod.hpp>
 #include <fmod_studio.hpp>
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <math.h>
@@ -10,14 +11,6 @@
 
 using namespace std;
 
-/// <summary>
-/// Vector used to position the sound in the game
-/// </summary>
-struct Vector2D
-{
-	float x;
-	float y;
-};
 
 /// <summary>
 /// Responsible for calling FMOD API 
@@ -36,6 +29,7 @@ struct Init
 	typedef map<int, FMOD::Channel*> pChannelMap;
 	typedef map<string, FMOD::Studio::Bank*> pBankMap;
 	typedef map<string, FMOD::Studio::EventDescription*> pEventMap;
+	typedef map<unsigned int, FMOD::Studio::EventInstance*> pEventInstanceMap;
 
 	void InitUpdate();
 
@@ -57,23 +51,68 @@ struct Init
 	//Channels
 	int ChannelID;
 
+	//Event ID
+	static int m_NextID;
+
 	//Calls to map
 	pSoundMap m_SoundMap;
 	pBankMap m_BankMap;
 	pEventMap m_EventMap;
 	pChannelMap m_ChannelsMap;
+	pEventInstanceMap m_EventInstanceMap;
+
+
 
 };
 
-class AudioEngine
+
+
+
+class SoundEvent 
 {
 public:
+	SoundEvent();
+
+	//Returns true if associated event instance exists
+	bool IsAssociatedFMOD();
+	//Restart event from beggining
+	void RestartEvent();
+	//Stop event
+	void StopEvent(bool fadeout = true);
+	//Helper Functions
+
+	//Setters
+	void SetPause(bool pause);
+	void SetVolume(float volume);
+	void SetPitch(float pitch);
+	void SetParameter(const std::string& parameterName, float value);
+	//Getters
+	bool GetPause() const;
+
+	float GetVolume() const;
+	float GetPitch() const;
+	float GetParameter(const string& paramaterName);
+
+protected:
+	friend class AudioEngine;
+	SoundEvent(class AudioEngine* system, unsigned int id);
+private:
+	class AudioEngine* pAudioEngine;
+	unsigned int m_ID;
+
+	
+};
+
+class AudioEngine 
+{
+public:	
 	void Start();
 	void Update();
 	void Stop();
 
 	//Variables
 	
+
 	//Loading Functions
 
 	/// <summary>
@@ -91,29 +130,20 @@ public:
 	/// </summary>
 	/// <param name="pathToSound"></param>
 	void LoadBank(const string& pathToSound);
-	void UnLoadingBank(const string& pathToSound);
+	void UnloadingBank(const string& pathToSound);
 
+	//Events
+	SoundEvent PlayEvent(const string& pathToSound);
 
-	//Playing Functions
-	void PlaySound(const string& pathToSound, const Vector2D& pos = Vector2D{ 0,0 }, float DBVolume = 0.0f);
-	
-	bool IsSoundPlaying(const string& pathToSound);
-	
-	//Volume Control
-	void SetChannelVolume(int channelID, float volume);
-
-	//Stop Functions
-	void StopChannel(int channelID);
+	unsigned int* GetEventInstance(unsigned int ID);
 
 	//Calculation Functions
 	float ChangingDBToVolume(float DB);
 	float ChangingVolumeToDB(float volume);
 
-	FMOD_VECTOR ChangingVectorToFmodVector(const Vector2D& pos);
 
 	FMOD_RESULT m_EngineResult;
 };
-
 //Books and reference
 //https://www.programmer-books.com/wp-content/uploads/2018/08/Game-Programming-in-C-Creating-3D-Games.pdf
 //https://www.fmod.com/docs/2.02/api/studio-guide.html
