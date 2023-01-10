@@ -6,7 +6,6 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
-#include "Renderer.h"
 
 #define MAX_FRAME_RATE 144
 
@@ -24,14 +23,6 @@ public:
 private:
 
 	GLFWwindow* m_window;
-	Renderer* m_renderer;
-
-
-	//temporary
-	/*VertexArray m_va;
-	VertexBuffer m_vb;
-	IndexBuffer m_ib;
-	Shader m_shader;*/
 
 	bool m_running;
 
