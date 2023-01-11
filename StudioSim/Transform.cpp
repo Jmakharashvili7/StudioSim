@@ -69,6 +69,30 @@ void Transform::RotateAround(Vector2 _point, float _angle)
 	//	p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
 
 	//	this is an easy way to rotate a point in 2D.
+
+
+
+
+	//POINT rotate_point(float cx, float cy, float angle, POINT p)
+	//{
+	//	float s = sin(angle);
+	//	float c = cos(angle);
+
+	//	// translate point back to origin:
+	//	p.x -= cx;
+	//	p.y -= cy;
+
+	//	// rotate point
+	//	float xnew = p.x * c - p.y * s;
+	//	float ynew = p.x * s + p.y * c;
+
+	//	// translate point back:
+	//	p.x = xnew + cx;
+	//	p.y = ynew + cy;
+	//	return p;
+	//}
+
+
 }
 
 void Transform::SetPositionAndRotation(Vector2 _localPosition, Vector2 _localRotation)
