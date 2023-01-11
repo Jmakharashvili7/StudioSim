@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -155,6 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IDK Yet\Actor.cpp" />
+    <ClCompile Include="IDK Yet\Component.cpp" />
+    <ClCompile Include="IDK Yet\Game.cpp" />
     <ClCompile Include="IDK Yet\Game.cpp" />
     <ClCompile Include="IDK Yet\Component.cpp" />
     <ClCompile Include="IDK Yet\Actor.cpp" />
@@ -167,9 +170,12 @@
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\VertexBufferLayout.cpp" />
-    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="IDK Yet\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IDK Yet\Actor.h" />
+    <ClInclude Include="IDK Yet\Component.h" />
+    <ClInclude Include="IDK Yet\Game.h" />
     <ClInclude Include="IDK Yet\Game.h" />
     <ClInclude Include="IDK Yet\Component.h" />
     <ClInclude Include="IDK Yet\Actor.h" />
@@ -182,7 +188,7 @@
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="IDK Yet\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.shader" />

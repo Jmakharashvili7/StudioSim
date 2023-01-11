@@ -1,5 +1,5 @@
 #pragma once
-#include "IDK Yet/Component.h"
+#include "Component.h"
 #include <cmath>
 #include <complex>
 

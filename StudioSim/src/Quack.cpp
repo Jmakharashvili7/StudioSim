@@ -108,7 +108,7 @@ int Quack::InitEngine()
 	*/
 #pragma endregion
 
-	while (!glfwWindowShouldClose(m_window))
+	while (m_running)
 	{
 			//Delta time is time between frames
 	//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
