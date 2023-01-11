@@ -2,19 +2,16 @@
 
 // Include all the basic includes needed for most files here
 
-// Standard library
 #include <memory>
 #include <vector>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
-
-// OpenGL
 #include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-#include <GL\glew.h> // must be included before GLFW
+#include <GL/glew.h> // must be included before GLFW
 #include <GLFW\glfw3.h>
-
-// Custom Headers
-#include "Log.h" 
+#include <iostream>
+#include <glm/ext/scalar_constants.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include "Log.h"
