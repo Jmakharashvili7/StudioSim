@@ -57,7 +57,7 @@ public:
 	/// <param name="isloop"> ->Is the sound going to loop ? used here for the FMOD_MODE</param>
 	/// <param name="isStream"> ->Set to true if using a larger file</param>
 	void LoadSound(const string& pathToSound, bool isloop, bool isStream);
-
+	//
 	/// <summary>
 	/// Function used to play sound
 	/// </summary>
