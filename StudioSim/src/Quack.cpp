@@ -96,6 +96,9 @@ int Quack::InitEngine()
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
+	glm::vec2 vector = glm::vec2(1, 1);
+
+
 	//Main Engine Loop
 	while (m_running)
 	{
@@ -110,7 +113,7 @@ int Quack::InitEngine()
 		vb.Bind();
 		ib.Bind();
 		shader.Bind();
-		Update(m_deltaTime, this);
+		RenderUpdate(m_deltaTime);
 
 		m_lastTime = m_currentTime;
 	}
