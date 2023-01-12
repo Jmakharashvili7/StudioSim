@@ -40,6 +40,7 @@
 *.pidb
 *.svclog
 *.scc
+*.suo
 
 # Visual C++ cache files
 ipch/
@@ -74,3 +75,4 @@ ipch/
 *.db-shm
 *.db-wal
 *.vsidx
+
