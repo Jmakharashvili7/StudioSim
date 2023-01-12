@@ -61,40 +61,43 @@ int Quack::InitEngine()
 	 0.5f,  0.5f, // 2
 	-0.5f,  0.5f, // 3
 	};
-	
+
 	unsigned int indices[] = {
 	    0, 1, 2,
 	    2, 3, 0
 	};
-	
+
 	GLuint vertexbuffer;
 	glGenBuffers(1, &(vertexbuffer));
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	
+
 	unsigned int vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	
+
 	VertexArray va;
 	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
-	
+
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
 	va.AddBuffer(vb, layout);
-	
+
 	IndexBuffer ib(indices, 6);
-	
+
 	Shader shader("shaders/basic.shader");
 	shader.Bind();
 	shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-	
+
 	va.Unbind();
 	vb.Unbind();
 	ib.Unbind();
 	shader.Unbind();
-	
+
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
+	glm::vec2 vector = glm::vec2(1, 1);
+
 
 	//Main Engine Loop
 	while (m_running)
@@ -110,7 +113,7 @@ int Quack::InitEngine()
 		vb.Bind();
 		ib.Bind();
 		shader.Bind();
-		Update(m_deltaTime, this);
+		RenderUpdate(m_deltaTime);
 
 		m_lastTime = m_currentTime;
 	}
@@ -118,7 +121,7 @@ int Quack::InitEngine()
 	return 0;
 }
 
-void Quack::Update(float deltatime, Quack* engineInstance)
+void Quack::RenderUpdate(float deltatime)
 {
 	//Add renderer into this function
 
@@ -131,6 +134,11 @@ void Quack::Update(float deltatime, Quack* engineInstance)
 
 	/* Poll for and process events */
 	glfwPollEvents();
+}
+
+void Quack::PhysicsUpdate(float deltatime)
+{
+	//do physics stuff here
 }
 
 void Quack::GetFrameRate(float deltatime)
@@ -150,7 +158,5 @@ void Quack::GetFrameRate(float deltatime)
 		m_frameTime = 0;
 	}
 
-	std::cout << "FPS: " << m_currentFrameRate << std::endl;
+	QE_INFO("Current FPS: " + std::to_string(m_currentFrameRate));
 }
-
-
