@@ -18,7 +18,10 @@ public:
 	~Quack();
 
 	int InitEngine();
-	void Update(float deltatime, Quack* engineInstance);
+
+	void RenderUpdate(float deltatime);
+	void PhysicsUpdate(float deltatime);
+
 	void GetFrameRate(float deltatime);
 
 private:
@@ -26,12 +29,6 @@ private:
 	GLFWwindow* m_window;
 	Renderer* m_renderer;
 
-
-	//temporary
-	/*VertexArray m_va;
-	VertexBuffer m_vb;
-	IndexBuffer m_ib;
-	Shader m_shader;*/
 
 	bool m_running;
 

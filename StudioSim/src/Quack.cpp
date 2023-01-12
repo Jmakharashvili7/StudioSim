@@ -4,12 +4,10 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
-#include "Texture.h"
 
 Quack::Quack()
 {
 	m_window = nullptr;
-	m_renderer = nullptr;
 
 	m_running = true;
 
@@ -27,9 +25,7 @@ Quack::Quack()
 Quack::~Quack()
 {
 	delete m_window;
-	delete m_renderer;
 	m_window = nullptr;
-	m_renderer = nullptr;
 }
 
 int Quack::InitEngine()
@@ -44,16 +40,8 @@ int Quack::InitEngine()
 		return -1;
 	}
 
-	m_window = glfwCreateWindow(1280, 900, "Studio Sim", NULL, NULL);
+	m_window = glfwCreateWindow(640, 480, "Studio Sim", NULL, NULL);
 	if (!m_window)
-	{
-		glfwTerminate();
-		m_running = false;
-		return -1;
-	}
-
-	m_renderer = new Renderer();
-	if (!m_renderer)
 	{
 		glfwTerminate();
 		m_running = false;
@@ -67,31 +55,16 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	/* Temporary start */
-	//float positions[] = {
-	//-1.0f, -1.0f, 0.0f, 1.0f, // 0
-	// 1.0f, -1.0f, 1.0f, 1.0f, // 1
-	// 1.0f, 1.0f, 1.0f, 0.0f, // 2
-	//-1.0f, 1.0f, 0.0f, 0.0f // 3
-	//};
-
-	//float positions[] = {
-	//-0.5f, -0.5f, 0.0f, 1.0f, // 0
-	// 0.5f, -0.5f, 1.0f, 1.0f, // 1
-	// 0.5f, 0.5f, 1.0f, 0.0f, // 2
-	//-0.5f, 0.5f, 0.0f, 0.0f // 3
-	//};
-
 	float positions[] = {
-	-0.25f, -0.25f, 0.0f, 1.0f, // 0
-	 0.25f, -0.25f, 1.0f, 1.0f, // 1
-	 0.25f, 0.25f, 1.0f, 0.0f, // 2
-	-0.25f, 0.25f, 0.0f, 0.0f // 3
+	-0.5f, -0.5f, // 0
+	 0.5f, -0.5f, // 1
+	 0.5f,  0.5f, // 2
+	-0.5f,  0.5f, // 3
 	};
 
 	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 0
+	    0, 1, 2,
+	    2, 3, 0
 	};
 
 	GLuint vertexbuffer;
@@ -103,34 +76,30 @@ int Quack::InitEngine()
 	glBindVertexArray(vao);
 
 	VertexArray va;
-	VertexBuffer vb(positions, 4 * 4 * sizeof(float));
+	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
 	VertexBufferLayout layout;
-	layout.Push<float>(2);
 	layout.Push<float>(2);
 	va.AddBuffer(vb, layout);
 
 	IndexBuffer ib(indices, 6);
 
-	Shader shader("res/shaders/basic.shader");
+	Shader shader("shaders/basic.shader");
 	shader.Bind();
 	shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-
-	Texture texture("res/textures/duck.png");
-	texture.Bind();
-	shader.SetUniform1i("u_Texture", 0);
 
 	va.Unbind();
 	vb.Unbind();
 	ib.Unbind();
 	shader.Unbind();
-	/* Temporary end */
 
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
+	glm::vec2 vector = glm::vec2(1, 1);
+
+
 	//Main Engine Loop
-	//while (!glfwWindowShouldClose(m_window))
 	while (m_running)
 	{
 		//Delta time is time between frames
@@ -140,52 +109,36 @@ int Quack::InitEngine()
 
 		GetFrameRate(m_deltaTime);
 
-		//Update(m_deltaTime, this);
+		va.Bind();
+		vb.Bind();
+		ib.Bind();
+		shader.Bind();
+		RenderUpdate(m_deltaTime);
 
 		m_lastTime = m_currentTime;
-		 
-		/* Rendering start */
-		m_renderer->Clear();
-
-		// TODO: MOVE THIS SOMEWHERE
-		shader.Bind();
-		shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-
-		m_renderer->Draw(va, ib, shader);
-		/* Rendering end */
-	
-		/* Swap front and back buffers */
-		glfwSwapBuffers(m_window);
-
-		/* Poll for and process events */
-		glfwPollEvents();
 	}
 
 	return 0;
 }
 
-void Quack::Update(float deltatime, Quack* engineInstance)
+void Quack::RenderUpdate(float deltatime)
 {
 	//Add renderer into this function
 
 	/* Render here */
 	glClear(GL_COLOR_BUFFER_BIT);
 
-
-	//QE_INFO("Testing!");
-
-	////shader.Bind();
-	/*va.Bind();
-	ib.Bind();
-	vb.Bind();
-	shader.Bind();*/
-
-
+	GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window);
 
 	/* Poll for and process events */
 	glfwPollEvents();
+}
+
+void Quack::PhysicsUpdate(float deltatime)
+{
+	//do physics stuff here
 }
 
 void Quack::GetFrameRate(float deltatime)
@@ -205,7 +158,5 @@ void Quack::GetFrameRate(float deltatime)
 		m_frameTime = 0;
 	}
 
-	//std::cout << "FPS: " << m_currentFrameRate << std::endl;
+	QE_INFO("Current FPS: " + std::to_string(m_currentFrameRate));
 }
-
-
