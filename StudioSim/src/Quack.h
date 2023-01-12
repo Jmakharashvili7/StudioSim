@@ -6,6 +6,7 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
+#include "AudioEngine2D.h"
 
 #define MAX_FRAME_RATE 144
 
@@ -20,6 +21,7 @@ public:
 	void Update(float deltatime, Quack* engineInstance);
 	void GetFrameRate(float deltatime);
 
+	AudioEngine2D* audioEngine;
 private:
 
 	GLFWwindow* m_window;

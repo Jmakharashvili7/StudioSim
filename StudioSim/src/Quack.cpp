@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "IndexBuffer.h"
 
+
 Quack::Quack()
 {
 	m_window = nullptr;
@@ -21,6 +22,8 @@ Quack::Quack()
 	m_frameCounter = 0;
 	m_frameDelay = 0;
 
+	audioEngine = new AudioEngine2D();
+
 }
 
 Quack::~Quack()
@@ -34,6 +37,7 @@ int Quack::InitEngine()
 	//Set up here is is similar to original from Application.cpp
 	//Addition of update loop and frame calculations
 	m_running = true;
+	
 
 	if (!glfwInit())
 	{
@@ -55,6 +59,9 @@ int Quack::InitEngine()
 	/* Initialize the Glew Library*/
 	glewExperimental = GL_TRUE;
 	glewInit();
+	audioEngine->Initialization();
+	
+	
 
 #pragma region  temporary rectangle
 	/*
@@ -106,6 +113,8 @@ int Quack::InitEngine()
 	*/
 #pragma endregion
 
+		
+
 	//Main Engine Loop
 	while (m_running)
 	{
@@ -115,7 +124,8 @@ int Quack::InitEngine()
 		m_deltaTime = m_currentTime - m_lastTime;
 
 		GetFrameRate(m_deltaTime);
-
+		audioEngine->Update();
+		
 		Update(m_deltaTime, this);
 
 		m_lastTime = m_currentTime;
@@ -146,6 +156,22 @@ void Quack::Update(float deltatime, Quack* engineInstance)
 
 	/* Poll for and process events */
 	glfwPollEvents();
+
+	if (GetAsyncKeyState('D'))
+	{
+		audioEngine->PlaySound("Sounds/quackOuter.wav",
+			Vector3{ 0,0,0 },
+			false,
+			true, 
+			true,
+			10.0f);
+		audioEngine->PlaySound("Sounds/quackTravis.wav",
+			Vector3{ 0,0,0 },
+			false,
+			false, 
+			true, 
+			3.0f);
+	}
 }
 
 void Quack::GetFrameRate(float deltatime)

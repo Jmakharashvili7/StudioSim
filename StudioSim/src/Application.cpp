@@ -10,6 +10,7 @@
 #include "Quack.h"
 
 
+
 int main(void)
 {
     QuackEngine::Log::Init();
@@ -17,6 +18,8 @@ int main(void)
     //c
 
    Quack* quackEngine = new Quack();
+ 
+
    quackEngine->InitEngine();
 
     /* Initialize the GLFW library */
@@ -110,6 +113,7 @@ int main(void)
 
     delete quackEngine;
     quackEngine = nullptr;
+
 
     return 0;
 }

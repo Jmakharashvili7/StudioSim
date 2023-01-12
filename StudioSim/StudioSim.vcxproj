@@ -159,9 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioEngine2D.cpp" />
-    <ClCompile Include="src\AudioEngine.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\AudioEngine2D.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Quack.cpp" />
@@ -172,8 +171,7 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioEngine2D.h" />
-    <ClInclude Include="src\AudioEngine.h" />
+    <ClInclude Include="src\AudioEngine2D.h" />
     <ClInclude Include="src\BasicIncludes.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Log.h" />
