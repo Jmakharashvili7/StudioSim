@@ -18,27 +18,8 @@ public:
 
 	int InitEngine();
 
-	void RenderUpdate(float deltatime);
-	void PhysicsUpdate(float deltatime);
-
-	void GetFrameRate(float deltatime);
-
 private:
 
-	GLFWwindow* m_window;
-
 	bool m_running;
-
-	//Frame related variables
-	double m_currentTime;
-	double m_lastTime;
-	double m_deltaTime;
-	double m_frameTime;
-	double m_frameDelay;
-
-	int m_frameCounter;
-	int m_currentFrameRate;
-
-public:
-	bool m_capFrames;
+	GLFWwindow* m_window;
 };

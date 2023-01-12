@@ -4,22 +4,12 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
+#include "Texture.h"
 
 Quack::Quack()
 {
 	m_window = nullptr;
-
 	m_running = true;
-
-	m_deltaTime = 0;
-	m_currentTime = 0;
-	m_lastTime = 0;
-
-	m_capFrames = true;
-	m_frameTime = 0;
-	m_currentFrameRate = 0;
-	m_frameCounter = 0;
-	m_frameDelay = 0;
 }
 
 Quack::~Quack()
@@ -30,10 +20,6 @@ Quack::~Quack()
 
 int Quack::InitEngine()
 {
-	//Set up here is is similar to original from Application.cpp
-	//Addition of update loop and frame calculations
-	m_running = true;
-
 	if (!glfwInit())
 	{
 		m_running = false;
@@ -43,8 +29,8 @@ int Quack::InitEngine()
 	m_window = glfwCreateWindow(640, 480, "Studio Sim", NULL, NULL);
 	if (!m_window)
 	{
-		glfwTerminate();
 		m_running = false;
+		glfwTerminate();
 		return -1;
 	}
 
@@ -55,108 +41,78 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	float positions[] = {
-	-0.5f, -0.5f, // 0
-	 0.5f, -0.5f, // 1
-	 0.5f,  0.5f, // 2
-	-0.5f,  0.5f, // 3
+	//Shader 
+	Shader shader = Shader("shaders/basic.shader");
+
+	//Setup stuff
+	float vertices[] = {
+		// positions          // colors           // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f  // top left 
 	};
 
-	unsigned int indices[] = {
-	    0, 1, 2,
-	    2, 3, 0
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
 	};
 
-	GLuint vertexbuffer;
-	glGenBuffers(1, &(vertexbuffer));
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	//Create vertex buffer object, vertex array object, element buffer object
+	unsigned int VBO, VAO, EBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+	//Bind vertex array object
+	glBindVertexArray(VAO);
 
-	unsigned int vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	//Copy the vertices into the buffer 
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	VertexArray va;
-	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+	//Copy the indices into the buffer 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	VertexBufferLayout layout;
-	layout.Push<float>(2);
-	va.AddBuffer(vb, layout);
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// texture coord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
-	IndexBuffer ib(indices, 6);
+	//Texture
+	Texture texture = Texture("textures/duck.png");
 
-	Shader shader("shaders/basic.shader");
-	shader.Bind();
-	shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-
-	va.Unbind();
-	vb.Unbind();
-	ib.Unbind();
-	shader.Unbind();
-
-	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-
-	glm::vec2 vector = glm::vec2(1, 1);
-
-
-	//Main Engine Loop
 	while (m_running)
 	{
-		//Delta time is time between frames
-		//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
-		m_currentTime = glfwGetTime();
-		m_deltaTime = m_currentTime - m_lastTime;
+		//input stuff here
+		
 
-		GetFrameRate(m_deltaTime);
+		// render stuff here
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
-		va.Bind();
-		vb.Bind();
-		ib.Bind();
+		// bind Texture
+		texture.Bind();
+
+		// render container
 		shader.Bind();
-		RenderUpdate(m_deltaTime);
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		m_lastTime = m_currentTime;
+		// check and call events and swap the buffers
+		glfwSwapBuffers(m_window);
+		glfwPollEvents();
 	}
 
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+
+	glfwTerminate();
 	return 0;
-}
-
-void Quack::RenderUpdate(float deltatime)
-{
-	//Add renderer into this function
-
-	/* Render here */
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-	/* Swap front and back buffers */
-	glfwSwapBuffers(m_window);
-
-	/* Poll for and process events */
-	glfwPollEvents();
-}
-
-void Quack::PhysicsUpdate(float deltatime)
-{
-	//do physics stuff here
-}
-
-void Quack::GetFrameRate(float deltatime)
-{
-	m_frameCounter++;
-
-	//frame time to keep track of time until one second so FPS can be calculated
-	m_frameTime += deltatime;
-
-	//seeing how many frames were processed within 1 second
-	if (m_frameTime > 1.0f)
-	{
-		m_currentFrameRate = m_frameCounter;
-
-		//resetting values so frames for the next second can be calculated
-		m_frameCounter = 0;
-		m_frameTime = 0;
-	}
-
-	QE_INFO("Current FPS: " + std::to_string(m_currentFrameRate));
 }
