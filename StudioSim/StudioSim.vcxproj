@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;"$(SolutionDir)dependencies\FMOD\api\studio\inc";"$(SolutionDir)dependencies\FMOD\api\core\inc";"$(SolutionDir)dependencies\FMOD\api\fsbank\inc";"$(SolutionDir)dependencies\Win32\GLFW\include";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;"$(SolutionDir)dependencies\FMOD\api\studio\inc";"$(SolutionDir)dependencies\FMOD\api\core\inc";"$(SolutionDir)dependencies\FMOD\api\fsbank\inc";"$(SolutionDir)dependencies\Win32\GLFW\include";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\Win32\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\Win32\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,12 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDK Yet\Actor.cpp" />
-    <ClCompile Include="IDK Yet\Component.cpp" />
-    <ClCompile Include="IDK Yet\Game.cpp" />
-    <ClCompile Include="IDK Yet\Game.cpp" />
-    <ClCompile Include="IDK Yet\Component.cpp" />
-    <ClCompile Include="IDK Yet\Actor.cpp" />
+    <ClCompile Include="src\OrthographicCamera.cpp" />
     <ClCompile Include="src\Quack.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
@@ -170,15 +165,9 @@
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\VertexBufferLayout.cpp" />
-    <ClCompile Include="IDK Yet\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IDK Yet\Actor.h" />
-    <ClInclude Include="IDK Yet\Component.h" />
-    <ClInclude Include="IDK Yet\Game.h" />
-    <ClInclude Include="IDK Yet\Game.h" />
-    <ClInclude Include="IDK Yet\Component.h" />
-    <ClInclude Include="IDK Yet\Actor.h" />
+    <ClInclude Include="src\OrthographicCamera.h" />
     <ClInclude Include="src\Quack.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\IndexBuffer.h" />
@@ -188,7 +177,6 @@
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
-    <ClInclude Include="IDK Yet\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.shader" />

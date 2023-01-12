@@ -59,7 +59,7 @@ namespace QuackEngine {
 #define QE_TRACE(...) QuackEngine::Log::GetEngineLogger()->trace(__VA_ARGS__)
 #define QE_INFO(...) QuackEngine::Log::GetEngineLogger()->info(__VA_ARGS__)
 
-// definitions to quickly print out engine errors
+// definitions to quickly print out application errors
 // Main difference between them is the color of the message
 #define APP_ERROR(...) QuackEngine::Log::GetAppLogger()->error(__VA_ARGS__)
 #define APP_WARN(...) QuackEngine::Log::GetAppLogger()->warn(__VA_ARGS__)
