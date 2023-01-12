@@ -55,11 +55,26 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
+	/* Temporary start */
+	//float positions[] = {
+	//-1.0f, -1.0f, 0.0f, 1.0f, // 0
+	// 1.0f, -1.0f, 1.0f, 1.0f, // 1
+	// 1.0f, 1.0f, 1.0f, 0.0f, // 2
+	//-1.0f, 1.0f, 0.0f, 0.0f // 3
+	//};
+
+	//float positions[] = {
+	//-0.5f, -0.5f, 0.0f, 1.0f, // 0
+	// 0.5f, -0.5f, 1.0f, 1.0f, // 1
+	// 0.5f, 0.5f, 1.0f, 0.0f, // 2
+	//-0.5f, 0.5f, 0.0f, 0.0f // 3
+	//};
+
 	float positions[] = {
-	-0.5f, -0.5f, // 0
-	 0.5f, -0.5f, // 1
-	 0.5f,  0.5f, // 2
-	-0.5f,  0.5f, // 3
+	-0.25f, -0.25f, 0.0f, 1.0f, // 0
+	 0.25f, -0.25f, 1.0f, 1.0f, // 1
+	 0.25f, 0.25f, 1.0f, 0.0f, // 2
+	-0.25f, 0.25f, 0.0f, 0.0f // 3
 	};
 
 	unsigned int indices[] = {
@@ -100,6 +115,7 @@ int Quack::InitEngine()
 
 
 	//Main Engine Loop
+	//while (!glfwWindowShouldClose(m_window))
 	while (m_running)
 	{
 		//Delta time is time between frames
