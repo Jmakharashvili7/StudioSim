@@ -2,63 +2,45 @@
 
 Transform::Transform(class Actor* _owner, int _updateOrder) : Component(_owner, _updateOrder)
 {
-	m_Position = Vector2(0, 0);//vector2. zero
-	m_Rotation = Vector2(0, 0);//vector2. zero
-	m_Scale = Vector2(1, 1);//vector2.one
-	m_Right = Vector2(1, 0);
+	m_Position = Vector2::Zero;
+	m_Orientation = Vector2::Zero;
+	m_Scale = Vector2::One;
+	m_Right = GetForward();
 	m_Up = Vector2(0, 1);
 
+	m_TransformMatrix = Matrix3::CreateScale(m_Scale);
+	m_TransformMatrix *= Matrix3::CreateRotation(m_fRotation);
+	m_TransformMatrix *= Matrix3::CreateTranslation(m_Position);
+
+	
+	//transforms object space to world space
+	transform.x = m_Scale.x * (m_Position.x * cos(m_fRotation)) - m_Scale.y * (m_Position.y * sin(m_fRotation)) + translation.x;
+	transform.y = m_Scale.x * (m_Position.x * sin(m_fRotation)) + m_Scale.y * (m_Position.y * cos(m_fRotation)) + translation.y;
+
+}
+
+Vector2 Transform::GetForward() const
+{
+	return Vector2(cos(m_fRotation),sin(m_fRotation));
 }
 
 void Transform::LookAt(Transform _target)
 {
-	Vector2 dir = _target.m_Position - m_Position;
-	float dirToAngle = atan2(dir.x, dir.y);
-	Rotate(m_Right, dirToAngle);
-
+	Vector2 dirToRotate = ( _target.m_Position - m_Position);
+	dirToRotate.Normalize();
+	float angle = atan2(dirToRotate.y, dirToRotate.x);
+	Rotate(angle);
 }
 
-void Transform::LookAt(Transform _target, Vector2 _worldUp)
-{
-}
 
-void Transform::Rotate(float _xAngle, float _yAngle, Space _relativeTo)
-{
-	
-}
-
-void Transform::Rotate(Vector2& _axis, float _angle, Space _relativeTo)
-{
-	Vector2 newAngle(0, 0);
-	newAngle.x = _axis.x * cos(_angle) + _axis.y * sin(_angle);
-	newAngle.y = _axis.x * -sin(_angle) + _axis.y * cos(_angle);
-	_axis.x = newAngle.x;
-	_axis.y = newAngle.y;
-}
 
 void Transform::Rotate(float _angle, Space _relativeTo, bool clockwise)
 {
-	if (clockwise)
-	{
-		Vector2 newAngle(0, 0);
-		newAngle.x = m_Rotation.x * cos(_angle) + m_Rotation.y * sin(_angle);
-		newAngle.y = m_Rotation.x * -sin(_angle) + m_Rotation.y * cos(_angle);
-		m_Rotation.x = newAngle.x;
-		m_Rotation.y = newAngle.y;
-	}
-	else {
-		Vector2 newAngle(0, 0);
-		newAngle.x = m_Rotation.x * cos(_angle) - m_Rotation.y * sin(_angle);
-		newAngle.y = m_Rotation.x * sin(_angle) + m_Rotation.y * cos(_angle);
-		m_Rotation.x = newAngle.x;
-		m_Rotation.y = newAngle.y;
-	}
+	//change this but use local rotation
+	m_fRotation = _angle;
+	m_TransformMatrix *= Matrix3::CreateRotation(m_fRotation);
 }
 
-void Transform::RotateAround(Vector2 _point, Vector2 _axis, float _angle)
-{
-
-}
 
 void Transform::RotateAround(Vector2 _point, float _angle)
 {
@@ -131,12 +113,24 @@ Vector2 Transform::TransformVector(float _xAngle, float _yAngle)
 
 void Transform::Translate(Vector2 _translation, Space _relativeTo)
 {
+	//change this but use local position
+	m_Position += _translation;
+	m_TransformMatrix = Matrix3::CreateTranslation(m_Position);
 }
 
 void Transform::Translate(float _x, float _y, Space _relativeTo)
 {
+	//change this but use local position
+	m_Position.x += _x;
+	m_Position.y += _y;
+
+	m_TransformMatrix = Matrix3::CreateTranslation(m_Position);
 }
 
 void Transform::Translate(Vector2 _translation, Transform _relativeTo)
 {
+	//change this but use local position
+	m_Position += _relativeTo.m_Position;
+	m_Position += _translation;
+	m_TransformMatrix = Matrix3::CreateTranslation(m_Position);
 }
