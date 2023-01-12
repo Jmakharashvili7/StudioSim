@@ -2,11 +2,6 @@
 //
 
 #include <BasicIncludes.h>
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
-#include "Shader.h"
-#include "IndexBuffer.h"
 #include "Quack.h"
 
 int main(void)
@@ -15,8 +10,8 @@ int main(void)
 
     Quack* quackEngine = new Quack();
     quackEngine->InitEngine();
-    glfwTerminate();
 
+    glfwTerminate();
     delete quackEngine;
     quackEngine = nullptr;
 

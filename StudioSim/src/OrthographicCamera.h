@@ -11,7 +11,7 @@ public:
 	inline glm::vec3 GetPosition() { return m_position; }
 
 	inline void SetRotation(const float& rotation) { m_rotation = rotation; RecalculateViewMatix(); }
-	inline float GetRotation() const { return m_rotation; }
+	inline float GetRotation() { return m_rotation; }
 
 	const glm::mat4& GetProjectionMatrix() const { return m_projectionMatrix; }
 	const glm::mat4& GetViewMatrix() const { return m_viewMatrix; }

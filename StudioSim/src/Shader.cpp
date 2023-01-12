@@ -123,15 +123,15 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 
     GLCall(glLinkProgram(program));
 
-    GLint program_linked;
+    GLint programLinked;
 
-    GLCall(glGetProgramiv(program, GL_LINK_STATUS, &program_linked));
-    std::cout << "Program link status: " << program_linked << std::endl;
-    if (program_linked != GL_TRUE)
+    GLCall(glGetProgramiv(program, GL_LINK_STATUS, &programLinked));
+    std::cout << "Program link status: " << programLinked << std::endl;
+    if (programLinked != GL_TRUE)
     {
-        GLsizei log_length = 0;
+        GLsizei logLength = 0;
         GLchar message[1024];
-        GLCall(glGetProgramInfoLog(program, 1024, &log_length, message));
+        GLCall(glGetProgramInfoLog(program, 1024, &logLength, message));
         std::cout << "Failed to link program" << std::endl;
         std::cout << message << std::endl;
     }
