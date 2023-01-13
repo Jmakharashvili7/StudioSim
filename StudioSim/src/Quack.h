@@ -8,6 +8,7 @@
 #include "IndexBuffer.h"
 #include "OrthographicCamera.h"
 #include "Window.h"
+#include "Texture.h"
 
 #define MAX_FRAME_RATE 144
 
@@ -47,11 +48,14 @@ private:
 	static int m_currentFrameRate;
 
 	// Square
-	//static IndexBuffer* m_ib;
-	//static VertexBuffer* m_vb;
-	//static VertexBuffer* m_vertexBuffer;
-	//static VertexArray m_va;
-	//static VertexBufferLayout m_vbLayout;
+	/*static IndexBuffer* m_ib;
+	static VertexBuffer* m_vb;
+	static VertexBuffer* m_vertexBuffer;
+	static VertexArray m_va;
+	static VertexBufferLayout m_vbLayout;*/
+	static unsigned int m_squareVBO;
+	static unsigned int m_squareVAO;
+	static Texture* m_duckTexture;
 
 	static Shader* m_mainShader;
 	static OrthographicCamera* m_mainCamera;

@@ -9,9 +9,20 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "QuackCallbacks.h"
 
-
+// Input handling
+void Quack::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	switch (action)
+	{
+	case GLFW_PRESS:
+		KeyboardClass::OnKeyPressed(key);
+		break;
+	case GLFW_RELEASE:
+		KeyboardClass::OnKeyReleased(key);
+		break;
+	}
+}
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -27,6 +38,10 @@ double Quack::m_frameDelay;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
+
+unsigned int Quack::m_squareVBO;
+unsigned int Quack::m_squareVAO;
+Texture* Quack::m_duckTexture;
 
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
@@ -60,9 +75,7 @@ int Quack::InitEngine()
 	/* Initialize the keyboard class*/
 	KeyboardClass::Init();
 
-	// Set glfw callbacks
-	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
-	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
+	glfwSetKeyCallback(m_window->GetGLFWWindow(), Quack::key_callback);
 
 	InitObjects();
 	return 0;
@@ -82,7 +95,7 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'S': // move camera down
@@ -90,7 +103,7 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'A': // move camera left
@@ -98,7 +111,7 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'D': // move camera right
@@ -106,7 +119,7 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		}
@@ -118,25 +131,21 @@ void Quack::InitObjects()
 	//Setup stuff
 	float vertices[] = {
 		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f  // top left 
-	};
-
-	unsigned int indices[] = {  // note that we start from 0!
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
+		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
+		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
+		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // bottom left
+		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,  // top left 
+		 -0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
+		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
 	};
 
 	//Create vertex buffer object, vertex array objec
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &m_squareVAO);
+	glGenBuffers(1, &m_squareVBO);
 	//Bind vertex array object
-	glBindVertexArray(VAO);
+	glBindVertexArray(m_squareVAO);
 	//Copy the vertices into the buffer 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_squareVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	// position attribute
 	glEnableVertexAttribArray(0);
@@ -147,17 +156,20 @@ void Quack::InitObjects()
 	// texture coord attribute
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glBindVertexArray(0);
 
-	//Texture
-	Texture texture = Texture("res/textures/duck.png");
+	//Texture setup
+	m_duckTexture = new Texture("res/textures/duck.png");
 
+	//Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
 
-	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+	// dont think needed anymore?
+	/*GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));*/
 }
 
 void Quack::Update()
@@ -180,20 +192,36 @@ void Quack::Update()
 
 void Quack::RenderUpdate()
 {
-	/* Poll for and process events */
-	glfwPollEvents();
-
 	// tell imgui we are working with a new frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
 	/* Render here */
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	// bind shader
 	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+	// update camera projection
+	m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
+	// update camera view
+	m_mainShader->SetUniform4x4("view", m_mainCamera->GetViewMatrix());
+
+	// bind vertex array object
+	glBindVertexArray(m_squareVAO);
+
+	// bind texture
+	m_duckTexture->Bind();
+
+	// render sqaure
+	glm::mat4 model = glm::mat4(1.0f);
+	// square position
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	m_mainShader->SetUniform4x4("model", model);
+	// draw square
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	ImGui::Begin("My name is window, ImGui window");
 	ImGui::Text("Hello");
@@ -208,13 +236,19 @@ void Quack::RenderUpdate()
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
+	/* Poll for and process events */
+	glfwPollEvents();
 }
 
 void Quack::ShutDown()
 {
+	glDeleteVertexArrays(1, &m_squareVAO);
+	glDeleteBuffers(1, &m_squareVBO);
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
+	ImGui::DestroyContext();	 
+	glfwDestroyWindow(m_window->GetGLFWWindow());
 	glfwTerminate();
 }
 
