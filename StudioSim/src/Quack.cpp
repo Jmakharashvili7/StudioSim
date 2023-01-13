@@ -39,6 +39,7 @@ int Quack::InitEngine()
 	s_running = true;
 
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
+	m_mainCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 600, 480, FullScreenMode::WINDOWED);
 
 	// Initilaize window
@@ -193,9 +194,7 @@ void Quack::RenderUpdate()
 	m_mainShader->Bind();
 
 	// update camera projection
-	m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
-	// update camera view
-	m_mainShader->SetUniform4x4("view", m_mainCamera->GetViewMatrix());
+	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 
 	// bind vertex array object
 	glBindVertexArray(m_squareVAO);
