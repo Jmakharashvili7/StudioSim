@@ -12,16 +12,16 @@ Window::Window(std::string name, int width, int height, FullScreenMode fullScree
 bool Window::UseWindow()
 {
 	// Check if glfw has been initialized before
-	if (!Quack::glfwInitialised)
+	if (!Quack::s_glfwInitialised)
 	{
 		if (!glfwInit())
 		{
-			Quack::glfwInitialised = false;
+			Quack::s_glfwInitialised = false;
 			return false;
 		}
 		else
 		{
-			Quack::glfwInitialised = true;
+			Quack::s_glfwInitialised = true;
 			m_primaryMonitor = glfwGetPrimaryMonitor();
 		}
 	}

@@ -7,13 +7,15 @@
 int main(void)
 {
     QuackEngine::Log::Init();
+    Quack::InitEngine();
 
-    Quack* quackEngine = new Quack();
-    quackEngine->InitEngine();
+    while (Quack::s_running)
+    {
+        Quack::Update();
+        Quack::RenderUpdate();
+        
+    }
 
-    glfwTerminate();
-    delete quackEngine;
-    quackEngine = nullptr;
-
+    Quack::ShutDown();
     return 0;
 }

@@ -14,46 +14,46 @@
 class Quack
 {
 public:
+	static int InitEngine();
+	static void InitObjects();
 
+	static void Update();
+	static void RenderUpdate();
+	//void PhysicsUpdate();
+
+	static void ShutDown();
+
+	static void GetFrameRate(float deltatime);
+private:
 	Quack();
 	~Quack();
 
-	int InitEngine();
-
-	void Update();
-	void RenderUpdate();
-	void PhysicsUpdate();
-
-	void ShutDown();
-
-	void GetFrameRate(float deltatime);
-private:
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	void HandleInput();
+	static void HandleInput();
 public:
-	bool m_capFrames;
-	static bool glfwInitialised;
+	static bool m_capFrames;
+	static bool s_running;
+	static bool s_glfwInitialised;
 private:
-	Window m_window;
-	bool m_running;
+	static Window* m_window;
 
 	//Frame related variables
-	double m_currentTime;
-	double m_lastTime;
-	double m_deltaTime;
-	double m_frameTime;
-	double m_frameDelay;
+	static double m_currentTime;
+	static double m_lastTime;
+	static double m_deltaTime;
+	static double m_frameTime;
+	static double m_frameDelay;
 
-	int m_frameCounter;
-	int m_currentFrameRate;
+	static int m_frameCounter;
+	static int m_currentFrameRate;
 
 	// Square
-	//IndexBuffer m_ib;
-	//VertexBuffer m_vb;
-	//VertexArray m_va;
-	//VertexBuffer m_vertexBuffer;
-	//VertexBufferLayout m_vbo;
+	//static IndexBuffer* m_ib;
+	//static VertexBuffer* m_vb;
+	//static VertexBuffer* m_vertexBuffer;
+	//static VertexArray m_va;
+	//static VertexBufferLayout m_vbLayout;
 
-	Shader* m_mainShader;
-	OrthographicCamera m_mainCamera;
+	static Shader* m_mainShader;
+	static OrthographicCamera* m_mainCamera;
 };
