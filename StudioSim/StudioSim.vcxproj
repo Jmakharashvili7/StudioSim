@@ -163,6 +163,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
+    <ClCompile Include="src\QuackCallbacks.cpp" />
     <ClCompile Include="src\KeyboardClass.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
     <ClCompile Include="src\OrthographicCamera.cpp" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIWindow.h" />
+    <ClInclude Include="src\QuackCallbacks.h" />
     <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\KeyEvent.h" />
     <ClInclude Include="src\OrthographicCamera.h" />

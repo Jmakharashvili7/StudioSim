@@ -28,7 +28,6 @@ private:
 	Quack();
 	~Quack();
 
-	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void HandleInput();
 public:
 	static bool m_capFrames;
