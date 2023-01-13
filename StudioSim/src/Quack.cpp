@@ -9,20 +9,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-
-// Input handling
-void Quack::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	switch (action)
-	{
-	case GLFW_PRESS:
-		KeyboardClass::OnKeyPressed(key);
-		break;
-	case GLFW_RELEASE:
-		KeyboardClass::OnKeyReleased(key);
-		break;
-	}
-}
+#include "QuackCallbacks.h"
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -75,7 +62,8 @@ int Quack::InitEngine()
 	/* Initialize the keyboard class*/
 	KeyboardClass::Init();
 
-	glfwSetKeyCallback(m_window->GetGLFWWindow(), Quack::key_callback);
+	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
+	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
 
 	InitObjects();
 	return 0;
