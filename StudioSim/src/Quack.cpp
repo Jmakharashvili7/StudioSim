@@ -26,7 +26,7 @@ int Quack::InitEngine()
 		return -1;
 	}
 
-	m_window = glfwCreateWindow(640, 480, "Studio Sim", NULL, NULL);
+	m_window = glfwCreateWindow(1080, 720, "Studio Sim", NULL, NULL);
 	if (!m_window)
 	{
 		m_running = false;
@@ -90,7 +90,7 @@ int Quack::InitEngine()
 	while (m_running)
 	{
 		//input stuff here
-		
+		//process input
 
 		// render stuff here
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -99,8 +99,16 @@ int Quack::InitEngine()
 		// bind Texture
 		texture.Bind();
 
-		// render container
+		// create transformations
+		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		// get martix's uniform location and set matrix
 		shader.Bind();
+		shader.SetUniformMatrix4fv("transform", transform);
+		
+		// render container
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
