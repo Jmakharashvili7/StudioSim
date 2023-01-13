@@ -30,6 +30,8 @@ unsigned int Quack::m_squareVBO;
 unsigned int Quack::m_squareVAO;
 Texture* Quack::m_duckTexture;
 
+glm::vec4 Quack::m_objColor;
+
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
@@ -155,10 +157,6 @@ void Quack::InitObjects()
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
-
-	// dont think needed anymore?
-	/*GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));*/
 }
 
 void Quack::Update()
@@ -192,9 +190,8 @@ void Quack::RenderUpdate()
 
 	// bind shader
 	m_mainShader->Bind();
-
-	// update camera projection
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
 	// bind vertex array object
 	glBindVertexArray(m_squareVAO);
@@ -206,14 +203,12 @@ void Quack::RenderUpdate()
 	glm::mat4 model = glm::mat4(1.0f);
 	// square position
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-	m_mainShader->SetUniform4x4("model", model);
+	m_mainShader->SetUniform4x4("u_model", model);
 	// draw square
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
-	ImGui::Begin("My name is window, ImGui window");
+	ImGui::Begin("Set Object Color");
 	ImGui::Text("Hello");
-	bool temp = false;
-	ImGui::Checkbox("Draw", &temp); 
 	ImGui::End();
 
 	ImGui::ShowDemoWindow();

@@ -25,6 +25,7 @@ class VertexBufferLayout
 private:
 	std::vector<VertexBufferElement> m_elements; 
 	unsigned int m_stride; // bytes between each element of the array
+
 public:
 	VertexBufferLayout() : m_stride(0) {}
 

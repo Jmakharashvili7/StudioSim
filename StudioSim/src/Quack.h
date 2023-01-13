@@ -36,6 +36,7 @@ public:
 	static bool s_glfwInitialised;
 private:
 	static Window* m_window;
+	static glm::vec4 m_objColor;
 
 	//Frame related variables
 	static double m_currentTime;
@@ -47,12 +48,6 @@ private:
 	static int m_frameCounter;
 	static int m_currentFrameRate;
 
-	// Square
-	/*static IndexBuffer* m_ib;
-	static VertexBuffer* m_vb;
-	static VertexBuffer* m_vertexBuffer;
-	static VertexArray m_va;
-	static VertexBufferLayout m_vbLayout;*/
 	static unsigned int m_squareVBO;
 	static unsigned int m_squareVAO;
 	static Texture* m_duckTexture;
