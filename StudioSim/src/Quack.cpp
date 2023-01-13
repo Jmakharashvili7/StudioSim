@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "IndexBuffer.h"
 #include "Texture.h"
+#include "DepthTexture.h"
 
 Quack::Quack()
 {
@@ -46,6 +47,8 @@ int Quack::InitEngine()
 	//Shader 
 	Shader shader = Shader("shaders/basic.shader");
 
+	DepthTexture depthTexture = DepthTexture("textures/duck.png");
+
 	//Setup stuff
 	float vertices[] = {
 		// positions          // colors           // texture coords
@@ -60,11 +63,13 @@ int Quack::InitEngine()
 		1, 2, 3    // second triangle
 	};
 
-	//Create vertex buffer object, vertex array object, element buffer object
-	unsigned int VBO, VAO, EBO;
+	//Create vertex buffer object, vertex array object, element buffer object, Frame Buffer and Depth Buffer
+	unsigned int VBO, VAO, EBO, FBO, depthFBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
+	glGenFramebuffers(1, &FBO);
+	glGenFramebuffers(1, &depthFBO);
 	//Bind vertex array object
 	glBindVertexArray(VAO);
 
@@ -75,6 +80,23 @@ int Quack::InitEngine()
 	//Copy the indices into the buffer 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	//Bind FBO as active FrameBuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+		cout << "FrameBuffer Completed." << endl;
+	else
+		cout << "FrameBuffer Not Finished." << endl;
+
+	
+
+	glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture.depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	//Re-bind rendering to the default buffer to have it show on screen
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -141,6 +163,8 @@ int Quack::InitEngine()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+	glDeleteFramebuffers(1, &FBO);
+	glDeleteFramebuffers(1, &depthFBO);
 
 	glfwTerminate();
 	return 0;
