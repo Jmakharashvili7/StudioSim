@@ -10,6 +10,8 @@ Quack::Quack()
 {
 	m_window = nullptr;
 	m_running = true;
+	m_screenWidth = 1080;
+	m_screenHeight = 720;
 }
 
 Quack::~Quack()
@@ -26,7 +28,7 @@ int Quack::InitEngine()
 		return -1;
 	}
 
-	m_window = glfwCreateWindow(1080, 720, "Studio Sim", NULL, NULL);
+	m_window = glfwCreateWindow(m_screenWidth, m_screenHeight, "Studio Sim", NULL, NULL);
 	if (!m_window)
 	{
 		m_running = false;
@@ -87,6 +89,17 @@ int Quack::InitEngine()
 	//Texture
 	Texture texture = Texture("textures/duck.png");
 
+	//Camera
+	OrthographicCamera camera = OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
+
+	// pass projection matrix to shader
+	glm::mat4 projection = camera.GetProjectionMatrix();
+	shader.SetUniformMatrix4fv("projection", projection);
+
+	//test angle stuff
+	float angleincrementamount = 1.0f;
+	float tempangle = 0.0f;
+
 	while (m_running)
 	{
 		//input stuff here
@@ -96,21 +109,29 @@ int Quack::InitEngine()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// bind Texture
+		// bind texture
 		texture.Bind();
 
-		// create transformations
-		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
-		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		// get martix's uniform location and set matrix
+		// bind shader
 		shader.Bind();
-		shader.SetUniformMatrix4fv("transform", transform);
+
+		//camera/view transform
+		glm::mat4 view = camera.GetViewMatrix();
+		shader.SetUniformMatrix4fv("view", view);
 		
-		// render container
+		//render stuff
 		glBindVertexArray(VAO);
+
+		// render square
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		float newangle = tempangle + angleincrementamount;
+		tempangle = newangle;
+		model = glm::rotate(model, glm::radians(newangle), glm::vec3(0.5f, 0.5f, 0.5f));
+		shader.SetUniformMatrix4fv("model", model);
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glDrawArrays(GL_TRIANGLES, 0, 12);
 
 		// check and call events and swap the buffers
 		glfwSwapBuffers(m_window);

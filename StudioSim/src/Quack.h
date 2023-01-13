@@ -22,4 +22,6 @@ private:
 
 	bool m_running;
 	GLFWwindow* m_window;
+	float m_screenWidth;
+	float m_screenHeight;
 };

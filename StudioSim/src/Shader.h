@@ -34,6 +34,8 @@ public:
     void SetUniform1f(const std::string& name, float value);
     void SetUniformMatrix4fv(const std::string& name, glm::mat4 matrix);
 
+    void TempSetUniformMatrix4fv(const std::string& name, glm::mat4 matrix);
+
 private:
     int GetUniformLocation(const std::string& name);
     struct ShaderProgramSource ParseShader(const std::string& filepath);
