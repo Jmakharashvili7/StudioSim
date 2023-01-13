@@ -43,58 +43,54 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	//Shader 
-	Shader shader = Shader("shaders/basic.shader");
+	////Setup stuff
+	//float vertices[] = {
+	//	// positions          // colors           // texture coords
+	//	 0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // top right
+	//	 0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
+	//	-0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // bottom left
+	//	-0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f  // top left 
+	//};
 
-	//Setup stuff
 	float vertices[] = {
 		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // top right
+		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
 		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f  // top left 
+		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // bottom left
+		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,  // top left 
+		 -0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
+		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
 	};
 
-	unsigned int indices[] = {  // note that we start from 0!
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
-
-	//Create vertex buffer object, vertex array object, element buffer object
-	unsigned int VBO, VAO, EBO;
+	//Create vertex buffer object, vertex array objec
+	unsigned int VBO, VAO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
 	//Bind vertex array object
 	glBindVertexArray(VAO);
-
 	//Copy the vertices into the buffer 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	//Copy the indices into the buffer 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	// texture coord attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+	//glBindVertexArray(0);
 
 	//Texture
 	Texture texture = Texture("textures/duck.png");
 
+	//Shader 
+	Shader shader = Shader("shaders/basic.shader");
+
 	//Camera
 	OrthographicCamera camera = OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
-
-	// pass projection matrix to shader
-	glm::mat4 projection = camera.GetProjectionMatrix();
-	shader.SetUniformMatrix4fv("projection", projection);
 
 	//test angle stuff
 	float angleincrementamount = 1.0f;
@@ -109,29 +105,27 @@ int Quack::InitEngine()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// bind texture
-		texture.Bind();
-
 		// bind shader
 		shader.Bind();
-
+		// pass projection matrix to shader
+		glm::mat4 projection = camera.GetProjectionMatrix();
+		shader.SetUniformMatrix4fv("projection", projection);
 		//camera/view transform
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.SetUniformMatrix4fv("view", view);
-		
 		//render stuff
 		glBindVertexArray(VAO);
-
+		// bind texture
+		texture.Bind();
 		// render square
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		float newangle = tempangle + angleincrementamount;
-		tempangle = newangle;
-		model = glm::rotate(model, glm::radians(newangle), glm::vec3(0.5f, 0.5f, 0.5f));
+		//float newangle = tempangle + angleincrementamount;
+		//tempangle = newangle;
+		//model = glm::rotate(model, glm::radians(newangle), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.SetUniformMatrix4fv("model", model);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		//glDrawArrays(GL_TRIANGLES, 0, 12);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		// check and call events and swap the buffers
 		glfwSwapBuffers(m_window);
@@ -140,7 +134,6 @@ int Quack::InitEngine()
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
 
 	glfwTerminate();
 	return 0;
