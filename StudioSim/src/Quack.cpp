@@ -29,6 +29,7 @@ Quack::Quack()
 Quack::~Quack()
 {
 	delete m_window;
+	
 	m_window = nullptr;
 }
 
@@ -170,7 +171,7 @@ void Quack::Update(float deltatime, Quack* engineInstance)
 			false,
 			false, 
 			true, 
-			3.0f);
+			50.0f);
 	}
 }
 
