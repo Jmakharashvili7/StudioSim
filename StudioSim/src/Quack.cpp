@@ -3,6 +3,7 @@
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
+#include "Texture.h"
 #include "IndexBuffer.h"
 #include "KeyboardClass.h"
 #include "imgui.h"
@@ -123,9 +124,44 @@ void Quack::HandleInput()
 
 void Quack::InitObjects()
 {
-	m_mainShader = new Shader("shaders/basic.shader");
+	//Setup stuff
+	float vertices[] = {
+		// positions          // colors           // texture coords
+		 0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f  // top left 
+	};
+
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
+
+	//Create vertex buffer object, vertex array objec
+	unsigned int VBO, VAO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	//Bind vertex array object
+	glBindVertexArray(VAO);
+	//Copy the vertices into the buffer 
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// position attribute
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	// color attribute
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	// texture coord attribute
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+	//Texture
+	Texture texture = Texture("res/textures/duck.png");
+
+	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
-	m_mainShader->SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
 
@@ -156,16 +192,17 @@ void Quack::RenderUpdate()
 	/* Poll for and process events */
 	glfwPollEvents();
 
+
 	// tell imgui we are working with a new frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-
 	/* Render here */
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	m_mainShader->Bind();
+	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
 	ImGui::Begin("My name is window, ImGui window");
