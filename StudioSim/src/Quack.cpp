@@ -26,8 +26,7 @@ double Quack::m_frameDelay;
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
 
-unsigned int Quack::m_squareVBO;
-unsigned int Quack::m_squareVAO;
+VertexArray* Quack::m_squareVAO;
 Texture* Quack::m_duckTexture;
 
 glm::vec4 Quack::m_objColor;
@@ -86,7 +85,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'S': // move camera down
@@ -94,7 +92,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'A': // move camera left
@@ -102,7 +99,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'D': // move camera right
@@ -110,7 +106,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		}
@@ -120,34 +115,50 @@ void Quack::HandleInput()
 void Quack::InitObjects()
 {
 	//Setup stuff
-	float vertices[] = {
-		// positions          // colors           // texture coords
-		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
-		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
-		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // bottom left
-		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,  // top left 
-		 -0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
-		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
+	float vertices[] = {  
+		-0.5f, -0.5f, 0.0f,  
+		 0.5f, -0.5f, 0.0f,
+		 0.5f, 0.5f, 0.0f,   
+		 0.5f, 0.5f, 0.0f,   
+		 -0.5f, 0.5f, 0.0f,  
+		 -0.5f, -0.5f, 0.0f
+	};
+	
+	float colors[] = {
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f
 	};
 
-	//Create vertex buffer object, vertex array objec
-	glGenVertexArrays(1, &m_squareVAO);
-	glGenBuffers(1, &m_squareVBO);
-	//Bind vertex array object
-	glBindVertexArray(m_squareVAO);
-	//Copy the vertices into the buffer 
-	glBindBuffer(GL_ARRAY_BUFFER, m_squareVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	// position attribute
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	// color attribute
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	// texture coord attribute
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glBindVertexArray(0);
+	float textureCoords[] = {
+		 0.0f, 0.0f,
+		 1.0f, 0.0f,
+		 1.0f, 1.0f,
+		 1.0f, 1.0f,
+		 0.0f, 1.0f,
+		 0.0f, 0.0f
+	};
+
+	m_squareVAO = new VertexArray();
+	VertexBuffer squareVertexBuffer = VertexBuffer(vertices, sizeof(vertices));
+	VertexBuffer squareColorBuffer = VertexBuffer(colors, sizeof(colors));
+	VertexBuffer squareTexCoordsBuffer = VertexBuffer(textureCoords, sizeof(textureCoords));
+
+	VertexBufferLayout vertexLayout;
+	vertexLayout.Push<float>(3);
+
+	VertexBufferLayout colorLayout;
+	colorLayout.Push<float>(3);
+
+	VertexBufferLayout texCoordsLayout;
+	texCoordsLayout.Push<float>(2);
+
+	m_squareVAO->AddBuffer(squareVertexBuffer, vertexLayout, VertexType::VERTEX);
+	m_squareVAO->AddBuffer(squareColorBuffer, colorLayout, VertexType::COLOR);
+	m_squareVAO->AddBuffer(squareTexCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
 
 	//Texture setup
 	m_duckTexture = new Texture("res/textures/duck.png");
@@ -194,7 +205,7 @@ void Quack::RenderUpdate()
 	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
 	// bind vertex array object
-	glBindVertexArray(m_squareVAO);
+	m_squareVAO->Bind();
 
 	// bind texture
 	m_duckTexture->Bind();
@@ -224,9 +235,6 @@ void Quack::RenderUpdate()
 
 void Quack::ShutDown()
 {
-	glDeleteVertexArrays(1, &m_squareVAO);
-	glDeleteBuffers(1, &m_squareVBO);
-
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();	 
