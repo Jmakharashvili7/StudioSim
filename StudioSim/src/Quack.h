@@ -10,7 +10,10 @@
 #include "Window.h"
 #include "Texture.h"
 
+
 #define MAX_FRAME_RATE 144
+
+class QuackPhysics;
 
 class Quack
 {
@@ -53,10 +56,16 @@ private:
 	static VertexBuffer* m_vertexBuffer;
 	static VertexArray m_va;
 	static VertexBufferLayout m_vbLayout;*/
-	static unsigned int m_squareVBO;
-	static unsigned int m_squareVAO;
-	static Texture* m_duckTexture;
+	static unsigned int m_square1VBO;
+	static unsigned int m_square1VAO;
 
+	static glm::vec3 squarePositionData[];
+	static glm::vec3 squareScaleData[];
+	
+	static Texture* m_duckTexture;
+	
+	static QuackPhysics* p_QuackPhysics;
+	
 	static Shader* m_mainShader;
 	static OrthographicCamera* m_mainCamera;
 };

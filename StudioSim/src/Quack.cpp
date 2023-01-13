@@ -10,6 +10,9 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "QuackCallbacks.h"
+#include "QuackPhysics.h"
+
+
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -26,9 +29,26 @@ double Quack::m_frameDelay;
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
 
-unsigned int Quack::m_squareVBO;
-unsigned int Quack::m_squareVAO;
+unsigned int Quack::m_square1VBO;
+unsigned int Quack::m_square1VAO;
+
 Texture* Quack::m_duckTexture;
+QuackPhysics* Quack::p_QuackPhysics;
+
+glm::vec3 potato(0, 1, 2);
+
+
+glm::vec3 Quack::squarePositionData[] = {
+		glm::vec3(-0.7f, 0.7f, 0.0f),       //0
+		glm::vec3(0.7f, 0.7f, 0.0f),		//1
+		glm::vec3(-0.7f, -0.7f, 0.0f),		//2
+		glm::vec3(0.7f, -0.7f, 0.0f), };	//3
+
+glm::vec3 Quack::squareScaleData[] = {
+		glm::vec3(0.5f,0.5f,0.5f),       //0
+		glm::vec3(0.5f,0.5f,0.5f),		//1
+		glm::vec3(0.5f,0.5f,0.5f),		//2
+		glm::vec3(0.5f,0.5f,0.5f), };	//3
 
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
@@ -36,10 +56,11 @@ OrthographicCamera* Quack::m_mainCamera;
 
 int Quack::InitEngine()
 {
+
 	s_running = true;
 
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
-	m_window = new Window("Quack", 600, 480, FullScreenMode::WINDOWED);
+	m_window = new Window("Quack", 1920, 1080, FullScreenMode::WINDOWED);
 
 	// Initilaize window
 	m_window->UseWindow();
@@ -47,11 +68,11 @@ int Quack::InitEngine()
 	/* Initialize the Glew Library*/
 	glewExperimental = GL_TRUE;
 	glewInit();
-	
+
 	///
 	///	Initialize IMGUI
 	/// 
-	
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -61,6 +82,7 @@ int Quack::InitEngine()
 
 	/* Initialize the keyboard class*/
 	KeyboardClass::Init();
+
 
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
@@ -117,7 +139,7 @@ void Quack::HandleInput()
 void Quack::InitObjects()
 {
 	//Setup stuff
-	float vertices[] = {
+	float square1[] = {
 		// positions          // colors           // texture coords
 		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
 		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
@@ -127,14 +149,34 @@ void Quack::InitObjects()
 		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
 	};
 
-	//Create vertex buffer object, vertex array objec
-	glGenVertexArrays(1, &m_squareVAO);
-	glGenBuffers(1, &m_squareVBO);
+	float square2[] = {
+		// positions          // colors           // texture coords
+		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
+		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
+		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // bottom left
+		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,  // top left 
+		 -0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
+		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
+	};
+
+
+
+	//Create vertex buffer object, vertex array for square1
+	glGenVertexArrays(1, &m_square1VAO);
+
+
+	glGenBuffers(1, &m_square1VBO);
+
 	//Bind vertex array object
-	glBindVertexArray(m_squareVAO);
+	glBindVertexArray(m_square1VAO);
+
 	//Copy the vertices into the buffer 
-	glBindBuffer(GL_ARRAY_BUFFER, m_squareVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, m_square1VBO);
+
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(square1), square1, GL_STATIC_DRAW);
+
+
 	// position attribute
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -154,6 +196,7 @@ void Quack::InitObjects()
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
+
 
 	// dont think needed anymore?
 	/*GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
@@ -197,24 +240,45 @@ void Quack::RenderUpdate()
 	// update camera view
 	m_mainShader->SetUniform4x4("view", m_mainCamera->GetViewMatrix());
 
-	// bind vertex array object
-	glBindVertexArray(m_squareVAO);
-
 	// bind texture
 	m_duckTexture->Bind();
 
-	// render sqaure
-	glm::mat4 model = glm::mat4(1.0f);
-	// square position
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-	m_mainShader->SetUniform4x4("model", model);
-	// draw square
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	// bind vertex array object
+	glBindVertexArray(m_square1VAO);
+	for (unsigned int i = 0; i < 4; i++)
+	{
+		// render sqaure
+		glm::mat4 model = glm::mat4(1.0f);
+		// square position
+		model = glm::translate(model, squarePositionData[i]);
+		model = glm::scale(model, squareScaleData[i]);
+		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		m_mainShader->SetUniform4x4("model", model);
+		// draw square
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+	}
+
+
+	//position, center
+	BoundingBox box1 = BoundingBox(glm::vec3(squarePositionData[0].x, squarePositionData[0].y, squarePositionData[0].z),
+		//size
+		glm::vec3(squareScaleData[0].x, squareScaleData[0].y, squareScaleData[0].z));
+
+	BoundingBox box2 = BoundingBox(glm::vec3(squarePositionData[3].x, squarePositionData[3].y, squarePositionData[3].z),
+		//size
+		glm::vec3(squareScaleData[3].x, squareScaleData[3].y, squareScaleData[3].z));
+
+	//Check if box collision works
+	if (p_QuackPhysics->BoxToBox(box1, box2))
+	{
+		std::cout << "The objects are collidiing";
+	}
 
 	ImGui::Begin("My name is window, ImGui window");
 	ImGui::Text("Hello");
 	bool temp = false;
-	ImGui::Checkbox("Draw", &temp); 
+	ImGui::DragFloat3("potato", &squarePositionData[0].x,0.001f);
+	ImGui::Checkbox("Draw", &temp);
 	ImGui::End();
 
 	ImGui::ShowDemoWindow();
@@ -230,12 +294,14 @@ void Quack::RenderUpdate()
 
 void Quack::ShutDown()
 {
-	glDeleteVertexArrays(1, &m_squareVAO);
-	glDeleteBuffers(1, &m_squareVBO);
+	glDeleteVertexArrays(1, &m_square1VAO);
+
+	glDeleteBuffers(1, &m_square1VBO);
+
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();	 
+	ImGui::DestroyContext();
 	glfwDestroyWindow(m_window->GetGLFWWindow());
 	glfwTerminate();
 }

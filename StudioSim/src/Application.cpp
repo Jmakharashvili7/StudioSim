@@ -13,7 +13,6 @@ int main(void)
     {
         Quack::Update();
         Quack::RenderUpdate();
-        QE_LOG(Quack::s_running);
     }
     Quack::ShutDown();
     return 0;
