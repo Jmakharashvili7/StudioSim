@@ -53,9 +53,10 @@ private:
 	static VertexBuffer* m_vertexBuffer;
 	static VertexArray m_va;
 	static VertexBufferLayout m_vbLayout;*/
-	static unsigned int m_squareVBO;
-	static unsigned int m_squareVAO;
+	static VertexArray* m_squareVAO;
 	static Texture* m_duckTexture;
+
+	
 
 	static Shader* m_mainShader;
 	static OrthographicCamera* m_mainCamera;
