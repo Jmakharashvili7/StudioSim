@@ -28,15 +28,15 @@ in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
 uniform vec4 u_color;
-uniform vec3 u_lightColor;
+uniform vec4 u_lightColor;
 
 void main()
 {
 
     float ambientForce = 0.1f;
-    vec3 ambient = ambientForce * u_lightColor;
+    vec4 ambient = ambientForce * u_lightColor;
 
-    vec3 result = ambient * u_color;
+    vec4 result = ambient * u_color;
 
-    FragColor = texture(ourTexture, TexCoord) * vec4(result, 1.0);
+    FragColor = texture(ourTexture, TexCoord) * vec4(result *  1.0);
 }

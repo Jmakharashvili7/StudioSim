@@ -60,7 +60,7 @@ private:
 	static Texture* m_duckTexture;
 	static glm::vec4 m_objColor;
 
-	static glm::vec3 m_lightPos;
+	static glm::vec4 m_lightPos;
 
 	static Shader* m_mainShader;
 	static OrthographicCamera* m_mainCamera;
