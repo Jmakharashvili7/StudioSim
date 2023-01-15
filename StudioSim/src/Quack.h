@@ -12,6 +12,7 @@
 
 
 #define MAX_FRAME_RATE 144
+#define GFORCE 9.81
 
 class QuackPhysics;
 

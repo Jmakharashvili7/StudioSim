@@ -259,6 +259,8 @@ void Quack::RenderUpdate()
 	}
 
 
+
+
 	//position, center
 	BoundingBox box1 = BoundingBox(glm::vec3(squarePositionData[0].x, squarePositionData[0].y, squarePositionData[0].z),
 		//size
@@ -268,20 +270,61 @@ void Quack::RenderUpdate()
 		//size
 		glm::vec3(squareScaleData[3].x, squareScaleData[3].y, squareScaleData[3].z));
 
-	//Check if box collision works
-	if (p_QuackPhysics->BoxToBox(box1, box2))
-	{
-		std::cout << "The objects are collidiing";
-	}
 
+
+
+	/// <summary>
+	/// Start IMGUI window
+	/// </summary>
 	ImGui::Begin("My name is window, ImGui window");
 	ImGui::Text("Hello");
 	bool temp = false;
-	ImGui::DragFloat3("potato", &squarePositionData[0].x,0.001f);
-	ImGui::Checkbox("Draw", &temp);
+
+	/// <summary>
+	/// Changing position of each square
+	/// </summary>
+	ImGui::DragFloat3("First Square", &squarePositionData[0].x, 0.001f);
+	ImGui::DragFloat3("Second Square", &squarePositionData[1].x, 0.001f);
+	ImGui::DragFloat3("Third Square", &squarePositionData[2].x, 0.001f);
+	ImGui::DragFloat3("Fourth Square", &squarePositionData[3].x, 0.001f);
+
+	/// <summary>
+	/// Check box, needs to be static to be pressable
+	/// </summary>
+	static bool gravityEnabled = false;
+	bool areColliding = false;
+	ImGui::Checkbox("Gravity", &gravityEnabled);
+
+	/// <summary>
+	/// Check collision between box 1(top left) with box 4(bottom right)
+	/// If they donw collide, add gravity to box 1
+	/// </summary>
+	if (p_QuackPhysics->BoxToBox(box1, box2))
+	{
+		areColliding = true;
+		//std::cout << "The objects are collidiing";
+	}
+	else
+	{
+		areColliding = false;
+		//std::cout << "The objects are not collidiing";
+	}
+	if (gravityEnabled && !areColliding)
+	{
+		float weight = 0.1f * GFORCE;
+		squarePositionData[0].y -= weight * m_deltaTime;
+	}
+
+	//Check if box collision works
+	/// <summary>
+	/// End of IMGUI window
+	/// </summary>
 	ImGui::End();
 
-	ImGui::ShowDemoWindow();
+	/// <summary>
+	/// Show the help commands window 
+	/// </summary>
+	//ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
