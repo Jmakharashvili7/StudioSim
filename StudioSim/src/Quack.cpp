@@ -1,7 +1,4 @@
 #include "Quack.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "IndexBuffer.h"
@@ -31,6 +28,8 @@ Texture* Quack::m_duckTexture;
 
 glm::vec4 Quack::m_objColor;
 
+GameObject* Quack::m_duck;
+
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
@@ -41,7 +40,7 @@ int Quack::InitEngine()
 
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
-	m_window = new Window("Quack", 600, 480, FullScreenMode::WINDOWED);
+	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
 
 	// Initilaize window
 	m_window->UseWindow();
@@ -142,28 +141,17 @@ void Quack::InitObjects()
 		 0.0f, 0.0f
 	};
 
-	m_squareVAO = new VertexArray();
-	VertexBuffer squareVertexBuffer = VertexBuffer(vertices, sizeof(vertices));
-	VertexBuffer squareColorBuffer = VertexBuffer(colors, sizeof(colors));
-	VertexBuffer squareTexCoordsBuffer = VertexBuffer(textureCoords, sizeof(textureCoords));
+	GameObjectData data;
+	data.vertices.first = vertices;
+	data.vertices.second = sizeof(vertices);
+	data.colors.first = colors;
+	data.colors.second = sizeof(colors);
+	data.textCoords.first = textureCoords;
+	data.textCoords.second = sizeof(textureCoords);
 
-	VertexBufferLayout vertexLayout;
-	vertexLayout.Push<float>(3);
+	m_duck = new GameObject(data, "res/textures/duck.png");
 
-	VertexBufferLayout colorLayout;
-	colorLayout.Push<float>(3);
-
-	VertexBufferLayout texCoordsLayout;
-	texCoordsLayout.Push<float>(2);
-
-	m_squareVAO->AddBuffer(squareVertexBuffer, vertexLayout, VertexType::VERTEX);
-	m_squareVAO->AddBuffer(squareColorBuffer, colorLayout, VertexType::COLOR);
-	m_squareVAO->AddBuffer(squareTexCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
-
-	//Texture setup
-	m_duckTexture = new Texture("res/textures/duck.png");
-
-	//Shader setup
+	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
@@ -204,25 +192,17 @@ void Quack::RenderUpdate()
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
-	// bind vertex array object
-	m_squareVAO->Bind();
-
-	// bind texture
-	m_duckTexture->Bind();
-
 	// render sqaure
 	glm::mat4 model = glm::mat4(1.0f);
 	// square position
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 	m_mainShader->SetUniform4x4("u_model", model);
 	// draw square
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	m_duck->Draw();
 
 	ImGui::Begin("Set Object Color");
 	ImGui::Text("Hello");
 	ImGui::End();
-
-	ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

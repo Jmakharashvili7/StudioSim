@@ -14,6 +14,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 {
 	Bind();
 	vb.Bind();
+
 	const auto& elements = layout.GetElements();
 	for (unsigned int i = 0; i < elements.size(); i++)
 	{
@@ -26,6 +27,6 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 		offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 	}
 
-	GLCall(glBindVertexArray(0));
+	glBindVertexArray(0);
 }
  
