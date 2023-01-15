@@ -10,6 +10,7 @@ struct GameObjectData
 	std::pair<float*,int> vertices;
 	std::pair<float*,int> colors;
 	std::pair<float*,int> textCoords;
+	std::pair<float*, int> lights;
 };
 
 class GameObject

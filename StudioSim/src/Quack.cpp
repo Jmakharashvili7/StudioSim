@@ -28,6 +28,8 @@ Texture* Quack::m_duckTexture;
 
 glm::vec4 Quack::m_objColor;
 
+glm::vec3 Quack::m_lightPos;
+
 GameObject* Quack::m_duck;
 
 Shader* Quack::m_mainShader;
@@ -41,6 +43,7 @@ int Quack::InitEngine()
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
+	m_lightPos = glm::vec3(1.0f, 1.0f, 0.0f);
 
 	// Initilaize window
 	m_window->UseWindow();
@@ -191,11 +194,12 @@ void Quack::RenderUpdate()
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
+	m_mainShader->SetUniform3f("u_lightColor", 1.0f, 1.0f, 0.0f);
 
 	// render sqaure
 	glm::mat4 model = glm::mat4(1.0f);
 	// square position
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	model = glm::translate(model,m_lightPos);
 	m_mainShader->SetUniform4x4("u_model", model);
 	// draw square
 	m_duck->Draw();

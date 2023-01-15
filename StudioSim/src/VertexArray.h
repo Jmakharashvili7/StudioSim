@@ -7,7 +7,8 @@ enum class VertexType
 {
 	VERTEX,
 	COLOR,
-	TEX_COORDS
+	TEX_COORDS,
+	LIGHT
 };
 
 class VertexArray
