@@ -35,7 +35,8 @@ unsigned int Quack::m_square1VAO;
 Texture* Quack::m_duckTexture;
 QuackPhysics* Quack::p_QuackPhysics;
 
-glm::vec3 potato(0, 1, 2);
+bool Quack::m_jumping = false;
+float Quack::m_jump_force = 10.0f;
 
 
 glm::vec3 Quack::squarePositionData[] = {
@@ -214,6 +215,11 @@ void Quack::Update()
 	HandleInput();
 	GetFrameRate(m_deltaTime);
 
+	if (m_jumping)
+	{
+		JumpDecrement();
+	}
+
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
@@ -259,8 +265,17 @@ void Quack::RenderUpdate()
 	}
 
 
+	ImGUIInit();
 
 
+	/* Swap front and back buffers */
+	glfwSwapBuffers(m_window->GetGLFWWindow());
+	/* Poll for and process events */
+	glfwPollEvents();
+}
+
+void Quack::ImGUIInit()
+{
 	//position, center
 	BoundingBox box1 = BoundingBox(glm::vec3(squarePositionData[0].x, squarePositionData[0].y, squarePositionData[0].z),
 		//size
@@ -269,9 +284,6 @@ void Quack::RenderUpdate()
 	BoundingBox box2 = BoundingBox(glm::vec3(squarePositionData[3].x, squarePositionData[3].y, squarePositionData[3].z),
 		//size
 		glm::vec3(squareScaleData[3].x, squareScaleData[3].y, squareScaleData[3].z));
-
-
-
 
 	/// <summary>
 	/// Start IMGUI window
@@ -311,11 +323,17 @@ void Quack::RenderUpdate()
 	}
 	if (gravityEnabled && !areColliding)
 	{
-		float weight = 0.1f * GFORCE;
-		squarePositionData[0].y -= weight * m_deltaTime;
+		Gravity();
 	}
 
-	//Check if box collision works
+	/// <summary>
+	/// Create button for jump
+	/// </summary>
+	if (ImGui::Button("Jump"))
+	{
+		Jump();
+	}
+
 	/// <summary>
 	/// End of IMGUI window
 	/// </summary>
@@ -324,15 +342,38 @@ void Quack::RenderUpdate()
 	/// <summary>
 	/// Show the help commands window 
 	/// </summary>
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
 
-	/* Swap front and back buffers */
-	glfwSwapBuffers(m_window->GetGLFWWindow());
-	/* Poll for and process events */
-	glfwPollEvents();
+void Quack::Jump()
+{
+	if (!m_jumping)
+	{
+		m_jump_force = JUMP_HEIGHT;
+		m_jumping = true;
+	}
+}
+void Quack::JumpDecrement()
+{
+	//adjust position
+	squarePositionData[0].y += m_jump_force * m_deltaTime;
+
+	//reduce jump force
+	m_jump_force -= JUMP_HEIGHT * m_deltaTime;
+
+	//is jump force 0?
+	if (m_jump_force <= 0.0f)
+	{
+		m_jumping = false;
+	}
+}
+void Quack::Gravity()
+{
+	float weight = 0.1f * GFORCE;
+	squarePositionData[0].y -= weight * m_deltaTime;
 }
 
 void Quack::ShutDown()

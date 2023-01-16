@@ -13,6 +13,7 @@
 
 #define MAX_FRAME_RATE 144
 #define GFORCE 9.81
+#define JUMP_HEIGHT 3.0f
 
 class QuackPhysics;
 
@@ -29,6 +30,12 @@ public:
 	static void ShutDown();
 
 	static void GetFrameRate(float deltatime);
+
+	static void ImGUIInit();
+	static void Jump();
+	static void JumpDecrement();
+	static void Gravity();
+
 private:
 	Quack();
 	~Quack();
@@ -50,6 +57,10 @@ private:
 
 	static int m_frameCounter;
 	static int m_currentFrameRate;
+
+	static bool m_jumping;
+	static float m_jump_force;
+
 
 	// Square
 	/*static IndexBuffer* m_ib;
