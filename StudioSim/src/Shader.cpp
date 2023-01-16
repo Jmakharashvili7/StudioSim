@@ -4,10 +4,6 @@ Shader::Shader(const std::string& filepath)
     : m_filePath(filepath), m_rendererID(0)
 {
     ShaderProgramSource source = ParseShader(filepath);
-
-    std::cout << "VERTEX" << std::endl << source.vertexSource << std::endl;
-    std::cout << "FRAGMENT" << std::endl << source.fragmentSource << std::endl;
-
     m_rendererID = CreateShader(source.vertexSource, source.fragmentSource);
 
     GLCall(glUseProgram(m_rendererID));
@@ -43,6 +39,11 @@ int Shader::GetUniformLocation(const std::string& name)
 
 }
 
+void Shader::SetUniform1i(const std::string& name, int value)
+{
+    GLCall(glUniform1i(GetUniformLocation(name), value));
+}
+
 void Shader::SetUniform1f(const std::string& name, float value)
 {
     GLCall(glUniform1f(GetUniformLocation(name), value));
@@ -51,6 +52,11 @@ void Shader::SetUniform1f(const std::string& name, float value)
 void Shader::SetUniform4f(const std::string& name, float f0, float f1, float f2, float f3)
 {
     GLCall(glUniform4f(GetUniformLocation(name), f0, f1, f2, f3));
+}
+
+void Shader::SetUniform4x4(const std::string& name, glm::mat4 viewProj)
+{
+    GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(viewProj)));
 }
 
 struct ShaderProgramSource Shader::ParseShader(const std::string& filepath)
@@ -122,15 +128,15 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 
     GLCall(glLinkProgram(program));
 
-    GLint program_linked;
+    GLint programLinked;
 
-    GLCall(glGetProgramiv(program, GL_LINK_STATUS, &program_linked));
-    std::cout << "Program link status: " << program_linked << std::endl;
-    if (program_linked != GL_TRUE)
+    GLCall(glGetProgramiv(program, GL_LINK_STATUS, &programLinked));
+    std::cout << "Program link status: " << programLinked << std::endl;
+    if (programLinked != GL_TRUE)
     {
-        GLsizei log_length = 0;
+        GLsizei logLength = 0;
         GLchar message[1024];
-        GLCall(glGetProgramInfoLog(program, 1024, &log_length, message));
+        GLCall(glGetProgramInfoLog(program, 1024, &logLength, message));
         std::cout << "Failed to link program" << std::endl;
         std::cout << message << std::endl;
     }

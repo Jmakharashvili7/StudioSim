@@ -6,41 +6,67 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
+#include "OrthographicCamera.h"
+#include "Window.h"
+#include "Texture.h"
+
 
 #define MAX_FRAME_RATE 144
+#define GFORCE 9.81
+
+class QuackPhysics;
 
 class Quack
 {
 public:
+	static int InitEngine();
+	static void InitObjects();
 
+	static void Update();
+	static void RenderUpdate();
+	//void PhysicsUpdate();
+
+	static void ShutDown();
+
+	static void GetFrameRate(float deltatime);
+private:
 	Quack();
 	~Quack();
 
-	int InitEngine();
-
-	void RenderUpdate(float deltatime);
-	void PhysicsUpdate(float deltatime);
-
-	void GetFrameRate(float deltatime);
-	void Display();
+	static void HandleInput();
+public:
+	static bool m_capFrames;
+	static bool s_running;
+	static bool s_glfwInitialised;
 private:
-
-	GLFWwindow* m_window;
-
-	class Game* m_GameTest;
-
-	bool m_running;
+	static Window* m_window;
 
 	//Frame related variables
-	double m_currentTime;
-	double m_lastTime;
-	double m_deltaTime;
-	double m_frameTime;
-	double m_frameDelay;
+	static double m_currentTime;
+	static double m_lastTime;
+	static double m_deltaTime;
+	static double m_frameTime;
+	static double m_frameDelay;
 
-	int m_frameCounter;
-	int m_currentFrameRate;
+	static int m_frameCounter;
+	static int m_currentFrameRate;
 
-public:
-	bool m_capFrames;
+	// Square
+	/*static IndexBuffer* m_ib;
+	static VertexBuffer* m_vb;
+	static VertexBuffer* m_vertexBuffer;
+	static VertexArray m_va;
+	static VertexBufferLayout m_vbLayout;*/
+	static unsigned int m_square1VBO;
+	static unsigned int m_square1VAO;
+
+	static glm::vec3 squarePositionData[];
+	static glm::vec3 squareScaleData[];
+	
+	static Texture* m_duckTexture;
+	
+	static QuackPhysics* p_QuackPhysics;
+	
+	static Shader* m_mainShader;
+	static OrthographicCamera* m_mainCamera;
 };

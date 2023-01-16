@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;"$(SolutionDir)dependencies\FMOD\api\studio\inc";"$(SolutionDir)dependencies\FMOD\api\core\inc";"$(SolutionDir)dependencies\FMOD\api\fsbank\inc";"$(SolutionDir)dependencies\Win32\GLFW\include";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;"$(SolutionDir)dependencies\FMOD\api\studio\inc";"$(SolutionDir)dependencies\FMOD\api\core\inc";"$(SolutionDir)dependencies\FMOD\api\fsbank\inc";"$(SolutionDir)dependencies\Win32\GLFW\include";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\Win32\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\Win32\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,40 +155,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\IDKYET\Actor.cpp" />
-    <ClCompile Include="src\IDKYET\Component.cpp" />
-    <ClCompile Include="src\IDKYET\Game.cpp" />
-    <ClCompile Include="src\IDKYET\Transform.cpp" />
-    <ClCompile Include="src\IDKYET\Math.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="GUIWindow.cpp" />
+    <ClCompile Include="src\QuackCallbacks.cpp" />
+    <ClCompile Include="src\KeyboardClass.cpp" />
+    <ClCompile Include="src\KeyEvent.cpp" />
     <ClCompile Include="src\OrthographicCamera.cpp" />
     <ClCompile Include="src\Quack.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Log.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\stb_image\stb_image.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\IDKYET\Actor.h" />
-    <ClInclude Include="src\IDKYET\Component.h" />
-    <ClInclude Include="src\IDKYET\Game.h" />
-    <ClInclude Include="src\IDKYET\Transform.h" />
-    <ClInclude Include="src\IDKYET\Math.h" />
+    <ClInclude Include="GUIWindow.h" />
+    <ClInclude Include="src\QuackPhysics.h" />
+    <ClInclude Include="src\QuackCallbacks.h" />
+    <ClInclude Include="src\KeyboardClass.h" />
+    <ClInclude Include="src\KeyEvent.h" />
     <ClInclude Include="src\OrthographicCamera.h" />
     <ClInclude Include="src\Quack.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\BasicIncludes.h" />
     <ClInclude Include="src\Log.h" />
-    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\stb_image\stb_image.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="imgui.ini" />
     <None Include="shaders\basic.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
