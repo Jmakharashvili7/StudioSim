@@ -1,32 +1,35 @@
 #shader vertex
 #version 330 core
 
-layout(location = 0) in vec2 position;
-layout(location = 1) in vec2 texCoord;
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aColor;
+layout(location = 2) in vec2 aTexCoord;
 
-out vec2 v_TexCoord;
+out vec3 ourColor;
+out vec2 TexCoord;
+
+uniform mat4 u_model;
+uniform mat4 u_viewProjection;
 
 void main()
 {
-	gl_Position = vec4(position, 0, 1.0f);
-	//When Quack Positions[] is at 1.0, set first number to 0.5
-	v_TexCoord = 10 * gl_Position.xy + vec2(0.5);
-	//v_TexCoord = texCoord;
-};
+    gl_Position = u_viewProjection * u_model * vec4(aPos, 1.0);
+    ourColor = aColor;
+    TexCoord = aTexCoord;
+}
 
 #shader fragment
 #version 330 core
 
-uniform sampler2D u_Texture;
-in vec2 v_TexCoord;
+out vec4 FragColor;
 
-layout(location = 0) out vec4 color;
+in vec3 ourColor;
+in vec2 TexCoord;
 
-uniform vec4 u_Color;
-
+uniform sampler2D ourTexture;
+uniform vec4 u_color;
 
 void main()
 {
-	vec4 texColor = texture(u_Texture, v_TexCoord);
-	color = texColor;
+    FragColor = texture(ourTexture, TexCoord) * vec4(ourColor, 1.0);
 }

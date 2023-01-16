@@ -1,11 +1,10 @@
 #pragma once
-#include "Renderer.h"
-using namespace std;
+#include "BasicIncludes.h"
 
 class Texture
 {
 public:
-	Texture(const string& path);
+	Texture(const std::string& path);
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;
@@ -15,9 +14,8 @@ public:
 	inline int GetHeight() const { return m_height; }
 private:
 	unsigned int m_rendererID;
-	string m_filePath;
+	std::string m_filePath;
 	unsigned char* m_localBuffer;
 	// Width, height, bits per pixel of the texture
 	int m_width, m_height, m_BPP;
 };
-
