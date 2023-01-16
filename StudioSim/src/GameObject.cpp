@@ -19,7 +19,7 @@ GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	texCoordsLayout.Push<float>(2);
 
 	VertexBufferLayout lightLayout;
-	lightLayout.Push<float>(3);
+	lightLayout.Push<float>(4);
 
 	m_va->AddBuffer(vertexBuffer, vertexLayout, VertexType::VERTEX);
 	m_va->AddBuffer(colorBuffer, colorLayout, VertexType::COLOR);
