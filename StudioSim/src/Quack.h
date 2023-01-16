@@ -49,6 +49,9 @@ private:
 	static int m_currentFrameRate;
 
 	static GameObject* m_duck;
+	static GameObject* m_testSprite;
+
+	int spTest = 0;
 
 	// Square
 	/*static IndexBuffer* m_ib;

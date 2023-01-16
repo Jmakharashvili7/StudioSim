@@ -7,6 +7,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "QuackCallbacks.h"
+#include "Animate.h"
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -29,6 +30,7 @@ Texture* Quack::m_duckTexture;
 glm::vec4 Quack::m_objColor;
 
 GameObject* Quack::m_duck;
+GameObject* Quack::m_testSprite;
 
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
@@ -132,7 +134,8 @@ void Quack::InitObjects()
 		 1.0f, 1.0f, 1.0f
 	};
 
-	float textureCoords[] = {
+	float textureCoords[] =
+	{
 		 0.0f, 0.0f,
 		 1.0f, 0.0f,
 		 1.0f, 1.0f,
@@ -151,11 +154,53 @@ void Quack::InitObjects()
 
 	m_duck = new GameObject(data, "res/textures/duck.png");
 
+	float spriteVertice[] =
+	{
+		-1.0f/8.0f, -1.0f/4.0f, 0.0f,
+		 1.0f/8.0f, -1.0f/4.0f, 0.0f,
+		 1.0f/8.0f,  1.0f/4.0f, 0.0f,
+		 1.0f/8.0f,  1.0f/4.0f, 0.0f,
+		-1.0f/8.0f,  1.0f/4.0f, 0.0f,
+		-1.0f/8.0f, -1.0f/4.0f, 0.0f
+	};
+
+	float spriteColors[] = {
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f
+	};
+
+	float spriteTexCoord[] = 
+	{
+		0.0f,  0.0f,
+		1.0f,  0.0f,
+		1.0f,  1.0f,
+		1.0f,  1.0f,
+		0.0f,  1.0f,
+		0.0f,  0.0f
+	};
+
+	GameObjectData spriteData;
+	spriteData.vertices.first = spriteVertice;
+	spriteData.vertices.second = sizeof(spriteVertice);
+	spriteData.colors.first = spriteColors;
+	spriteData.colors.second = sizeof(spriteColors);
+	spriteData.textCoords.first = spriteTexCoord;
+	spriteData.textCoords.second = sizeof(spriteTexCoord);
+
+	m_testSprite = new GameObject(spriteData, "res/textures/test_sheet-removebg-preview.jpg");
+
+	
+
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
+
 }
 
 void Quack::Update()
@@ -183,6 +228,7 @@ void Quack::RenderUpdate()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
+
 	/* Render here */
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -199,6 +245,9 @@ void Quack::RenderUpdate()
 	m_mainShader->SetUniform4x4("u_model", model);
 	// draw square
 	m_duck->Draw();
+
+	m_testSprite->Draw();
+	m_testSprite->GetAnimator()->UpdateTextCoord(2, 4, m_deltaTime, 1.0f);
 
 	ImGui::Begin("Set Object Color");
 	ImGui::Text("Hello");

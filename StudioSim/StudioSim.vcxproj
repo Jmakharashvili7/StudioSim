@@ -162,6 +162,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Animate.cpp" />
     <ClCompile Include="src\JsonLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\JsonLoader.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="GUIWindow.h" />
@@ -204,7 +206,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="res\shaders\basic.shader" />
+    <None Include="res\textures\test sheet.png~" />
     <None Include="shaders\basic.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\blue.png" />
+    <Image Include="res\textures\duck.png" />
+    <Image Include="res\textures\test sheet.jpg" />
+    <Image Include="res\textures\test sheet.png" />
+    <Image Include="res\textures\twist.png" />
+    <Image Include="res\textures\twist2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

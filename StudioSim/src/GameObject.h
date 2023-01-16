@@ -5,6 +5,8 @@
 #include "VertexBufferLayout.h"
 #include "Texture.h"
 
+class Animate;
+
 struct GameObjectData
 {
 	std::pair<float*,int> vertices;
@@ -20,8 +22,16 @@ public:
 
 	void Draw();
 
+	inline VertexArray* GetVertexArray() { return m_va;  };
+	inline Animate* GetAnimator() { return m_animator; }
+
 private:
+
 	Texture* m_texture;
+
 	VertexArray* m_va;
+
+	Animate* m_animator;
+		
 };
 

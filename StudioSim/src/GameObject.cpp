@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Animate.h"
 
 GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	m_texture(new Texture(texturePath))
@@ -20,6 +21,20 @@ GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	m_va->AddBuffer(vertexBuffer, vertexLayout, VertexType::VERTEX);
 	m_va->AddBuffer(colorBuffer, colorLayout, VertexType::COLOR);
 	m_va->AddBuffer(texCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
+
+	m_animator = new Animate(this);
+}
+
+GameObject::~GameObject()
+{
+	delete m_texture;
+	m_texture = nullptr;
+
+	delete m_va;
+	m_va = nullptr;
+
+	delete m_animator;
+	m_animator = nullptr;
 }
 
 void GameObject::Draw()
