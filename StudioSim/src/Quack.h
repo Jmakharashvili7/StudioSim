@@ -47,7 +47,7 @@ public:
 	static void Jump();
 	static void JumpDecrement();
 
-	static void Projectile();
+	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
@@ -79,6 +79,7 @@ private:
 	static float m_throw_force;
 	static Facing m_direction;
 	static float m_rotation;
+	static float m_projectileForce;
 
 
 	static GameObject* m_duck;

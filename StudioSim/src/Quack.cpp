@@ -36,6 +36,7 @@ bool Quack::m_thrown = false;
 float Quack::m_throw_force = 10.0f;
 Quack::Facing Quack::m_direction;
 float Quack::m_rotation;
+float Quack::m_projectileForce;
 
 
 glm::vec3 Quack::squarePositionData[] = {
@@ -300,6 +301,7 @@ void Quack::ImGUIInit()
 	ImGui::DragFloat3("Third Square", &squarePositionData[2].x, 0.001f);
 	ImGui::DragFloat3("Fourth Square", &squarePositionData[3].x, 0.001f);
 	ImGui::DragFloat("Rotation", &m_rotation, 0.1f);
+	ImGui::DragFloat("Force", &m_projectileForce, 0.1f);
 
 	/// <summary>
 	/// Check box, needs to be static to be pressable
@@ -343,7 +345,7 @@ void Quack::ImGUIInit()
 	ImGui::SameLine();
 	if (ImGui::Button("Throw left"))
 	{
-		Projectile();
+		Projectile(m_projectileForce);
 		Jump();
 		gravityEnabled = true;
 		m_direction = Facing::LEFT;
@@ -351,7 +353,7 @@ void Quack::ImGUIInit()
 	ImGui::SameLine();
 	if (ImGui::Button("Throw right"))
 	{
-		Projectile();
+		Projectile(m_projectileForce);
 		Jump();
 		gravityEnabled = true;
 		m_direction = Facing::RIGHT;
@@ -396,11 +398,11 @@ void Quack::JumpDecrement()
 	}
 }
 
-void Quack::Projectile()
+void Quack::Projectile(float force)
 {
 	if (!m_thrown)
 	{
-		m_throw_force = PROJECTILE_FORCE;
+		m_throw_force = m_projectileForce;
 		m_thrown = true;
 	}
 }
@@ -416,7 +418,7 @@ void Quack::ProjectileDecrement(Facing direction)
 	//squarePositionData[0].y += m_throw_force * m_deltaTime;
 
 	//reduce jump force
-	m_throw_force -= PROJECTILE_FORCE / 2 * m_deltaTime;
+	m_throw_force -= m_projectileForce / 2 * m_deltaTime;
 
 	//is jump force 0?
 	if (m_throw_force <= 0.0f)
