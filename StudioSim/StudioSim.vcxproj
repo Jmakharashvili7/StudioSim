@@ -163,6 +163,11 @@
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
+    <ClCompile Include="src\IDKYET\Actor.cpp" />
+    <ClCompile Include="src\IDKYET\Component.cpp" />
+    <ClCompile Include="src\IDKYET\Game.cpp" />
+    <ClCompile Include="src\IDKYET\Math.cpp" />
+    <ClCompile Include="src\IDKYET\Transform.cpp" />
     <ClCompile Include="src\QuackCallbacks.cpp" />
     <ClCompile Include="src\KeyboardClass.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
@@ -181,6 +186,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIWindow.h" />
+    <ClInclude Include="src\IDKYET\Actor.h" />
+    <ClInclude Include="src\IDKYET\Component.h" />
+    <ClInclude Include="src\IDKYET\Game.h" />
+    <ClInclude Include="src\IDKYET\Math.h" />
+    <ClInclude Include="src\IDKYET\Transform.h" />
     <ClInclude Include="src\QuackPhysics.h" />
     <ClInclude Include="src\QuackCallbacks.h" />
     <ClInclude Include="src\KeyboardClass.h" />
@@ -200,7 +210,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="res\shaders\basic.shader" />
+    <None Include="res\shaders\Transform.shader" />
     <None Include="shaders\basic.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\blue.png" />
+    <Image Include="res\textures\duck.png" />
+    <Image Include="res\textures\twist.png" />
+    <Image Include="res\textures\twist2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

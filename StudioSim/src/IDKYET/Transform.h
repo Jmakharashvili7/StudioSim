@@ -58,6 +58,8 @@ public:
 	void LookAt(Transform _target);
 
 
+	Matrix4 GetWorldTransform() { return m_TransformMatrix; }
+
 
 	/// <summary>
 	/// Rotates the object by the number of degrees defined by the given angle adds or takes away degree.
@@ -156,6 +158,14 @@ public:
 	/// <param name="_translation"></param>
 	/// <param name="_relativeTo"></param>
 	void Translate(Vector2 _translation, Transform _relativeTo );
+
+
+	/// <summary>
+	/// Moves the transform in the direction and distance of translation.
+	/// </summary>
+	/// <param name="_translation"></param>
+	/// <param name="_relativeTo"></param>
+	void SetPosition(Vector2 _translation );
 
 
 	bool operator!=(const Transform& v) const

@@ -59,6 +59,19 @@ void Shader::SetUniform4x4(const std::string& name, glm::mat4 viewProj)
     GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(viewProj)));
 }
 
+void Shader::SetMatrixUniform(const char* name, const Matrix4& matrix)
+{
+    // Find the uniform by this name
+    GLuint loc = glGetUniformLocation(m_rendererID, name);
+    // Send the matrix data to the uniform
+    glUniformMatrix4fv(
+        loc, // Uniform ID
+        1, // Number of matrices (only 1 in this case)
+        GL_TRUE, // Set to TRUE if using row vectors
+        matrix.GetAsFloatPtr() // Pointer to matrix data
+    );
+}
+
 struct ShaderProgramSource Shader::ParseShader(const std::string& filepath)
 {
 

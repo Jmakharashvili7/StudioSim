@@ -39,7 +39,7 @@ public:
 	 void AddComponent(class Component* _component);
 	 void RemoveComponent(class Component* _component);
 
-private:
+protected:
 	//Actor's State
 	State m_State;
 

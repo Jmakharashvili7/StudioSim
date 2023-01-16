@@ -11,6 +11,8 @@
 #include "imgui_impl_opengl3.h"
 #include "QuackCallbacks.h"
 #include "QuackPhysics.h"
+#include "IDKYET/Actor.h"
+#include "IDKYET/Transform.h"
 
 
 
@@ -27,6 +29,7 @@ double Quack::m_frameTime;
 double Quack::m_frameDelay;
 
 int Quack::m_frameCounter;
+float Quack::XPOS;
 int Quack::m_currentFrameRate;
 
 unsigned int Quack::m_square1VBO;
@@ -102,18 +105,20 @@ void Quack::HandleInput()
 			break;
 		case 'W': // move camera up
 		{
+			XPOS += 0.01f;
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
+			//m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'S': // move camera down
 		{
+			XPOS -= 0.1f;
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
+			//m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'A': // move camera left
@@ -121,7 +126,7 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
+			//m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'D': // move camera right
@@ -129,10 +134,11 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
+			//m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		}
+		m_mainShader->SetMatrixUniform("uViewProj", m_mainCamera->GetViewProjectionMatrix2());
 	}
 }
 
@@ -192,9 +198,10 @@ void Quack::InitObjects()
 	m_duckTexture = new Texture("res/textures/duck.png");
 
 	//Shader setup
-	m_mainShader = new Shader("res/shaders/basic.shader");
+	m_mainShader = new Shader("res/shaders/Transform.shader");
 	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	//m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->SetMatrixUniform("uViewProj", m_mainCamera->GetViewProjectionMatrix2());
 	m_mainShader->Unbind();
 
 
@@ -236,26 +243,50 @@ void Quack::RenderUpdate()
 	m_mainShader->Bind();
 
 	// update camera projection
-	m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
-	// update camera view
-	m_mainShader->SetUniform4x4("view", m_mainCamera->GetViewMatrix());
+	//m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
+	//// update camera view
+	//m_mainShader->SetUniform4x4("view", m_mainCamera->GetViewMatrix());
+
+	m_mainShader->SetMatrixUniform("uViewProj", m_mainCamera->GetViewProjectionMatrix2());
 
 	// bind texture
 	m_duckTexture->Bind();
 
 	// bind vertex array object
 	glBindVertexArray(m_square1VAO);
-	for (unsigned int i = 0; i < 4; i++)
+	for (unsigned int i = 0; i < 1; i++)
 	{
+		Actor* newModel = new Actor();
+		if (i == 0)
+		{
+			//newModel->GetTransform()->Rotate(Math::ToRadians(XPOS));
+			newModel->GetTransform()->SetPosition(Vector2(0.0f,XPOS));
+			cout << newModel->GetTransform()->m_Position.y << endl;
+		}
+		if (i ==1)
+		{
+			newModel->GetTransform()->SetPositionAndRotation(Vector2(100,100),0);
+		}
+		if (i ==2)
+		{
+			newModel->GetTransform()->SetPositionAndRotation(Vector2(-100,100),0);
+		}
+		if (i ==3)
+		{
+			newModel->GetTransform()->SetPositionAndRotation(Vector2(100,-100),0);
+		}
+		
+
 		// render sqaure
 		glm::mat4 model = glm::mat4(1.0f);
 		// square position
 		model = glm::translate(model, squarePositionData[i]);
 		model = glm::scale(model, squareScaleData[i]);
 		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		m_mainShader->SetUniform4x4("model", model);
+		m_mainShader->SetMatrixUniform("uWorldTransform", newModel->GetTransform()->GetWorldTransform());
 		// draw square
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
 

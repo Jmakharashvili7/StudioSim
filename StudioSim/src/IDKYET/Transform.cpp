@@ -5,12 +5,13 @@ Transform::Transform(class Actor* _owner, int _updateOrder) : Component(_owner, 
 	
 	m_Position = Vector2::Zero;
 	m_Orientation = Vector2::Zero;
-	m_Scale = Vector2::One;
+	m_Scale = Vector2::One * 100;
 	m_Right = GetForward();
 	m_Up = GetUp();
+	m_TransformMatrix = Matrix4::CreateScale(m_Scale);
 	SetPositionAndRotation(m_Position, m_fRotation);
 	//m_TransformMatrix = Matrix3::CreateScale(m_Scale);
-	m_TransformMatrix = Matrix4::CreateScale(m_Scale);
+	
 
 
 	
@@ -134,7 +135,13 @@ void Transform::Translate(Vector2 _translation, Transform _relativeTo)
 	//change this but use local position
 	m_Position += _relativeTo.m_Position;
 	m_Position += _translation;
-	m_TransformMatrix *= Matrix4::CreateTranslation(m_Position);
+	m_TransformMatrix *= Matrix4::CreateTranslation(Vector2(m_Position.x, m_Position.y));
+}
+
+void Transform::SetPosition(Vector2 _translation)
+{
+	m_Position = _translation;
+	m_TransformMatrix *= Matrix4::CreateTranslation(Vector2(m_Position.x, m_Position.y));
 }
 
 void Transform::ComputeTransform()

@@ -759,8 +759,8 @@ public:
 		float temp[4][4] =
 		{
 			{ 1.0f, 0.0f, 0.0f , 0.0f },
-			{ 0.0f, Math::Cos(theta), Math::Sin(theta), 0.0f },
-			{ 0.0f, -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ 0.0f, Math::Cos(theta), -Math::Sin(theta), 0.0f },
+			{ 0.0f, Math::Sin(theta), Math::Cos(theta), 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
 		return Matrix4(temp);
@@ -771,9 +771,9 @@ public:
 	{
 		float temp[4][4] =
 		{
-			{ Math::Cos(theta), 0.0f, -Math::Sin(theta), 0.0f },
+			{ Math::Cos(theta), 0.0f,Math::Sin(theta), 0.0f },
 			{ 0.0f, 1.0f, 0.0f, 0.0f },
-			{ Math::Sin(theta), 0.0f, Math::Cos(theta), 0.0f },
+			{  -Math::Sin(theta), 0.0f, Math::Cos(theta), 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
 		return Matrix4(temp);
@@ -784,8 +784,8 @@ public:
 	{
 		float temp[4][4] =
 		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
+			{ Math::Cos(theta), -Math::Sin(theta), 0.0f, 0.0f },
+			{ Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
 			{ 0.0f, 0.0f, 1.0f, 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
@@ -798,9 +798,9 @@ public:
 
 		float temp[4][4] =
 		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
-			{ -_x * cos(theta) + _y * sin(theta) + _x, -_x * sin(theta) - _y * cos(theta) + _y, 1.0f, 0.0f },
+			{ Math::Cos(theta), -Math::Sin(theta),-_x * cos(theta) + _y * sin(theta) + _x , 0.0f },
+			{ Math::Sin(theta), Math::Cos(theta),-_x * sin(theta) - _y * cos(theta) + _y , 0.0f },
+			{ 0.0f,	0.0f ,1.0f, 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
 		return Matrix4(temp);
@@ -825,10 +825,10 @@ public:
 	{
 		float temp[4][4] =
 		{
-			{ 1.0f, 0.0f, 0.0f, 0.0f },
-			{ 0.0f, 1.0f, 0.0f, 0.0f },
+			{ 1.0f, 0.0f, 0.0f, trans.x },
+			{ 0.0f, 1.0f, 0.0f, trans.y },
 			{ 0.0f, 0.0f, 1.0f, 0.0f },
-			{ trans.x, trans.y, 0, 1.0f }
+			{ 0.0, 0.0f, 0.0f, 1.0f }
 		};
 		return Matrix4(temp);
 	}

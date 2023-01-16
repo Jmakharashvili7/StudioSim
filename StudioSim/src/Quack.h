@@ -24,6 +24,7 @@ public:
 
 	static void Update();
 	static void RenderUpdate();
+	static void Draw();
 	//void PhysicsUpdate();
 
 	static void ShutDown();
@@ -49,6 +50,7 @@ private:
 	static double m_frameDelay;
 
 	static int m_frameCounter;
+	static float XPOS;
 	static int m_currentFrameRate;
 
 	// Square

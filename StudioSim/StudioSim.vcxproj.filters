@@ -87,6 +87,21 @@
     <ClCompile Include="src\QuackCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\IDKYET\Actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDKYET\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDKYET\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDKYET\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDKYET\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Log.h">
@@ -140,9 +155,40 @@
     <ClInclude Include="src\QuackPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IDKYET\Actor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IDKYET\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IDKYET\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IDKYET\Math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IDKYET\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.shader" />
     <None Include="imgui.ini" />
+    <None Include="res\shaders\basic.shader" />
+    <None Include="res\shaders\Transform.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\blue.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\duck.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\twist.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\twist2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
