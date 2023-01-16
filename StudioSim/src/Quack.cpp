@@ -7,6 +7,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "QuackCallbacks.h"
+#include "JsonLoader.h"
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -113,44 +114,9 @@ void Quack::HandleInput()
 
 void Quack::InitObjects()
 {
-	//Setup stuff
-	float vertices[] = {  
-		-0.5f, -0.5f, 0.0f,  
-		 0.5f, -0.5f, 0.0f,
-		 0.5f, 0.5f, 0.0f,   
-		 0.5f, 0.5f, 0.0f,   
-		 -0.5f, 0.5f, 0.0f,  
-		 -0.5f, -0.5f, 0.0f
-	};
-	
-	float colors[] = {
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f
-	};
-
-	float textureCoords[] = {
-		 0.0f, 0.0f,
-		 1.0f, 0.0f,
-		 1.0f, 1.0f,
-		 1.0f, 1.0f,
-		 0.0f, 1.0f,
-		 0.0f, 0.0f
-	};
-
-	GameObjectData data;
-	data.vertices.first = vertices;
-	data.vertices.second = sizeof(vertices);
-	data.colors.first = colors;
-	data.colors.second = sizeof(colors);
-	data.textCoords.first = textureCoords;
-	data.textCoords.second = sizeof(textureCoords);
-
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
 	m_duck = new GameObject(data, "res/textures/duck.png");
-
+	
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();

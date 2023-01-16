@@ -156,5 +156,6 @@
   <ItemGroup>
     <None Include="shaders\basic.shader" />
     <None Include="imgui.ini" />
+    <None Include="..\..\RayTracerFramework\RayTracerSmall\Spheres\Sphere1.json" />
   </ItemGroup>
 </Project>

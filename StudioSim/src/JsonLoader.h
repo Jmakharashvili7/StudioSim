@@ -7,7 +7,7 @@ namespace QuackEngine {
 
 		using json = nlohmann::json;
 
-		static VertexArray* LoadObject2D(std::string path)
+		static GameObjectData* LoadObject2D(const std::string& path)
 		{
 			std::ifstream file(path);
 
@@ -15,16 +15,30 @@ namespace QuackEngine {
 			if (!file)
 			{
 				QE_LOG(path + " does not exist!");
-				return new VertexArray();
+				return new GameObjectData();
 			}
 
-			json data = json::parse(file);
+			json j = json::parse(file);
 
 			// load the json values	
-			auto vectors = data["vectors"].get<std::vector<float>>();
-
+			GameObjectData* data = new GameObjectData();
+			data->vertices = j["vertices"].get<std::vector<float>>();
+			data->colors = j["colors"].get<std::vector<float>>();
+			data->texCoords = j["texCoords"].get<std::vector<float>>();
 			// return the sphere
-			return new VertexArray();
+			return data;
+		}
+
+		static bool StoreGameObject(const std::string& filename, const GameObjectData& data)
+		{
+			json j;
+			j["vertices"] = data.vertices;
+			j["colors"] = data.colors;
+			j["texCoords"] = data.texCoords;
+
+			std::ofstream o(filename + ".json");
+			o << std::setw(4) << j << std::endl;
+			return false;
 		}
 	}
 }

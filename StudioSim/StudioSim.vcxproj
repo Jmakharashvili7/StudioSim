@@ -203,6 +203,7 @@
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\RayTracerFramework\RayTracerSmall\Spheres\Sphere1.json" />
     <None Include="imgui.ini" />
     <None Include="shaders\basic.shader" />
   </ItemGroup>
