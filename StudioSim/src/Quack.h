@@ -10,6 +10,11 @@
 #include "Window.h"
 #include "Texture.h"
 #include "GameObject.h"
+#include "GameTime.h"
+
+class LayerStack;
+class UIRenderer;
+class UILayer;
 
 #define MAX_FRAME_RATE 144
 
@@ -24,6 +29,7 @@ public:
 	//void PhysicsUpdate();
 
 	static void ShutDown();
+	static Window* GetWindow() { return m_window; }
 
 	static void GetFrameRate(float deltatime);
 private:
@@ -37,6 +43,8 @@ public:
 	static bool s_glfwInitialised;
 private:
 	static Window* m_window;
+	static LayerStack* m_layerStack;
+	static UILayer* m_uiMain;
 
 	//Frame related variables
 	static double m_currentTime;
@@ -45,10 +53,13 @@ private:
 	static double m_frameTime;
 	static double m_frameDelay;
 
+	static GameTimer m_gameTimer;
+
 	static int m_frameCounter;
 	static int m_currentFrameRate;
 
 	static GameObject* m_duck;
+	static std::vector<GameObject*> m_gameObjects;
 
 	// Square
 	/*static IndexBuffer* m_ib;
