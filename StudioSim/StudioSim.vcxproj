@@ -162,6 +162,8 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\JsonLoader.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
     <ClCompile Include="src\QuackCallbacks.cpp" />
     <ClCompile Include="src\KeyboardClass.cpp" />
@@ -180,8 +182,11 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\JsonLoader.h" />
+    <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="GUIWindow.h" />
     <ClInclude Include="src\QuackPhysics.h" />
+    <ClInclude Include="src\json.h" />
     <ClInclude Include="src\QuackCallbacks.h" />
     <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\KeyEvent.h" />

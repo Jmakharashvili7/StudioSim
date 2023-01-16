@@ -87,6 +87,12 @@
     <ClCompile Include="src\QuackCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Log.h">
@@ -138,6 +144,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\QuackPhysics.h">
+    <ClInclude Include="src\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

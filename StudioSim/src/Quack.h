@@ -9,6 +9,7 @@
 #include "OrthographicCamera.h"
 #include "Window.h"
 #include "Texture.h"
+#include "GameObject.h"
 
 
 #define MAX_FRAME_RATE 144
@@ -61,6 +62,7 @@ private:
 	static bool m_jumping;
 	static float m_jump_force;
 
+	static GameObject* m_duck;
 
 	// Square
 	/*static IndexBuffer* m_ib;
@@ -68,8 +70,9 @@ private:
 	static VertexBuffer* m_vertexBuffer;
 	static VertexArray m_va;
 	static VertexBufferLayout m_vbLayout;*/
-	static unsigned int m_square1VBO;
-	static unsigned int m_square1VAO;
+	static VertexArray* m_squareVAO;
+	static Texture* m_duckTexture;
+	static glm::vec4 m_objColor;
 
 	static glm::vec3 squarePositionData[];
 	static glm::vec3 squareScaleData[];

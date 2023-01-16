@@ -1,7 +1,4 @@
 #include "Quack.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "IndexBuffer.h"
@@ -29,9 +26,7 @@ double Quack::m_frameDelay;
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
 
-unsigned int Quack::m_square1VBO;
-unsigned int Quack::m_square1VAO;
-
+VertexArray* Quack::m_squareVAO;
 Texture* Quack::m_duckTexture;
 QuackPhysics* Quack::p_QuackPhysics;
 
@@ -50,6 +45,10 @@ glm::vec3 Quack::squareScaleData[] = {
 		glm::vec3(0.5f,0.5f,0.5f),		//1
 		glm::vec3(0.5f,0.5f,0.5f),		//2
 		glm::vec3(0.5f,0.5f,0.5f), };	//3
+
+glm::vec4 Quack::m_objColor;
+
+GameObject* Quack::m_duck;
 
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
@@ -106,7 +105,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'S': // move camera down
@@ -114,7 +112,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.y -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'A': // move camera left
@@ -122,7 +119,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x -= 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		case 'D': // move camera right
@@ -130,7 +126,6 @@ void Quack::HandleInput()
 			glm::vec3 temp = m_mainCamera->GetPosition();
 			temp.x += 0.3f;
 			m_mainCamera->SetPosition(temp);
-			m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
 			break;
 		}
 		}
@@ -140,68 +135,48 @@ void Quack::HandleInput()
 void Quack::InitObjects()
 {
 	//Setup stuff
-	float square1[] = {
-		// positions          // colors           // texture coords
-		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
-		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
-		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // bottom left
-		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,  // top left 
-		 -0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
-		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
+	float vertices[] = {  
+		-0.5f, -0.5f, 0.0f,  
+		 0.5f, -0.5f, 0.0f,
+		 0.5f, 0.5f, 0.0f,   
+		 0.5f, 0.5f, 0.0f,   
+		 -0.5f, 0.5f, 0.0f,  
+		 -0.5f, -0.5f, 0.0f
+	};
+	
+	float colors[] = {
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f
 	};
 
-	float square2[] = {
-		// positions          // colors           // texture coords
-		-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // top right
-		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // bottom right
-		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // bottom left
-		 0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,  // top left 
-		 -0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
-		 -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,  // top left 
+	float textureCoords[] = {
+		 0.0f, 0.0f,
+		 1.0f, 0.0f,
+		 1.0f, 1.0f,
+		 1.0f, 1.0f,
+		 0.0f, 1.0f,
+		 0.0f, 0.0f
 	};
 
+	GameObjectData data;
+	data.vertices.first = vertices;
+	data.vertices.second = sizeof(vertices);
+	data.colors.first = colors;
+	data.colors.second = sizeof(colors);
+	data.textCoords.first = textureCoords;
+	data.textCoords.second = sizeof(textureCoords);
 
+	m_duck = new GameObject(data, "res/textures/duck.png");
 
-	//Create vertex buffer object, vertex array for square1
-	glGenVertexArrays(1, &m_square1VAO);
-
-
-	glGenBuffers(1, &m_square1VBO);
-
-	//Bind vertex array object
-	glBindVertexArray(m_square1VAO);
-
-	//Copy the vertices into the buffer 
-	glBindBuffer(GL_ARRAY_BUFFER, m_square1VBO);
-
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(square1), square1, GL_STATIC_DRAW);
-
-
-	// position attribute
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	// color attribute
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	// texture coord attribute
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glBindVertexArray(0);
-
-	//Texture setup
-	m_duckTexture = new Texture("res/textures/duck.png");
-
-	//Shader setup
+	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
-
-
-	// dont think needed anymore?
-	/*GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));*/
 }
 
 void Quack::Update()
@@ -378,11 +353,6 @@ void Quack::Gravity()
 
 void Quack::ShutDown()
 {
-	glDeleteVertexArrays(1, &m_square1VAO);
-
-	glDeleteBuffers(1, &m_square1VBO);
-
-
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
