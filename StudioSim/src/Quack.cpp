@@ -115,7 +115,7 @@ void Quack::HandleInput()
 void Quack::InitObjects()
 {
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_duck = new GameObject(data, "res/textures/duck.png");
+	m_duck = new GameObject(data, "res/textures/duck2.png");
 	
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
@@ -156,7 +156,7 @@ void Quack::RenderUpdate()
 	// bind shader
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
+	//m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
 	// render sqaure
 	glm::mat4 model = glm::mat4(1.0f);
