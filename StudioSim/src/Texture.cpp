@@ -17,7 +17,7 @@ Texture::Texture(const std::string& path) :
 	m_localBuffer = stbi_load(path.c_str(), &m_width, &m_height, &m_BPP, 0);
 	if (m_localBuffer)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_localBuffer);
+		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_localBuffer));
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -25,6 +25,7 @@ Texture::Texture(const std::string& path) :
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(m_localBuffer);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Texture::~Texture()
