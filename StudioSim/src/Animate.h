@@ -15,8 +15,10 @@ public:
 private:
 	GameObject* object;
 
+	//std::vector<std::pair<int[2], float>> m_spriteSheetData;
+
 	float m_delay;
 
 	int m_spriteFrame;
-	int m_rowToPlay;
+	int m_rowToPlay;  
 };
