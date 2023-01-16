@@ -7,6 +7,7 @@ GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	VertexBuffer vertexBuffer = VertexBuffer(data.vertices.first, data.vertices.second);
 	VertexBuffer colorBuffer = VertexBuffer(data.colors.first, data.colors.second);
 	VertexBuffer texCoordsBuffer = VertexBuffer(data.textCoords.first, data.textCoords.second);
+	VertexBuffer lightBuffer = VertexBuffer(data.lights.first, data.lights.second);
 
 	VertexBufferLayout vertexLayout;
 	vertexLayout.Push<float>(3);
@@ -17,9 +18,13 @@ GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	VertexBufferLayout texCoordsLayout;
 	texCoordsLayout.Push<float>(2);
 
+	VertexBufferLayout lightLayout;
+	lightLayout.Push<float>(4);
+
 	m_va->AddBuffer(vertexBuffer, vertexLayout, VertexType::VERTEX);
 	m_va->AddBuffer(colorBuffer, colorLayout, VertexType::COLOR);
 	m_va->AddBuffer(texCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
+	m_va->AddBuffer(lightBuffer, lightLayout, VertexType::LIGHT);
 }
 
 void GameObject::Draw()

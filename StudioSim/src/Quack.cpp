@@ -52,6 +52,7 @@ glm::vec3 Quack::squareScaleData[] = {
 		glm::vec3(0.5f,0.5f,0.5f), };	//3
 
 glm::vec4 Quack::m_objColor;
+glm::vec4 Quack::m_lightPos;
 
 GameObject* Quack::m_duck;
 
@@ -171,6 +172,15 @@ void Quack::InitObjects()
 		 0.0f, 0.0f
 	};
 
+	float lightNormals[] = {
+		 0.0f, 0.0f, 0.0f,1.0f,
+		 0.0f, 0.0f, 0.0f,1.0f,
+		 1.0f, 1.0f,0.0f,1.0f,
+		 1.0f, 1.0f,0.0f,1.0f,
+		 0.0f, 1.0f,0.0f,1.0f,
+		 0.0f, 0.0f,0.0f,1.0f
+	};
+
 	GameObjectData data;
 	data.vertices.first = vertices;
 	data.vertices.second = sizeof(vertices);
@@ -178,6 +188,8 @@ void Quack::InitObjects()
 	data.colors.second = sizeof(colors);
 	data.textCoords.first = textureCoords;
 	data.textCoords.second = sizeof(textureCoords);
+	data.lights.first = lightNormals;
+	data.lights.second = sizeof(lightNormals);
 
 	m_duck = new GameObject(data, "res/textures/duck.png");
 
@@ -218,6 +230,8 @@ void Quack::Update()
 
 void Quack::RenderUpdate()
 {
+	
+
 	// tell imgui we are working with a new frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -232,6 +246,64 @@ void Quack::RenderUpdate()
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
+	//Light
+	m_mainShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
+
+	//Material Struct
+	m_mainShader->SetUniform1i("u_material.diffuse", 0);
+	m_mainShader->SetUniform1i("u_material.specular", 1);
+	m_mainShader->SetUniform1f("u_material.shine", 32.0f);
+
+	//Directional Light
+	m_mainShader->SetUniform4f("u_dirLight.direction", -0.2f, -1.0f, -0.3f, 1.0f);
+	m_mainShader->SetUniform4f("u_dirLight.ambient", 0.05f, 2.05f, 2.05f, 1.0f);
+	m_mainShader->SetUniform4f("u_dirLight.diffuse", 5.4f, 3.4f, 1.4f, 1.0f);
+	m_mainShader->SetUniform4f("u_dirLight.specular", 3.5f, 5.5f, 2.5f, 1.0f);
+
+	//Point Lights
+	glm::vec3 pointLightPositions[] = {
+	   glm::vec3(0.7f,  0.2f,  2.0f)
+	};
+	m_mainShader->SetUniform4f("u_pointLights[0].position" , pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z, 1.0f);
+	m_mainShader->SetUniform4f("u_pointLights[0].ambient" , 5.0f, 5.05f, 5.05f, 1.0f);
+	m_mainShader->SetUniform4f("u_pointLights[0].diffuse" , 2.8f, 2.8f, 2.8f, 1.0f);
+	m_mainShader->SetUniform4f("u_pointLights[0].specular" , 1.0f, 1.0f, 1.0f, 1.0f);
+	m_mainShader->SetUniform1f("u_pointLights[0].constant" , 1.0f);
+	m_mainShader->SetUniform1f("u_pointLights[0].linear" , 0.09f);
+	m_mainShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
+
+	//Spot Light
+	m_mainShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
+	m_mainShader->SetUniform4f("u_spotLight.direction", 2.0f, 2.0f, -1.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_spotLight.ambient", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_spotLight.diffuse", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_spotLight.specular", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_mainShader->SetUniform1f("u_spotLight.constant", 1.0f);
+	m_mainShader->SetUniform1f("u_spotLight.linear", 0.09f);
+	m_mainShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
+	m_mainShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+	m_mainShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
+	//Light Struct
+	/*m_mainShader->SetUniform4f("u_light.ambient", 0.1f, 0.1f, 0.1f,  1.0f);
+	m_mainShader->SetUniform4f("u_light.diffuse", 0.8f, 0.8f, 0.8f,  1.0f);
+	m_mainShader->SetUniform4f("u_light.specular", 1.0f, 1.0f, 1.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_light.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
+	m_mainShader->SetUniform4f("u_light.direction", 0.0f, 0.0f, -1.0f, 1.0f);
+
+	m_mainShader->SetUniform1f("u_light.constant", 1.0f);
+	m_mainShader->SetUniform1f("u_light.linear", 0.09f);
+	m_mainShader->SetUniform1f("u_light.quadratic", 0.032f);
+	m_mainShader->SetUniform1f("u_light.cutOff", glm::cos(glm::radians(12.5f)));
+	m_mainShader->SetUniform1f("u_light.outerCutOff", glm::cos(glm::radians(17.5f)));*/
+
+	// render sqaure
+	glm::mat4 model = glm::mat4(1.0f);
+	// square position
+	model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
+	m_mainShader->SetUniform4x4("u_model", model);
+	// draw square
+	m_duck->Draw();
 
 	// bind vertex array object
 	//glBindVertexArray(m_square1VAO);

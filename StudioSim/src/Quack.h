@@ -99,6 +99,8 @@ private:
 	
 	static QuackPhysics* p_QuackPhysics;
 	
+	static glm::vec4 m_lightPos;
+
 	static Shader* m_mainShader;
 	static OrthographicCamera* m_mainCamera;
 };
