@@ -23,15 +23,18 @@ double Quack::m_deltaTime;
 double Quack::m_frameTime;
 double Quack::m_frameDelay;
 
+
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
 
 VertexArray* Quack::m_squareVAO;
-Texture* Quack::m_duckTexture;
 QuackPhysics* Quack::p_QuackPhysics;
 
 bool Quack::m_jumping = false;
 float Quack::m_jump_force = 10.0f;
+bool Quack::m_thrown = false;
+float Quack::m_throw_force = 10.0f;
+Quack::Facing Quack::m_direction;
 
 
 glm::vec3 Quack::squarePositionData[] = {
@@ -135,15 +138,15 @@ void Quack::HandleInput()
 void Quack::InitObjects()
 {
 	//Setup stuff
-	float vertices[] = {  
-		-0.5f, -0.5f, 0.0f,  
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
-		 0.5f, 0.5f, 0.0f,   
-		 0.5f, 0.5f, 0.0f,   
-		 -0.5f, 0.5f, 0.0f,  
+		 0.5f, 0.5f, 0.0f,
+		 0.5f, 0.5f, 0.0f,
+		 -0.5f, 0.5f, 0.0f,
 		 -0.5f, -0.5f, 0.0f
 	};
-	
+
 	float colors[] = {
 		 1.0f, 1.0f, 1.0f,
 		 1.0f, 1.0f, 1.0f,
@@ -194,6 +197,11 @@ void Quack::Update()
 	{
 		JumpDecrement();
 	}
+	if (m_thrown)
+	{
+		ProjectileDecrement(m_direction);
+	}
+
 
 	// get mouse position
 	double xpos, ypos;
@@ -215,17 +223,12 @@ void Quack::RenderUpdate()
 
 	// bind shader
 	m_mainShader->Bind();
+	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
-	// update camera projection
-	m_mainShader->SetUniform4x4("projection", m_mainCamera->GetViewProjectionMatrix());
-	// update camera view
-	m_mainShader->SetUniform4x4("view", m_mainCamera->GetViewMatrix());
-
-	// bind texture
-	m_duckTexture->Bind();
 
 	// bind vertex array object
-	glBindVertexArray(m_square1VAO);
+	//glBindVertexArray(m_square1VAO);
 	for (unsigned int i = 0; i < 4; i++)
 	{
 		// render sqaure
@@ -234,7 +237,9 @@ void Quack::RenderUpdate()
 		model = glm::translate(model, squarePositionData[i]);
 		model = glm::scale(model, squareScaleData[i]);
 		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		m_mainShader->SetUniform4x4("model", model);
+		m_mainShader->SetUniform4x4("u_model", model);
+		// bind texture
+		m_duck->Draw();
 		// draw square
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
@@ -301,13 +306,30 @@ void Quack::ImGUIInit()
 		Gravity();
 	}
 
+
 	/// <summary>
 	/// Create button for jump
 	/// </summary>
 	if (ImGui::Button("Jump"))
 	{
 		Jump();
+		gravityEnabled = true;
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Throw right"))
+	{
+		Projectile();
+		gravityEnabled = true;
+		m_direction = Facing::RIGHT;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Throw left"))
+	{
+		Projectile();
+		gravityEnabled = true;
+		m_direction = Facing::LEFT;
+	}
+
 
 	/// <summary>
 	/// End of IMGUI window
@@ -331,6 +353,7 @@ void Quack::Jump()
 		m_jumping = true;
 	}
 }
+
 void Quack::JumpDecrement()
 {
 	//adjust position
@@ -343,6 +366,35 @@ void Quack::JumpDecrement()
 	if (m_jump_force <= 0.0f)
 	{
 		m_jumping = false;
+	}
+}
+
+void Quack::Projectile()
+{
+	if (!m_thrown)
+	{
+		m_throw_force = PROJECTILE_FORCE;
+		m_thrown = true;
+	}
+}
+
+void Quack::ProjectileDecrement(Facing direction)
+{
+	if(direction==RIGHT)
+	//adjust position
+	squarePositionData[0].x += m_throw_force * m_deltaTime;
+	else if(direction==LEFT)
+	//adjust position
+	squarePositionData[0].x -= m_throw_force * m_deltaTime;
+	//squarePositionData[0].y += m_throw_force * m_deltaTime;
+
+	//reduce jump force
+	m_throw_force -= PROJECTILE_FORCE/2 * m_deltaTime;
+
+	//is jump force 0?
+	if (m_throw_force <= 0.0f)
+	{
+		m_thrown = false;
 	}
 }
 void Quack::Gravity()
