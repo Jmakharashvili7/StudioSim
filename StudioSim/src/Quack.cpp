@@ -35,6 +35,7 @@ float Quack::m_jump_force = 10.0f;
 bool Quack::m_thrown = false;
 float Quack::m_throw_force = 10.0f;
 Quack::Facing Quack::m_direction;
+float Quack::m_rotation;
 
 
 glm::vec3 Quack::squarePositionData[] = {
@@ -130,6 +131,10 @@ void Quack::HandleInput()
 			temp.x += 0.3f;
 			m_mainCamera->SetPosition(temp);
 			break;
+		}
+		case ImGuiKey_UpArrow:
+		{
+			Jump();
 		}
 		}
 	}
@@ -236,6 +241,7 @@ void Quack::RenderUpdate()
 		// square position
 		model = glm::translate(model, squarePositionData[i]);
 		model = glm::scale(model, squareScaleData[i]);
+		model = glm::rotate(model, glm::radians(m_rotation), glm::vec3(0, 0, 1));
 		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		m_mainShader->SetUniform4x4("u_model", model);
 		// bind texture
@@ -254,17 +260,31 @@ void Quack::RenderUpdate()
 	glfwPollEvents();
 }
 
+
+
 void Quack::ImGUIInit()
 {
-	//position, center
+	////position, center
 	BoundingBox box1 = BoundingBox(glm::vec3(squarePositionData[0].x, squarePositionData[0].y, squarePositionData[0].z),
 		//size
 		glm::vec3(squareScaleData[0].x, squareScaleData[0].y, squareScaleData[0].z));
 
-	BoundingBox box2 = BoundingBox(glm::vec3(squarePositionData[3].x, squarePositionData[3].y, squarePositionData[3].z),
+	BoundingBox box2 = BoundingBox(glm::vec3(squarePositionData[1].x, squarePositionData[1].y, squarePositionData[1].z),
+		//size
+		glm::vec3(squareScaleData[1].x, squareScaleData[1].y, squareScaleData[1].z));
+
+	BoundingBox box3 = BoundingBox(glm::vec3(squarePositionData[2].x, squarePositionData[2].y, squarePositionData[2].z),
+		//size
+		glm::vec3(squareScaleData[2].x, squareScaleData[2].y, squareScaleData[2].z));
+
+	BoundingBox box4 = BoundingBox(glm::vec3(squarePositionData[3].x, squarePositionData[3].y, squarePositionData[3].z),
 		//size
 		glm::vec3(squareScaleData[3].x, squareScaleData[3].y, squareScaleData[3].z));
-
+	BoundingBox boxes[NUMBER_OF_SQUARES]{};
+	for (int i = 0; i < NUMBER_OF_SQUARES; i++)
+		boxes[i] = BoundingBox(glm::vec3(squarePositionData[i].x, squarePositionData[i].y, squarePositionData[i].z),
+			//size
+			glm::vec3(squareScaleData[i].x, squareScaleData[i].y, squareScaleData[i].z));
 	/// <summary>
 	/// Start IMGUI window
 	/// </summary>
@@ -279,6 +299,7 @@ void Quack::ImGUIInit()
 	ImGui::DragFloat3("Second Square", &squarePositionData[1].x, 0.001f);
 	ImGui::DragFloat3("Third Square", &squarePositionData[2].x, 0.001f);
 	ImGui::DragFloat3("Fourth Square", &squarePositionData[3].x, 0.001f);
+	ImGui::DragFloat("Rotation", &m_rotation, 0.1f);
 
 	/// <summary>
 	/// Check box, needs to be static to be pressable
@@ -291,22 +312,26 @@ void Quack::ImGUIInit()
 	/// Check collision between box 1(top left) with box 4(bottom right)
 	/// If they donw collide, add gravity to box 1
 	/// </summary>
-	if (p_QuackPhysics->BoxToBox(box1, box2))
-	{
-		areColliding = true;
-		//std::cout << "The objects are collidiing";
-	}
-	else
-	{
-		areColliding = false;
-		//std::cout << "The objects are not collidiing";
-	}
+	for (int i = 0; i < NUMBER_OF_SQUARES; i++)
+		for (int j = 0; j < NUMBER_OF_SQUARES && j != i; j++)
+		{
+			if (p_QuackPhysics->BoxToBox(box1, box3) ||
+				p_QuackPhysics->BoxToBox(box1, box4))
+			{
+				areColliding = true;
+				//std::cout << "The objects are collidiing";
+			}
+			else
+			{
+				areColliding = false;
+				//std::cout << "The objects are not collidiing";
+			}
+
+		}
 	if (gravityEnabled && !areColliding)
 	{
 		Gravity();
 	}
-
-
 	/// <summary>
 	/// Create button for jump
 	/// </summary>
@@ -316,18 +341,20 @@ void Quack::ImGUIInit()
 		gravityEnabled = true;
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Throw right"))
-	{
-		Projectile();
-		gravityEnabled = true;
-		m_direction = Facing::RIGHT;
-	}
-	ImGui::SameLine();
 	if (ImGui::Button("Throw left"))
 	{
 		Projectile();
+		Jump();
 		gravityEnabled = true;
 		m_direction = Facing::LEFT;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Throw right"))
+	{
+		Projectile();
+		Jump();
+		gravityEnabled = true;
+		m_direction = Facing::RIGHT;
 	}
 
 
@@ -380,16 +407,16 @@ void Quack::Projectile()
 
 void Quack::ProjectileDecrement(Facing direction)
 {
-	if(direction==RIGHT)
-	//adjust position
-	squarePositionData[0].x += m_throw_force * m_deltaTime;
-	else if(direction==LEFT)
-	//adjust position
-	squarePositionData[0].x -= m_throw_force * m_deltaTime;
+	if (direction == RIGHT)
+		//adjust position
+		squarePositionData[0].x += m_throw_force * m_deltaTime;
+	else if (direction == LEFT)
+		//adjust position
+		squarePositionData[0].x -= m_throw_force * m_deltaTime;
 	//squarePositionData[0].y += m_throw_force * m_deltaTime;
 
 	//reduce jump force
-	m_throw_force -= PROJECTILE_FORCE/2 * m_deltaTime;
+	m_throw_force -= PROJECTILE_FORCE / 2 * m_deltaTime;
 
 	//is jump force 0?
 	if (m_throw_force <= 0.0f)

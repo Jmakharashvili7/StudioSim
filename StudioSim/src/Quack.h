@@ -15,7 +15,8 @@
 #define MAX_FRAME_RATE 144
 #define GFORCE 9.81
 #define JUMP_HEIGHT 3.0f
-#define PROJECTILE_FORCE 1.0f
+#define PROJECTILE_FORCE 1.388f
+#define NUMBER_OF_SQUARES 4
 
 class QuackPhysics;
 
@@ -48,6 +49,8 @@ public:
 
 	static void Projectile();
 	static void ProjectileDecrement(Facing direction);
+
+	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
 	Quack();
 	~Quack();
@@ -75,6 +78,8 @@ private:
 	static bool m_thrown;
 	static float m_throw_force;
 	static Facing m_direction;
+	static float m_rotation;
+
 
 	static GameObject* m_duck;
 

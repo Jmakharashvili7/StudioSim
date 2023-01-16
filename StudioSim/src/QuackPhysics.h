@@ -1,7 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
 
-
 struct BoundingBox
 {
 	glm::vec3 center;
@@ -24,9 +23,22 @@ struct BoundingBox
 
 struct BoundingSphere
 {
+	BoundingSphere()
+	{
+		center.x = 0;
+		center.y = 0;
+		center.z = 0;
+		radius = 0;
+	}
+	BoundingSphere(glm::vec3 position, float radius)
+	{
+		center = position;
+		this->radius = radius;
+	}
 	glm::vec3 center;
 	float radius;
 };
+
 class QuackPhysics
 {
 public:
