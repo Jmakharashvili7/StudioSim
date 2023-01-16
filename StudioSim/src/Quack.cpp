@@ -36,7 +36,7 @@ bool Quack::m_thrown = false;
 float Quack::m_throw_force = 10.0f;
 Quack::Facing Quack::m_direction;
 float Quack::m_rotation;
-float Quack::m_projectileForce;
+float Quack::m_projectileForce = 1.388f;
 
 
 glm::vec3 Quack::squarePositionData[] = {
@@ -53,6 +53,22 @@ glm::vec3 Quack::squareScaleData[] = {
 
 glm::vec4 Quack::m_objColor;
 glm::vec4 Quack::m_lightPos;
+
+glm::vec4 Quack::m_dirAmbient = { glm::vec4(0.5, 0.5, 0.5, 1.0f) };
+glm::vec4 Quack::m_dirDiffuse = { glm::vec4(5.2f, 3.4f, 1.8f, 1.0f) };
+glm::vec4 Quack::m_dirSpecular = { glm::vec4(3.4f, 5.43f, 2.4f, 1.0f) };
+
+glm::vec3 Quack::m_pointLightPositions[] =
+{
+	glm::vec3(0.0f,  0.0f,  -2.0f)
+};
+glm::vec4 Quack::m_pointAmbient = { glm::vec4(-0.15f, 0.15f, 0.15f, 1.0f) };
+glm::vec4 Quack::m_pointDiffuse = { glm::vec4(3.42f, 3.08f, 3.2f, 1.0f) };
+glm::vec4 Quack::m_pointSpecular = { glm::vec4(1.3f, 0.6f, 1.85f, 1.0f) };
+
+glm::vec4 Quack::m_spotAmbient = { glm::vec4(3.5f, 0.2f, 0.05f, 1.0f) };
+glm::vec4 Quack::m_spotDiffuse = { glm::vec4(0.15f, 0.05f, 0.0f, 1.0f) };
+glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 
 GameObject* Quack::m_duck;
 
@@ -230,7 +246,7 @@ void Quack::Update()
 
 void Quack::RenderUpdate()
 {
-	
+
 
 	// tell imgui we are working with a new frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -255,52 +271,40 @@ void Quack::RenderUpdate()
 	m_mainShader->SetUniform1f("u_material.shine", 32.0f);
 
 	//Directional Light
-	m_mainShader->SetUniform4f("u_dirLight.direction", -0.2f, -1.0f, -0.3f, 1.0f);
-	m_mainShader->SetUniform4f("u_dirLight.ambient", 0.05f, 2.05f, 2.05f, 1.0f);
-	m_mainShader->SetUniform4f("u_dirLight.diffuse", 5.4f, 3.4f, 1.4f, 1.0f);
-	m_mainShader->SetUniform4f("u_dirLight.specular", 3.5f, 5.5f, 2.5f, 1.0f);
+	m_mainShader->SetUniform4f("u_dirLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	m_mainShader->SetUniform4f("u_dirLight.ambient", m_dirAmbient.x, m_dirAmbient.y, m_dirAmbient.z, m_dirAmbient.a);
+	m_mainShader->SetUniform4f("u_dirLight.diffuse", m_dirDiffuse.x, m_dirDiffuse.y, m_dirDiffuse.z, m_dirDiffuse.a);
+	m_mainShader->SetUniform4f("u_dirLight.specular", m_dirSpecular.x, m_dirSpecular.y, m_dirSpecular.z, m_dirSpecular.a);
 
 	//Point Lights
-	glm::vec3 pointLightPositions[] = {
-	   glm::vec3(0.7f,  0.2f,  2.0f)
-	};
-	m_mainShader->SetUniform4f("u_pointLights[0].position" , pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z, 1.0f);
-	m_mainShader->SetUniform4f("u_pointLights[0].ambient" , 5.0f, 5.05f, 5.05f, 1.0f);
-	m_mainShader->SetUniform4f("u_pointLights[0].diffuse" , 2.8f, 2.8f, 2.8f, 1.0f);
-	m_mainShader->SetUniform4f("u_pointLights[0].specular" , 1.0f, 1.0f, 1.0f, 1.0f);
-	m_mainShader->SetUniform1f("u_pointLights[0].constant" , 1.0f);
-	m_mainShader->SetUniform1f("u_pointLights[0].linear" , 0.09f);
+	m_mainShader->SetUniform4f("u_pointLights[0].position", m_pointLightPositions[0].x, m_pointLightPositions[0].y, m_pointLightPositions[0].z, 1.0f);
+	m_mainShader->SetUniform4f("u_pointLights[0].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	m_mainShader->SetUniform4f("u_pointLights[0].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	m_mainShader->SetUniform4f("u_pointLights[0].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	//dont change																													
+	m_mainShader->SetUniform1f("u_pointLights[0].constant", 1.0f);
+	m_mainShader->SetUniform1f("u_pointLights[0].linear", 0.09f);
 	m_mainShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
 
 	//Spot Light
 	m_mainShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
-	m_mainShader->SetUniform4f("u_spotLight.direction", 2.0f, 2.0f, -1.0f, 1.0f);
-	m_mainShader->SetUniform4f("u_spotLight.ambient", 5.0f, 5.0f, 5.0f, 1.0f);
-	m_mainShader->SetUniform4f("u_spotLight.diffuse", 5.0f, 5.0f, 5.0f, 1.0f);
-	m_mainShader->SetUniform4f("u_spotLight.specular", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	m_mainShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
+	m_mainShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
+	m_mainShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
+	//dont change
 	m_mainShader->SetUniform1f("u_spotLight.constant", 1.0f);
 	m_mainShader->SetUniform1f("u_spotLight.linear", 0.09f);
 	m_mainShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
 	m_mainShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 	m_mainShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
-	//Light Struct
-	/*m_mainShader->SetUniform4f("u_light.ambient", 0.1f, 0.1f, 0.1f,  1.0f);
-	m_mainShader->SetUniform4f("u_light.diffuse", 0.8f, 0.8f, 0.8f,  1.0f);
-	m_mainShader->SetUniform4f("u_light.specular", 1.0f, 1.0f, 1.0f, 1.0f);
-	m_mainShader->SetUniform4f("u_light.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
-	m_mainShader->SetUniform4f("u_light.direction", 0.0f, 0.0f, -1.0f, 1.0f);
 
-	m_mainShader->SetUniform1f("u_light.constant", 1.0f);
-	m_mainShader->SetUniform1f("u_light.linear", 0.09f);
-	m_mainShader->SetUniform1f("u_light.quadratic", 0.032f);
-	m_mainShader->SetUniform1f("u_light.cutOff", glm::cos(glm::radians(12.5f)));
-	m_mainShader->SetUniform1f("u_light.outerCutOff", glm::cos(glm::radians(17.5f)));*/
 
 	// render sqaure
 	glm::mat4 model = glm::mat4(1.0f);
 	// square position
-	model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 	m_mainShader->SetUniform4x4("u_model", model);
 	// draw square
 	m_duck->Draw();
@@ -323,7 +327,6 @@ void Quack::RenderUpdate()
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 
-
 	ImGUIInit();
 
 
@@ -332,7 +335,6 @@ void Quack::RenderUpdate()
 	/* Poll for and process events */
 	glfwPollEvents();
 }
-
 
 
 void Quack::ImGUIInit()
@@ -374,6 +376,7 @@ void Quack::ImGUIInit()
 	ImGui::DragFloat3("Fourth Square", &squarePositionData[3].x, 0.001f);
 	ImGui::DragFloat("Rotation", &m_rotation, 0.1f);
 	ImGui::DragFloat("Force", &m_projectileForce, 0.1f);
+
 
 	/// <summary>
 	/// Check box, needs to be static to be pressable
@@ -431,6 +434,33 @@ void Quack::ImGUIInit()
 		m_direction = Facing::RIGHT;
 	}
 
+	if (ImGui::TreeNode("Lights"))
+	{
+		if (ImGui::TreeNode("Directional"))
+		{
+			ImGui::DragFloat4("Ambient", &m_dirAmbient.x, 0.001f);
+			ImGui::DragFloat4("Diffuse", &m_dirDiffuse.x, 0.001f);
+			ImGui::DragFloat4("Specular", &m_dirSpecular.x, 0.001f);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Point"))
+		{
+			ImGui::DragFloat3("Position", &m_pointLightPositions[0].x, 0.01f);
+			ImGui::DragFloat4("Ambient", &m_pointAmbient.x, 0.001f);
+			ImGui::DragFloat4("Diffuse", &m_pointDiffuse.x, 0.001f);
+			ImGui::DragFloat4("Specular", &m_pointSpecular.x, 0.001f);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Spot"))
+		{
+			ImGui::DragFloat4("Ambient", &m_spotAmbient.x, 0.001f);
+			ImGui::DragFloat4("Diffuse", &m_spotDiffuse.x, 0.001f);
+			ImGui::DragFloat4("Specular", &m_spotSpecular.x, 0.001f);
+			ImGui::TreePop();
+		}
+
+
+	}
 
 	/// <summary>
 	/// End of IMGUI window

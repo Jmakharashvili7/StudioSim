@@ -15,7 +15,6 @@
 #define MAX_FRAME_RATE 144
 #define GFORCE 9.81
 #define JUMP_HEIGHT 3.0f
-#define PROJECTILE_FORCE 1.388f
 #define NUMBER_OF_SQUARES 4
 
 class QuackPhysics;
@@ -24,11 +23,11 @@ class QuackPhysics;
 class Quack
 {
 public:
- enum Facing
-{
-	RIGHT,
-	LEFT
-};
+	enum Facing
+	{
+		RIGHT,
+		LEFT
+	};
 	static int InitEngine();
 	static void InitObjects();
 
@@ -41,7 +40,7 @@ public:
 	static void GetFrameRate(float deltatime);
 
 	static void ImGUIInit();
-	
+
 	static void Gravity();
 
 	static void Jump();
@@ -84,22 +83,31 @@ private:
 
 	static GameObject* m_duck;
 
-	// Square
-	/*static IndexBuffer* m_ib;
-	static VertexBuffer* m_vb;
-	static VertexBuffer* m_vertexBuffer;
-	static VertexArray m_va;
-	static VertexBufferLayout m_vbLayout;*/
+
 	static VertexArray* m_squareVAO;
 	static glm::vec4 m_objColor;
 
 	static glm::vec3 squarePositionData[];
 	static glm::vec3 squareScaleData[];
-	
-	
+
+
 	static QuackPhysics* p_QuackPhysics;
-	
+
+	//lights
 	static glm::vec4 m_lightPos;
+	static glm::vec4 m_dirAmbient;
+	static glm::vec4 m_dirDiffuse;
+	static glm::vec4 m_dirSpecular;
+
+	static glm::vec3 m_pointLightPositions[];
+	static glm::vec4 m_pointAmbient;
+	static glm::vec4 m_pointDiffuse;
+	static glm::vec4 m_pointSpecular;
+
+	static glm::vec4 m_spotAmbient;
+	static glm::vec4 m_spotDiffuse;
+	static glm::vec4 m_spotSpecular;
+
 
 	static Shader* m_mainShader;
 	static OrthographicCamera* m_mainCamera;
