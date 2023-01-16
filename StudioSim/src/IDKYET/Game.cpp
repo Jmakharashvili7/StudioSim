@@ -36,7 +36,6 @@ void Game::RemoveActor(Actor* _actor)
 	{
 		remove(m_PendingActors.begin(), m_PendingActors.end(), _actor);
 		
-		
 	}
 	else
 	{

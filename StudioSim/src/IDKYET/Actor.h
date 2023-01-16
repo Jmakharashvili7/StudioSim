@@ -32,6 +32,9 @@ public:
 	 State GetState() { return m_State; }
 	 void SetState(State _newState) { m_State = _newState; }
 
+	 class Transform* GetTransform();
+
+
 	 //add/remove component
 	 void AddComponent(class Component* _component);
 	 void RemoveComponent(class Component* _component);
@@ -39,6 +42,8 @@ public:
 private:
 	//Actor's State
 	State m_State;
+
+	class Transform* m_Transform;
 
 	//Transform
 	//this should contain things like position, scale and roataion classes and the function to those classes

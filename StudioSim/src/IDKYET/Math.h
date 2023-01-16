@@ -524,6 +524,19 @@ public:
 		return Matrix3(temp);
 	}
 
+	// Create a rotation matrix about point
+	// theta is in radians
+	static Matrix3 CreateRotationAboutPoint(float _x, float _y, float theta)
+	{
+		float temp[3][3] =
+		{
+			{ Math::Cos(theta), Math::Sin(theta), 0.0f },
+			{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ -_x*cos(theta)+ _y * sin(theta) + _x, -_x*sin(theta) - _y * cos(theta) +_y, 1.0f },
+		};
+		return Matrix3(temp);
+	}
+
 	// Create a translation matrix (on the xy-plane)
 	static Matrix3 CreateTranslation(const Vector2& trans)
 	{
@@ -729,6 +742,11 @@ public:
 		return CreateScale(scaleVector.x, scaleVector.y, scaleVector.z);
 	}
 
+	static Matrix4 CreateScale(const Vector2& scaleVector)
+	{
+		return CreateScale(scaleVector.x, scaleVector.y, 0);
+	}
+
 	// Create a scale matrix with a uniform factor
 	static Matrix4 CreateScale(float scale)
 	{
@@ -774,6 +792,20 @@ public:
 		return Matrix4(temp);
 	}
 
+	// Rotation about z-axis
+	static Matrix4 CreateRotationZAboutPoint(float _x, float _y, float theta)
+	{
+
+		float temp[4][4] =
+		{
+			{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
+			{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
+			{ -_x * cos(theta) + _y * sin(theta) + _x, -_x * sin(theta) - _y * cos(theta) + _y, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix4(temp);
+	}
+
 	// Create a rotation matrix from a quaternion
 	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
 
@@ -785,6 +817,18 @@ public:
 			{ 0.0f, 1.0f, 0.0f, 0.0f },
 			{ 0.0f, 0.0f, 1.0f, 0.0f },
 			{ trans.x, trans.y, trans.z, 1.0f }
+		};
+		return Matrix4(temp);
+	}
+	
+	static Matrix4 CreateTranslation(const Vector2& trans)
+	{
+		float temp[4][4] =
+		{
+			{ 1.0f, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f, 0.0f },
+			{ trans.x, trans.y, 0, 1.0f }
 		};
 		return Matrix4(temp);
 	}

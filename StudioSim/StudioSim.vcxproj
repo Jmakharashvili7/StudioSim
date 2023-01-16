@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -155,11 +155,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDK Yet\Actor.cpp" />
-    <ClCompile Include="IDK Yet\Component.cpp" />
-    <ClCompile Include="IDK Yet\Game.cpp" />
-    <ClCompile Include="IDK Yet\Transform.cpp" />
-    <ClCompile Include="IDK Yet\Math.cpp" />
+    <ClCompile Include="src\IDKYET\Actor.cpp" />
+    <ClCompile Include="src\IDKYET\Component.cpp" />
+    <ClCompile Include="src\IDKYET\Game.cpp" />
+    <ClCompile Include="src\IDKYET\Transform.cpp" />
+    <ClCompile Include="src\IDKYET\Math.cpp" />
     <ClCompile Include="src\OrthographicCamera.cpp" />
     <ClCompile Include="src\Quack.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -172,11 +172,11 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IDK Yet\Actor.h" />
-    <ClInclude Include="IDK Yet\Component.h" />
-    <ClInclude Include="IDK Yet\Game.h" />
-    <ClInclude Include="IDK Yet\Transform.h" />
-    <ClInclude Include="IDK Yet\Math.h" />
+    <ClInclude Include="src\IDKYET\Actor.h" />
+    <ClInclude Include="src\IDKYET\Component.h" />
+    <ClInclude Include="src\IDKYET\Game.h" />
+    <ClInclude Include="src\IDKYET\Transform.h" />
+    <ClInclude Include="src\IDKYET\Math.h" />
     <ClInclude Include="src\OrthographicCamera.h" />
     <ClInclude Include="src\Quack.h" />
     <ClInclude Include="src\Shader.h" />

@@ -27,6 +27,8 @@ private:
 
 	GLFWwindow* m_window;
 
+	class Game* m_GameTest;
+
 	bool m_running;
 
 	//Frame related variables

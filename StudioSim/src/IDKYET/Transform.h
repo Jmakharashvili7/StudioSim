@@ -33,8 +33,8 @@ public:
 	Transform(class Actor* _owner, int _updateOrder);
 	//Apply transformations in this order
 	Vector2 m_Scale;//scale first
-	Vector2 m_Orientation;//rotation second
-	float m_fRotation;
+	Vector2 m_Orientation;//remove or dont use
+	float m_fRotation;//rotation second
 	Vector2 m_Position;// translation 3rd
 
 	Vector2 transform;
@@ -43,12 +43,13 @@ public:
 	//Vector2 m_LocalPosition;
 	//Vector2 m_LocalRotation;
 	//Vector2 m_LocalScale;
-	Vector2 m_LocalToWorldMatrix;
-	Vector2 m_WorldToLocalMatrix;
+	//Vector2 m_LocalToWorldMatrix;
+	//Vector2 m_WorldToLocalMatrix;
 	Vector2 m_Right;
 	Vector2 m_Up;
 
 	Vector2 GetForward() const;
+	Vector2 GetUp() const;
 
 	/// <summary>
 	/// Rotates the transform so the forward vector points at /target/'s current position
@@ -57,20 +58,22 @@ public:
 	void LookAt(Transform _target);
 
 
-	/// <summary>
-	/// Then it rotates the transform to point its up direction vector in the direction hinted at by the worldUp vector. If you leave out the worldUp parameter, the function will use the world y axis. The up vector of the rotation will only match the worldUp vector if the forward direction is perpendicular to worldUp.
-	/// </summary>
-	/// <param name="_target"></param>
-	/// <param name="_worldUp"></param>
-	void LookAt(Transform _target, Vector2 _worldUp = Vector2(1,0));
 
 	/// <summary>
-	/// Rotates the object around the given axis by the number of degrees defined by the given angle.
+	/// Rotates the object by the number of degrees defined by the given angle adds or takes away degree.
 	/// </summary>
 	/// <param name="_axis"></param>
 	/// <param name="_angle"></param>
 	/// <param name="_relativeTo"></param>
 	void Rotate(float _angle, Space _relativeTo = Space::ESelf, bool clockwise = true);
+
+	/// <summary>
+	/// Sets the roatation to a given angle
+	/// </summary>
+	/// <param name="_axis"></param>
+	/// <param name="_angle"></param>
+	/// <param name="_relativeTo"></param>
+	void SetRotation(float _angle, Space _relativeTo = Space::ESelf, bool clockwise = true);
 
 
 	/// <summary>
@@ -80,6 +83,15 @@ public:
 	/// <param name="_axis"></param>
 	/// <param name="_angle"></param>
 	void RotateAround(Vector2 _point, float _angle);
+
+
+	/// <summary>
+	/// Rotates the transform about axis passing through point in world coordinates by angle degrees.
+	/// </summary>
+	/// <param name="_point"></param>
+	/// <param name="_axis"></param>
+	/// <param name="_angle"></param>
+	void SetRotateAround(Vector2 _point, float _angle);
 
 
 	/// <summary>
@@ -95,7 +107,7 @@ public:
 	/// </summary>
 	/// <param name="_localPosition"></param>
 	/// <param name="_localRotation"></param>
-	void SetPositionAndRotation(Vector2 _localPosition, Vector2 _localRotation);
+	void SetPositionAndRotation(Vector2 _Position, float _Rotation);
 
 
 	/// <summary>
@@ -158,7 +170,9 @@ public:
 
 
 	private:
-		Matrix3 m_TransformMatrix;
+		Matrix4 m_TransformMatrix;
+		bool m_ReComputeWorldTransform;
+		void ComputeTransform();
 
 };
 

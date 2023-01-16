@@ -1,9 +1,11 @@
 #include "Actor.h"
 #include "Component.h"
+#include "Transform.h"
 
 Actor::Actor()
 {
 	// init all things such as transform, components etc
+	m_Transform = new Transform(this, 0);
 }
 
 Actor::~Actor()
@@ -42,6 +44,11 @@ void Actor::UpdateActor(float _deltaTime)
 	{
 		return;
 	}
+}
+
+Transform* Actor::GetTransform()
+{
+	return m_Transform;
 }
 
 void Actor::AddComponent(Component* _component)

@@ -4,6 +4,7 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "IndexBuffer.h"
+#include ""
 
 Quack::Quack()
 {
@@ -20,6 +21,9 @@ Quack::Quack()
 	m_currentFrameRate = 0;
 	m_frameCounter = 0;
 	m_frameDelay = 0;
+
+	m_GameTest = new Game();
+
 }
 
 Quack::~Quack()
