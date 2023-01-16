@@ -8,6 +8,9 @@
 #include "imgui_impl_opengl3.h"
 #include "QuackCallbacks.h"
 #include "JsonLoader.h"
+#include "LayerStack.h"
+#include "UIRenderer.h"
+#include "UILayer.h"
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -21,6 +24,11 @@ double Quack::m_deltaTime;
 double Quack::m_frameTime;
 double Quack::m_frameDelay;
 
+GameTimer Quack::m_gameTimer;
+
+LayerStack* Quack::m_layerStack;
+std::vector<GameObject*> Quack::m_gameObjects;
+
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
 
@@ -30,10 +38,24 @@ Texture* Quack::m_duckTexture;
 glm::vec4 Quack::m_objColor;
 
 GameObject* Quack::m_duck;
+UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
+
+void Quack::InitObjects()
+{
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	m_duck = new GameObject(data, "res/textures/duck.png");
+	m_gameObjects.push_back(m_duck);
+
+	// Shader setup
+	m_mainShader = new Shader("res/shaders/basic.shader");
+	m_mainShader->Bind();
+	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->Unbind();
+}
 
 int Quack::InitEngine()
 {
@@ -42,9 +64,15 @@ int Quack::InitEngine()
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
+	m_layerStack = new LayerStack();
+	m_uiMain = new UILayer();
+
+	m_layerStack->PushOverlay(m_uiMain);
 
 	// Initilaize window
 	m_window->UseWindow();
+
+	m_gameTimer.Start();
 
 	/* Initialize the Glew Library*/
 	glewExperimental = GL_TRUE;
@@ -53,21 +81,15 @@ int Quack::InitEngine()
 	///
 	///	Initialize IMGUI
 	/// 
-	
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(m_window->GetGLFWWindow(), true);
-	ImGui_ImplOpenGL3_Init("#version 330");
+	m_uiMain->OnAttach();
 
 	/* Initialize the keyboard class*/
 	KeyboardClass::Init();
-
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
 
 	InitObjects();
+
 	return 0;
 }
 
@@ -112,66 +134,38 @@ void Quack::HandleInput()
 	}
 }
 
-void Quack::InitObjects()
-{
-	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_duck = new GameObject(data, "res/textures/duck2.png");
-	
-	// Shader setup
-	m_mainShader = new Shader("res/shaders/basic.shader");
-	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_mainShader->Unbind();
-}
-
 void Quack::Update()
 {
-	//Delta time is time between frames
-	//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
-	GetFrameRate(m_deltaTime);
-	m_currentTime = glfwGetTime();
-	m_deltaTime = m_currentTime - m_lastTime;
-
-	HandleInput();
-	GetFrameRate(m_deltaTime);
+	m_gameTimer.Tick();
 
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
 
-	m_lastTime = m_currentTime;
+	HandleInput();
 }
 
 void Quack::RenderUpdate()
 {
-	// tell imgui we are working with a new frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-
 	/* Render here */
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// bind shader
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	//m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 
-	// render sqaure
-	glm::mat4 model = glm::mat4(1.0f);
-	// square position
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-	m_mainShader->SetUniform4x4("u_model", model);
-	// draw square
-	m_duck->Draw();
+	// Draw game objects
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (gameObject) gameObject->Draw();
+	}
 
-	ImGui::Begin("Set Object Color");
-	ImGui::Text("Hello");
-	ImGui::End();
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	// Draw layers 
+	for (Layer* layer : m_layerStack->GetLayers())
+	{
+		if (layer) layer->OnUpdate();
+	}
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
