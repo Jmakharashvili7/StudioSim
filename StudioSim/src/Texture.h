@@ -1,10 +1,11 @@
 #pragma once
 #include "BasicIncludes.h"
+#include "QuackDataTypes.h"
 
 class Texture
 {
 public:
-	Texture(const std::string& path);
+	Texture(const TextureData& textureData);
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;

@@ -4,6 +4,7 @@
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Texture.h"
+#include "QuackDataTypes.h"
 
 class Animate;
 
@@ -17,7 +18,7 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(GameObjectData* data, const std::string& texturePath);
+	GameObject(GameObjectData* data, const TextureData& textureData);
 	~GameObject();
 
 	void Draw();
@@ -30,7 +31,7 @@ public:
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
 
-private:
+protected:
 	Texture* m_texture;
 
 	VertexArray* m_va;

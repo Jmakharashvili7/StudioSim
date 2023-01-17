@@ -11,6 +11,8 @@
 #include "Texture.h"
 #include "GameObject.h"
 #include "GameTime.h"
+#include "Actor.h"
+#include "QuackDataTypes.h"
 
 class LayerStack;
 class UIRenderer;
@@ -23,7 +25,6 @@ class UILayer;
 #define NUMBER_OF_SQUARES 4
 
 class QuackPhysics;
-
 
 class Quack
 {
@@ -50,6 +51,9 @@ public:
 
 	static void Jump();
 	static void JumpDecrement();
+
+	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TextureData& textureData);
+	static Actor* CreateNewActor(GameObjectData* objectData, const TextureData& textureData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
@@ -92,11 +96,13 @@ private:
 	static float m_projectileForce;
 
 
-	static GameObject* m_duck;
+	static Actor* m_duck;
+	static GameObject* m_ground;
 	static GameObject* m_testSprite;
 
 	int spTest = 0;
 	static std::vector<GameObject*> m_gameObjects;
+	static std::vector<Actor*> m_gameActors;
 
 
 	static VertexArray* m_squareVAO;

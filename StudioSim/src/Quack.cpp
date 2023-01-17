@@ -32,6 +32,7 @@ GameTimer Quack::m_gameTimer;
 
 LayerStack* Quack::m_layerStack;
 std::vector<GameObject*> Quack::m_gameObjects;
+std::vector<Actor*> Quack::m_gameActors;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
@@ -83,8 +84,10 @@ glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 
 glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
-GameObject* Quack::m_duck;
+Actor* Quack::m_duck;
+GameObject* Quack::m_ground;
 GameObject* Quack::m_testSprite;
+
 UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
@@ -95,9 +98,15 @@ OrthographicCamera* Quack::m_mainCamera;
 
 void Quack::InitObjects()
 {
-	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_duck = new GameObject(data, "res/textures/duck2.png");
-	m_gameObjects.push_back(m_duck);
+	// Init game objects
+	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
+	m_ground = CreateNewGameObject(groundObjectData, groundTextureData);
+
+	// Init actors
+	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
+	m_duck = CreateNewActor(duckObjectData, duckTextureData);
 }
 
 void Quack::SetupShaders()
@@ -365,6 +374,33 @@ void Quack::JumpDecrement()
 	{
 		m_jumping = false;
 	}
+}
+
+GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TextureData& textureData)
+{
+	GameObject* createdGameObject = nullptr;
+	createdGameObject = new GameObject(objectData, textureData);
+
+	if (createdGameObject)
+	{
+		m_gameObjects.push_back(createdGameObject);
+	}
+
+	return createdGameObject;
+}
+
+Actor* Quack::CreateNewActor(GameObjectData* objectData, const TextureData& textureData)
+{
+	Actor* createdActor = nullptr;
+	createdActor = new Actor(objectData, textureData);
+
+	if (createdActor)
+	{
+		m_gameObjects.push_back(createdActor);
+		m_gameActors.push_back(createdActor);
+	}
+
+	return createdActor;
 }
 
 void Quack::Projectile(float force)
