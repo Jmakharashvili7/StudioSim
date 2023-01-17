@@ -46,6 +46,7 @@ public:
 	QuackPhysics() {};
 	~QuackPhysics() {};
 
+	
 	/// <summary>
 	/// Check if 2 squares collide
 	/// </summary>
@@ -81,5 +82,18 @@ public:
 
 		return distance < (sp1.radius + sp2.radius);
 	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	static void Gravity(glm::vec3 objectPos, float deltaTime)
+	{
+		//weight = mass * gforce
+		float weight = 0.1f * GFORCE;
+		objectPos.y -= weight * deltaTime;
+	}
+
+
+
 
 };

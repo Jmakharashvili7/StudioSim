@@ -94,7 +94,7 @@ struct SpotLight
 //    float outerCutOff;
 //};
 
-#define POINT_LIGHTS 1
+#define POINT_LIGHTS 3
 
 in vec3 ourColor;
 in vec2 TexCoord;
