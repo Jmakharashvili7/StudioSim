@@ -27,8 +27,10 @@ public:
 	inline Animate* GetAnimator() { return m_animator; }
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 
-private:
+	void UpdateVertexArray();
+	void UpdateObjectData(GameObjectData* newData);
 
+private:
 	Texture* m_texture;
 
 	VertexArray* m_va;

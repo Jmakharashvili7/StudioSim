@@ -33,7 +33,7 @@ in vec3 ourColor;
 in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
-uniform vec4 u_color;
+uniform vec4 u_lightColor;
 uniform Light u_light;
 
 void main()
@@ -41,7 +41,7 @@ void main()
     
     vec4 ambient = u_light.ambient * texture(ourTexture, TexCoord).rgba;
 
-    vec4 result = ambient * u_color;
+    vec4 result = ambient * u_lightColor;
 
     FragColor = vec4(result * 1.0);
     if (FragColor.a < 0.1f)

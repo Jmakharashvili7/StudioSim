@@ -19,3 +19,6 @@
 #include <array>
 #include "json.h"
 #include "Log.h"
+
+//#define _3D_SHADER
+#define _2D_SHADER

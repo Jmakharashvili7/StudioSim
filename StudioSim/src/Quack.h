@@ -34,7 +34,6 @@ public:
 		LEFT
 	};
 	static int InitEngine();
-	static void InitObjects();
 
 	static void Update();
 	static void RenderUpdate();
@@ -61,6 +60,8 @@ private:
 	~Quack();
 
 	static void HandleInput();
+	static void InitObjects();
+	static void SetupShaders();
 public:
 	static bool m_capFrames;
 	static bool s_running;

@@ -54,6 +54,7 @@ void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
 			startLocation.x,						startLocation.y + 1.0f / m_rows,
 			startLocation.x,						startLocation.y
 		};
+		m_object->UpdateVertexArray();
 
 		m_frameToPlay = { rowToPlay, m_spriteFrame };
 
