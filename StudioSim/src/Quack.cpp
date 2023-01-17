@@ -47,7 +47,7 @@ OrthographicCamera* Quack::m_mainCamera;
 void Quack::InitObjects()
 {
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_duck = new GameObject(data, "res/textures/duck.png");
+	m_duck = new GameObject(data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
 
 	// Shader setup
