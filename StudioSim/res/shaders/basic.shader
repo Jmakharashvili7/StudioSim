@@ -13,7 +13,7 @@ uniform mat4 u_viewProjection;
 
 void main()
 {
-    gl_Position = u_viewProjection * u_model * vec4(aPos, 1.0);
+    gl_Position = u_viewProjection * vec4(aPos, 1.0);
     ourColor = aColor;
     TexCoord = aTexCoord;
 }
@@ -32,4 +32,8 @@ uniform vec4 u_color;
 void main()
 {
     FragColor = texture(ourTexture, TexCoord) * vec4(ourColor, 1.0);
+    if (FragColor.a < 0.1f)
+    {
+        discard;
+    }
 }

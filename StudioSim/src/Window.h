@@ -15,6 +15,8 @@ public:
 	~Window();
 
 	bool UseWindow();
+	inline int GetHeight() const { return m_height; }
+	inline int GetWidth() const { return m_width; }
 
 	inline GLFWwindow* GetGLFWWindow() const { return m_GLFWwindow; }
 private:

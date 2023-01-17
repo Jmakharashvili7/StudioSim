@@ -1,8 +1,10 @@
 #pragma once
 #include "BasicIncludes.h"
 
-class GUIWindow
+class UIRenderer
 {
+public:
 
+private:
 };
 

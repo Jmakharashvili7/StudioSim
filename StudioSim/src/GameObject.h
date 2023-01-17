@@ -9,15 +9,15 @@ class Animate;
 
 struct GameObjectData
 {
-	std::pair<float*,int> vertices;
-	std::pair<float*,int> colors;
-	std::pair<float*,int> textCoords;
+	std::vector<float> vertices;
+	std::vector<float> colors;
+	std::vector<float> texCoords;
 };
 
 class GameObject
 {
 public:
-	GameObject(const GameObjectData& data, std::string texturePath);
+	GameObject(GameObjectData* data, const std::string& texturePath);
 	~GameObject();
 
 	void Draw();
@@ -34,5 +34,6 @@ private:
 
 	Animate* m_animator;
 		
+	GameObjectData* m_data;
 };
 
