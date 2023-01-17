@@ -14,7 +14,6 @@
     <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\JsonLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="GUIWindow.cpp" />
     <ClCompile Include="src\QuackCallbacks.cpp" />
     <ClCompile Include="src\KeyboardClass.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
@@ -60,6 +59,7 @@
     <ClInclude Include="src\UIRenderer.h" />
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\Animate.h" />
+    <ClInclude Include="src\QuackPhysics.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />
@@ -74,5 +74,6 @@
     <None Include="res\shaders\basic.shader" />
     <None Include="res\shaders\3Dbasic.shader" />
     <None Include="res\textures\test sheet.png~" />
+    <None Include="shaders\basic.shader" />
   </ItemGroup>
 </Project>

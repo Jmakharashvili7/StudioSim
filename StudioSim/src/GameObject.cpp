@@ -9,6 +9,7 @@ GameObject::GameObject(GameObjectData* data, const std::string& texturePath) :
 	VertexBuffer vertexBuffer = VertexBuffer(data->vertices.data(), data->vertices.size() * sizeof(float));
 	VertexBuffer colorBuffer = VertexBuffer(data->colors.data(), data->colors.size() * sizeof(float));
 	VertexBuffer texCoordsBuffer = VertexBuffer(data->texCoords.data(), data->texCoords.size() * sizeof(float));
+	
 
 	VertexBufferLayout vertexLayout;
 	vertexLayout.Push<float>(3);
@@ -25,7 +26,6 @@ GameObject::GameObject(GameObjectData* data, const std::string& texturePath) :
 	m_va->AddBuffer(vertexBuffer, vertexLayout, VertexType::VERTEX);
 	m_va->AddBuffer(colorBuffer, colorLayout, VertexType::COLOR);
 	m_va->AddBuffer(texCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
-	m_va->AddBuffer(lightBuffer, lightLayout, VertexType::LIGHT);
 }
 
 GameObject::~GameObject()

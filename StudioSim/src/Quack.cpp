@@ -104,16 +104,29 @@ void Quack::InitObjects()
 	m_duck = new GameObject(data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
 
+#ifdef _2D_SHADER
+
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
+
+#endif // _2D_SHADER
+
+#ifdef _3D_SHADER
+
+	//3D Shader setup
+	m_3dShader = new Shader("res/shaders/3Dbasic.shader");
+	m_3dShader->Bind();
+	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_3dShader->Unbind();
+
+#endif // !_3D_SHADER
 }
 
 int Quack::InitEngine()
 {
-
 	s_running = true;
 
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
@@ -293,11 +306,21 @@ void Quack::RenderUpdate()
 	m_3dShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
 #endif // _3D_SHADER
+
 #ifdef _2D_SHADER
 
 	// bind shader
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5f, 0.5f, 1.f);
+
+	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
+
+	//Ambient light
+	m_mainShader->SetUniform4f("u_light.position", 0.0f, 0.0f, 0.0f, -2.0f);
+	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
+
+#endif // _2D_SHADER
 
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
