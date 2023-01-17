@@ -78,7 +78,7 @@ void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
 
 /// <summary>
 /// Setting up a dictionary to map a frame at a location on the spritesheet to how long it should be played.
-/// Sets the default play time to 1 second
+/// Default play time is 1 second
 /// </summary>
 void Animate::GenerateFrameList()
 {
