@@ -52,14 +52,46 @@ public:
 	static void Initialization();
 	static void Update();
 	static void Shutdown();
+
+
+/// <summary>
+/// Function used to load sounds
+/// </summary>
+/// <param name="pathToSound"> ->Path to Sound e.g "StudioSim/Sounds/Quack.wav </param>
+/// <param name="isloop"> ->Is the sound going to loop ? used here for the FMOD_MODE</param>
+/// <param name="isStream"> ->Set to true if using a larger file</param>
 	static void LoadSound(const string& pathToSound,
 		bool is3D , bool isloop, bool isStream );
+	static void Stop(int channelID);
+	static void UnloadSound(const string& pathToSound);
 	
+/// <summary>
+/// Function used to play sound
+/// </summary>
+/// <param name="pathToSound">->File path: "Sounds/quackOuter.wav"  </param>
+/// <param name="vectorPos">->Position of sound in game space: set to 0,0,0 for 2D </param>
+/// <param name="is3D">->Does the sound need to be 3D </param>
+/// <param name="isloop">->Is the sound looping</param>
+/// <param name="isStream">->Set to true if it is a large sound</param>
+/// <param name="volumeDB">->Change the volume </param>
+/// <param name="pitch">->0.5: half pitch slow /1.0: unmodified pitch /2.0: dobule the pitch fast </param>
+/// <returns></returns>
 	static int PlaySound(const string& pathToSound, 
-		const Vector3& vectorPosition,bool is3D , bool isloop, bool isStream, float volumeDB);
+		const Vector3& vectorPosition,bool is3D , bool isloop, bool isStream, float volumeDB, float pitch);
 
+/// <summary>
+/// Convert DB to linear Volume
+/// </summary>
+/// <param name="DB"> -> Logarithmic unit used to measure sound level </param>
+/// <returns> Returns the value of X to the power of Y </returns>
 	static float ChangingDBToVolume(float DB);
 
+/// <summary>
+/// Convert Vector3 struct to FMOD vector 3
+/// Used to set 3D position on the word
+/// </summary>
+/// <param name="vectorPos"></param>
+/// <returns></returns>
 	static FMOD_VECTOR VectorToFmod(const Vector3& vectorPos);
 
 	//Varaibles

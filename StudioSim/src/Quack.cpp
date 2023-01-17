@@ -165,13 +165,15 @@ void Quack::Update(float deltatime, Quack* engineInstance)
 			false,
 			true, 
 			true,
-			10.0f);
+			10.0f,
+			1.0f);
 		audioEngine->PlaySound("Sounds/quackTravis.wav",
 			Vector3{ 0,0,0 },
 			false,
 			false, 
 			true, 
-			50.0f);
+			50.0f,
+			1.0f);
 	}
 }
 

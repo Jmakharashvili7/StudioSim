@@ -78,12 +78,6 @@ void AudioEngine2D::Shutdown()
 
 //Maths Calculation
 
-/// <summary>
-/// Convert Vector3 struct to FMOD vector 3
-/// Used to set 3D position on the word
-/// </summary>
-/// <param name="vectorPos"></param>
-/// <returns></returns>
 FMOD_VECTOR AudioEngine2D::VectorToFmod(const Vector3& vectorPos)
 {
 	FMOD_VECTOR vecFmod;
@@ -93,22 +87,12 @@ FMOD_VECTOR AudioEngine2D::VectorToFmod(const Vector3& vectorPos)
 	return vecFmod;
 }
 
-/// <summary>
-/// Convert DB to linear Volume
-/// </summary>
-/// <param name="DB"> -> Logarithmic unit used to measure sound level </param>
-/// <returns> Returns the value of X to the power of Y </returns>
+
 float AudioEngine2D::ChangingDBToVolume(float DB)
 {
 	return powf(10.0/*X*/, 0.05f * DB/*Y*/);
 }
 
-/// <summary>
-	/// Function used to load sounds
-	/// </summary>
-	/// <param name="pathToSound"> ->Path to Sound e.g "StudioSim/Sounds/Quack.wav </param>
-	/// <param name="isloop"> ->Is the sound going to loop ? used here for the FMOD_MODE</param>
-	/// <param name="isStream"> ->Set to true if using a larger file</param>
 void AudioEngine2D::LoadSound(const string& pathToSound,bool is3D, bool isloop, bool isStream)
 {
 	FMOD_RESULT result;
@@ -148,16 +132,21 @@ void AudioEngine2D::LoadSound(const string& pathToSound,bool is3D, bool isloop, 
 	}
 }
 
-/// <summary>
-/// Function used to play sound
-/// </summary>
-/// <param name="pathToSound"> ->Path to Sound e.g "StudioSim/Sounds/Quack.wav</param>
-/// <param name="isloop"> ->Should the sound loop when it ends ?</param>
-/// <param name="isStream"> ->Set to true if using a larger file</param>
-/// <param name="volumeDB"> ->Volume of the sound</param>
-/// <returns></returns>
+void AudioEngine2D::UnloadSound(const std::string& pathToSound)
+{
+	auto foundSound = pFmodSys->m_SoundMap.find(pathToSound);
+	if (foundSound == pFmodSys->m_SoundMap.end())
+	{
+		return;
+	}
+
+	foundSound->second->release();
+	pFmodSys->m_SoundMap.erase(foundSound);
+}
+
+
 int AudioEngine2D::PlaySound(const std::string& pathToSound, 
-	const Vector3& vectorPos, bool is3D, bool isloop, bool isStream, float volumeDB)
+	const Vector3& vectorPos, bool is3D, bool isloop, bool isStream, float volumeDB, float pitch)
 {
 	FMOD_RESULT result;
 	std::cout << "Playing" << endl;
@@ -194,10 +183,16 @@ int AudioEngine2D::PlaySound(const std::string& pathToSound,
 	
 		pChannel->setVolume(ChangingDBToVolume(volumeDB));
 		pChannel->setPaused(false);
+		pChannel->setPitch(pitch);
 		pFmodSys->m_ChannelMap[channelID] = pChannel;
 	}
 	return channelID;
 
 
+}
+
+void AudioEngine2D::Stop(int channelID)
+{
+	
 }
 
