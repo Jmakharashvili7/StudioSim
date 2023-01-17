@@ -6,12 +6,14 @@ class GameObject;
 
 class Animate
 {
+private: 
+	void GenerateFrameList();
+
 public:
 	Animate(GameObject* target, int rows, int columns);
 	~Animate();
 
 	void UpdateTextCoord(float deltaTime, float playRate, int rowToPlay);
-	void GenerateFrameList();
 
 	void SetFramePlayTime(int row, int column, float duration);
 

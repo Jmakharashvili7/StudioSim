@@ -91,7 +91,6 @@ void Animate::GenerateFrameList()
 			std::pair<int, int> location = { row, column };
 
 			m_durationData[location] = time;
-			time++;
 		}
 	}
 }
