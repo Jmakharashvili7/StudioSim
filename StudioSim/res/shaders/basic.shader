@@ -13,7 +13,7 @@ uniform mat4 u_viewProjection;
 
 void main()
 {
-    gl_Position = u_viewProjection * vec4(aPos, 1.0);
+    gl_Position = u_viewProjection * u_model * vec4(aPos, 1.0);
     ourColor = aColor;
     TexCoord = aTexCoord;
 }
@@ -25,7 +25,6 @@ out vec4 FragColor;
 
 struct Light
 {
-    vec4 position;
     
     vec4 ambient;
 };
@@ -35,7 +34,6 @@ in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
 uniform vec4 u_color;
-uniform vec4 u_lightColor;
 uniform Light u_light;
 
 void main()

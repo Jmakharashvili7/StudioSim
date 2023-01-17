@@ -12,9 +12,9 @@
 
 
 //Uncomment to use 3D Light and comment the 2D one
-//#define _3D_SHADER
+#define _3D_SHADER
 
-#define _2D_SHADER
+//#define _2D_SHADER
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -76,6 +76,8 @@ glm::vec4 Quack::m_pointSpecular = { glm::vec4(1.3f, 0.6f, 1.85f, 1.0f) };
 glm::vec4 Quack::m_spotAmbient = { glm::vec4(3.5f, 0.2f, 0.05f, 1.0f) };
 glm::vec4 Quack::m_spotDiffuse = { glm::vec4(0.15f, 0.05f, 0.0f, 1.0f) };
 glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
+
+glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
 GameObject* Quack::m_duck;
 
@@ -298,44 +300,55 @@ void Quack::RenderUpdate()
 
 #ifdef _3D_SHADER
 
-
-	//bind 3D shader
+	// bind shader
 	m_3dShader->Bind();
 	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_3dShader->SetUniform4f("u_color", 0.5f, 0.5f, 0.5f, 1.0f);
-
+	m_3dShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 	//Light
 	m_3dShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
-
 	//Material Struct
 	m_3dShader->SetUniform1i("u_material.diffuse", 0);
 	m_3dShader->SetUniform1i("u_material.specular", 1);
 	m_3dShader->SetUniform1f("u_material.shine", 32.0f);
-
 	//Directional Light
-	m_3dShader->SetUniform4f("u_dirLight.direction", -0.2f, -1.0f, -0.3f, 1.0f);
-	m_3dShader->SetUniform4f("u_dirLight.ambient", 0.05f, 2.05f, 2.05f, 1.0f);
-	m_3dShader->SetUniform4f("u_dirLight.diffuse", 5.4f, 3.4f, 1.4f, 1.0f);
-	m_3dShader->SetUniform4f("u_dirLight.specular", 3.5f, 5.5f, 2.5f, 1.0f);
+	m_3dShader->SetUniform4f("u_dirLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	m_3dShader->SetUniform4f("u_dirLight.ambient", m_dirAmbient.x, m_dirAmbient.y, m_dirAmbient.z, m_dirAmbient.a);
+	m_3dShader->SetUniform4f("u_dirLight.diffuse", m_dirDiffuse.x, m_dirDiffuse.y, m_dirDiffuse.z, m_dirDiffuse.a);
+	m_3dShader->SetUniform4f("u_dirLight.specular", m_dirSpecular.x, m_dirSpecular.y, m_dirSpecular.z, m_dirSpecular.a);
 
 	//Point Lights
-	glm::vec3 pointLightPositions[] = {
-	   glm::vec3(0.7f,  0.2f,  2.0f)
-	};
-	m_3dShader->SetUniform4f("u_pointLights[0].position" , pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z, 1.0f);
-	m_3dShader->SetUniform4f("u_pointLights[0].ambient" , 5.0f, 5.05f, 5.05f, 1.0f);
-	m_3dShader->SetUniform4f("u_pointLights[0].diffuse" , 2.8f, 2.8f, 2.8f, 1.0f);
-	m_3dShader->SetUniform4f("u_pointLights[0].specular" , 1.0f, 1.0f, 1.0f, 1.0f);
-	m_3dShader->SetUniform1f("u_pointLights[0].constant" , 1.0f);
-	m_3dShader->SetUniform1f("u_pointLights[0].linear" , 0.09f);
+
+	m_3dShader->SetUniform4f("u_pointLights[0].position", m_pointLightPositions[0].x, m_pointLightPositions[0].y, m_pointLightPositions[0].z, 1.0f);
+	m_3dShader->SetUniform4f("u_pointLights[1].position", m_pointLightPositions[1].x, m_pointLightPositions[1].y, m_pointLightPositions[1].z, 1.0f);
+	m_3dShader->SetUniform4f("u_pointLights[2].position", m_pointLightPositions[2].x, m_pointLightPositions[2].y, m_pointLightPositions[2].z, 1.0f);
+
+	m_3dShader->SetUniform4f("u_pointLights[0].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	m_3dShader->SetUniform4f("u_pointLights[1].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	m_3dShader->SetUniform4f("u_pointLights[2].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	m_3dShader->SetUniform4f("u_pointLights[0].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	m_3dShader->SetUniform4f("u_pointLights[1].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	m_3dShader->SetUniform4f("u_pointLights[2].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	m_3dShader->SetUniform4f("u_pointLights[0].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	m_3dShader->SetUniform4f("u_pointLights[1].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	m_3dShader->SetUniform4f("u_pointLights[2].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	//dont change																													
+	m_3dShader->SetUniform1f("u_pointLights[0].constant", 1.0f);
+	m_3dShader->SetUniform1f("u_pointLights[1].constant", 1.0f);
+	m_3dShader->SetUniform1f("u_pointLights[2].constant", 1.0f);
+	m_3dShader->SetUniform1f("u_pointLights[0].linear", 0.09f);
+	m_3dShader->SetUniform1f("u_pointLights[1].linear", 0.09f);
+	m_3dShader->SetUniform1f("u_pointLights[2].linear", 0.09f);
 	m_3dShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
+	m_3dShader->SetUniform1f("u_pointLights[1].quadratic", 0.032f);
+	m_3dShader->SetUniform1f("u_pointLights[2].quadratic", 0.032f);
 
 	//Spot Light
 	m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
-	m_3dShader->SetUniform4f("u_spotLight.direction", 2.0f, 2.0f, -1.0f, 1.0f);
-	m_3dShader->SetUniform4f("u_spotLight.ambient", 5.0f, 5.0f, 5.0f, 1.0f);
-	m_3dShader->SetUniform4f("u_spotLight.diffuse", 5.0f, 5.0f, 5.0f, 1.0f);
-	m_3dShader->SetUniform4f("u_spotLight.specular", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
+	m_3dShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
+	m_3dShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
+	//dont change
 	m_3dShader->SetUniform1f("u_spotLight.constant", 1.0f);
 	m_3dShader->SetUniform1f("u_spotLight.linear", 0.09f);
 	m_3dShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
@@ -353,8 +366,7 @@ void Quack::RenderUpdate()
 	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
 	//Ambient light
-	m_mainShader->SetUniform4f("u_light.position", 0.0f, 0.0f, 0.0f, -2.0f);
-	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_light.ambient", m_lightAmbient.x, m_lightAmbient.y, m_lightAmbient.z, 1.0f);
 	
 #endif // _2D_SHADER
 
@@ -382,7 +394,12 @@ void Quack::RenderUpdate()
 		model = glm::scale(model, squareScaleData[i]);
 		model = glm::rotate(model, glm::radians(m_rotation), glm::vec3(0, 0, 1));
 		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+#ifdef _2D_SHADER
 		m_mainShader->SetUniform4x4("u_model", model);
+#endif // _2D_SHADER
+#ifdef _3D_SHADER
+		m_3dShader->SetUniform4x4("u_model", model);
+#endif // _3D_SHADER
 		// bind texture
 		m_duck->Draw();
 		// draw square
@@ -506,6 +523,7 @@ void Quack::ImGUIInit()
 	/// Light components directional, point, spotlight
 	/// Changing the values how we want
 	/// </summary>
+#ifdef _3D_SHADER
 	if (ImGui::TreeNode("Lights"))
 	{
 		/// <summary>
@@ -547,6 +565,21 @@ void Quack::ImGUIInit()
 			ImGui::TreePop();
 		}
 	}
+#endif // _3D_SHADER
+#ifdef _2D_SHADER
+
+
+	if (ImGui::TreeNode("Light"))
+	{
+		/// <summary>
+		/// Directional ambient, diffuse, specular
+		/// </summary>
+			ImGui::DragFloat4("Ambient", &m_lightAmbient.x, 0.001f);
+			
+			ImGui::TreePop();
+		
+	}
+#endif // _2D_SHADER
 
 	/// <summary>
 	/// End of IMGUI window
