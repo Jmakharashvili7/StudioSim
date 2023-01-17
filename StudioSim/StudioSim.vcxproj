@@ -205,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="res\shaders\3Dbasic.shader" />
     <None Include="res\shaders\basic.shader" />
     <None Include="shaders\basic.shader" />
   </ItemGroup>

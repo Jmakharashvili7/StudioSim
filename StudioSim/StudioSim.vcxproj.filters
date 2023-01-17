@@ -158,5 +158,6 @@
     <None Include="shaders\basic.shader" />
     <None Include="imgui.ini" />
     <None Include="res\shaders\basic.shader" />
+    <None Include="res\shaders\3Dbasic.shader" />
   </ItemGroup>
 </Project>

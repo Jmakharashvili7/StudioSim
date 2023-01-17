@@ -11,6 +11,11 @@
 
 
 
+//Uncomment to use 3D Light and comment the 2D one
+//#define _3D_SHADER
+
+#define _2D_SHADER
+
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
 bool Quack::s_running = false;
@@ -75,6 +80,8 @@ glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 GameObject* Quack::m_duck;
 
 Shader* Quack::m_mainShader;
+Shader* Quack::m_3dShader;
+
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
 
@@ -226,11 +233,26 @@ void Quack::InitObjects()
 
 	m_duck = new GameObject(data, "res/textures/duck.png");
 
+#ifdef _2D_SHADER
+
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
+
+#endif // _2D_SHADER
+
+#ifdef _3D_SHADER
+
+	//3D Shader setup
+	m_3dShader = new Shader("res/shaders/3Dbasic.shader");
+	m_3dShader->Bind();
+	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_3dShader->Unbind();
+
+#endif // !_3D_SHADER
+
 }
 
 void Quack::Update()
@@ -274,71 +296,78 @@ void Quack::RenderUpdate()
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+#ifdef _3D_SHADER
+
+
+	//bind 3D shader
+	m_3dShader->Bind();
+	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_3dShader->SetUniform4f("u_color", 0.5f, 0.5f, 0.5f, 1.0f);
+
+	//Light
+	m_3dShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
+
+	//Material Struct
+	m_3dShader->SetUniform1i("u_material.diffuse", 0);
+	m_3dShader->SetUniform1i("u_material.specular", 1);
+	m_3dShader->SetUniform1f("u_material.shine", 32.0f);
+
+	//Directional Light
+	m_3dShader->SetUniform4f("u_dirLight.direction", -0.2f, -1.0f, -0.3f, 1.0f);
+	m_3dShader->SetUniform4f("u_dirLight.ambient", 0.05f, 2.05f, 2.05f, 1.0f);
+	m_3dShader->SetUniform4f("u_dirLight.diffuse", 5.4f, 3.4f, 1.4f, 1.0f);
+	m_3dShader->SetUniform4f("u_dirLight.specular", 3.5f, 5.5f, 2.5f, 1.0f);
+
+	//Point Lights
+	glm::vec3 pointLightPositions[] = {
+	   glm::vec3(0.7f,  0.2f,  2.0f)
+	};
+	m_3dShader->SetUniform4f("u_pointLights[0].position" , pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z, 1.0f);
+	m_3dShader->SetUniform4f("u_pointLights[0].ambient" , 5.0f, 5.05f, 5.05f, 1.0f);
+	m_3dShader->SetUniform4f("u_pointLights[0].diffuse" , 2.8f, 2.8f, 2.8f, 1.0f);
+	m_3dShader->SetUniform4f("u_pointLights[0].specular" , 1.0f, 1.0f, 1.0f, 1.0f);
+	m_3dShader->SetUniform1f("u_pointLights[0].constant" , 1.0f);
+	m_3dShader->SetUniform1f("u_pointLights[0].linear" , 0.09f);
+	m_3dShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
+
+	//Spot Light
+	m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.direction", 2.0f, 2.0f, -1.0f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.ambient", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.diffuse", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.specular", 5.0f, 5.0f, 5.0f, 1.0f);
+	m_3dShader->SetUniform1f("u_spotLight.constant", 1.0f);
+	m_3dShader->SetUniform1f("u_spotLight.linear", 0.09f);
+	m_3dShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
+	m_3dShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+	m_3dShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
+#endif // _3D_SHADER
+#ifdef _2D_SHADER
+
 	// bind shader
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
+	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5f, 0.5f, 1.f);
 
-	//Light
-	m_mainShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
+	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
-	//Material Struct
-	m_mainShader->SetUniform1i("u_material.diffuse", 0);
-	m_mainShader->SetUniform1i("u_material.specular", 1);
-	m_mainShader->SetUniform1f("u_material.shine", 32.0f);
-
-	//Directional Light
-	m_mainShader->SetUniform4f("u_dirLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
-	m_mainShader->SetUniform4f("u_dirLight.ambient", m_dirAmbient.x, m_dirAmbient.y, m_dirAmbient.z, m_dirAmbient.a);
-	m_mainShader->SetUniform4f("u_dirLight.diffuse", m_dirDiffuse.x, m_dirDiffuse.y, m_dirDiffuse.z, m_dirDiffuse.a);
-	m_mainShader->SetUniform4f("u_dirLight.specular", m_dirSpecular.x, m_dirSpecular.y, m_dirSpecular.z, m_dirSpecular.a);
-
-	//Point Lights
+	//Ambient light
+	m_mainShader->SetUniform4f("u_light.position", 0.0f, 0.0f, 0.0f, -2.0f);
+	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
 	
-	m_mainShader->SetUniform4f("u_pointLights[0].position", m_pointLightPositions[0].x, m_pointLightPositions[0].y, m_pointLightPositions[0].z, 1.0f);
-	m_mainShader->SetUniform4f("u_pointLights[1].position", m_pointLightPositions[1].x, m_pointLightPositions[1].y, m_pointLightPositions[1].z, 1.0f);
-	m_mainShader->SetUniform4f("u_pointLights[2].position", m_pointLightPositions[2].x, m_pointLightPositions[2].y, m_pointLightPositions[2].z, 1.0f);
-
-	m_mainShader->SetUniform4f("u_pointLights[0].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
-	m_mainShader->SetUniform4f("u_pointLights[1].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
-	m_mainShader->SetUniform4f("u_pointLights[2].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
-	m_mainShader->SetUniform4f("u_pointLights[0].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
-	m_mainShader->SetUniform4f("u_pointLights[1].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
-	m_mainShader->SetUniform4f("u_pointLights[2].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
-	m_mainShader->SetUniform4f("u_pointLights[0].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
-	m_mainShader->SetUniform4f("u_pointLights[1].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
-	m_mainShader->SetUniform4f("u_pointLights[2].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
-	//dont change																													
-	m_mainShader->SetUniform1f("u_pointLights[0].constant", 1.0f);
-	m_mainShader->SetUniform1f("u_pointLights[1].constant", 1.0f);
-	m_mainShader->SetUniform1f("u_pointLights[2].constant", 1.0f);
-	m_mainShader->SetUniform1f("u_pointLights[0].linear", 0.09f);
-	m_mainShader->SetUniform1f("u_pointLights[1].linear", 0.09f);
-	m_mainShader->SetUniform1f("u_pointLights[2].linear", 0.09f);
-	m_mainShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
-	m_mainShader->SetUniform1f("u_pointLights[1].quadratic", 0.032f);
-	m_mainShader->SetUniform1f("u_pointLights[2].quadratic", 0.032f);
-
-	//Spot Light
-	m_mainShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
-	m_mainShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
-	m_mainShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
-	m_mainShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
-	m_mainShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
-	//dont change
-	m_mainShader->SetUniform1f("u_spotLight.constant", 1.0f);
-	m_mainShader->SetUniform1f("u_spotLight.linear", 0.09f);
-	m_mainShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
-	m_mainShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-	m_mainShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-
-
+#endif // _2D_SHADER
 
 	// render sqaure
 	glm::mat4 model = glm::mat4(1.0f);
 	// square position
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
+#ifdef _2D_SHADER
 	m_mainShader->SetUniform4x4("u_model", model);
+#endif // _2D_ENGINE
+#ifdef _3D_SHADER
+	m_3dShader->SetUniform4x4("u_model", model);
+#endif // _3D_ENGINE
 	// draw square
 	m_duck->Draw();
 

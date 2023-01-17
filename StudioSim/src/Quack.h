@@ -110,5 +110,6 @@ private:
 
 
 	static Shader* m_mainShader;
+	static Shader* m_3dShader;
 	static OrthographicCamera* m_mainCamera;
 };
