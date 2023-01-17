@@ -21,8 +21,6 @@ GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	m_va->AddBuffer(vertexBuffer, vertexLayout, VertexType::VERTEX);
 	m_va->AddBuffer(colorBuffer, colorLayout, VertexType::COLOR);
 	m_va->AddBuffer(texCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
-
-	m_animator = new Animate(this);
 }
 
 GameObject::~GameObject()
@@ -45,4 +43,9 @@ void GameObject::Draw()
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	m_texture->UnBind();
 	m_va->Unbind();
+}
+
+void GameObject::SetUpAnimator(int rows, int columns)
+{
+	m_animator = new Animate(this, rows, columns);
 }

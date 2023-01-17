@@ -21,6 +21,7 @@ public:
 	~GameObject();
 
 	void Draw();
+	void SetUpAnimator(int rows, int columns);
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline Animate* GetAnimator() { return m_animator; }

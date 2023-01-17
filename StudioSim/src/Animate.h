@@ -7,18 +7,25 @@ class GameObject;
 class Animate
 {
 public:
-	Animate(GameObject* target);
+	Animate(GameObject* target, int rows, int columns);
 	~Animate();
 
-	void UpdateTextCoord(float rows, float columns, float deltaTime, float playRate);
+	void UpdateTextCoord(float deltaTime, float playRate, int rowToPlay);
+	void GenerateFrameList();
+
+	void SetFramePlayTime(int row, int column, float duration);
 
 private:
 	GameObject* object;
 
-	//std::vector<std::pair<int[2], float>> m_spriteSheetData;
+	std::map<std::pair<int, int>, float> m_durationData;
+
+	std::pair<int, int> m_frameToPlay;
 
 	float m_delay;
+	float m_rows;
+	float m_columns;
 
 	int m_spriteFrame;
-	int m_rowToPlay;  
+
 };

@@ -192,6 +192,9 @@ void Quack::InitObjects()
 	spriteData.textCoords.second = sizeof(spriteTexCoord);
 
 	m_testSprite = new GameObject(spriteData, "res/textures/test_sheet-removebg-preview.jpg");
+	m_testSprite->SetUpAnimator(2, 4);
+	m_testSprite->GetAnimator()->SetFramePlayTime(0, 1, 6.0f);
+	m_testSprite->GetAnimator()->SetFramePlayTime(0, 3, 0.5f);
 
 	
 
@@ -247,7 +250,7 @@ void Quack::RenderUpdate()
 	m_duck->Draw();
 
 	m_testSprite->Draw();
-	m_testSprite->GetAnimator()->UpdateTextCoord(2, 4, m_deltaTime, 1.0f);
+	m_testSprite->GetAnimator()->UpdateTextCoord(m_deltaTime, 1.0f, 0);
 
 	ImGui::Begin("Set Object Color");
 	ImGui::Text("Hello");
