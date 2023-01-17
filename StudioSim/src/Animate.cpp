@@ -3,7 +3,7 @@
 
 Animate::Animate(GameObject* target, int rows, int columns)
 {
-	object = target;
+	m_object = target;
 
 	m_delay = 50.0f;
 	m_spriteFrame = 0;
@@ -16,8 +16,8 @@ Animate::Animate(GameObject* target, int rows, int columns)
 
 Animate::~Animate()
 {
-	delete object;
-	object = nullptr;
+	delete m_object;
+	m_object = nullptr;
 }
 
 /// <summary>
@@ -43,8 +43,9 @@ void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
 
 		startLocation.y = (1 / m_rows) * rowToPlay;
 
+		
 		//Updating texture co-ordinates
-		float texCoords[] =
+		m_object->GetGameObjectData()->texCoords =
 		{
 			startLocation.x,						startLocation.y,
 			startLocation.x + 1.0f / m_columns,		startLocation.y,
@@ -53,20 +54,6 @@ void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
 			startLocation.x,						startLocation.y + 1.0f / m_rows,
 			startLocation.x,						startLocation.y
 		};
-
-		//Adjusting values for the vertex array and adding updates to buffer
-		GameObjectData spriteData;
-		spriteData.textCoords.first = texCoords;
-		spriteData.textCoords.second = sizeof(texCoords);
-
-
-		VertexBuffer texCoordsBuffer = VertexBuffer(spriteData.textCoords.first, spriteData.textCoords.second);
-
-
-		VertexBufferLayout texCoordsLayout;
-		texCoordsLayout.Push<float>(2);
-
-		object->GetVertexArray()->AddBuffer(texCoordsBuffer, texCoordsLayout, VertexType::TEX_COORDS);
 
 		m_frameToPlay = { rowToPlay, m_spriteFrame };
 

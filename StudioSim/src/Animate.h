@@ -18,7 +18,7 @@ public:
 	void SetFramePlayTime(int row, int column, float duration);
 
 private:
-	GameObject* object;
+	GameObject* m_object;
 
 	std::map<std::pair<int, int>, float> m_durationData;
 

@@ -25,6 +25,7 @@ public:
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline Animate* GetAnimator() { return m_animator; }
+	inline GameObjectData* GetGameObjectData() { return m_data; }
 
 private:
 
