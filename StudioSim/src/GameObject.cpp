@@ -1,13 +1,14 @@
 #include "GameObject.h"
+#include "Animate.h"
 
-GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
-	m_texture(new Texture(texturePath))
+GameObject::GameObject(GameObjectData* data, const std::string& texturePath) :
+	m_texture(new Texture(texturePath)), m_data(data)
 {
 	m_va = new VertexArray();
-	VertexBuffer vertexBuffer = VertexBuffer(data.vertices.first, data.vertices.second);
-	VertexBuffer colorBuffer = VertexBuffer(data.colors.first, data.colors.second);
-	VertexBuffer texCoordsBuffer = VertexBuffer(data.textCoords.first, data.textCoords.second);
-	VertexBuffer lightBuffer = VertexBuffer(data.lights.first, data.lights.second);
+
+	VertexBuffer vertexBuffer = VertexBuffer(data->vertices.data(), data->vertices.size() * sizeof(float));
+	VertexBuffer colorBuffer = VertexBuffer(data->colors.data(), data->colors.size() * sizeof(float));
+	VertexBuffer texCoordsBuffer = VertexBuffer(data->texCoords.data(), data->texCoords.size() * sizeof(float));
 
 	VertexBufferLayout vertexLayout;
 	vertexLayout.Push<float>(3);
@@ -27,6 +28,21 @@ GameObject::GameObject(const GameObjectData& data, std::string texturePath) :
 	m_va->AddBuffer(lightBuffer, lightLayout, VertexType::LIGHT);
 }
 
+GameObject::~GameObject()
+{
+	delete m_texture;
+	m_texture = nullptr;
+
+	delete m_va;
+	m_va = nullptr;
+
+	delete m_animator;
+	m_animator = nullptr;
+	if (m_texture) delete m_texture;
+	if (m_va) delete m_va;
+	if (m_data) delete m_data;
+}
+
 void GameObject::Draw()
 {
 	// draw square
@@ -35,4 +51,9 @@ void GameObject::Draw()
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	m_texture->UnBind();
 	m_va->Unbind();
+}
+
+void GameObject::SetUpAnimator(int rows, int columns)
+{
+	m_animator = new Animate(this, rows, columns);
 }

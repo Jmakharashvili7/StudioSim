@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -162,6 +162,11 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Animate.cpp" />
+    <ClCompile Include="src\EngineManager.cpp" />
+    <ClCompile Include="src\GameTime.cpp" />
+    <ClCompile Include="src\LayerStack.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\JsonLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
@@ -180,8 +185,15 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\UIRenderer.cpp" />
+    <ClCompile Include="src\UILayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Animate.h" />
+    <ClInclude Include="src\EngineManager.h" />
+    <ClInclude Include="src\GameTime.h" />
+    <ClInclude Include="src\LayerStack.h" />
+    <ClInclude Include="src\Layer.h" />
     <ClInclude Include="src\JsonLoader.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="GUIWindow.h" />
@@ -202,12 +214,23 @@
     <ClInclude Include="src\VertexBufferLayout.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\UIRenderer.h" />
+    <ClInclude Include="src\UILayer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
     <None Include="res\shaders\3Dbasic.shader" />
     <None Include="res\shaders\basic.shader" />
+    <None Include="res\textures\test sheet.png~" />
     <None Include="shaders\basic.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\blue.png" />
+    <Image Include="res\textures\duck.png" />
+    <Image Include="res\textures\test sheet.jpg" />
+    <Image Include="res\textures\test sheet.png" />
+    <Image Include="res\textures\twist.png" />
+    <Image Include="res\textures\twist2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

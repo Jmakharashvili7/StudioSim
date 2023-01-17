@@ -5,24 +5,36 @@
 #include "VertexBufferLayout.h"
 #include "Texture.h"
 
+class Animate;
+
 struct GameObjectData
 {
-	std::pair<float*,int> vertices;
-	std::pair<float*,int> colors;
-	std::pair<float*,int> textCoords;
-	std::pair<float*, int> lights;
+	std::vector<float> vertices;
+	std::vector<float> colors;
+	std::vector<float> texCoords;
 };
 
 class GameObject
 {
 public:
-	GameObject(const GameObjectData& data, std::string texturePath);
+	GameObject(GameObjectData* data, const std::string& texturePath);
 	~GameObject();
 
 	void Draw();
+	void SetUpAnimator(int rows, int columns);
+
+	inline VertexArray* GetVertexArray() { return m_va;  };
+	inline Animate* GetAnimator() { return m_animator; }
+	inline GameObjectData* GetGameObjectData() { return m_data; }
 
 private:
+
 	Texture* m_texture;
+
 	VertexArray* m_va;
+
+	Animate* m_animator;
+		
+	GameObjectData* m_data;
 };
 

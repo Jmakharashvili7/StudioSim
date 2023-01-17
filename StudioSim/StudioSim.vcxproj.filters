@@ -1,163 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ImGUI">
-      <UniqueIdentifier>{28f7ccea-7f4f-4244-9f33-6893eb1254e8}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\dependencies\imgui\imgui.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\EngineManager.cpp" />
+    <ClCompile Include="src\GameTime.cpp" />
+    <ClCompile Include="src\LayerStack.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
+    <ClCompile Include="src\JsonLoader.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="GUIWindow.cpp" />
+    <ClCompile Include="src\QuackCallbacks.cpp" />
+    <ClCompile Include="src\KeyboardClass.cpp" />
+    <ClCompile Include="src\KeyEvent.cpp" />
+    <ClCompile Include="src\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Quack.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\VertexArray.cpp" />
+    <ClCompile Include="src\VertexBuffer.cpp" />
+    <ClCompile Include="src\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\UIRenderer.cpp" />
+    <ClCompile Include="src\UILayer.cpp" />
+    <ClCompile Include="src\Animate.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexBufferLayout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Quack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OrthographicCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KeyboardClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KeyEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui_impl_glfw.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui_demo.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stb_image\stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\QuackCallbacks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\JsonLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="src\EngineManager.h" />
+    <ClInclude Include="src\GameTime.h" />
+    <ClInclude Include="src\LayerStack.h" />
+    <ClInclude Include="src\Layer.h" />
+    <ClInclude Include="src\JsonLoader.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\json.h" />
+    <ClInclude Include="src\QuackCallbacks.h" />
+    <ClInclude Include="src\KeyboardClass.h" />
+    <ClInclude Include="src\KeyEvent.h" />
+    <ClInclude Include="src\OrthographicCamera.h" />
+    <ClInclude Include="src\Quack.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\BasicIncludes.h" />
+    <ClInclude Include="src\Log.h" />
+    <ClInclude Include="src\stb_image\stb_image.h" />
+    <ClInclude Include="src\VertexArray.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\VertexBufferLayout.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\UIRenderer.h" />
+    <ClInclude Include="src\UILayer.h" />
+    <ClInclude Include="src\Animate.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BasicIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VertexArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VertexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VertexBufferLayout.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IndexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Quack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OrthographicCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KeyboardClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KeyEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stb_image\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\QuackCallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\QuackPhysics.h">
-    <ClInclude Include="src\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\JsonLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Image Include="res\textures\blue.png" />
+    <Image Include="res\textures\duck.png" />
+    <Image Include="res\textures\test sheet.jpg" />
+    <Image Include="res\textures\test sheet.png" />
+    <Image Include="res\textures\twist.png" />
+    <Image Include="res\textures\twist2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\basic.shader" />
     <None Include="imgui.ini" />
     <None Include="res\shaders\basic.shader" />
     <None Include="res\shaders\3Dbasic.shader" />
+    <None Include="res\textures\test sheet.png~" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,11 @@
 #define _3D_SHADER
 
 //#define _2D_SHADER
+#include "Animate.h"
+#include "JsonLoader.h"
+#include "LayerStack.h"
+#include "UIRenderer.h"
+#include "UILayer.h"
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -28,6 +33,10 @@ double Quack::m_deltaTime;
 double Quack::m_frameTime;
 double Quack::m_frameDelay;
 
+GameTimer Quack::m_gameTimer;
+
+LayerStack* Quack::m_layerStack;
+std::vector<GameObject*> Quack::m_gameObjects;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
@@ -80,6 +89,8 @@ glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
 GameObject* Quack::m_duck;
+GameObject* Quack::m_testSprite;
+UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
 Shader* Quack::m_3dShader;
@@ -87,16 +98,36 @@ Shader* Quack::m_3dShader;
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
 
+void Quack::InitObjects()
+{
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	m_duck = new GameObject(data, "res/textures/duck2.png");
+	m_gameObjects.push_back(m_duck);
+
+	// Shader setup
+	m_mainShader = new Shader("res/shaders/basic.shader");
+	m_mainShader->Bind();
+	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->Unbind();
+}
+
 int Quack::InitEngine()
 {
 
 	s_running = true;
 
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
-	m_window = new Window("Quack", 1920, 1080, FullScreenMode::WINDOWED);
+	m_mainCamera->SetPosition(glm::vec3(0.0f));
+	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
+	m_layerStack = new LayerStack();
+	m_uiMain = new UILayer();
+
+	m_layerStack->PushOverlay(m_uiMain);
 
 	// Initilaize window
 	m_window->UseWindow();
+
+	m_gameTimer.Start();
 
 	/* Initialize the Glew Library*/
 	glewExperimental = GL_TRUE;
@@ -105,22 +136,15 @@ int Quack::InitEngine()
 	///
 	///	Initialize IMGUI
 	/// 
-
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(m_window->GetGLFWWindow(), true);
-	ImGui_ImplOpenGL3_Init("#version 330");
+	m_uiMain->OnAttach();
 
 	/* Initialize the keyboard class*/
 	KeyboardClass::Init();
-
-
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
 
 	InitObjects();
+
 	return 0;
 }
 
@@ -184,89 +208,9 @@ void Quack::HandleInput()
 	}
 }
 
-void Quack::InitObjects()
-{
-	//Setup stuff
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f, 0.5f, 0.0f,
-		 0.5f, 0.5f, 0.0f,
-		 -0.5f, 0.5f, 0.0f,
-		 -0.5f, -0.5f, 0.0f
-	};
-
-	float colors[] = {
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f
-	};
-
-	float textureCoords[] = {
-		 0.0f, 0.0f,
-		 1.0f, 0.0f,
-		 1.0f, 1.0f,
-		 1.0f, 1.0f,
-		 0.0f, 1.0f,
-		 0.0f, 0.0f
-	};
-
-	float lightNormals[] = {
-		 0.0f, 0.0f, 0.0f,1.0f,
-		 0.0f, 0.0f, 0.0f,1.0f,
-		 1.0f, 1.0f,0.0f,1.0f,
-		 1.0f, 1.0f,0.0f,1.0f,
-		 0.0f, 1.0f,0.0f,1.0f,
-		 0.0f, 0.0f,0.0f,1.0f
-	};
-
-	GameObjectData data;
-	data.vertices.first = vertices;
-	data.vertices.second = sizeof(vertices);
-	data.colors.first = colors;
-	data.colors.second = sizeof(colors);
-	data.textCoords.first = textureCoords;
-	data.textCoords.second = sizeof(textureCoords);
-	data.lights.first = lightNormals;
-	data.lights.second = sizeof(lightNormals);
-
-	m_duck = new GameObject(data, "res/textures/duck.png");
-
-#ifdef _2D_SHADER
-
-	// Shader setup
-	m_mainShader = new Shader("res/shaders/basic.shader");
-	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_mainShader->Unbind();
-
-#endif // _2D_SHADER
-
-#ifdef _3D_SHADER
-
-	//3D Shader setup
-	m_3dShader = new Shader("res/shaders/3Dbasic.shader");
-	m_3dShader->Bind();
-	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_3dShader->Unbind();
-
-#endif // !_3D_SHADER
-
-}
-
 void Quack::Update()
 {
-	//Delta time is time between frames
-	//Calculated using glfw get time funciton which gets time since glfw was initiated in seconds
-	GetFrameRate(m_deltaTime);
-	m_currentTime = glfwGetTime();
-	m_deltaTime = m_currentTime - m_lastTime;
-
-	HandleInput();
-	GetFrameRate(m_deltaTime);
+	m_gameTimer.Tick();
 
 	if (m_jumping)
 	{
@@ -282,20 +226,13 @@ void Quack::Update()
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
 
-	m_lastTime = m_currentTime;
+	HandleInput();
 }
 
 void Quack::RenderUpdate()
 {
-
-
-	// tell imgui we are working with a new frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-
 	/* Render here */
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 #ifdef _3D_SHADER
@@ -361,53 +298,18 @@ void Quack::RenderUpdate()
 	// bind shader
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_mainShader->SetUniform4f("u_color", 0.5f, 0.5f, 0.5f, 1.f);
 
-	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-
-	//Ambient light
-	m_mainShader->SetUniform4f("u_light.ambient", m_lightAmbient.x, m_lightAmbient.y, m_lightAmbient.z, 1.0f);
-	
-#endif // _2D_SHADER
-
-	// render sqaure
-	glm::mat4 model = glm::mat4(1.0f);
-	// square position
-	model = glm::translate(model, glm::vec3(0.0f,0.0f,0.0f));
-#ifdef _2D_SHADER
-	m_mainShader->SetUniform4x4("u_model", model);
-#endif // _2D_ENGINE
-#ifdef _3D_SHADER
-	m_3dShader->SetUniform4x4("u_model", model);
-#endif // _3D_ENGINE
-	// draw square
-	m_duck->Draw();
-
-	// bind vertex array object
-	//glBindVertexArray(m_square1VAO);
-	for (unsigned int i = 0; i < 4; i++)
+	// Draw game objects
+	for (GameObject* gameObject : m_gameObjects)
 	{
-		// render sqaure
-		glm::mat4 model = glm::mat4(1.0f);
-		// square position
-		model = glm::translate(model, squarePositionData[i]);
-		model = glm::scale(model, squareScaleData[i]);
-		model = glm::rotate(model, glm::radians(m_rotation), glm::vec3(0, 0, 1));
-		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-#ifdef _2D_SHADER
-		m_mainShader->SetUniform4x4("u_model", model);
-#endif // _2D_SHADER
-#ifdef _3D_SHADER
-		m_3dShader->SetUniform4x4("u_model", model);
-#endif // _3D_SHADER
-		// bind texture
-		m_duck->Draw();
-		// draw square
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		if (gameObject) gameObject->Draw();
 	}
 
-	ImGUIInit();
-
+	// Draw layers 
+	for (Layer* layer : m_layerStack->GetLayers())
+	{
+		if (layer) layer->OnUpdate();
+	}
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
