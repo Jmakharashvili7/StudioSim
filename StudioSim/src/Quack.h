@@ -94,6 +94,7 @@ private:
 
 	static GameObject* m_duck;
 	static GameObject* m_testSprite;
+	static GameObject* m_testWindow;
 
 	int spTest = 0;
 	static std::vector<GameObject*> m_gameObjects;
