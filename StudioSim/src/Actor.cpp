@@ -21,3 +21,8 @@ void Actor::Jump()
 		m_currentJumpForce = m_jumpHeight;
 	}
 }
+
+void Actor::AddImpulseForce(glm::vec3 force)
+{
+
+}

@@ -56,6 +56,47 @@ void PhysicsManager::Update(const float deltaTime)
 					actor->SetCurrentJumpForce(newJumpForce);
 				}
 			}
+
+			//// Impulse calculations
+			//if (actor->GetImpulseActive())
+			//{
+			//	const glm::vec3 currentImpulseForce = actor->GetCurrentImpulseForce();
+			//	const glm::vec3 forceMagnitude = actor->GetImpulseForceMag();
+			//	//TODO
+			//	//const glm::vec3 currentPosition = actor->GetPosition();
+
+			//	//Adjust current position
+			//	//TODO
+			//	const glm::vec3 newActorPosition = glm::vec3(
+			//		currentPosition.x + (currentImpulseForce.x * deltaTime),
+			//		currentPosition.y + (currentImpulseForce.y * deltaTime),
+			//		currentPosition.z + (currentImpulseForce.z * deltaTime))
+			//	actor->UpdatePosition(newActorPosition);
+
+			//	// Update impulse force
+			//	const glm::vec3 newImpulseForce = glm::vec3(
+			//		currentImpulseForce.x - (forceMagnitude.x * deltaTime),
+			//		currentImpulseForce.y - (forceMagnitude.y * deltaTime),
+			//		currentImpulseForce.z - (forceMagnitude.z * deltaTime))
+			//	)
+
+			//	if (newImpulseForce.length < 0.0f)
+			//	{
+			//		actor->SetImpulseActive(false);
+			//		actor->SetCurrentImpulseForce(glm::vec3(0.0f));
+			//	}
+			//	else
+			//	{
+			//		if (newImpulseForce.x < 0.0f)
+			//			newImpulseForce.x = 0.0f;
+			//		if (newImpulseForce.y < 0.0f)
+			//			newImpulseForce.y = 0.0f;
+			//		if (newImpulseForce.z < 0.0f)
+			//			newImpulseForce.z = 0.0f;
+
+			//		actor->SetCurrentImpulseForce(newJumpForce);
+			//	}
+			//}
 		}
 	}
 }
