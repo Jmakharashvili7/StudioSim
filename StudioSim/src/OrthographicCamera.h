@@ -1,6 +1,7 @@
 #pragma once
 #include "BasicIncludes.h"
 #include "glm\ext\vector_common.hpp"
+#include "IdkYet/Actor.h"
 
 class OrthographicCamera
 {
@@ -22,6 +23,7 @@ private:
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
 	glm::mat4 m_viewProjectionMatrix;
+
 
 	glm::vec3 m_position;
 	float m_rotation = 0.0f;

@@ -162,6 +162,9 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\IdkYet\Actor.cpp" />
+    <ClCompile Include="src\IdkYet\Component.cpp" />
+    <ClCompile Include="src\IdkYet\Game.cpp" />
     <ClCompile Include="src\Animate.cpp" />
     <ClCompile Include="src\EngineManager.cpp" />
     <ClCompile Include="src\GameTime.cpp" />
@@ -186,8 +189,12 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
+    <ClCompile Include="src\IdkYet\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\IdkYet\Actor.h" />
+    <ClInclude Include="src\IdkYet\Component.h" />
+    <ClInclude Include="src\IdkYet\Game.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\EngineManager.h" />
     <ClInclude Include="src\GameTime.h" />
@@ -214,6 +221,7 @@
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\UIRenderer.h" />
     <ClInclude Include="src\UILayer.h" />
+    <ClInclude Include="src\IdkYet\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

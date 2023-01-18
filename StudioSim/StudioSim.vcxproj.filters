@@ -32,6 +32,10 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
+    <ClCompile Include="src\IdkYet\Component.cpp" />
+    <ClCompile Include="src\IdkYet\Transform.cpp" />
+    <ClCompile Include="src\IdkYet\Actor.cpp" />
+    <ClCompile Include="src\IdkYet\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -60,6 +64,10 @@
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\QuackPhysics.h" />
+    <ClInclude Include="src\IdkYet\Component.h" />
+    <ClInclude Include="src\IdkYet\Transform.h" />
+    <ClInclude Include="src\IdkYet\Actor.h" />
+    <ClInclude Include="src\IdkYet\Game.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />
