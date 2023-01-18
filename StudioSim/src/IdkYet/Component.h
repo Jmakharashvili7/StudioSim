@@ -5,6 +5,7 @@ public:
 	//constructor
 	//the lower the update order, the earlier component updates
 	Component(class Actor* _owner, int _updateOrder);
+	Component(){}
 
 	//Destructor
 

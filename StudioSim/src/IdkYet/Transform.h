@@ -27,6 +27,7 @@ class Transform : Component
 
 public:
 	Transform(class Actor* _owner, int _updateOrder);
+	Transform();
 	//Apply transformations in this order
 	glm::vec2 m_Scale;//scale first
 	glm::vec2 m_Orientation;//remove or dont use

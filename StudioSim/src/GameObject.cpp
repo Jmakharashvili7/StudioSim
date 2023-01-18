@@ -4,6 +4,7 @@
 GameObject::GameObject(GameObjectData* data, const std::string& texturePath) :
 	m_texture(new Texture(texturePath)), m_data(data)
 {
+	m_Transform = new Transform();
 	m_va = new VertexArray();
 	UpdateVertexArray();
 }
@@ -23,14 +24,30 @@ GameObject::~GameObject()
 	if (m_data) delete m_data;
 }
 
-void GameObject::Draw()
+void GameObject::Draw(Shader* shaderToUse)
 {
-	// draw square
-	m_texture->Bind();
-	m_va->Bind();
-	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
-	m_texture->UnBind();
-	m_va->Unbind();
+	if (shaderToUse)
+	{
+		
+		m_Transform->m_Position.x = m_Transform->m_Position.x / 1280;
+		m_Transform->m_Position.y = m_Transform->m_Position.y / 960;
+		//m_Transform->ComputeTransform();
+
+		vec2 testPosition(500, 500);
+		testPosition.x = testPosition.x / 1280;
+		testPosition.y = testPosition.y / 960;
+		glm::mat4 testMatrix = glm::mat4(1.0f);
+
+		testMatrix = glm::translate(testMatrix, vec3(testPosition, 0.0f));
+
+		shaderToUse->SetUniform4x4("u_model", m_Transform->GetWorldTransform());
+		// draw square
+		m_texture->Bind();
+		m_va->Bind();
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
+		m_texture->UnBind();
+		m_va->Unbind();
+	}
 }
 
 void GameObject::SetUpAnimator(int rows, int columns)

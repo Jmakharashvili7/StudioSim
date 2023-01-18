@@ -233,6 +233,7 @@
   <ItemGroup>
     <Image Include="res\textures\blue.png" />
     <Image Include="res\textures\duck.png" />
+    <Image Include="res\textures\duck2.png" />
     <Image Include="res\textures\test sheet.jpg" />
     <Image Include="res\textures\test sheet.png" />
     <Image Include="res\textures\twist.png" />

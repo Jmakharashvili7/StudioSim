@@ -4,6 +4,11 @@
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Texture.h"
+#include "Shader.h"
+
+#include "IdkYet/Transform.h"
+
+using namespace glm;
 
 class Animate;
 
@@ -20,7 +25,7 @@ public:
 	GameObject(GameObjectData* data, const std::string& texturePath);
 	~GameObject();
 
-	void Draw();
+	void Draw(Shader* shaderToUse);
 	void SetUpAnimator(int rows, int columns);
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
@@ -38,5 +43,6 @@ private:
 	Animate* m_animator;
 		
 	GameObjectData* m_data;
+	Transform* m_Transform;
 };
 

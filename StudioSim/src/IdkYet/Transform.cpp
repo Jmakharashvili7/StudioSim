@@ -3,11 +3,12 @@
 Transform::Transform(class Actor* _owner, int _updateOrder) : Component(_owner, _updateOrder)
 {
 	m_ReComputeWorldTransform = true;
-	m_Position = vec2(0,0);
+	m_Position = vec2(100,100);
 	m_Scale = vec2(100,100);
 	m_Right = GetForward();
 	m_Up = GetUp();
-	m_TransformMatrix = scale(vec3(m_Scale, 0));
+	m_TransformMatrix = mat4(1.0f);
+	//m_TransformMatrix = scale(vec3(m_Scale, 0));
 	SetPositionAndRotation(m_Position, m_fRotation);
 
 
@@ -17,6 +18,17 @@ Transform::Transform(class Actor* _owner, int _updateOrder) : Component(_owner, 
 	//transform.x = m_Scale.x * (m_Position.x * cos(m_fRotation)) - m_Scale.y * (m_Position.y * sin(m_fRotation)) + translation.x;
 	//transform.y = m_Scale.x * (m_Position.x * sin(m_fRotation)) + m_Scale.y * (m_Position.y * cos(m_fRotation)) + translation.y;
 
+}
+
+Transform::Transform()
+{
+	m_ReComputeWorldTransform = true;
+	m_Position = vec2(500, 500);
+	m_Scale = vec2(1, 1);
+	m_Right = GetForward();
+	m_Up = GetUp();
+	m_TransformMatrix = mat4(1.0f);
+	ComputeTransform();
 }
 
 glm::vec2 Transform::GetForward() const
@@ -147,12 +159,12 @@ void Transform::ComputeTransform()
 {
 	if (m_ReComputeWorldTransform)
 	{
-		m_ReComputeWorldTransform = false;
-		m_TransformMatrix = scale(m_TransformMatrix, vec3(m_Scale,1));
+		//m_ReComputeWorldTransform = false;
+	
+	}
+	m_TransformMatrix = scale(m_TransformMatrix, vec3(m_Scale,1));
 		m_TransformMatrix = rotate(m_TransformMatrix,radians(m_fRotation), vec3(m_Orientation,1));
 		m_TransformMatrix = translate(m_TransformMatrix, vec3(m_Position,0));
-	}
-
 
 }
 

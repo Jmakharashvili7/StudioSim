@@ -322,7 +322,7 @@ void Quack::RenderUpdate()
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
-		if (gameObject) gameObject->Draw();
+		if (gameObject) gameObject->Draw(m_mainShader);
 	}
 
 	// Draw layers 

@@ -76,6 +76,7 @@
     <Image Include="res\textures\test sheet.png" />
     <Image Include="res\textures\twist.png" />
     <Image Include="res\textures\twist2.png" />
+    <Image Include="res\textures\duck2.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
