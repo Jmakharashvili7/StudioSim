@@ -96,3 +96,11 @@ void Animate::SetFramePlayTime(int row, int column, float duration)
 
 	m_durationData[location] = duration;
 }
+
+void Animate::SetRowToPlay(int row)
+{
+	m_rowToPlay = row;
+	m_spriteFrame = 0;
+	m_delay = 50.0f;
+	
+}

@@ -226,6 +226,7 @@ void Quack::HandleInput()
 				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
 				m_duck->GetAnimator()->SetRowToPlay(1);
 			}
+			break;
 		}
 		case 'O':
 		{
@@ -234,6 +235,7 @@ void Quack::HandleInput()
 				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
 				m_duck->GetAnimator()->SetRowToPlay(0);
 			}
+			break;
 		}
 		//case 'L': // JUMP Right
 		//{

@@ -16,7 +16,7 @@ public:
 
 	void SetFramePlayTime(int row, int column, float duration);
 
-	inline void SetRowToPlay(int row) { m_rowToPlay = row; }
+	void SetRowToPlay(int row);
 	inline int GetRowToPlay() { return m_rowToPlay; }
 
 private:
@@ -31,6 +31,6 @@ private:
 	float m_columns;
 
 	int m_spriteFrame;
-	int m_rowToPlay = 0;
+	int m_rowToPlay ;
 
 };
