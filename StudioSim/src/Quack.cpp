@@ -9,7 +9,6 @@
 #include "QuackCallbacks.h"
 #include "QuackPhysics.h"
 
-//#define _2D_SHADER
 #include "Animate.h"
 #include "JsonLoader.h"
 #include "LayerStack.h"
@@ -98,11 +97,11 @@ OrthographicCamera* Quack::m_mainCamera;
 void Quack::InitObjects()
 {
 	//Render the lighting texture first, any window textures last, if 3D should be in order of furthest to closest
-	GameObjectData* data2 = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_testWindow = new GameObject(data2, "res/textures/spotlight1.png");
-	m_gameObjects.push_back(m_testWindow);
+	//GameObjectData* data2 = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	//m_testWindow = new GameObject(data2, "res/textures/spotlight1.png");
+	//m_gameObjects.push_back(m_testWindow);
 
-	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square2.json");
 	m_duck = new GameObject(data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
 
