@@ -25,4 +25,16 @@ struct PhysicsData
 	float jumpHeight;
 };
 
+struct AnimationData
+{
+	AnimationData(const bool inAnimated, const int inRows, const int inColumns)
+		: banimated(inAnimated), rows(inRows), columns(inColumns) {};
+
+	AnimationData() : banimated(false){};
+
+	bool banimated;
+	int rows;
+	int columns;
+};
+
 

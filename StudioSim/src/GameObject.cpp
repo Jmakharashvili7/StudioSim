@@ -16,8 +16,6 @@ GameObject::~GameObject()
 	delete m_va;
 	m_va = nullptr;
 
-	delete m_animator;
-	m_animator = nullptr;
 	if (m_texture) delete m_texture;
 	if (m_va) delete m_va;
 	if (m_data) delete m_data;
@@ -31,11 +29,6 @@ void GameObject::Draw()
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	m_texture->UnBind();
 	m_va->Unbind();
-}
-
-void GameObject::SetUpAnimator(int rows, int columns)
-{
-	m_animator = new Animate(this, rows, columns);
 }
 
 void GameObject::UpdateObjectData(GameObjectData* newData)

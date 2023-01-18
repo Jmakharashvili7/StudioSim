@@ -6,8 +6,6 @@
 #include "Texture.h"
 #include "QuackDataTypes.h"
 
-class Animate;
-
 struct GameObjectData
 {
 	std::vector<float> vertices;
@@ -21,11 +19,9 @@ public:
 	GameObject(GameObjectData* data, const TextureData& textureData);
 	~GameObject();
 
-	void Draw();
-	void SetUpAnimator(int rows, int columns);
+	virtual void Draw();
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
-	inline Animate* GetAnimator() { return m_animator; }
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 
 	void UpdateVertexArray();
@@ -35,8 +31,6 @@ protected:
 	Texture* m_texture;
 
 	VertexArray* m_va;
-
-	Animate* m_animator;
 		
 	GameObjectData* m_data;
 };

@@ -8,6 +8,7 @@
 #include "imgui_impl_opengl3.h"
 #include "QuackCallbacks.h"
 #include "QuackPhysics.h"
+#include "Animate.h"
 
 //#define _2D_SHADER
 #include "Animate.h"
@@ -106,9 +107,10 @@ void Quack::InitObjects()
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
+	const TextureData duckTextureData = TextureData("res/textures/test sheet.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 0.25f, 5.0f);
-	m_duck = CreateNewActor(duckObjectData, duckTextureData, duckPhysicsData);
+	const AnimationData duckAnimationData = AnimationData(true, 2, 4);
+	m_duck = CreateNewActor(duckObjectData, duckTextureData, duckPhysicsData, duckAnimationData);
 }
 
 void Quack::SetupShaders()
@@ -208,12 +210,31 @@ void Quack::HandleInput()
 			m_mainCamera->SetPosition(temp);
 			break;
 		}
-		//TODO
-		//case 'I': // JUMP
-		//{
-		//	Jump();
-		//	break;
-		//}
+		case 'I': // JUMP
+		{
+			if (m_duck)
+			{
+				m_duck->AddImpulseForce(glm::vec3(0.0f, 5.0f, 0.0f));
+			}
+			break; 
+		}
+		case 'P':
+		{
+			
+			if (m_duck)
+			{
+				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
+				m_duck->GetAnimator()->SetRowToPlay(1);
+			}
+		}
+		case 'O':
+		{
+			if (m_duck)
+			{
+				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
+				m_duck->GetAnimator()->SetRowToPlay(0);
+			}
+		}
 		//case 'L': // JUMP Right
 		//{
 		//	m_direction = RIGHT;
@@ -363,10 +384,10 @@ GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const Texture
 	return createdGameObject;
 }
 
-Actor* Quack::CreateNewActor(GameObjectData* objectData, const TextureData& textureData, const PhysicsData& physicsData)
+Actor* Quack::CreateNewActor(GameObjectData* objectData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
 	Actor* createdActor = nullptr;
-	createdActor = new Actor(objectData, textureData, physicsData);
+	createdActor = new Actor(objectData, textureData, physicsData, animationData);
 
 	if (createdActor)
 	{

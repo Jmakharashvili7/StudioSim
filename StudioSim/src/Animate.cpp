@@ -1,7 +1,8 @@
 #include "Animate.h"
 #include "GameObject.h"
+#include "Actor.h"
 
-Animate::Animate(GameObject* target, int rows, int columns)
+Animate::Animate(Actor* target, int rows, int columns)
 {
 	m_object = target;
 
@@ -25,7 +26,7 @@ Animate::~Animate()
 /// </summary>
 /// <param name="deltaTime">Delta time</param>
 /// <param name="playRate">Time taken to update frame in seconds</param>
-void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
+void Animate::UpdateTextCoord(float deltaTime)
 {
 	//Use delay to adjust play rate of the animation
 	m_delay = m_delay + deltaTime;
@@ -35,13 +36,13 @@ void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
 	if (m_delay > playTime)
 	{
 		//Calculate starting position in sprite sheet based of the current frame
-		glm::vec2 startLocation = glm::vec2(0, 0);
+		glm::vec2 startLocation = glm::vec2(m_frameToPlay.first, m_frameToPlay.second);
 
 		//making sure the sprite frame value isn't more than the number of columns
 		m_spriteFrame = m_spriteFrame > m_columns - 1 ? m_spriteFrame - m_columns : m_spriteFrame;
 		startLocation.x = (1 / m_columns) * m_spriteFrame;
 
-		startLocation.y = (1 / m_rows) * rowToPlay;
+		startLocation.y = (1 / m_rows) * m_rowToPlay;
 
 		
 		//Updating texture co-ordinates
@@ -56,7 +57,7 @@ void Animate::UpdateTextCoord(float deltaTime, float playRate, int rowToPlay)
 		};
 		m_object->UpdateVertexArray();
 
-		m_frameToPlay = { rowToPlay, m_spriteFrame };
+		m_frameToPlay = { m_rowToPlay, m_spriteFrame };
 
 		m_spriteFrame++;
 		m_delay = 0;

@@ -1,24 +1,26 @@
 #pragma once
-
 #include "BasicIncludes.h"
 
-class GameObject;
+class Actor;
 
-class Animate
+class Animate 
 {
 private: 
 	void GenerateFrameList();
 
 public:
-	Animate(GameObject* target, int rows, int columns);
+	Animate(Actor* target, int rows, int columns);
 	~Animate();
 
-	void UpdateTextCoord(float deltaTime, float playRate, int rowToPlay);
+	void UpdateTextCoord(float deltaTime);
 
 	void SetFramePlayTime(int row, int column, float duration);
 
+	inline void SetRowToPlay(int row) { m_rowToPlay = row; }
+	inline int GetRowToPlay() { return m_rowToPlay; }
+
 private:
-	GameObject* m_object;
+	Actor* m_object;
 
 	std::map<std::pair<int, int>, float> m_durationData;
 
@@ -29,5 +31,6 @@ private:
 	float m_columns;
 
 	int m_spriteFrame;
+	int m_rowToPlay = 0;
 
 };

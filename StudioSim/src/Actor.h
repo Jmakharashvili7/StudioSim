@@ -2,13 +2,17 @@
 #include "GameObject.h"
 #include "BasicIncludes.h"
 
+class Animate;
+
 class Actor : public GameObject
 {
 public:
-	Actor(GameObjectData* data, const TextureData& textureData, const PhysicsData& physicsData);
+	Actor(GameObjectData* data, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 	~Actor();
 
 	void Jump();
+
+	virtual void Draw() override;
 
 	// Setters
 	inline void SetJumping(const bool bjumping) { m_bjumping = bjumping; }
@@ -22,6 +26,8 @@ public:
 	inline const bool GetJumping() const { return m_bjumping; }
 	inline const float GetCurrentJumpForce() const { return m_currentJumpForce; }
 
+	inline Animate* const GetAnimator() { return m_animator; }
+
 	//TEST
 	void AddImpulseForce(glm::vec3 force);
 	inline const bool GetImpulseActive() const { return m_bimpulseActive; }
@@ -30,7 +36,13 @@ public:
 	inline const glm::vec3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
 	inline const glm::vec3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
 
+
 private:
+	Animate* m_animator = nullptr;
+
+	/* Animation */
+	bool m_banimated = false;
+
 	/* Physics */
 	// Settings
 	bool m_bsimulateGravity = false;
