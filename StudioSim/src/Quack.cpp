@@ -107,9 +107,9 @@ void Quack::InitObjects()
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TextureData duckTextureData = TextureData("res/textures/test sheet.png", GL_RGBA, GL_RGBA);
+	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 0.25f, 5.0f);
-	const AnimationData duckAnimationData = AnimationData(true, 2, 4);
+	const AnimationData duckAnimationData = AnimationData();
 	m_duck = CreateNewActor(duckObjectData, duckTextureData, duckPhysicsData, duckAnimationData);
 }
 
@@ -217,23 +217,6 @@ void Quack::HandleInput()
 				m_duck->AddImpulseForce(glm::vec3(0.0f, 5.0f, 0.0f));
 			}
 			break; 
-		}
-		case 'P':
-		{
-			
-			if (m_duck)
-			{
-				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
-				m_duck->GetAnimator()->SetRowToPlay(1);
-			}
-		}
-		case 'O':
-		{
-			if (m_duck)
-			{
-				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
-				m_duck->GetAnimator()->SetRowToPlay(0);
-			}
 		}
 		//case 'L': // JUMP Right
 		//{

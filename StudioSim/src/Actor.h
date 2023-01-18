@@ -38,9 +38,8 @@ public:
 
 
 private:
-	Animate* m_animator = nullptr;
-
 	/* Animation */
+	Animate* m_animator = nullptr;
 	bool m_banimated = false;
 
 	/* Physics */

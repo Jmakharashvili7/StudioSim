@@ -125,10 +125,7 @@ private:
 	static glm::vec4 m_spotAmbient;
 	static glm::vec4 m_spotDiffuse;
 	static glm::vec4 m_spotSpecular;
-
-
 	static glm::vec4 m_lightAmbient;
-
 
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;
