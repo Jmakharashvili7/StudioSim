@@ -29,14 +29,21 @@ struct FmodImplementation
 	//Channel is a playing instance of a Sound
 	typedef map<int, FMOD::Channel*> ChannelMap;
 
+
 	//Functions
 	void Update();
 
 	//Pointers and variables
 	FMOD::System* pFmodSystem;
+	FMOD::ChannelGroup* pSoundsGroup;
+	FMOD::ChannelGroup* pTracksGroup;
+	
+	
+	
 
 	SoundMap	m_SoundMap;
 	ChannelMap	m_ChannelMap;
+
 
 	int			m_NextChannelID;
 };
@@ -62,7 +69,7 @@ public:
 /// <param name="isStream"> ->Set to true if using a larger file</param>
 	static void LoadSound(const string& pathToSound,
 		bool is3D , bool isloop, bool isStream );
-	static void Stop(int channelID);
+	
 	static void UnloadSound(const string& pathToSound);
 	
 /// <summary>
@@ -79,13 +86,25 @@ public:
 	static int PlaySound(const string& pathToSound, 
 		const Vector3& vectorPosition,bool is3D , bool isloop, bool isStream, float volumeDB, float pitch);
 
+	/// <summary>
+	/// Use it for soundtrack
+	/// </summary>
+	/// <param name="pathToSound"></param>
+	/// <param name="vectorPosition"></param>
+	/// <param name="is3D"></param>
+	/// <param name="isloop"></param>
+	/// <param name="isStream"></param>
+	/// <param name="volumeDB"></param>
+	/// <param name="pitch"></param>
+	/// <returns></returns>
+	static int PlaySoundTrack(const string& pathToSound,
+		const Vector3& vectorPosition, bool is3D, bool isloop, bool isStream, float volumeDB, float pitch);
 /// <summary>
 /// Convert DB to linear Volume
 /// </summary>
 /// <param name="DB"> -> Logarithmic unit used to measure sound level </param>
 /// <returns> Returns the value of X to the power of Y </returns>
 	static float ChangingDBToVolume(float DB);
-
 /// <summary>
 /// Convert Vector3 struct to FMOD vector 3
 /// Used to set 3D position on the word
@@ -93,12 +112,15 @@ public:
 /// <param name="vectorPos"></param>
 /// <returns></returns>
 	static FMOD_VECTOR VectorToFmod(const Vector3& vectorPos);
+	static void StopTrackGroup();
 
 	//Varaibles
 	AudioEngine2D* pAudioEngine;
 
 
 
+	//Helpers
+	static int GetSoundID();
 
 };
 

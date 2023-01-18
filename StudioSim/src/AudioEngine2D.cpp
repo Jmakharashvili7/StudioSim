@@ -4,6 +4,8 @@ FmodImplementation::FmodImplementation()
 {
 	FMOD_RESULT result;
 	pFmodSystem = NULL;
+
+	
 	m_NextChannelID = 0;
 
 	//Creating main system object
@@ -22,6 +24,22 @@ FmodImplementation::FmodImplementation()
 		printf("Error initializing fmod:  (%d) %s ", result, FMOD_ErrorString(result));
 		exit(-1);
 	}
+
+	//Initialize Channels group
+	result = pFmodSystem->createChannelGroup("Sounds", &pSoundsGroup);
+	if (result != FMOD_OK)
+	{
+		printf("Error creating Sounds group:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+
+	result = pFmodSystem->createChannelGroup("Soundtracks", &pTracksGroup);
+	if (result != FMOD_OK)
+	{
+		printf("Error creating SoundTrack group:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+
 }
 
 FmodImplementation::~FmodImplementation()
@@ -54,6 +72,7 @@ void FmodImplementation::Update()
 	
 }
 
+
 FmodImplementation* pFmodSys;
 
 
@@ -61,6 +80,7 @@ FmodImplementation* pFmodSys;
 void AudioEngine2D::Initialization()
 {
 	pFmodSys = new FmodImplementation;
+	
 	
 }
 
@@ -86,6 +106,7 @@ FMOD_VECTOR AudioEngine2D::VectorToFmod(const Vector3& vectorPos)
 	vecFmod.x = vectorPos.x;
 	return vecFmod;
 }
+
 
 
 float AudioEngine2D::ChangingDBToVolume(float DB)
@@ -149,7 +170,6 @@ int AudioEngine2D::PlaySound(const std::string& pathToSound,
 	const Vector3& vectorPos, bool is3D, bool isloop, bool isStream, float volumeDB, float pitch)
 {
 	FMOD_RESULT result;
-	std::cout << "Playing" << endl;
 
 	int channelID = pFmodSys->m_NextChannelID++;
 	auto foundSound = pFmodSys->m_SoundMap.find(pathToSound);
@@ -165,11 +185,13 @@ int AudioEngine2D::PlaySound(const std::string& pathToSound,
 	}
 
 	FMOD::Channel* pChannel = nullptr;
-		pFmodSys->pFmodSystem->playSound(
-			foundSound->second,
-			nullptr,
+	pFmodSys->pFmodSystem->playSound(
+		foundSound->second,
+		pFmodSys->pSoundsGroup,
 			true,
 			&pChannel);
+
+
 	
 	if (pChannel)
 	{
@@ -191,8 +213,53 @@ int AudioEngine2D::PlaySound(const std::string& pathToSound,
 
 }
 
-void AudioEngine2D::Stop(int channelID)
+int AudioEngine2D::PlaySoundTrack(const std::string& pathToSound,
+	const Vector3& vectorPos, bool is3D, bool isloop, bool isStream, float volumeDB, float pitch)
 {
-	
+	FMOD_RESULT result;
+
+	int channelID = pFmodSys->m_NextChannelID++;
+	auto foundSound = pFmodSys->m_SoundMap.find(pathToSound);
+
+	if (foundSound == pFmodSys->m_SoundMap.end())
+	{
+		LoadSound(pathToSound, is3D, isloop, isStream);
+		foundSound = pFmodSys->m_SoundMap.find(pathToSound);
+		if (foundSound == pFmodSys->m_SoundMap.end())
+		{
+			return channelID;
+		}
+	}
+
+	FMOD::Channel* pChannel = nullptr;
+	pFmodSys->pFmodSystem->playSound(
+		foundSound->second,
+		pFmodSys->pTracksGroup,
+		true,
+		&pChannel);
+
+	if (pChannel)
+	{
+		FMOD_MODE currentMode;
+		foundSound->second->getMode(&currentMode);
+		if (currentMode & FMOD_3D)
+		{
+			FMOD_VECTOR pos = VectorToFmod(vectorPos);
+			pChannel->set3DAttributes(&pos, nullptr);
+		}
+
+		pChannel->setVolume(ChangingDBToVolume(volumeDB));
+		pChannel->setPaused(false);
+		pChannel->setPitch(pitch);
+		pFmodSys->m_ChannelMap[channelID] = pChannel;
+	}
+	return channelID;
+
 }
+
+void AudioEngine2D::StopTrackGroup()
+{
+	pFmodSys->pTracksGroup->stop();
+}
+
 
