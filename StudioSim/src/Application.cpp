@@ -12,6 +12,7 @@ int main(void)
     while (Quack::s_running)
     {
         Quack::Update();
+        Quack::PhysicsUpdate();
         Quack::RenderUpdate();
     }
     Quack::ShutDown();

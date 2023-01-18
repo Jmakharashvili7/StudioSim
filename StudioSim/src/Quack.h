@@ -13,6 +13,7 @@
 #include "GameTime.h"
 #include "Actor.h"
 #include "QuackDataTypes.h"
+#include "PhysicsManager.h"
 
 class LayerStack;
 class UIRenderer;
@@ -20,8 +21,6 @@ class UILayer;
 
 
 #define MAX_FRAME_RATE 144
-#define GFORCE 9.81
-#define JUMP_HEIGHT 3.0f
 #define NUMBER_OF_SQUARES 4
 
 class QuackPhysics;
@@ -38,7 +37,7 @@ public:
 
 	static void Update();
 	static void RenderUpdate();
-	//void PhysicsUpdate();
+	static void PhysicsUpdate();
 
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
@@ -47,13 +46,8 @@ public:
 
 	static void ImGUIInit();
 
-	static void Gravity();
-
-	static void Jump();
-	static void JumpDecrement();
-
 	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TextureData& textureData);
-	static Actor* CreateNewActor(GameObjectData* objectData, const TextureData& textureData);
+	static Actor* CreateNewActor(GameObjectData* objectData, const TextureData& textureData, const PhysicsData& physicsData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
@@ -74,6 +68,7 @@ private:
 	static Window* m_window;
 	static LayerStack* m_layerStack;
 	static UILayer* m_uiMain;
+	static PhysicsManager* m_physicsManager;
 
 	//Frame related variables
 	static double m_currentTime;
