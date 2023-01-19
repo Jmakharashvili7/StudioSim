@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "IndexBuffer.h"
 #include "OrthographicCamera.h"
+#include "PerspectiveCamera.h"
 #include "Window.h"
 #include "Texture.h"
 #include "GameObject.h"
@@ -130,4 +131,5 @@ private:
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;
 	static OrthographicCamera* m_mainCamera;
+	static PerspectiveCamera* m_perspectiveCamera;
 };

@@ -32,6 +32,7 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
+    <ClCompile Include="src\PerspectiveCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\QuackPhysics.h" />
+    <ClInclude Include="src\PerspectiveCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />

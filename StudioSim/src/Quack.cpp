@@ -91,6 +91,7 @@ Shader* Quack::m_mainShader;
 Shader* Quack::m_3dShader;
 
 OrthographicCamera* Quack::m_mainCamera;
+PerspectiveCamera* Quack::m_perspectiveCamera;
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
@@ -106,7 +107,8 @@ void Quack::SetupShaders()
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	//m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->SetUniform4x4("u_viewProjection", m_perspectiveCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
 
 #endif // _2D_SHADER
@@ -125,9 +127,13 @@ void Quack::SetupShaders()
 int Quack::InitEngine()
 {
 	s_running = true;
-
-	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
-	m_mainCamera->SetPosition(glm::vec3(0.0f));
+	glm::vec3 Eye = glm::vec3(0.0f, 0.0f, 1.0f);
+	glm::vec3 At = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+	//m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
+	//m_mainCamera->SetPosition(glm::vec3(0.0f));
+	m_perspectiveCamera = new PerspectiveCamera(Eye,At,Up, 1280, 960,0.01f, 10000.0f);
+	m_perspectiveCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
@@ -309,7 +315,8 @@ void Quack::RenderUpdate()
 
 	// bind shader
 	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	//m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_mainShader->SetUniform4x4("u_viewProjection", m_perspectiveCamera->GetViewProjectionMatrix());
 
 	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
