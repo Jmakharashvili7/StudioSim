@@ -9,6 +9,7 @@
 #include "QuackCallbacks.h"
 #include "QuackPhysics.h"
 
+//#define _2D_SHADER
 #include "Animate.h"
 #include "JsonLoader.h"
 #include "LayerStack.h"
@@ -84,8 +85,6 @@ glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
 GameObject* Quack::m_duck;
 GameObject* Quack::m_testSprite;
-GameObject* Quack::m_testWindow;
-
 UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
@@ -97,17 +96,9 @@ PerspectiveCamera* Quack::m_perspectiveCamera;
 
 void Quack::InitObjects()
 {
-	//Render the lighting texture first, any window textures last, if 3D should be in order of furthest to closest
-	//GameObjectData* data2 = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	//m_testWindow = new GameObject(data2, "res/textures/spotlight1.png");
-	//m_gameObjects.push_back(m_testWindow);
-
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Cube.json");
 	m_duck = new GameObject(data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
-
-	//glBlendFunc(GL_DST_COLOR, GL_ZERO);
-
 }
 
 void Quack::SetupShaders()
@@ -136,7 +127,7 @@ void Quack::SetupShaders()
 int Quack::InitEngine()
 {
 	s_running = true;
-	glm::vec3 Eye = glm::vec3(0.0f, 0.0f, 1.0f);
+	glm::vec3 Eye = glm::vec3(1.0f, 1.0f, 5.0f);
 	glm::vec3 At = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	//m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
@@ -151,6 +142,7 @@ int Quack::InitEngine()
 
 	// Initilaize window
 	m_window->UseWindow();
+	glEnable(GL_DEPTH_TEST);
 
 	m_gameTimer.Start();
 
@@ -167,12 +159,6 @@ int Quack::InitEngine()
 	KeyboardClass::Init();
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
-
-	//Initialise Blending
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	glBlendEquation(GL_FUNC_ADD);
 
 	InitObjects();
 	SetupShaders();
@@ -265,7 +251,7 @@ void Quack::RenderUpdate()
 {
 	/* Render here */
 	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 #ifdef _3D_SHADER
 
