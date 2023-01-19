@@ -1,8 +1,9 @@
 #include "UILayer.h"
 #include "Quack.h"
 #include "Window.h"
+#include "EngineManager.h"
 
-UILayer::UILayer() : Layer("UI Layer"), m_viewportSize(0.0f, 0.0f)
+UILayer::UILayer() : Layer("UI Layer")
 {
 
 }
@@ -18,6 +19,7 @@ void UILayer::OnAttach()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	ImGui::StyleColorsDark();
+	m_viewport = new UIWindow("viewport");
 
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGui_ImplGlfw_InitForOpenGL(Quack::GetWindow()->GetGLFWWindow(), true);
@@ -29,12 +31,21 @@ void UILayer::OnDetach()
 
 void UILayer::OnUpdate()
 {
+	// Start a new frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	// start a new frame
+
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.65f, 0.0f, 1.0f));
+	// Insert UI Code here
 	EnableDocking();
+	ImGui::PopStyleColor(1);
+
+	// render the data
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	// render the data
 }
 
 void UILayer::OnEvent()
@@ -85,21 +96,45 @@ void UILayer::EnableDocking()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("Viewport");
 
-	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-	if (m_viewportSize != *((glm::vec2*)&viewportSize))
+	// Check if the size of the window changed
+	// *((glm::vec2*)& is used to compare imvec2 and glm vec2 and it works due to their layouts both being two floats
+	ImVec2 viewportPos = ImGui::GetWindowPos();
+	if (m_viewport->GetPosition() != *((glm::vec2*)&viewportPos))
 	{
-		m_viewportSize = { viewportSize.x, viewportSize.y };
-		Quack::GetFrameBuffer()->Resize(m_viewportSize.x, m_viewportSize.y);
+		m_viewport->SetPosition({ viewportPos.x, viewportPos.y });
 	}
 
+	// Check if the size of the window changed
+	// *((glm::vec2*)& is used to compare imvec2 and glm vec2 and it works due to their layouts both being two floats
+	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+	if (m_viewport->GetSize() != *((glm::vec2*)&viewportSize))
+	{
+		m_viewport->SetSize({ viewportSize.x, viewportSize.y });
+		Quack::GetFrameBuffer()->Resize(m_viewport->GetSize().x, m_viewport->GetSize().y);
+	}
+
+	m_viewport->SetIsFocused(ImGui::IsWindowFocused());
+
 	uint32_t id = Quack::GetFrameBuffer()->GetColorAttachment();
-	ImGui::Image((void*)id, ImVec2(m_viewportSize.x, m_viewportSize.y), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image((void*)id, ImVec2(m_viewport->GetSize().x, m_viewport->GetSize().y), ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 
+	static glm::vec3 vector;
+	
 	ImGui::Begin("Settings");
-	ImGui::Text("text");
-	ImGui::Text("text");
-	ImGui::Text("text");
+	GameObject* duck = EngineManager::GetGameObject("duck");
+	Texture* texture = duck->GetTexture();
+	ImGui::Text(duck->GetName().c_str());
+	ImGui::Image((void*) texture->GetRendererID(), ImVec2(100, 100), ImVec2(0,1), ImVec2(1, 0));
+	if (ImGui::TreeNode("Transform"))
+	{
+		ImGui::DragFloat3("Position", &vector[0]);
+		ImGui::DragFloat3("Rotation", &vector[0]);
+		ImGui::DragFloat3("Scale", &vector[0]);
+		ImGui::TreePop();
+		ImGui::Separator();
+	}
+
 	ImGui::End();
 	ImGui::PopStyleVar();
 

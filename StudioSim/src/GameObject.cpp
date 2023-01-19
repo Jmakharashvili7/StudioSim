@@ -1,8 +1,8 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(GameObjectData* data, const std::string& texturePath) :
-	m_texture(new Texture(texturePath)), m_data(data)
+GameObject::GameObject(std::string name, GameObjectData* data, const std::string& texturePath) :
+	m_name(name), m_texture(new Texture(texturePath)), m_data(data)
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();

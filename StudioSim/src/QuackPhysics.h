@@ -12,7 +12,7 @@ struct BoundingBox
 		center.z = 0;
 		size.x = 0;
 		size.y = 0;
-		size.z = 0;
+		size.z = 0;	
 	}
 	BoundingBox(glm::vec3 position, glm::vec3 size)
 	{

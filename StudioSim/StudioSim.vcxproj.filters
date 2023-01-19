@@ -32,8 +32,10 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
+    <ClCompile Include="src\UIWindow.cpp" />
+    <ClCompile Include="src\MouseClass.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -62,8 +64,10 @@
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\QuackPhysics.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="src\FrameBuffer.h" />
+    <ClInclude Include="src\UIWindow.h" />
+    <ClInclude Include="src\MouseClass.h" />
+    <ClInclude Include="src\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />

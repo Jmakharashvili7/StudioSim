@@ -3,6 +3,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "UIWindow.h"
+
 
 class UILayer : public Layer
 {
@@ -16,12 +18,12 @@ public:
 	void OnEvent() override;
 
 	inline glm::vec4& GetColor() { return m_color; }
-	inline glm::vec2& GetViewportSize() { return m_viewportSize; }
+	inline UIWindow* GetViewport() { return m_viewport; }
 private:
 	void EnableDocking();
 private:
 	float m_time;
 	glm::vec4 m_color;
-	glm::vec2 m_viewportSize;
+	UIWindow* m_viewport;
 };
 

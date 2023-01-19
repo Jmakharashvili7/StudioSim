@@ -3,11 +3,13 @@
 #include "Texture.h"
 #include "IndexBuffer.h"
 #include "KeyboardClass.h"
+#include "MouseClass.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "QuackPhysics.h"
 #include "QuackCallbacks.h"
+#include "EngineManager.h"
 
 //#define _2D_SHADER
 #include "Animate.h"
@@ -98,8 +100,10 @@ OrthographicCamera* Quack::m_mainCamera;
 void Quack::InitObjects()
 {
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_duck = new GameObject(data, "res/textures/duck2.png");
+	m_duck = new GameObject("duck", data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
+
+	EngineManager::SetGameObjects(m_gameObjects);
 }
 
 void Quack::SetupShaders()
@@ -145,16 +149,21 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	///
-	///	Initialize IMGUI
-	/// 
-	m_uiMain->OnAttach();
-
-	/* Initialize the keyboard class*/
+	/* Initialize the input classes */
 	KeyboardClass::Init();
+	MouseClass::Init();
+
+	/* Setup glfw callbacks */
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
 	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
+	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
+	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
+
+	///
+	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
+	/// 
+	m_uiMain->OnAttach();
 
 	FrameBufferSpecificiation fbs;
 	fbs.width = 1920;
@@ -179,30 +188,42 @@ void Quack::HandleInput()
 			break;
 		case 'W': // move camera up
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.y += 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.y += 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'S': // move camera down
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.y -= 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.y -= 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'A': // move camera left
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.x -= 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.x -= 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'D': // move camera right
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.x += 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.x += 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'I': // JUMP
@@ -224,6 +245,23 @@ void Quack::HandleInput()
 			Projectile(m_projectileForce);
 			break;
 		}
+		}
+	}
+
+	if (!MouseClass::IsEventBufferEmpty())
+	{
+		MouseEvent e = MouseClass::ReadEvent();
+
+		if (e.GetType() == MouseEvent::EventType::L_CLICK)
+		{
+		}
+		if (e.GetType() == MouseEvent::EventType::R_CLICK)
+		{
+			
+		}
+		if (e.GetType() == MouseEvent::EventType::MOVE)
+		{
+			
 		}
 	}
 }

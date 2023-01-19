@@ -17,6 +17,12 @@ class LayerStack;
 class UIRenderer;
 class UILayer;
 
+enum class UIWindowType
+{
+	VIEWPORT,
+	SETTINGS
+};
+
 
 #define MAX_FRAME_RATE 144
 #define GFORCE 9.81
@@ -24,7 +30,6 @@ class UILayer;
 #define NUMBER_OF_SQUARES 4
 
 class QuackPhysics;
-
 
 class Quack
 {
@@ -70,6 +75,7 @@ private:
 	static Window* m_window;
 	static LayerStack* m_layerStack;
 	static UILayer* m_uiMain;
+	static UIWindowType m_UIFocus;
 
 	//Frame related variables
 	static double m_currentTime;
