@@ -33,8 +33,6 @@
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
     <ClCompile Include="src\PerspectiveCamera.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="src\FrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -64,8 +62,6 @@
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\QuackPhysics.h" />
     <ClInclude Include="src\PerspectiveCamera.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="src\FrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />

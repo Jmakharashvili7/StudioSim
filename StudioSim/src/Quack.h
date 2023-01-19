@@ -12,7 +12,6 @@
 #include "Texture.h"
 #include "GameObject.h"
 #include "GameTime.h"
-#include "FrameBuffer.h"
 
 class LayerStack;
 class UIRenderer;
@@ -44,6 +43,10 @@ public:
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
 
+	static void GetFrameRate(float deltatime);
+
+	static void ImGUIInit();
+
 	static void Gravity();
 
 	static void Jump();
@@ -51,9 +54,6 @@ public:
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
-
-	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
-	static UILayer* GetUILayer() { return m_uiMain; }
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
@@ -92,7 +92,6 @@ private:
 	static float m_rotation;
 	static float m_projectileForce;
 
-	static FrameBuffer* m_frameBuffer;
 
 	static GameObject* m_duck;
 	static GameObject* m_testSprite;
@@ -126,7 +125,9 @@ private:
 	static glm::vec4 m_spotDiffuse;
 	static glm::vec4 m_spotSpecular;
 
+
 	static glm::vec4 m_lightAmbient;
+
 
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;
