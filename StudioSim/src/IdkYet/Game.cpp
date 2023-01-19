@@ -61,7 +61,7 @@ void Game::UpdateGame(float _deltaTime)
 	//moves any pending actors to actors list 
 	for (auto actors : m_PendingActors)
 	{
-		actors->GetTransform()->ComputeTransform();
+		//actors->GetTransform()->ComputeTransform();
 		m_Actors.emplace_back(actors);
 	}
 	m_PendingActors.clear();

@@ -4,12 +4,13 @@ Transform::Transform(class Actor* _owner, int _updateOrder) : Component(_owner, 
 {
 	m_ReComputeWorldTransform = true;
 	m_Position = vec2(500,500);
-	m_Scale = vec2(100,100);
+	m_Scale = vec2(1,1);
+	m_Orientation = vec2(0, 0);
 	m_Right = GetForward();
 	m_Up = GetUp();
 	m_TransformMatrix = mat4(1.0f);
 	//m_TransformMatrix = scale(vec3(m_Scale, 0));
-	SetPositionAndRotation(m_Position, m_fRotation);
+	//SetPositionAndRotation(m_Position, m_fRotation);
 
 
 
@@ -23,13 +24,13 @@ Transform::Transform(class Actor* _owner, int _updateOrder) : Component(_owner, 
 Transform::Transform()
 {
 	
-	m_Position = vec2(500/1280, 500/960);
-	m_Scale = vec2(1, 1);
+	m_Position = vec2(500/1280.0f, 500/960.0f);
+	m_Scale = vec2(1.0f,1.0f);
 	m_Right = GetForward();
 	m_Up = GetUp();
 	m_TransformMatrix = mat4(1.0f);
-	m_TransformMatrix = translate(m_TransformMatrix, vec3(m_Position, 0));
-	//ComputeTransform();
+	ComputeTransform();
+	
 }
 
 glm::vec2 Transform::GetForward() const
@@ -48,7 +49,7 @@ void Transform::LookAt(Transform _target)
 	//dirToRotate.Normalize();
 	normalize(dirToRotate);
 	float angle = atan2(dirToRotate.y, dirToRotate.x);
-	Rotate(angle);
+	Rotate(angle,ESelf,false);
 }
 
 
@@ -56,17 +57,39 @@ void Transform::LookAt(Transform _target)
 void Transform::Rotate(float _angle, Space _relativeTo, bool clockwise)
 {
 	//change this but use local rotation
-	if (_relativeTo == Space::ESelf)
+	if (clockwise)
 	{
-		m_fRotation += _angle;
-		
+		m_fRotation = 360.0f - _angle;
 	}
 	else
 	{
-		
+		m_fRotation = _angle;
 	}
-
 	m_ReComputeWorldTransform = true;
+	ComputeTransform();
+}
+
+void Transform::Scale(vec2 _Scalar)
+{
+	m_Scale = _Scalar;
+	m_ReComputeWorldTransform = true;
+	//ComputeTransform();
+}
+
+void Transform::Scale(float _xAxis, float _yAxis)
+{
+	m_Scale.x = _xAxis;
+	m_Scale.y = _yAxis;
+	m_ReComputeWorldTransform = true;
+	//ComputeTransform();
+}
+
+void Transform::UniformScale(float _Scale)
+{
+	m_Scale.x = _Scale;
+	m_Scale.y = _Scale;
+	m_ReComputeWorldTransform = true;
+	ComputeTransform();
 }
 
 void Transform::SetRotation(float _angle, Space _relativeTo, bool clockwise)
@@ -79,7 +102,11 @@ void Transform::SetRotation(float _angle, Space _relativeTo, bool clockwise)
 void Transform::RotateAround(glm::vec2 _point, float _angle)
 {
 	m_fRotation += _angle;
-	m_ReComputeWorldTransform = true;
+	m_Position += _point;
+	m_TransformMatrix = glm::translate(m_TransformMatrix, glm::vec3(m_Position, 0.0f));
+	m_TransformMatrix = glm::rotate(m_TransformMatrix,radians(m_fRotation), glm::vec3(0, 0, 1));
+	m_Position -= _point;
+	m_TransformMatrix = glm::translate(m_TransformMatrix, glm::vec3(m_Position, 0.0f));
 }
 
 void Transform::SetRotateAround(glm::vec2 _point, float _angle)
@@ -154,19 +181,22 @@ void Transform::SetPosition(glm::vec2 _translation)
 {
 	m_Position = _translation;
 	m_ReComputeWorldTransform = true;
-	m_TransformMatrix = translate(m_TransformMatrix, vec3(m_Position, 0));
+	//m_TransformMatrix = translate(m_TransformMatrix, vec3(m_Position, 0));
 }
 
 void Transform::ComputeTransform()
 {
 	if (m_ReComputeWorldTransform)
 	{
-		//m_ReComputeWorldTransform = false;
+		m_ReComputeWorldTransform = false;
+		m_TransformMatrix = translate(m_TransformMatrix, vec3(m_Position, 0));
+		m_TransformMatrix = rotate(m_TransformMatrix,radians(m_fRotation), vec3(m_Orientation,1.0f));
+		m_TransformMatrix = scale(m_TransformMatrix, vec3(m_Scale, 1));
 	
 	}
-	//m_TransformMatrix = scale(m_TransformMatrix, vec3(m_Scale,1));
-		//m_TransformMatrix = rotate(m_TransformMatrix,radians(m_fRotation), vec3(m_Orientation,1));
+
 		
+	
 
 }
 

@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
-#include <algorithm>
+#include <algorithm> 
+#include "GameObject.h"
 
 using namespace std;
 
-class Actor
+class Actor : public GameObject
 {
 public:
 
@@ -15,14 +16,19 @@ public:
 		EDead
 	};
 	//Constructor
-	Actor();
+	Actor(GameObjectData* data, const std::string& texturePath = NULL);
 
 	virtual ~Actor();
 
+
+	//call in the quack engine because is 
 	void Update(float _deltaTime);
 
+
+	//Change this to take in the shader as a parameter and call 
 	void Draw();
 
+	//already called in the update
 	void UpdateComponents(float _deltaTime);
 	
 

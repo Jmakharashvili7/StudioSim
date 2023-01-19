@@ -2,10 +2,11 @@
 #include "Component.h"
 #include "Transform.h"
 
-Actor::Actor()
+Actor::Actor(GameObjectData* data, const std::string& texturePath ) : GameObject(data, texturePath)
 {
 	// init all things such as transform, components etc
 	m_Transform = new Transform(this, 0);
+	m_State = EActive;
 }
 
 Actor::~Actor()
@@ -18,10 +19,10 @@ void Actor::Update(float _deltaTime)
 	{
 		return;
 	}
-	m_Transform->ComputeTransform();
+	//->ComputeTransform();
 	UpdateActor(_deltaTime);
 	UpdateComponents(_deltaTime);
-	m_Transform->ComputeTransform();
+	//m_Transform->ComputeTransform();
 }
 
 void Actor::Draw()

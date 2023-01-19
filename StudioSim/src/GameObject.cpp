@@ -5,6 +5,8 @@ GameObject::GameObject(GameObjectData* data, const std::string& texturePath) :
 	m_texture(new Texture(texturePath)), m_data(data)
 {
 	m_Transform = new Transform();
+	m_Transform->UniformScale(0.3f);
+	m_Transform->RotateAround(vec2(1.0f/1280.0f, 1.0f/960.0f), -90);
 	m_va = new VertexArray();
 	UpdateVertexArray();
 }
@@ -31,13 +33,21 @@ void GameObject::Draw(Shader* shaderToUse)
 		
 	
 
-		vec2 testPosition(500, 500);
-		testPosition.x = testPosition.x / 1280;
-		testPosition.y = testPosition.y / 960;
-		glm::mat4 testMatrix = glm::mat4(1.0f);
-		testMatrix = glm::translate(testMatrix, vec3(testPosition, 0.0f));
+		//vec2 testPosition(500, 500);
+		//vec2 testScale(0.3f, 0.3f);
+		//testPosition.x = testPosition.x / 1280;
+		//testPosition.y = testPosition.y / 960;
+		//glm::mat4 testMatrix = glm::mat4(1.0f);
+		//testMatrix = glm::translate(testMatrix, vec3(testPosition, 0.0f));
 
-		shaderToUse->SetUniform4x4("u_model", m_Transform->GetWorldTransform());
+		
+		//m_Transform->UniformScale(2.0f);
+		
+
+		cout << m_Transform->m_Scale.x << "    " << m_Transform->m_Scale.y << endl;
+		cout << m_Transform->m_Position.x << " p   " << m_Transform->m_Position.y << endl;
+
+		shaderToUse->SetUniform4x4("u_model",m_Transform->GetWorldTransform());
 		// draw square
 		m_texture->Bind();
 		m_va->Bind();

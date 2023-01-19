@@ -34,7 +34,7 @@ public:
 	float m_fRotation;//rotation second
 	glm::vec2 m_Position;// translation 3rd
 
-	glm::vec2 transform;
+	//glm::vec2 transform;
 
 public:
 	//glm::vec2 m_LocalPosition;
@@ -65,6 +65,30 @@ public:
 	/// <param name="_angle"></param>
 	/// <param name="_relativeTo"></param>
 	void Rotate(float _angle, Space _relativeTo = Space::ESelf, bool clockwise = true);
+
+	/// <summary>
+	/// Scales the object by a vector
+	/// </summary>
+	/// <param name="_axis"></param>
+	/// <param name="_angle"></param>
+	/// <param name="_relativeTo"></param>
+	void Scale(vec2 _Scalar);
+
+	/// <summary>
+	/// Scales individual axis of the transform
+	/// </summary>
+	/// <param name="_axis"></param>
+	/// <param name="_angle"></param>
+	/// <param name="_relativeTo"></param>
+	void Scale(float _xAxis, float _yAxis);
+
+	/// <summary>
+	/// Rotates the object by the number of degrees defined by the given angle adds or takes away degree.
+	/// </summary>
+	/// <param name="_axis"></param>
+	/// <param name="_angle"></param>
+	/// <param name="_relativeTo"></param>
+	void UniformScale(float _Scale);
 
 	/// <summary>
 	/// Sets the roatation to a given angle
@@ -175,9 +199,10 @@ public:
 		return !(*this != v);
 	}
 
-	void ComputeTransform();
+	
 
 private:
+	void ComputeTransform();
 	glm::mat4 m_TransformMatrix;
 	bool m_ReComputeWorldTransform;
 	
