@@ -8,13 +8,14 @@ FrameBuffer::FrameBuffer(FrameBufferSpecificiation fbs) : m_fbs(fbs)
 FrameBuffer::~FrameBuffer()
 {
 	GLCall(glDeleteFramebuffers(1, &m_rendererID));
-	glDeleteTextures(1, &m_colorAttachment);
-	glDeleteTextures(1, &m_depthAttachment);
+	GLCall(glDeleteTextures(1, &m_colorAttachment));
+	GLCall(glDeleteTextures(1, &m_depthAttachment));
 }
 
 void FrameBuffer::Bind()
 {
 	GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID));
+	glViewport(0, 0, m_fbs.width, m_fbs.height);
 }
 
 void FrameBuffer::Unbind()
@@ -31,6 +32,13 @@ void FrameBuffer::Resize(float width, float height)
 
 void FrameBuffer::Invalidate()
 {
+	if (m_rendererID)
+	{
+		GLCall(glDeleteFramebuffers(1, &m_rendererID));
+		GLCall(glDeleteTextures(1, &m_colorAttachment));
+		GLCall(glDeleteTextures(1, &m_depthAttachment));
+	}
+
 	glCreateFramebuffers(1, &m_rendererID);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
 

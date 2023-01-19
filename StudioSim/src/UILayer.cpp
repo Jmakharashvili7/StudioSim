@@ -2,7 +2,7 @@
 #include "Quack.h"
 #include "Window.h"
 
-UILayer::UILayer() : Layer("UI Layer")
+UILayer::UILayer() : Layer("UI Layer"), m_viewportSize(0.0f, 0.0f)
 {
 
 }
@@ -67,7 +67,7 @@ void UILayer::EnableDocking()
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, ImVec2(0.0f, 0.0f));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
 	ImGui::PopStyleVar();
 
@@ -82,9 +82,18 @@ void UILayer::EnableDocking()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("Viewport");
-	uint32_t id = Quack::GetFrameBuffer()->GetID();
-	ImGui::Image((void*)id, ImVec2(1440, 810), ImVec2(0, 1), ImVec2(1, 0));
+
+	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+	if (m_viewportSize != *((glm::vec2*)&viewportSize))
+	{
+		m_viewportSize = { viewportSize.x, viewportSize.y };
+		Quack::GetFrameBuffer()->Resize(m_viewportSize.x, m_viewportSize.y);
+	}
+
+	uint32_t id = Quack::GetFrameBuffer()->GetColorAttachment();
+	ImGui::Image((void*)id, ImVec2(m_viewportSize.x, m_viewportSize.y), ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 
 	ImGui::Begin("Settings");
@@ -92,6 +101,7 @@ void UILayer::EnableDocking()
 	ImGui::Text("text");
 	ImGui::Text("text");
 	ImGui::End();
+	ImGui::PopStyleVar();
 
 	// Menu at the top of the window
 	if (ImGui::BeginMenuBar())
