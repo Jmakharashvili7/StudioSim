@@ -112,9 +112,10 @@ void Quack::InitObjects()
 	const AnimationData duckAnimationData = AnimationData(true, 2, 4);
 	m_duck = CreateNewActor(duckObjectData, duckTextureData, duckPhysicsData, duckAnimationData);
 	m_duck->GetAnimator()->EditFramePlayTime(0, 0, 0.5f);
-	m_duck->GetAnimator()->EditFramePlayTime(0, 1, 0.5f);
+	m_duck->GetAnimator()->EditFramePlayTime(0, 1, 1.5f);
 	m_duck->GetAnimator()->EditFramePlayTime(0, 2, 0.5f);
-	m_duck->GetAnimator()->EditFramePlayTime(0, 3, 0.5f);
+	m_duck->GetAnimator()->EditFramePlayTime(0, 3, 1.25f);
+	m_duck->GetAnimator()->SetPlayRate(2.0f);
 }
 
 void Quack::SetupShaders()

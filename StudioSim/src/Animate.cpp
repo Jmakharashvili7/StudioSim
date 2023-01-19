@@ -12,6 +12,9 @@ Animate::Animate(Actor* target, int rows, int columns)
 	m_rows = rows;
 	m_columns = columns;
 
+	m_rowToPlay = 0;
+	m_playRate = 1.0f;
+
 	GenerateFrameList();
 }
 
@@ -21,11 +24,7 @@ Animate::~Animate()
 	m_object = nullptr;
 }
 
-/// <summary>
-/// Animates a sprite using a row from a sprite sheet
-/// </summary>
-/// <param name="deltaTime">Delta time</param>
-/// <param name="playRate">Time taken to update frame in seconds</param>
+
 void Animate::UpdateTextCoord(float deltaTime)
 {
 	//Use delay to adjust play rate of the animation
@@ -33,7 +32,7 @@ void Animate::UpdateTextCoord(float deltaTime)
 
 	float playTime = m_durationData[m_frameToPlay];
 
-	if (m_delay > playTime)
+	if (m_delay > playTime/m_playRate)
 	{
 		//Calculate starting position in sprite sheet based of the current frame
 		glm::vec2 startLocation = glm::vec2(m_frameToPlay.first, m_frameToPlay.second);
@@ -65,10 +64,7 @@ void Animate::UpdateTextCoord(float deltaTime)
 	}
 }
 
-/// <summary>
-/// Setting up a dictionary to map a frame at a location on the spritesheet to how long it should be played.
-/// Default play time is 1 second
-/// </summary>
+
 void Animate::GenerateFrameList()
 {
 	float time = 1.0f;
@@ -84,12 +80,7 @@ void Animate::GenerateFrameList()
 	}
 }
 
-/// <summary>
-/// Edits how long a frame plays for within the spritesheet
-/// </summary>
-/// <param name="row">Row of frame to edit</param>
-/// <param name="column">Column of frame to edit</param>
-/// <param name="duration">New duration to play frame at location</param>
+
 void Animate::SetFramePlayTime(int row, int column, float duration)
 {
 	std::pair<int, int> location = { row, column };
@@ -105,15 +96,24 @@ void Animate::SetRowToPlay(int row)
 	
 }
 
-/// <summary>
-/// Changes the played duration of a frame at a given row and column
-/// </summary>
-/// <param name="row">Row of frame to edit</param>
-/// <param name="column">Column of frame to edit</param>
-/// <param name="time">New duration to play frame</param>
+
 void Animate::EditFramePlayTime(int row, int column, float time)
 {
 	std::pair<int, int> frameLocation = { row, column };
 
 	m_durationData[frameLocation] = time;
+}
+
+
+float Animate::GetAnimationPlayTime(int row)
+{
+	float playtime = 0.0f;
+
+	for (int column = 0; column < m_columns; ++column)
+	{
+		std::pair<int, int> frame = { row, column };
+		playtime += m_durationData[frame];
+	}
+
+	return playtime;
 }
