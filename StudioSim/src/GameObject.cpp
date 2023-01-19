@@ -54,11 +54,6 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
-Transform* GameObject::InitTransform(const TransformData& transformData)
-{
-	return new Transform(transformData.position, transformData.rotation, transformData.scale);
-}
-
 void GameObject::UpdateObjectData(GameObjectData* newData)
 {
 	m_data = newData;

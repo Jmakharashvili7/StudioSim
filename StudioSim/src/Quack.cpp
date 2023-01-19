@@ -102,13 +102,13 @@ void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, -750.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(25.0f, 0.5f, 1.0f));
+	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
 	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(100.0f, 100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.25f));
+	const TransformData duckTransformData = TransformData(glm::vec3(600.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 0.25f, 5.0f);
 	const AnimationData duckAnimationData = AnimationData();
@@ -222,18 +222,17 @@ void Quack::HandleInput()
 		}
 		case 'L': // JUMP Right
 		{
-			m_duck->SetPosition(glm::vec3(-500.0f, -500.0f, 0.0f));
-			//m_duck->AdjustPosition(glm::vec3(-500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			//m_duck->AdjustScale(glm::vec3(10.0f * m_gameTimer.GetDeltaTime(), 10.0f * m_gameTimer.GetDeltaTime(), 0.f));
+			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
+			m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
-		//case 'J': // JUMP Left
-		//{
-		//	m_direction = LEFT;
-		//	Jump();
-		//	Projectile(m_projectileForce);
-		//	break;
-		//}
+		case 'J': // JUMP Left
+		{
+			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
+			m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			break;
+		}
 		}
 	}
 }
