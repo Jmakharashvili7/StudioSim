@@ -94,6 +94,7 @@ private:
 
 
 	static GameObject* m_duck;
+	static GameObject* m_duck2;
 	static GameObject* m_testSprite;
 	static GameObject* m_testWindow;
 
@@ -124,6 +125,8 @@ private:
 	static glm::vec4 m_spotAmbient;
 	static glm::vec4 m_spotDiffuse;
 	static glm::vec4 m_spotSpecular;
+	static float m_cutOff;
+	static float m_outercutOff;
 
 
 	static glm::vec4 m_lightAmbient;

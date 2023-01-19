@@ -81,9 +81,14 @@ glm::vec4 Quack::m_spotAmbient = { glm::vec4(3.5f, 0.2f, 0.05f, 1.0f) };
 glm::vec4 Quack::m_spotDiffuse = { glm::vec4(0.15f, 0.05f, 0.0f, 1.0f) };
 glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 
+float Quack::m_cutOff = 12.0f;
+float Quack::m_outercutOff = 15.0f;
+
+
 glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
 GameObject* Quack::m_duck;
+GameObject* Quack::m_duck2;
 GameObject* Quack::m_testSprite;
 UILayer* Quack::m_uiMain;
 
@@ -99,6 +104,10 @@ void Quack::InitObjects()
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Cube.json");
 	m_duck = new GameObject(data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
+
+	GameObjectData* data2 = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square2.json");
+	m_duck2 = new GameObject(data2, "res/textures/duck2.png");
+	m_gameObjects.push_back(m_duck2);
 }
 
 void Quack::SetupShaders()
@@ -128,7 +137,7 @@ void Quack::SetupShaders()
 int Quack::InitEngine()
 {
 	s_running = true;
-	glm::vec3 Eye = glm::vec3(1.0f, 1.0f, 5.0f);
+	glm::vec3 Eye = glm::vec3(1.0f, 0.0f, 2.0f);
 	glm::vec3 At = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	//m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
@@ -310,7 +319,7 @@ void Quack::RenderUpdate()
 	//Spot Light
 	//m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
 	m_3dShader->SetUniform4f("u_spotLight.position", m_perspectiveCamera->GetPosition().x, m_perspectiveCamera->GetPosition().y, m_perspectiveCamera->GetPosition().z, 1.0f);
-	m_3dShader->SetUniform4f("u_spotLight.direction", 1.0f, 1.0f, 2.0f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, 2.0f, 1.0f);
 	m_3dShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
 	m_3dShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
 	m_3dShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
@@ -318,8 +327,8 @@ void Quack::RenderUpdate()
 	m_3dShader->SetUniform1f("u_spotLight.constant", 1.0f);
 	m_3dShader->SetUniform1f("u_spotLight.linear", 0.09f);
 	m_3dShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
-	m_3dShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-	m_3dShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+	m_3dShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(m_cutOff)));
+	m_3dShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(m_outercutOff)));
 
 #endif // _3D_SHADER
 
@@ -497,6 +506,8 @@ void Quack::ImGUIInit()
 			ImGui::DragFloat4("Ambient", &m_spotAmbient.x, 0.001f);
 			ImGui::DragFloat4("Diffuse", &m_spotDiffuse.x, 0.001f);
 			ImGui::DragFloat4("Specular", &m_spotSpecular.x, 0.001f);
+			ImGui::DragFloat("CutOff", &m_cutOff, 0.1f);
+			ImGui::DragFloat("OuterCutOff", &m_outercutOff, 0.1f);
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
