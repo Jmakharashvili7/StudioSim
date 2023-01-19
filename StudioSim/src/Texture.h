@@ -10,6 +10,7 @@ public:
 	void Bind(unsigned int slot = 0) const;
 	void UnBind() const;
 
+	inline unsigned int GetRendererID() const { return m_rendererID; }
 	inline int GetWidth() const { return m_width; }
 	inline int GetHeight() const { return m_height; }
 private:

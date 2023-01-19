@@ -26,17 +26,15 @@ public:
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline Animate* GetAnimator() { return m_animator; }
 	inline GameObjectData* GetGameObjectData() { return m_data; }
+	inline Texture* GetTexture() const { return m_texture; }
 
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
 
 private:
 	Texture* m_texture;
-
 	VertexArray* m_va;
-
 	Animate* m_animator;
-		
 	GameObjectData* m_data;
 };
 

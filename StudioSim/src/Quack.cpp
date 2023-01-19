@@ -6,8 +6,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "QuackCallbacks.h"
 #include "QuackPhysics.h"
+#include "QuackCallbacks.h"
 
 //#define _2D_SHADER
 #include "Animate.h"
@@ -35,6 +35,8 @@ std::vector<GameObject*> Quack::m_gameObjects;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
+
+FrameBuffer* Quack::m_frameBuffer;
 
 VertexArray* Quack::m_squareVAO;
 QuackPhysics* Quack::p_QuackPhysics;
@@ -128,7 +130,7 @@ int Quack::InitEngine()
 
 	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
-	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
+	m_window = new Window("Quack", 1920, 1080, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
 
@@ -152,6 +154,13 @@ int Quack::InitEngine()
 	KeyboardClass::Init();
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
+	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
+
+	FrameBufferSpecificiation fbs;
+	fbs.width = 1920;
+	fbs.height = 1080;
+
+	m_frameBuffer = new FrameBuffer(fbs);
 
 	InitObjects();
 	SetupShaders();
@@ -231,7 +240,7 @@ void Quack::Update()
 	{
 		ProjectileDecrement(m_direction);
 	}
-
+		
 
 	// get mouse position
 	double xpos, ypos;
@@ -242,10 +251,18 @@ void Quack::Update()
 
 void Quack::RenderUpdate()
 {
+	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	// Draw layers 
+	for (Layer* layer : m_layerStack->GetLayers())
+	{
+		if (layer) layer->OnUpdate();
+	}
+
+	m_frameBuffer->Bind();
 	/* Render here */
 	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-
 #ifdef _3D_SHADER
 
 	// bind shader
@@ -325,22 +342,13 @@ void Quack::RenderUpdate()
 		if (gameObject) gameObject->Draw();
 	}
 
-	// Draw layers 
-	for (Layer* layer : m_layerStack->GetLayers())
-	{
-		if (layer) layer->OnUpdate();
-	}
-
+	//m_frameBuffer->Unbind();
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */
 	glfwPollEvents();
-}
 
-
-void Quack::ImGUIInit()
-{
-
+	m_frameBuffer->Unbind();
 }
 
 void Quack::Jump()
@@ -395,6 +403,7 @@ void Quack::ProjectileDecrement(Facing direction)
 		m_thrown = false;
 	}
 }
+
 void Quack::Gravity()
 {
 	//weight = mass * gforce
@@ -409,24 +418,6 @@ void Quack::ShutDown()
 	ImGui::DestroyContext();
 	glfwDestroyWindow(m_window->GetGLFWWindow());
 	glfwTerminate();
-}
-
-void Quack::GetFrameRate(float deltatime)
-{
-	m_frameCounter++;
-
-	//frame time to keep track of time until one second so FPS can be calculated
-	m_frameTime += deltatime;
-
-	//seeing how many frames were processed within 1 second
-	if (m_frameTime > 1.0f)
-	{
-		m_currentFrameRate = m_frameCounter;
-
-		//resetting values so frames for the next second can be calculated
-		m_frameCounter = 0;
-		m_frameTime = 0;
-	}
 }
 
 

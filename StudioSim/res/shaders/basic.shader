@@ -17,7 +17,7 @@ void main()
     ourColor = aColor;
     TexCoord = aTexCoord;
 }
-
+    
 #shader fragment
 #version 330 core
 
@@ -25,7 +25,6 @@ out vec4 FragColor;
 
 struct Light
 {
-    
     vec4 ambient;
 };
 
@@ -38,7 +37,6 @@ uniform Light u_light;
 
 void main()
 {
-    
     vec4 ambient = u_light.ambient * texture(ourTexture, TexCoord).rgba;
 
     vec4 result = ambient * u_lightColor;
