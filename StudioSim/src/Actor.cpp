@@ -48,5 +48,6 @@ void Actor::AddImpulseForce(glm::vec3 force)
 	{
 		m_bimpulseActive = true;
 		m_currentImpulseForce = force;
+		m_testImpulseForceMag = force;
 	}
 }

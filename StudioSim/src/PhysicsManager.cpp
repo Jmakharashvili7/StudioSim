@@ -20,27 +20,26 @@ void PhysicsManager::Update(const float deltaTime)
 	{
 		if (actor->GetSimulatingGravity())
 		{
-			// Gravity calculations
-			//TODO
-			//const std::vector currentPosition = actor->GetPosition();
-			// weight = mass * gravitaional force
-			float weight = actor->GetMass() * GFORCE;
-			//TODO
-			//const float newActorYPosition = currentPosition.y - (weight * deltaTime);
-			//actor->UpdatePosition(currentPosition.x, newActorYPosition, currentPosition.z);
+			if (actor->GetPosition().y >= -500)
+			{
+				// Gravity calculations
+				// weight = mass * gravitaional force
+				float weight = actor->GetMass() * GFORCE;
+				actor->AdjustPosition(glm::vec3(0.0f, -weight * deltaTime, 0.0f));
+
+				std::cout << actor->GetPosition().y << std::endl;
+			}
+			else
+			{
+				//actor->SetJumping(false);
+			}
 
 			// Jumping calculations
 			if (actor->GetJumping())
 			{
 				const float currentJumpForce = actor->GetCurrentJumpForce();
 				const float jumpHeight = actor->GetJumpHeight();
-				//TODO
-				//const std::vector currentPosition = actor->GetPosition();
-
-				// Adjust current position
-				//TODO
-				//const float newActorYPosition = currentPosition.y + (currentJumpForce * deltaTime);
-				//actor->UpdatePosition(currentPosition.x, newActorYPosition, currentPosition.z);
+				actor->AdjustPosition(glm::vec3(0.0f, currentJumpForce * deltaTime, 0.0f));
 				
 				// Update jump force
 				const float newJumpForce = currentJumpForce - (jumpHeight * deltaTime);
@@ -57,46 +56,34 @@ void PhysicsManager::Update(const float deltaTime)
 				}
 			}
 
-			//// Impulse calculations
-			//if (actor->GetImpulseActive())
-			//{
-			//	const glm::vec3 currentImpulseForce = actor->GetCurrentImpulseForce();
-			//	const glm::vec3 forceMagnitude = actor->GetImpulseForceMag();
-			//	//TODO
-			//	//const glm::vec3 currentPosition = actor->GetPosition();
+			// Impulse calculations
+			if (actor->GetImpulseActive())
+			{
+				const glm::vec3 currentImpulseForce = actor->GetCurrentImpulseForce();
+				const glm::vec3 forceMagnitude = actor->GetImpulseForceMag();
 
-			//	//Adjust current position
-			//	//TODO
-			//	const glm::vec3 newActorPosition = glm::vec3(
-			//		currentPosition.x + (currentImpulseForce.x * deltaTime),
-			//		currentPosition.y + (currentImpulseForce.y * deltaTime),
-			//		currentPosition.z + (currentImpulseForce.z * deltaTime))
-			//	actor->UpdatePosition(newActorPosition);
+				actor->AdjustPosition(glm::vec3(currentImpulseForce.x * deltaTime, currentImpulseForce.y * deltaTime, currentImpulseForce.z* deltaTime));
 
-			//	// Update impulse force
-			//	const glm::vec3 newImpulseForce = glm::vec3(
-			//		currentImpulseForce.x - (forceMagnitude.x * deltaTime),
-			//		currentImpulseForce.y - (forceMagnitude.y * deltaTime),
-			//		currentImpulseForce.z - (forceMagnitude.z * deltaTime))
-			//	)
+				// Update impulse force
+				glm::vec3 newImpulseForce = glm::vec3(currentImpulseForce.x - (forceMagnitude.x * deltaTime), currentImpulseForce.y - (forceMagnitude.y * deltaTime), currentImpulseForce.z - (forceMagnitude.z * deltaTime));
 
-			//	if (newImpulseForce.length < 0.0f)
-			//	{
-			//		actor->SetImpulseActive(false);
-			//		actor->SetCurrentImpulseForce(glm::vec3(0.0f));
-			//	}
-			//	else
-			//	{
-			//		if (newImpulseForce.x < 0.0f)
-			//			newImpulseForce.x = 0.0f;
-			//		if (newImpulseForce.y < 0.0f)
-			//			newImpulseForce.y = 0.0f;
-			//		if (newImpulseForce.z < 0.0f)
-			//			newImpulseForce.z = 0.0f;
+				if (glm::abs(newImpulseForce.x) <= 0.0f)
+					newImpulseForce.x = 0.0f;
+				if (glm::abs(newImpulseForce.y) <= 0.0f)
+					newImpulseForce.y = 0.0f;
+				if (glm::abs(newImpulseForce.z) <= 0.0f)
+					newImpulseForce.z = 0.0f;
 
-			//		actor->SetCurrentImpulseForce(newJumpForce);
-			//	}
-			//}
+				if (glm::abs(newImpulseForce.x) <= 0.0f && glm::abs(newImpulseForce.y) <= 0.0f && glm::abs(newImpulseForce.z) <= 0.0f)
+				{
+					actor->SetImpulseActive(false);
+					actor->SetCurrentImpulseForce(glm::vec3(0.0f));
+				}
+				else
+				{
+					actor->SetCurrentImpulseForce(newImpulseForce);
+				}
+			}
 		}
 	}
 }

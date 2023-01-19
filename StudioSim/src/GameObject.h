@@ -26,6 +26,7 @@ public:
 	// Position
 	virtual void SetPosition(const glm::vec3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
 	virtual void AdjustPosition(const glm::vec3 adjustPosition) { if (m_transform) m_transform->AdjustPosition(adjustPosition); }
+	inline const glm::vec3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
 
 	// Rotation
 	virtual void SetRotation(const glm::vec3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }

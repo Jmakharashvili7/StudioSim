@@ -110,7 +110,7 @@ void Quack::InitObjects()
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
 	const TransformData duckTransformData = TransformData(glm::vec3(600.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 0.25f, 5.0f);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
 	const AnimationData duckAnimationData = AnimationData();
 	m_duck = CreateNewActor(duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
 }
@@ -216,21 +216,22 @@ void Quack::HandleInput()
 		{
 			if (m_duck)
 			{
-				m_duck->AddImpulseForce(glm::vec3(0.0f, 5.0f, 0.0f));
+				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
 			}
 			break; 
 		}
 		case 'L': // JUMP Right
 		{
 			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
-			m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
 		case 'J': // JUMP Left
 		{
 			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
-			m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_duck->Jump();
 			break;
 		}
 		}
