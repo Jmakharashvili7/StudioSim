@@ -118,7 +118,8 @@ void Quack::SetupShaders()
 	//3D Shader setup
 	m_3dShader = new Shader("res/shaders/3Dbasic.shader");
 	m_3dShader->Bind();
-	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	//m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_3dShader->SetUniform4x4("u_viewProjection", m_perspectiveCamera->GetViewProjectionMatrix());
 	m_3dShader->Unbind();
 
 #endif // !_3D_SHADER
@@ -132,13 +133,13 @@ int Quack::InitEngine()
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	//m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
 	//m_mainCamera->SetPosition(glm::vec3(0.0f));
-	m_perspectiveCamera = new PerspectiveCamera(Eye,At,Up, 1280, 960,0.01f, 10000.0f);
+	m_perspectiveCamera = new PerspectiveCamera(Eye, At, Up, 1280, 960, 0.01f, 10000.0f);
 	m_perspectiveCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();
-	m_uiMain = new UILayer();
+	//m_uiMain = new UILayer();
 
-	m_layerStack->PushOverlay(m_uiMain);
+	//m_layerStack->PushOverlay(m_uiMain);
 
 	// Initilaize window
 	m_window->UseWindow();
@@ -153,8 +154,13 @@ int Quack::InitEngine()
 	///
 	///	Initialize IMGUI
 	/// 
-	m_uiMain->OnAttach();
-
+	//m_uiMain->OnAttach();
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(m_window->GetGLFWWindow(), true);
+	ImGui_ImplOpenGL3_Init("#version 330");
 	/* Initialize the keyboard class*/
 	KeyboardClass::Init();
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
@@ -163,7 +169,7 @@ int Quack::InitEngine()
 	InitObjects();
 	SetupShaders();
 
-	return 0;	
+	return 0;
 }
 
 void Quack::HandleInput()
@@ -250,14 +256,18 @@ void Quack::Update()
 void Quack::RenderUpdate()
 {
 	/* Render here */
-	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
+	//glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
 
 #ifdef _3D_SHADER
 
 	// bind shader
 	m_3dShader->Bind();
-	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	//m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_3dShader->SetUniform4x4("u_viewProjection", m_perspectiveCamera->GetViewProjectionMatrix());
 	m_3dShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
 	//Light
 	m_3dShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
@@ -298,7 +308,8 @@ void Quack::RenderUpdate()
 	m_3dShader->SetUniform1f("u_pointLights[2].quadratic", 0.032f);
 
 	//Spot Light
-	m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
+	//m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.position", m_perspectiveCamera->GetPosition().x, m_perspectiveCamera->GetPosition().y, m_perspectiveCamera->GetPosition().z, 1.0f);
 	m_3dShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
 	m_3dShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
 	m_3dShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
@@ -338,6 +349,7 @@ void Quack::RenderUpdate()
 	{
 		if (layer) layer->OnUpdate();
 	}
+	ImGUIInit();
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
@@ -348,7 +360,160 @@ void Quack::RenderUpdate()
 
 void Quack::ImGUIInit()
 {
+	////position, center
+	BoundingBox box1 = BoundingBox(glm::vec3(squarePositionData[0].x, squarePositionData[0].y, squarePositionData[0].z),
+		//size
+		glm::vec3(squareScaleData[0].x, squareScaleData[0].y, squareScaleData[0].z));
 
+	BoundingBox box2 = BoundingBox(glm::vec3(squarePositionData[1].x, squarePositionData[1].y, squarePositionData[1].z),
+		//size
+		glm::vec3(squareScaleData[1].x, squareScaleData[1].y, squareScaleData[1].z));
+
+	BoundingBox box3 = BoundingBox(glm::vec3(squarePositionData[2].x, squarePositionData[2].y, squarePositionData[2].z),
+		//size
+		glm::vec3(squareScaleData[2].x, squareScaleData[2].y, squareScaleData[2].z));
+
+	BoundingBox box4 = BoundingBox(glm::vec3(squarePositionData[3].x, squarePositionData[3].y, squarePositionData[3].z),
+		//size
+		glm::vec3(squareScaleData[3].x, squareScaleData[3].y, squareScaleData[3].z));
+	BoundingBox boxes[NUMBER_OF_SQUARES]{};
+	for (int i = 0; i < NUMBER_OF_SQUARES; i++)
+		boxes[i] = BoundingBox(glm::vec3(squarePositionData[i].x, squarePositionData[i].y, squarePositionData[i].z),
+			//size
+			glm::vec3(squareScaleData[i].x, squareScaleData[i].y, squareScaleData[i].z));
+	/// <summary>
+	/// Start IMGUI window
+	/// </summary>
+	ImGui::Begin("My name is window, ImGui window");
+	ImGui::Text("Hello");
+	bool temp = false;
+
+	/// <summary>
+	/// Changing position of each square
+	/// </summary>
+	ImGui::DragFloat4("Ambient", &m_dirAmbient.x, 0.001f);
+	ImGui::DragFloat4("Diffuse", &m_dirDiffuse.x, 0.001f);
+	ImGui::DragFloat4("Specular", &m_dirSpecular.x, 0.001f);
+	ImGui::DragFloat3("Fourth Square", &squarePositionData[3].x, 0.001f);
+	ImGui::DragFloat("Rotation", &m_rotation, 0.1f);
+	ImGui::DragFloat("Force", &m_projectileForce, 0.1f);
+
+
+	/// <summary>
+	/// Check box, needs to be static to be pressable
+	/// </summary>
+	static bool gravityEnabled = false;
+	bool areColliding = false;
+	ImGui::Checkbox("Gravity", &gravityEnabled);
+
+	/// <summary>
+	/// Check collision between box 1(top left) with box 4(bottom right)
+	/// If they donw collide, add gravity to box 1
+	/// </summary>
+	for (int i = 0; i < NUMBER_OF_SQUARES; i++)
+		for (int j = 0; j < NUMBER_OF_SQUARES && j != i; j++)
+		{
+			if (p_QuackPhysics->BoxToBox(box1, box3) ||
+				p_QuackPhysics->BoxToBox(box1, box4))
+			{
+				areColliding = true;
+				//std::cout << "The objects are collidiing";
+			}
+			else
+			{
+				areColliding = false;
+				//std::cout << "The objects are not collidiing";
+			}
+
+		}
+	if (gravityEnabled && !areColliding)
+	{
+		//QuackPhysics::Gravity();
+		Gravity();
+	}
+	/// <summary>
+	/// Create button for jump
+	/// </summary>
+	if (ImGui::Button("Jump"))
+	{
+		Jump();
+		gravityEnabled = true;
+	}
+	ImGui::SameLine();
+	/// <summary>
+	/// Create button for throw left
+	/// </summary>
+	if (ImGui::Button("Throw left"))
+	{
+		Projectile(m_projectileForce);
+		Jump();
+		gravityEnabled = true;
+		m_direction = Facing::LEFT;
+	}
+	ImGui::SameLine();
+	/// <summary>
+	/// Create button for throw right
+	/// </summary>
+	if (ImGui::Button("Throw right"))
+	{
+		Projectile(m_projectileForce);
+		Jump();
+		gravityEnabled = true;
+		m_direction = Facing::RIGHT;
+	}
+
+	if (ImGui::TreeNode("Lights"))
+	{/// <summary>
+	/// Directional ambient, diffuse, specular
+	/// </summary>
+		if (ImGui::TreeNode("Directional"))
+		{
+			ImGui::DragFloat4("Ambient", &m_dirAmbient.x, 0.001f);
+			ImGui::DragFloat4("Diffuse", &m_dirDiffuse.x, 0.001f);
+			ImGui::DragFloat4("Specular", &m_dirSpecular.x, 0.001f);
+			ImGui::TreePop();
+		}
+
+		/// <summary>
+		/// Point lights
+		/// </summary>
+		for (int i = 0; i < std::size(m_pointLightPositions); i++)
+		{
+			if (ImGui::TreeNode((void*)(intptr_t)i, "Point Light %d", i))
+			{
+				ImGui::DragFloat3("Position", &m_pointLightPositions[i].x, 0.01f);
+				ImGui::DragFloat4("Ambient", &m_pointAmbient.x, 0.001f);
+				ImGui::DragFloat4("Diffuse", &m_pointDiffuse.x, 0.001f);
+				ImGui::DragFloat4("Specular", &m_pointSpecular.x, 0.001f);
+				ImGui::TreePop();
+			}
+		}
+
+		/// <summary>
+		/// Spot ambient, diffuse, specular
+		/// </summary>
+		if (ImGui::TreeNode("Spot"))
+		{
+			ImGui::DragFloat4("Ambient", &m_spotAmbient.x, 0.001f);
+			ImGui::DragFloat4("Diffuse", &m_spotDiffuse.x, 0.001f);
+			ImGui::DragFloat4("Specular", &m_spotSpecular.x, 0.001f);
+			ImGui::TreePop();
+		}
+		ImGui::TreePop();
+	}
+
+	/// <summary>
+	/// End of IMGUI window
+	/// </summary>
+	ImGui::End();
+
+	/// <summary>
+	/// Show the help commands window 
+	/// </summary>
+	ImGui::ShowDemoWindow();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Quack::Jump()
