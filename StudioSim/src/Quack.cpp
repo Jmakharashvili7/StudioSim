@@ -9,7 +9,6 @@
 #include "QuackCallbacks.h"
 #include "QuackPhysics.h"
 
-//#define _2D_SHADER
 #include "Animate.h"
 #include "JsonLoader.h"
 #include "LayerStack.h"
@@ -85,6 +84,8 @@ glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
 GameObject* Quack::m_duck;
 GameObject* Quack::m_testSprite;
+GameObject* Quack::m_testWindow;
+
 UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
@@ -96,9 +97,17 @@ PerspectiveCamera* Quack::m_perspectiveCamera;
 
 void Quack::InitObjects()
 {
-	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	//Render the lighting texture first, any window textures last, if 3D should be in order of furthest to closest
+	//GameObjectData* data2 = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	//m_testWindow = new GameObject(data2, "res/textures/spotlight1.png");
+	//m_gameObjects.push_back(m_testWindow);
+
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Cube.json");
 	m_duck = new GameObject(data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
+
+	//glBlendFunc(GL_DST_COLOR, GL_ZERO);
+
 }
 
 void Quack::SetupShaders()
@@ -158,6 +167,12 @@ int Quack::InitEngine()
 	KeyboardClass::Init();
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
+
+	//Initialise Blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_ONE, GL_ONE);
+	glBlendEquation(GL_FUNC_ADD);
 
 	InitObjects();
 	SetupShaders();

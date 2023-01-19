@@ -28,7 +28,7 @@ void GameObject::Draw()
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();
-	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
+	GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 	m_texture->UnBind();
 	m_va->Unbind();
 }
