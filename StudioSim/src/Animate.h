@@ -13,10 +13,10 @@ public:
 	~Animate();
 
 	void UpdateTextCoord(float deltaTime);
-
 	void SetFramePlayTime(int row, int column, float duration);
-
 	void SetRowToPlay(int row);
+	void EditFramePlayTime(int row, int column, float time);
+
 	inline int GetRowToPlay() { return m_rowToPlay; }
 
 private:

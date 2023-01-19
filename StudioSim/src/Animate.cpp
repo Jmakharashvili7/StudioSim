@@ -104,3 +104,16 @@ void Animate::SetRowToPlay(int row)
 	m_delay = 50.0f;
 	
 }
+
+/// <summary>
+/// Changes the played duration of a frame at a given row and column
+/// </summary>
+/// <param name="row">Row of frame to edit</param>
+/// <param name="column">Column of frame to edit</param>
+/// <param name="time">New duration to play frame</param>
+void Animate::EditFramePlayTime(int row, int column, float time)
+{
+	std::pair<int, int> frameLocation = { row, column };
+
+	m_durationData[frameLocation] = time;
+}
