@@ -1,10 +1,8 @@
 #include "UILayer.h"
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
 #include "Quack.h"
+#include "Window.h"
 
-UILayer::UILayer() : Layer("UI Layer")
+UILayer::UILayer() : Layer("UI Layer"), m_viewportSize(0.0f, 0.0f)
 {
 
 }
@@ -17,6 +15,8 @@ void UILayer::OnAttach()
 {
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplOpenGL3_Init("#version 330");
@@ -29,55 +29,98 @@ void UILayer::OnDetach()
 
 void UILayer::OnUpdate()
 {
-	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize = ImVec2(Quack::GetWindow()->GetWidth(), Quack::GetWindow()->GetHeight());
-
-	float time = (float)glfwGetTime();
-	io.DeltaTime = m_time > 0.0 ? (time - m_time) : (1.0f / 60.0f);
-	m_time = time;
-
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-
-	static bool show = true;
-
-	ImGui::Begin("Edit Background", &show);
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { show = false; }
-			ImGui::EndMenu();
-		}
-		ImGui::EndMenuBar();
-	}
-
-	// Edit a color stored as 4 floats
-	ImGui::ColorEdit4("Color", &m_color[0]);
-
-	// Generate samples and plot them
-	float samples[100];
-	for (int n = 0; n < 100; n++)
-		samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-	ImGui::PlotLines("Samples", samples, 100);
-
-	// Display contents in a scrolling region
-	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-	ImGui::BeginChild("Scrolling");
-	for (int n = 0; n < 50; n++)
-		ImGui::Text("%04d: Some text", n);
-	ImGui::EndChild();
-	ImGui::End();
-
+	EnableDocking();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void UILayer::OnEvent()
 {
+}
+
+void UILayer::EnableDocking()
+{
+	static bool opt_fullscreen = true;
+	static bool p_open = true;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+	// because it would be confusing to have two docking targets within each others.
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	if (opt_fullscreen)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	}
+
+	// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
+	// and handle the pass-thru hole, so we ask Begin() to not render a background.
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
+	ImGui::PopStyleVar();
+
+	if (opt_fullscreen)
+		ImGui::PopStyleVar(2);
+
+	// Submit the DockSpace
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("Viewport");
+
+	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+	if (m_viewportSize != *((glm::vec2*)&viewportSize))
+	{
+		m_viewportSize = { viewportSize.x, viewportSize.y };
+		Quack::GetFrameBuffer()->Resize(m_viewportSize.x, m_viewportSize.y);
+	}
+
+	uint32_t id = Quack::GetFrameBuffer()->GetColorAttachment();
+	ImGui::Image((void*)id, ImVec2(m_viewportSize.x, m_viewportSize.y), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::End();
+
+	ImGui::Begin("Settings");
+	ImGui::Text("text");
+	ImGui::Text("text");
+	ImGui::Text("text");
+	ImGui::End();
+	ImGui::PopStyleVar();
+
+	// Menu at the top of the window
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Options"))
+		{
+			// Disabling fullscreen would allow the window to be moved to the front of other windows,
+			// which we can't undo at the moment without finer window depth/z control.
+			ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Close", NULL, false, &p_open != NULL))
+				p_open = false;
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+	ImGui::End();
 }
 
 /*

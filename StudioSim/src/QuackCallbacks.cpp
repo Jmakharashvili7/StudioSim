@@ -1,6 +1,7 @@
 #include "QuackCallbacks.h"
 #include "KeyboardClass.h"
 #include "Quack.h"
+#include "UILayer.h"
 
 namespace QuackEngine {
 	// Input callback
@@ -17,7 +18,14 @@ namespace QuackEngine {
 		}
 	}
 
-	// windw close callback
+	// Window resize callback
+	void window_size_callback(GLFWwindow* window, int width, int height)
+	{
+		glViewport(0, 0, width, height);
+	}
+
+
+	// window close callback
 	void window_close_callback(GLFWwindow* window)
 	{
 		Quack::s_running = false;

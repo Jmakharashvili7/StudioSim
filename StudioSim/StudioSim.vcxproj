@@ -163,6 +163,8 @@
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
     <ClCompile Include="src\EngineManager.cpp" />
     <ClCompile Include="src\GameTime.cpp" />
@@ -190,6 +192,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PerspectiveCamera.h" />
+    <ClInclude Include="src\FrameBuffer.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\EngineManager.h" />
     <ClInclude Include="src\GameTime.h" />
