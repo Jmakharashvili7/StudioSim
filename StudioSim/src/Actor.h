@@ -7,12 +7,20 @@ class Animate;
 class Actor : public GameObject
 {
 public:
-	Actor(GameObjectData* data, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 	~Actor();
 
 	void Jump();
 
-	virtual void Draw() override;
+	virtual void Draw(Shader* mainShader) override;
+
+	// Position
+	virtual void SetPosition(const glm::vec3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
+	virtual void AdjustPosition(const glm::vec3 adjustPosition) { if (m_transform) m_transform->AdjustPosition(adjustPosition); }
+
+	// Scale
+	virtual void SetScale(const glm::vec3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
+	virtual void AdjustScale(const glm::vec3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
 
 	// Setters
 	inline void SetJumping(const bool bjumping) { m_bjumping = bjumping; }

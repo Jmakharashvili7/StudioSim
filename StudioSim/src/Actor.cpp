@@ -2,7 +2,8 @@
 #include "Animate.h"
 #include "Quack.h"
 
-Actor::Actor(GameObjectData* data, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData) : GameObject{data, textureData }
+Actor::Actor(GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData) 
+	: GameObject{data, transformData, textureData }
 {
 	// Physics init
 	m_bsimulateGravity = physicsData.bsimulateGravity;
@@ -31,14 +32,14 @@ void Actor::Jump()
 	}
 }
 
-void Actor::Draw()
+void Actor::Draw(Shader* mainShader)
 {
 	if (m_animator)
 	{
 		m_animator->UpdateTextCoord(Quack::GetDeltaTime());
 	}
 
-	GameObject::Draw();
+	GameObject::Draw(mainShader);
 }
 
 void Actor::AddImpulseForce(glm::vec3 force)

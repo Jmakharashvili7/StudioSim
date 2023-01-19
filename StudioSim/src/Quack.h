@@ -46,8 +46,8 @@ public:
 
 	static void ImGUIInit();
 
-	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TextureData& textureData);
-	static Actor* CreateNewActor(GameObjectData* objectData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
+	static Actor* CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);

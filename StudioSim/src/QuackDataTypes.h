@@ -41,4 +41,16 @@ struct AnimationData
 	int columns;
 };
 
+struct TransformData
+{
+	TransformData(const glm::vec3 inPosition, const glm::vec3 inRotation, const glm::vec3 inScale)
+		: position(inPosition), rotation(inRotation), scale(inScale) {};
+
+	TransformData() : position(glm::vec3(0.0f)), rotation(glm::vec3(0.0f)), scale(glm::vec3(1.0f)) {};
+
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 scale;
+};
+
 
