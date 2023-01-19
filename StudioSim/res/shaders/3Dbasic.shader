@@ -96,8 +96,8 @@ uniform PointLight u_pointLights[POINT_LIGHTS];
 uniform SpotLight u_spotLight;
 
 //Functions 
-vec4 CalculateDirLight(DirLight light, vec4 normal, vec4 viewDir);
-vec4 CalculatePointLight(PointLight light, vec4 normal, vec4 fragPos, vec4 viewDir);
+//vec4 CalculateDirLight(DirLight light, vec4 normal, vec4 viewDir);
+//vec4 CalculatePointLight(PointLight light, vec4 normal, vec4 fragPos, vec4 viewDir);
 vec4 CalculateSpotLight(SpotLight light, vec4 normal, vec4 fragPos, vec4 viewDir);
 
 void main()
@@ -107,16 +107,43 @@ void main()
     vec4 norm = normalize(Normal);
     vec4 viewDir = normalize(u_viewPos - FragPos);
     //phase 1 : Direction Light
-    vec4 result = CalculateDirLight(u_dirLight, norm, viewDir);
-    //phase 2 : Point Light
-    for (int i = 0; i < POINT_LIGHTS; i++)
-    {
-        result += CalculatePointLight(u_pointLights[i], norm, FragPos, viewDir);
-    }
+    //vec4 result = CalculateDirLight(u_dirLight, norm, viewDir);
+    ////phase 2 : Point Light
+    //for (int i = 0; i < POINT_LIGHTS; i++)
+    //{
+    //    result += CalculatePointLight(u_pointLights[i], norm, FragPos, viewDir);
+    //}
     //phase 3 : Spot Light
-    result += CalculateSpotLight(u_spotLight, norm, FragPos, viewDir);
+   // result += CalculateSpotLight(u_spotLight, norm, FragPos, viewDir);
+    // ambient
 
-    FragColor = vec4(result * 1.0);
+    vec4 lightDir = normalize(u_spotLight.position - FragPos);
+    //diffuse shading
+    float diff = max(dot(Normal, lightDir), 0.0);
+    //specular shading
+    vec4 reflectDir = reflect(-lightDir, Normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_material.shine);
+    //attenuation
+    float distance = length(u_spotLight.position - FragPos);
+    float attenuation = 1.0 / (u_spotLight.constant + u_spotLight.linear * distance +
+        u_spotLight.quadratic * (distance * distance));
+    //spotlight intensity
+    float theta = dot(lightDir, normalize(-u_spotLight.direction));
+    float epsilon = u_spotLight.cutOff - u_spotLight.outerCutOff;
+    float intensity = clamp((theta - u_spotLight.outerCutOff) / epsilon, 1.0, 2.0);
+    //combine results
+    vec4 ambient = u_spotLight.ambient * vec4(texture(u_material.diffuse, TexCoord));
+    vec4 diffuse = u_spotLight.diffuse * diff * vec4(texture(u_material.diffuse, TexCoord));
+    vec4 specular = u_spotLight.specular * spec * vec4(texture(u_material.specular, TexCoord));
+    ambient *= attenuation * intensity;
+    diffuse *= attenuation * intensity;
+    specular *= attenuation * intensity;
+    
+    vec4 result = ambient + diffuse + specular;
+
+
+
+    FragColor = vec4(result );
 
 
 }

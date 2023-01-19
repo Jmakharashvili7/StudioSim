@@ -310,7 +310,7 @@ void Quack::RenderUpdate()
 	//Spot Light
 	//m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
 	m_3dShader->SetUniform4f("u_spotLight.position", m_perspectiveCamera->GetPosition().x, m_perspectiveCamera->GetPosition().y, m_perspectiveCamera->GetPosition().z, 1.0f);
-	m_3dShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	m_3dShader->SetUniform4f("u_spotLight.direction", 1.0f, 1.0f, 2.0f, 1.0f);
 	m_3dShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
 	m_3dShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
 	m_3dShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
