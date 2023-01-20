@@ -18,7 +18,7 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(GameObjectData* data, const TransformData& transformData, const TextureData& textureData);
+	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData);
 	~GameObject();
 
 	virtual void Draw(Shader* mainShader);

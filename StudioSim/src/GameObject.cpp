@@ -1,9 +1,9 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
+GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
 	: m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_texture(new Texture(textureData)), m_data(data)
+	m_texture(new Texture(textureData)), m_data(data), m_name(name)
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();

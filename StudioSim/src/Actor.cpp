@@ -2,8 +2,8 @@
 #include "Animate.h"
 #include "Quack.h"
 
-Actor::Actor(GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData) 
-	: GameObject{data, transformData, textureData }
+Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData) 
+	: GameObject{name, data, transformData, textureData }
 {
 	// Physics init
 	m_bsimulateGravity = physicsData.bsimulateGravity;

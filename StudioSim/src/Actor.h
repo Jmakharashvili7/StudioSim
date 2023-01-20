@@ -7,7 +7,7 @@ class Animate;
 class Actor : public GameObject
 {
 public:
-	Actor(GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 	~Actor();
 
 	void Jump();
