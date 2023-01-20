@@ -20,9 +20,9 @@ void Transform::UpdateTransformMatrix()
 {
 	glm::mat4 startingMatrix = glm::mat4(1.0f);
 
-	glm::vec3 screenPosition = glm::vec3(m_position.x / 1280.0f, m_position.y / 960.0f, 0.0f);
+	glm::vec3 screenPosition = glm::vec3(m_position.x, m_position.y, 0.0f);
 
-	startingMatrix = glm::translate(startingMatrix, glm::vec3(screenPosition));
+	startingMatrix = glm::scale(startingMatrix, glm::vec3(m_scale));
 
 	// x
 	startingMatrix = glm::rotate(startingMatrix, glm::radians(m_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -31,7 +31,8 @@ void Transform::UpdateTransformMatrix()
 	// z
 	startingMatrix = glm::rotate(startingMatrix, glm::radians(m_rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
-	startingMatrix = glm::scale(startingMatrix, glm::vec3(m_scale));
+	startingMatrix = glm::translate(startingMatrix, glm::vec3(screenPosition));
+
 	m_transformationMatrix = startingMatrix;
 }
 

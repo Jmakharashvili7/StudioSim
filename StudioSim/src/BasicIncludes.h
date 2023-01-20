@@ -19,6 +19,7 @@
 #include <array>
 #include "json.h"
 #include "Log.h"
+#include "KeyEvent.h"
 
 //#define _3D_SHADER
 #define _2D_SHADER

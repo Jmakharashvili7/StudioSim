@@ -3,12 +3,14 @@
 #include "Texture.h"
 #include "IndexBuffer.h"
 #include "KeyboardClass.h"
+#include "MouseClass.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "QuackCallbacks.h"
 #include "QuackPhysics.h"
 #include "Animate.h"
+#include "QuackCallbacks.h"
+#include "EngineManager.h"
 
 //#define _2D_SHADER
 #include "Animate.h"
@@ -37,6 +39,8 @@ std::vector<Actor*> Quack::m_gameActors;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
+
+FrameBuffer* Quack::m_frameBuffer;
 
 VertexArray* Quack::m_squareVAO;
 QuackPhysics* Quack::p_QuackPhysics;
@@ -104,15 +108,19 @@ void Quack::InitObjects()
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
 	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
-	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundTextureData);
+	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(600.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	const TransformData duckTransformData = TransformData(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
 	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewActor(duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
+	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	m_gameObjects.push_back(m_duck);
+
+	EngineManager::SetGameObjects(m_gameObjects);
 }
 
 void Quack::SetupShaders()
@@ -141,9 +149,9 @@ int Quack::InitEngine()
 {
 	s_running = true;
 
-	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
+	m_mainCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
-	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
+	m_window = new Window("Quack", 1920, 1080, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
 	m_physicsManager = new PhysicsManager();
@@ -159,20 +167,33 @@ int Quack::InitEngine()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	///
-	///	Initialize IMGUI
-	/// 
-	m_uiMain->OnAttach();
-
-	/* Initialize the keyboard class*/
+	/* Initialize the input classes */
 	KeyboardClass::Init();
+	MouseClass::Init();
+
+	/* Setup glfw callbacks */
 	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
+	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
+	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
+	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
+
+
+	FrameBufferSpecificiation fbs;
+	fbs.width = 1920;
+	fbs.height = 1080;
+
+	m_frameBuffer = new FrameBuffer(fbs);
+
+	///
+	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
+	/// 
+	m_uiMain->OnAttach();
 
 	InitObjects();
 	SetupShaders();
 
-	return 0;	
+	return 0;
 }
 
 void Quack::HandleInput()
@@ -186,30 +207,42 @@ void Quack::HandleInput()
 			break;
 		case 'W': // move camera up
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.y += 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.y += 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'S': // move camera down
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.y -= 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.y -= 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'A': // move camera left
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.x -= 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();	
+				temp.x -= 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'D': // move camera right
 		{
-			glm::vec3 temp = m_mainCamera->GetPosition();
-			temp.x += 0.3f;
-			m_mainCamera->SetPosition(temp);
+			if (m_uiMain->GetViewport()->GetIsFocused())
+			{
+				glm::vec3 temp = m_mainCamera->GetPosition();
+				temp.x += 0.3f;
+				m_mainCamera->SetPosition(temp);
+			}
 			break;
 		}
 		case 'I': // JUMP
@@ -245,6 +278,23 @@ void Quack::HandleInput()
 		}
 		}
 	}
+
+	if (!MouseClass::IsEventBufferEmpty())
+	{
+		MouseEvent e = MouseClass::ReadEvent();
+
+		if (e.GetType() == MouseEvent::EventType::L_CLICK)
+		{
+		}
+		if (e.GetType() == MouseEvent::EventType::R_CLICK)
+		{
+			
+		}
+		if (e.GetType() == MouseEvent::EventType::MOVE)
+		{
+			
+		}
+	}
 }
 
 void Quack::Update()
@@ -260,10 +310,18 @@ void Quack::Update()
 
 void Quack::RenderUpdate()
 {
+	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	// Draw layers 
+	for (Layer* layer : m_layerStack->GetLayers())
+	{
+		if (layer) layer->OnUpdate();
+	}
+
+	m_frameBuffer->Bind();
 	/* Render here */
 	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-
 #ifdef _3D_SHADER
 
 	// bind shader
@@ -343,32 +401,19 @@ void Quack::RenderUpdate()
 		if (gameObject) gameObject->Draw(m_mainShader);
 	}
 
-	// Draw layers 
-	for (Layer* layer : m_layerStack->GetLayers())
-	{
-		if (layer) layer->OnUpdate();
-	}
-
+	//m_frameBuffer->Unbind();
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */
 	glfwPollEvents();
+
+	m_frameBuffer->Unbind();
 }
 
-void Quack::PhysicsUpdate()
-{
-	m_physicsManager->Update(m_gameTimer.GetDeltaTime());
-}
-
-void Quack::ImGUIInit()
-{
-
-}
-
-GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)
+GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)
 {
 	GameObject* createdGameObject = nullptr;
-	createdGameObject = new GameObject(objectData, transformData, textureData);
+	createdGameObject = new GameObject(name, objectData, transformData, textureData);
 
 	if (createdGameObject)
 	{
@@ -378,10 +423,10 @@ GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const Transfo
 	return createdGameObject;
 }
 
-Actor* Quack::CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
 	Actor* createdActor = nullptr;
-	createdActor = new Actor(objectData, transformData, textureData, physicsData, animationData);
+	createdActor = new Actor(name, objectData, transformData, textureData, physicsData, animationData);
 
 	if (createdActor)
 	{
@@ -431,24 +476,6 @@ void Quack::ShutDown()
 	ImGui::DestroyContext();
 	glfwDestroyWindow(m_window->GetGLFWWindow());
 	glfwTerminate();
-}
-
-void Quack::GetFrameRate(float deltatime)
-{
-	m_frameCounter++;
-
-	//frame time to keep track of time until one second so FPS can be calculated
-	m_frameTime += deltatime;
-
-	//seeing how many frames were processed within 1 second
-	if (m_frameTime > 1.0f)
-	{
-		m_currentFrameRate = m_frameCounter;
-
-		//resetting values so frames for the next second can be calculated
-		m_frameCounter = 0;
-		m_frameTime = 0;
-	}
 }
 
 

@@ -14,11 +14,11 @@
 #include "Actor.h"
 #include "QuackDataTypes.h"
 #include "PhysicsManager.h"
+#include "FrameBuffer.h"
 
 class LayerStack;
 class UIRenderer;
 class UILayer;
-
 
 #define MAX_FRAME_RATE 144
 #define NUMBER_OF_SQUARES 4
@@ -46,13 +46,15 @@ public:
 
 	static void ImGUIInit();
 
-	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
-	static Actor* CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
+	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
 
 	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
+	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
+	static UILayer* GetUILayer() { return m_uiMain; }
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
@@ -92,6 +94,7 @@ private:
 	static float m_rotation;
 	static float m_projectileForce;
 
+	static FrameBuffer* m_frameBuffer;
 
 	static Actor* m_duck;
 	static GameObject* m_ground;
