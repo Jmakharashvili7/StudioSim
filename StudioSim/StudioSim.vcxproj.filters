@@ -1,99 +1,313 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\dependencies\imgui\imgui.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\EngineManager.cpp" />
-    <ClCompile Include="src\GameTime.cpp" />
-    <ClCompile Include="src\LayerStack.cpp" />
-    <ClCompile Include="src\Layer.cpp" />
-    <ClCompile Include="src\JsonLoader.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="src\QuackCallbacks.cpp" />
-    <ClCompile Include="src\KeyboardClass.cpp" />
-    <ClCompile Include="src\KeyEvent.cpp" />
-    <ClCompile Include="src\OrthographicCamera.cpp" />
-    <ClCompile Include="src\Quack.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\IndexBuffer.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Log.cpp" />
-    <ClCompile Include="src\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\VertexArray.cpp" />
-    <ClCompile Include="src\VertexBuffer.cpp" />
-    <ClCompile Include="src\VertexBufferLayout.cpp" />
-    <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\UIRenderer.cpp" />
-    <ClCompile Include="src\UILayer.cpp" />
-    <ClCompile Include="src\Animate.cpp" />
-    <ClCompile Include="src\Actor.cpp" />
-    <ClCompile Include="src\PhysicsManager.cpp" />
-    <ClCompile Include="src\Transform.cpp" />
-    <ClCompile Include="src\PerspectiveCamera.cpp" />
-    <ClCompile Include="CustomMaths.cpp" />
-    <ClCompile Include="src\FrameBuffer.cpp" />
-    <ClCompile Include="src\UIWindow.cpp" />
-    <ClCompile Include="src\MouseClass.cpp" />
-    <ClCompile Include="src\MouseEvent.cpp" />
-    <ClCompile Include="src\ViewportUI.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imgui.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui_demo.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui_impl_glfw.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_image\stb_image.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OrthographicCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PerspectiveCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layer.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QuackCallbacks.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexArray.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexBuffer.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexBufferLayout.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Animate.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LayerStack.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ObjectUI.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UILayer.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRenderer.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIWindow.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ViewportUI.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Window.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomMaths.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineManager.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FrameBuffer.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameTime.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IndexBuffer.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonLoader.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KeyboardClass.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MouseClass.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MouseEvent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysicsManager.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Quack.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Transform.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KeyEvent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EngineManager.h" />
-    <ClInclude Include="src\GameTime.h" />
-    <ClInclude Include="src\LayerStack.h" />
-    <ClInclude Include="src\Layer.h" />
-    <ClInclude Include="src\JsonLoader.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\json.h" />
-    <ClInclude Include="src\QuackCallbacks.h" />
-    <ClInclude Include="src\KeyboardClass.h" />
-    <ClInclude Include="src\KeyEvent.h" />
-    <ClInclude Include="src\OrthographicCamera.h" />
-    <ClInclude Include="src\Quack.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\IndexBuffer.h" />
-    <ClInclude Include="src\BasicIncludes.h" />
-    <ClInclude Include="src\Log.h" />
-    <ClInclude Include="src\stb_image\stb_image.h" />
-    <ClInclude Include="src\VertexArray.h" />
-    <ClInclude Include="src\VertexBuffer.h" />
-    <ClInclude Include="src\VertexBufferLayout.h" />
-    <ClInclude Include="src\Window.h" />
-    <ClInclude Include="src\Texture.h" />
-    <ClInclude Include="src\UIRenderer.h" />
-    <ClInclude Include="src\UILayer.h" />
-    <ClInclude Include="src\Animate.h" />
-    <ClInclude Include="src\QuackPhysics.h" />
-    <ClInclude Include="src\Actor.h" />
-    <ClInclude Include="src\QuackDataTypes.h" />
-    <ClInclude Include="src\PhysicsManager.h" />
-    <ClInclude Include="src\Transform.h" />
-    <ClInclude Include="CustomMaths.h" />
-    <ClInclude Include="src\FrameBuffer.h" />
-    <ClInclude Include="src\UIWindow.h" />
-    <ClInclude Include="src\MouseClass.h" />
-    <ClInclude Include="src\MouseEvent.h" />
-    <ClInclude Include="src\ViewportUI.h" />
+    <ClInclude Include="src\GameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjectUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UILayer.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIRenderer.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIWindow.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewportUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Window.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OrthographicCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PerspectiveCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QuackCallbacks.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layer.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LayerStack.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PhysicsManager.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IndexBuffer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animate.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BasicIncludes.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameTime.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomMaths.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexArray.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexBuffer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexBufferLayout.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineManager.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameBuffer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.h">
+      <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonLoader.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyEvent.h">
+      <Filter>Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QuackDataTypes.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Quack.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QuackPhysics.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyboardClass.h">
+      <Filter>Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MouseClass.h">
+      <Filter>Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MouseEvent.h">
+      <Filter>Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Log.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stb_image\stb_image.h">
+      <Filter>External</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\blue.png" />
-    <Image Include="res\textures\duck.png" />
-    <Image Include="res\textures\test sheet.jpg" />
-    <Image Include="res\textures\test sheet.png" />
-    <Image Include="res\textures\twist.png" />
-    <Image Include="res\textures\twist2.png" />
+    <Image Include="res\textures\blue.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="res\textures\duck.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="res\textures\test sheet.jpg">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="res\textures\test sheet.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="res\textures\twist.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="res\textures\twist2.png">
+      <Filter>resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="imgui.ini" />
-    <None Include="res\shaders\basic.shader" />
-    <None Include="res\shaders\3Dbasic.shader" />
-    <None Include="res\textures\test sheet.png~" />
-    <None Include="shaders\basic.shader" />
+    <None Include="imgui.ini">
+      <Filter>External</Filter>
+    </None>
+    <None Include="res\shaders\basic.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\shaders\3Dbasic.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\textures\test sheet.png~">
+      <Filter>resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="UI">
+      <UniqueIdentifier>{03e1343e-dff0-4129-893c-59dc30198996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{3fb653a2-f8d4-488f-aaa1-1062164e29d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{fd3ccb56-f586-4d87-80d5-17930b66575b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cameras">
+      <UniqueIdentifier>{0440151d-d02b-4b99-a9b7-1f394d57e726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuackEngine">
+      <UniqueIdentifier>{b5be7d1a-1184-47df-a436-2c6f2f0ebd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{bf3e0328-5dc0-42e7-9d0d-cffea9d04b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source files">
+      <UniqueIdentifier>{78176206-0ea2-4ada-a6e3-56fb1bf59ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{912ebd3b-b1b8-401d-b687-b69b52fcf479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{9160ea2d-eb4f-4919-bc04-b2daf8718340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inputs">
+      <UniqueIdentifier>{f407e532-d370-4c50-9fe0-011698f8e8b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
