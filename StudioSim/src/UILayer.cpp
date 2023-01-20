@@ -19,7 +19,8 @@ void UILayer::OnAttach()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	ImGui::StyleColorsDark();
-	m_viewport = new UIWindow("viewport");
+
+	m_viewport = new ViewportUI("Viewport", Quack::GetFrameBuffer());
 
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGui_ImplGlfw_InitForOpenGL(Quack::GetWindow()->GetGLFWWindow(), true);
@@ -40,6 +41,7 @@ void UILayer::OnUpdate()
 	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.65f, 0.0f, 1.0f));
 	// Insert UI Code here
 	EnableDocking();
+	ImGui::End();
 	ImGui::PopStyleColor(1);
 
 	// render the data
@@ -93,34 +95,10 @@ void UILayer::EnableDocking()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	ImGui::Begin("Viewport");
-
-	// Check if the size of the window changed
-	// *((glm::vec2*)& is used to compare imvec2 and glm vec2 and it works due to their layouts both being two floats
-	ImVec2 viewportPos = ImGui::GetWindowPos();
-	if (m_viewport->GetPosition() != *((glm::vec2*)&viewportPos))
-	{
-		m_viewport->SetPosition({ viewportPos.x, viewportPos.y });
-	}
-
-	// Check if the size of the window changed
-	// *((glm::vec2*)& is used to compare imvec2 and glm vec2 and it works due to their layouts both being two floats
-	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-	if (m_viewport->GetSize() != *((glm::vec2*)&viewportSize))
-	{
-		m_viewport->SetSize({ viewportSize.x, viewportSize.y });
-		Quack::GetFrameBuffer()->Resize(m_viewport->GetSize().x, m_viewport->GetSize().y);
-	}
-
-	m_viewport->SetIsFocused(ImGui::IsWindowFocused());
-
-	uint32_t id = Quack::GetFrameBuffer()->GetColorAttachment();
-	ImGui::Image((void*)id, ImVec2(m_viewport->GetSize().x, m_viewport->GetSize().y), ImVec2(0, 1), ImVec2(1, 0));
-	ImGui::End();
-
 	static glm::vec3 vector;
-	
+
+	m_viewport->Render();
+
 	ImGui::Begin("Settings");
 	GameObject* duck = EngineManager::GetGameObject("duck");
 	Texture* texture = duck->GetTexture();
@@ -134,7 +112,6 @@ void UILayer::EnableDocking()
 		ImGui::TreePop();
 		ImGui::Separator();
 	}
-
 	ImGui::End();
 	ImGui::PopStyleVar();
 
@@ -155,7 +132,6 @@ void UILayer::EnableDocking()
 		}
 		ImGui::EndMenuBar();
 	}
-	ImGui::End();
 }
 
 /*

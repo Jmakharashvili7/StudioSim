@@ -190,6 +190,7 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\UIWindow.cpp" />
+    <ClCompile Include="src\ViewportUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\FrameBuffer.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="src\UIRenderer.h" />
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\UIWindow.h" />
+    <ClInclude Include="src\ViewportUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

@@ -160,10 +160,6 @@ int Quack::InitEngine()
 	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
 
-	///
-	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
-	/// 
-	m_uiMain->OnAttach();
 
 	FrameBufferSpecificiation fbs;
 	fbs.width = 1920;
@@ -171,10 +167,15 @@ int Quack::InitEngine()
 
 	m_frameBuffer = new FrameBuffer(fbs);
 
+	///
+	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
+	/// 
+	m_uiMain->OnAttach();
+
 	InitObjects();
 	SetupShaders();
 
-	return 0;	
+	return 0;
 }
 
 void Quack::HandleInput()
@@ -210,7 +211,7 @@ void Quack::HandleInput()
 		{
 			if (m_uiMain->GetViewport()->GetIsFocused())
 			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
+				glm::vec3 temp = m_mainCamera->GetPosition();	
 				temp.x -= 0.3f;
 				m_mainCamera->SetPosition(temp);
 			}
@@ -279,7 +280,6 @@ void Quack::Update()
 		ProjectileDecrement(m_direction);
 	}
 		
-
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);

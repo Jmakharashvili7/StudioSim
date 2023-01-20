@@ -5,10 +5,11 @@ class UIWindow
 {
 public:
 	UIWindow(std::string name);
-	~UIWindow();
+	~UIWindow() {}
 
-	void Init();
-	void Render();
+	virtual void Init() {}
+	virtual void Render() {}
+	virtual void HandleInput(KeyEvent key) {}
 
 	inline void SetPosition(glm::vec2 pos) { m_position = pos; }
 	inline glm::vec2 GetPosition() { return m_position; }
@@ -18,7 +19,7 @@ public:
 
 	inline void SetIsFocused(bool isFocused) { m_isFocused = isFocused; }
 	inline bool GetIsFocused() { return m_isFocused; }
-private:
+protected:
 	std::string m_name;
 	glm::vec2 m_position;
 	glm::vec2 m_size;
