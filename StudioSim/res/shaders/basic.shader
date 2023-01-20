@@ -8,12 +8,12 @@ layout(location = 2) in vec2 aTexCoord;
 out vec3 ourColor;
 out vec2 TexCoord;
 
-uniform mat4 u_model;
+uniform mat4 u_world;
 uniform mat4 u_viewProjection;
 
 void main()
 {
-    gl_Position = u_viewProjection * vec4(aPos, 1.0);
+    gl_Position = u_viewProjection * u_world * vec4(aPos, 1.0);
     ourColor = aColor;
     TexCoord = aTexCoord;
 }

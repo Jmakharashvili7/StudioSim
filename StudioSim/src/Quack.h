@@ -11,22 +11,16 @@
 #include "Texture.h"
 #include "GameObject.h"
 #include "GameTime.h"
+#include "Actor.h"
+#include "QuackDataTypes.h"
+#include "PhysicsManager.h"
 #include "FrameBuffer.h"
 
 class LayerStack;
 class UIRenderer;
 class UILayer;
 
-enum class UIWindowType
-{
-	VIEWPORT,
-	SETTINGS
-};
-
-
 #define MAX_FRAME_RATE 144
-#define GFORCE 9.81
-#define JUMP_HEIGHT 3.0f
 #define NUMBER_OF_SQUARES 4
 
 class QuackPhysics;
@@ -43,19 +37,22 @@ public:
 
 	static void Update();
 	static void RenderUpdate();
-	//void PhysicsUpdate();
+	static void PhysicsUpdate();
 
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
 
-	static void Gravity();
+	static void GetFrameRate(float deltatime);
 
-	static void Jump();
-	static void JumpDecrement();
+	static void ImGUIInit();
+
+	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
+	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
 
+	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
@@ -75,7 +72,7 @@ private:
 	static Window* m_window;
 	static LayerStack* m_layerStack;
 	static UILayer* m_uiMain;
-	static UIWindowType m_UIFocus;
+	static PhysicsManager* m_physicsManager;
 
 	//Frame related variables
 	static double m_currentTime;
@@ -99,11 +96,13 @@ private:
 
 	static FrameBuffer* m_frameBuffer;
 
-	static GameObject* m_duck;
+	static Actor* m_duck;
+	static GameObject* m_ground;
 	static GameObject* m_testSprite;
 
 	int spTest = 0;
 	static std::vector<GameObject*> m_gameObjects;
+	static std::vector<Actor*> m_gameActors;
 
 
 	static VertexArray* m_squareVAO;
@@ -129,7 +128,6 @@ private:
 	static glm::vec4 m_spotAmbient;
 	static glm::vec4 m_spotDiffuse;
 	static glm::vec4 m_spotSpecular;
-
 	static glm::vec4 m_lightAmbient;
 
 	static Shader* m_mainShader;

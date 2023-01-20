@@ -1,8 +1,9 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const std::string& texturePath) :
-	m_name(name), m_texture(new Texture(texturePath)), m_data(data)
+GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
+	: m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
+	m_texture(new Texture(textureData)), m_data(data), m_name(name)
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();
@@ -16,26 +17,41 @@ GameObject::~GameObject()
 	delete m_va;
 	m_va = nullptr;
 
-	delete m_animator;
-	m_animator = nullptr;
 	if (m_texture) delete m_texture;
 	if (m_va) delete m_va;
 	if (m_data) delete m_data;
 }
 
-void GameObject::Draw()
+void GameObject::Draw(Shader* mainShader)
 {
+	glm::vec3 screenPosition = m_transform->GetPosition();
+	screenPosition.x /= 1280;
+	screenPosition.y /= 960;
+
+	glm::mat4 testMatrix = glm::mat4(1.0f);
+
+	glm::vec3 rotation = m_transform->GetRotation();
+
+	testMatrix = glm::scale(testMatrix, m_transform->GetScale());
+
+	// x
+	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	// y
+	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	// z
+	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+	testMatrix = glm::translate(testMatrix, screenPosition);
+
+
+	mainShader->SetUniform4x4("u_world", m_transform->GetTransformationMatrix());
+
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	m_texture->UnBind();
 	m_va->Unbind();
-}
-
-void GameObject::SetUpAnimator(int rows, int columns)
-{
-	m_animator = new Animate(this, rows, columns);
 }
 
 void GameObject::UpdateObjectData(GameObjectData* newData)

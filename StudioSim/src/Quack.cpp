@@ -8,6 +8,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "QuackPhysics.h"
+#include "Animate.h"
 #include "QuackCallbacks.h"
 #include "EngineManager.h"
 
@@ -34,6 +35,7 @@ GameTimer Quack::m_gameTimer;
 
 LayerStack* Quack::m_layerStack;
 std::vector<GameObject*> Quack::m_gameObjects;
+std::vector<Actor*> Quack::m_gameActors;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
@@ -87,20 +89,35 @@ glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 
 glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
-GameObject* Quack::m_duck;
+Actor* Quack::m_duck;
+GameObject* Quack::m_ground;
 GameObject* Quack::m_testSprite;
+
 UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
 Shader* Quack::m_3dShader;
 
 OrthographicCamera* Quack::m_mainCamera;
+PhysicsManager* Quack::m_physicsManager;
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
 {
+	// Init game objects
+	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
+	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundTextureData);
+
+	// Init actors
+	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	const TransformData duckTransformData = TransformData(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
+	const AnimationData duckAnimationData = AnimationData();
+	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_duck = new GameObject("duck", data, "res/textures/duck2.png");
 	m_gameObjects.push_back(m_duck);
 
 	EngineManager::SetGameObjects(m_gameObjects);
@@ -132,11 +149,12 @@ int Quack::InitEngine()
 {
 	s_running = true;
 
-	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
+	m_mainCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 1920, 1080, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
+	m_physicsManager = new PhysicsManager();
 
 	m_layerStack->PushOverlay(m_uiMain);
 
@@ -229,21 +247,24 @@ void Quack::HandleInput()
 		}
 		case 'I': // JUMP
 		{
-			Jump();
-			break;
+			if (m_duck)
+			{
+				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
+			}
+			break; 
 		}
 		case 'L': // JUMP Right
 		{
-			m_direction = RIGHT;
-			Jump();
-			Projectile(m_projectileForce);
+			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
+			//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
 		case 'J': // JUMP Left
 		{
-			m_direction = LEFT;
-			Jump();
-			Projectile(m_projectileForce);
+			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
+			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_duck->Jump();
 			break;
 		}
 		}
@@ -271,15 +292,6 @@ void Quack::Update()
 {
 	m_gameTimer.Tick();
 
-	if (m_jumping)
-	{
-		JumpDecrement();
-	}
-	if (m_thrown)
-	{
-		ProjectileDecrement(m_direction);
-	}
-		
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
@@ -377,7 +389,7 @@ void Quack::RenderUpdate()
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
-		if (gameObject) gameObject->Draw();
+		if (gameObject) gameObject->Draw(m_mainShader);
 	}
 
 	//m_frameBuffer->Unbind();
@@ -389,28 +401,34 @@ void Quack::RenderUpdate()
 	m_frameBuffer->Unbind();
 }
 
-void Quack::Jump()
+GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)
 {
-	if (!m_jumping)
+	GameObject* createdGameObject = nullptr;
+	createdGameObject = new GameObject(name, objectData, transformData, textureData);
+
+	if (createdGameObject)
 	{
-		m_jump_force = JUMP_HEIGHT;
-		m_jumping = true;
+		m_gameObjects.push_back(createdGameObject);
 	}
+
+	return createdGameObject;
 }
 
-void Quack::JumpDecrement()
+Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
-	//adjust position
-	squarePositionData[0].y += m_jump_force * m_deltaTime;
+	Actor* createdActor = nullptr;
+	createdActor = new Actor(name, objectData, transformData, textureData, physicsData, animationData);
 
-	//reduce jump force
-	m_jump_force -= JUMP_HEIGHT * m_deltaTime;
-
-	//is jump force 0?
-	if (m_jump_force <= 0.0f)
+	if (createdActor)
 	{
-		m_jumping = false;
+		m_gameObjects.push_back(createdActor);
+		m_gameActors.push_back(createdActor);
+
+		// Update physics managers actor array
+		m_physicsManager->AddGameActor(createdActor);
 	}
+
+	return createdActor;
 }
 
 void Quack::Projectile(float force)
@@ -440,13 +458,6 @@ void Quack::ProjectileDecrement(Facing direction)
 	{
 		m_thrown = false;
 	}
-}
-
-void Quack::Gravity()
-{
-	//weight = mass * gforce
-	float weight = 0.1f * GFORCE;
-	squarePositionData[0].y -= weight * m_deltaTime;
 }
 
 void Quack::ShutDown()

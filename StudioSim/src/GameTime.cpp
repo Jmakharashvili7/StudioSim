@@ -46,6 +46,7 @@ void GameTimer::Reset()
 void GameTimer::Start()
 {
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_startTime);
+	QueryPerformanceCounter((LARGE_INTEGER*)&m_PrevTime);
 
 	// Check if we are starting from a paused state
 	if (m_Paused)

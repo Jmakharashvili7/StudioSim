@@ -32,6 +32,11 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
+    <ClCompile Include="src\Actor.cpp" />
+    <ClCompile Include="src\PhysicsManager.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\PerspectiveCamera.cpp" />
+    <ClCompile Include="CustomMaths.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\MouseClass.cpp" />
@@ -65,6 +70,11 @@
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\QuackPhysics.h" />
+    <ClInclude Include="src\Actor.h" />
+    <ClInclude Include="src\QuackDataTypes.h" />
+    <ClInclude Include="src\PhysicsManager.h" />
+    <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="CustomMaths.h" />
     <ClInclude Include="src\FrameBuffer.h" />
     <ClInclude Include="src\UIWindow.h" />
     <ClInclude Include="src\MouseClass.h" />

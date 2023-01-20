@@ -4,8 +4,9 @@
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Texture.h"
-
-class Animate;
+#include "QuackDataTypes.h"
+#include "Shader.h"
+#include "Transform.h"
 
 struct GameObjectData
 {
@@ -17,14 +18,26 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(std::string name, GameObjectData* data, const std::string& texturePath);
+	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData);
 	~GameObject();
 
-	void Draw();
-	void SetUpAnimator(int rows, int columns);
+	virtual void Draw(Shader* mainShader);
+
+	// Position
+	virtual void SetPosition(const glm::vec3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
+	virtual void AdjustPosition(const glm::vec3 adjustPosition) { if (m_transform) m_transform->AdjustPosition(adjustPosition); }
+	inline const glm::vec3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
+
+	// Rotation
+	virtual void SetRotation(const glm::vec3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
+	virtual void AdjustRotation(const glm::vec3 adjustRotation) { if (m_transform) m_transform->AdjustRotation(adjustRotation); }
+	virtual void SetRotationAroundPivot(const glm::vec3 pivotPosition, const glm::vec3 newRotation) { if (m_transform) m_transform->SetRotationAroundPivot(pivotPosition, newRotation); }
+
+	// Scale
+	virtual void SetScale(const glm::vec3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
+	virtual void AdjustScale(const glm::vec3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
-	inline Animate* GetAnimator() { return m_animator; }
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
 	inline std::string GetName() const { return m_name; }
@@ -32,11 +45,13 @@ public:
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
 
-private:
+protected:
 	std::string m_name;
 	Texture* m_texture;
 	VertexArray* m_va;
-	Animate* m_animator;
+		
 	GameObjectData* m_data;
+
+	Transform* m_transform;
 };
 
