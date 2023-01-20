@@ -27,7 +27,7 @@ void PhysicsManager::Update(const float deltaTime)
 				float weight = actor->GetMass() * GFORCE;
 				actor->AdjustPosition(glm::vec3(0.0f, -weight * deltaTime, 0.0f));
 
-				std::cout << actor->GetPosition().y << std::endl;
+				//std::cout << actor->GetPosition().y << std::endl;
 			}
 			else
 			{
@@ -40,7 +40,7 @@ void PhysicsManager::Update(const float deltaTime)
 				const float currentJumpForce = actor->GetCurrentJumpForce();
 				const float jumpHeight = actor->GetJumpHeight();
 				actor->AdjustPosition(glm::vec3(0.0f, currentJumpForce * deltaTime, 0.0f));
-				
+
 				// Update jump force
 				const float newJumpForce = currentJumpForce - (jumpHeight * deltaTime);
 
@@ -62,18 +62,31 @@ void PhysicsManager::Update(const float deltaTime)
 				const glm::vec3 currentImpulseForce = actor->GetCurrentImpulseForce();
 				const glm::vec3 forceMagnitude = actor->GetImpulseForceMag();
 
-				actor->AdjustPosition(glm::vec3(currentImpulseForce.x * deltaTime, currentImpulseForce.y * deltaTime, currentImpulseForce.z* deltaTime));
+				std::cout << actor->GetCurrentImpulseForce().x << std::endl;
+				std::cout << actor->GetCurrentImpulseForce().y << std::endl;
+
+				actor->AdjustPosition(glm::vec3(currentImpulseForce.x * deltaTime, currentImpulseForce.y * deltaTime, currentImpulseForce.z * deltaTime));
 
 				// Update impulse force
 				glm::vec3 newImpulseForce = glm::vec3(currentImpulseForce.x - (forceMagnitude.x * deltaTime), currentImpulseForce.y - (forceMagnitude.y * deltaTime), currentImpulseForce.z - (forceMagnitude.z * deltaTime));
 
-				if (glm::abs(newImpulseForce.x) <= 0.0f)
-					newImpulseForce.x = 0.0f;
-				if (glm::abs(newImpulseForce.y) <= 0.0f)
+
+				if (actor->GetCurrentImpulseForce().x > 0.0f)
+				{
+					if ((newImpulseForce.x) <= 0.0f)
+						newImpulseForce.x = 0.0f;
+				}
+				else
+				{
+					if ((newImpulseForce.x) >= 0.0f)
+						newImpulseForce.x = 0.0f;
+				}
+				if ((newImpulseForce.y) <= 0.0f)
 					newImpulseForce.y = 0.0f;
-				if (glm::abs(newImpulseForce.z) <= 0.0f)
+				if ((newImpulseForce.z) <= 0.0f)
 					newImpulseForce.z = 0.0f;
 
+				
 				if (glm::abs(newImpulseForce.x) <= 0.0f && glm::abs(newImpulseForce.y) <= 0.0f && glm::abs(newImpulseForce.z) <= 0.0f)
 				{
 					actor->SetImpulseActive(false);

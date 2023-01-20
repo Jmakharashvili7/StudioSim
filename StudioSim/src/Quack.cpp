@@ -216,7 +216,15 @@ void Quack::HandleInput()
 		{
 			if (m_duck)
 			{
-				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
+				m_duck->AddImpulseForce(glm::vec3(-500.0f, 300.0f, 0.0f));
+			}
+			break; 
+		}
+		case 'O': // JUMP
+		{
+			if (m_duck)
+			{
+				m_duck->AddImpulseForce(glm::vec3(500.0f, 300.0f, 0.0f));
 			}
 			break; 
 		}
@@ -231,7 +239,8 @@ void Quack::HandleInput()
 		{
 			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
 			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
-			m_duck->Jump();
+			if (m_duck)
+				m_duck->Jump();
 			break;
 		}
 		}
