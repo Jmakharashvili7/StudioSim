@@ -12,6 +12,8 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "FrameBuffer.h"
+#include "QuackAudio.h"
+
 
 class LayerStack;
 class UIRenderer;
@@ -58,6 +60,8 @@ public:
 
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
+
+	static QuackAudio* a;
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:

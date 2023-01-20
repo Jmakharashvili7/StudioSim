@@ -11,6 +11,8 @@
 #include "QuackCallbacks.h"
 #include "EngineManager.h"
 
+
+
 //#define _2D_SHADER
 #include "Animate.h"
 #include "JsonLoader.h"
@@ -94,6 +96,8 @@ UILayer* Quack::m_uiMain;
 Shader* Quack::m_mainShader;
 Shader* Quack::m_3dShader;
 
+QuackAudio* Quack::a;
+
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
 
@@ -173,6 +177,7 @@ int Quack::InitEngine()
 
 	InitObjects();
 	SetupShaders();
+	a = new QuackAudio;
 
 	return 0;	
 }
@@ -278,8 +283,18 @@ void Quack::Update()
 	{
 		ProjectileDecrement(m_direction);
 	}
-		
+	if (GetAsyncKeyState('D'))
+	{
 
+		a->PlaySound("Sounds/QuackHentai",
+			Vec3{ 0,0,0 },
+			true,
+			false,
+			true,
+			5.0f,
+			1.0f
+		);
+	}
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);

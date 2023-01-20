@@ -36,6 +36,7 @@
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\MouseClass.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
+    <ClCompile Include="QuackAudio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="src\UIWindow.h" />
     <ClInclude Include="src\MouseClass.h" />
     <ClInclude Include="src\MouseEvent.h" />
+    <ClInclude Include="QuackAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />
@@ -83,5 +85,7 @@
     <None Include="res\shaders\3Dbasic.shader" />
     <None Include="res\textures\test sheet.png~" />
     <None Include="shaders\basic.shader" />
+    <None Include="fmodL.dll" />
+    <None Include="fmod.dll" />
   </ItemGroup>
 </Project>
