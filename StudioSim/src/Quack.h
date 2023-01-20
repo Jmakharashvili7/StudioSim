@@ -46,8 +46,8 @@ public:
 
 	static void ImGUIInit();
 
-	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TextureData& textureData);
-	static Actor* CreateNewActor(GameObjectData* objectData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	static GameObject* CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
+	static Actor* CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
@@ -125,10 +125,7 @@ private:
 	static glm::vec4 m_spotAmbient;
 	static glm::vec4 m_spotDiffuse;
 	static glm::vec4 m_spotSpecular;
-
-
 	static glm::vec4 m_lightAmbient;
-
 
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;

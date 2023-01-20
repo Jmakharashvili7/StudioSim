@@ -1,7 +1,8 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(GameObjectData* data, const TextureData& textureData) :
+GameObject::GameObject(GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
+	: m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
 	m_texture(new Texture(textureData)), m_data(data)
 {
 	m_va = new VertexArray();
@@ -21,8 +22,30 @@ GameObject::~GameObject()
 	if (m_data) delete m_data;
 }
 
-void GameObject::Draw()
+void GameObject::Draw(Shader* mainShader)
 {
+	glm::vec3 screenPosition = m_transform->GetPosition();
+	screenPosition.x /= 1280;
+	screenPosition.y /= 960;
+
+	glm::mat4 testMatrix = glm::mat4(1.0f);
+
+	glm::vec3 rotation = m_transform->GetRotation();
+
+	// x
+	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	// y
+	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	// z
+	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+	testMatrix = glm::translate(testMatrix, screenPosition);
+
+	testMatrix = glm::scale(testMatrix, m_transform->GetScale());
+
+
+	mainShader->SetUniform4x4("u_model", m_transform->GetTransformationMatrix());
+
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();

@@ -102,20 +102,17 @@ void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
-	m_ground = CreateNewGameObject(groundObjectData, groundTextureData);
+	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TextureData duckTextureData = TextureData("res/textures/test sheet.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 0.25f, 5.0f);
-	const AnimationData duckAnimationData = AnimationData(true, 2, 4);
-	m_duck = CreateNewActor(duckObjectData, duckTextureData, duckPhysicsData, duckAnimationData);
-	m_duck->GetAnimator()->EditFramePlayTime(0, 0, 0.5f);
-	m_duck->GetAnimator()->EditFramePlayTime(0, 1, 1.5f);
-	m_duck->GetAnimator()->EditFramePlayTime(0, 2, 0.5f);
-	m_duck->GetAnimator()->EditFramePlayTime(0, 3, 1.25f);
-	m_duck->GetAnimator()->SetPlayRate(2.0f);
+	const TransformData duckTransformData = TransformData(glm::vec3(600.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
+	const AnimationData duckAnimationData = AnimationData();
+	m_duck = CreateNewActor(duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
 }
 
 void Quack::SetupShaders()
@@ -219,43 +216,24 @@ void Quack::HandleInput()
 		{
 			if (m_duck)
 			{
-				m_duck->AddImpulseForce(glm::vec3(0.0f, 5.0f, 0.0f));
+				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
 			}
 			break; 
 		}
-		case 'P':
+		case 'L': // JUMP Right
 		{
-			
-			if (m_duck)
-			{
-				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
-				m_duck->GetAnimator()->SetRowToPlay(1);
-			}
+			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
+			//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
-		case 'O':
+		case 'J': // JUMP Left
 		{
-			if (m_duck)
-			{
-				std::cout << m_duck->GetAnimator()->GetRowToPlay() << std::endl;
-				m_duck->GetAnimator()->SetRowToPlay(0);
-			}
+			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
+			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_duck->Jump();
 			break;
 		}
-		//case 'L': // JUMP Right
-		//{
-		//	m_direction = RIGHT;
-		//	Jump();
-		//	Projectile(m_projectileForce);
-		//	break;
-		//}
-		//case 'J': // JUMP Left
-		//{
-		//	m_direction = LEFT;
-		//	Jump();
-		//	Projectile(m_projectileForce);
-		//	break;
-		//}
 		}
 	}
 }
@@ -353,7 +331,7 @@ void Quack::RenderUpdate()
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
-		if (gameObject) gameObject->Draw();
+		if (gameObject) gameObject->Draw(m_mainShader);
 	}
 
 	// Draw layers 
@@ -378,10 +356,10 @@ void Quack::ImGUIInit()
 
 }
 
-GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TextureData& textureData)
+GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)
 {
 	GameObject* createdGameObject = nullptr;
-	createdGameObject = new GameObject(objectData, textureData);
+	createdGameObject = new GameObject(objectData, transformData, textureData);
 
 	if (createdGameObject)
 	{
@@ -391,10 +369,10 @@ GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const Texture
 	return createdGameObject;
 }
 
-Actor* Quack::CreateNewActor(GameObjectData* objectData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+Actor* Quack::CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
 	Actor* createdActor = nullptr;
-	createdActor = new Actor(objectData, textureData, physicsData, animationData);
+	createdActor = new Actor(objectData, transformData, textureData, physicsData, animationData);
 
 	if (createdActor)
 	{

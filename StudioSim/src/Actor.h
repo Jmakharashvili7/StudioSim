@@ -7,12 +7,12 @@ class Animate;
 class Actor : public GameObject
 {
 public:
-	Actor(GameObjectData* data, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 	~Actor();
 
 	void Jump();
 
-	virtual void Draw() override;
+	virtual void Draw(Shader* mainShader) override;
 
 	// Setters
 	inline void SetJumping(const bool bjumping) { m_bjumping = bjumping; }
@@ -38,9 +38,8 @@ public:
 
 
 private:
-	Animate* m_animator = nullptr;
-
 	/* Animation */
+	Animate* m_animator = nullptr;
 	bool m_banimated = false;
 
 	/* Physics */
