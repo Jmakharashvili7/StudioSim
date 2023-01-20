@@ -18,14 +18,14 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(GameObjectData* data, const TransformData& transformData, const TextureData& textureData);
+	GameObject(GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	~GameObject();
 
 	virtual void Draw(Shader* mainShader);
 
 	// Position
-	virtual void SetPosition(const glm::vec3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
-	virtual void AdjustPosition(const glm::vec3 adjustPosition) { if (m_transform) m_transform->AdjustPosition(adjustPosition); }
+	virtual void SetPosition(const glm::vec3 newPosition);
+	virtual void AdjustPosition(const glm::vec3 adjustPosition);
 	inline const glm::vec3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
 
 	// Rotation
@@ -37,6 +37,21 @@ public:
 	virtual void SetScale(const glm::vec3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
 	virtual void AdjustScale(const glm::vec3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
 
+	// Collision
+	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
+	inline void SetCollisionType(const CollisionType newCollisionType) { m_collisionData.collisionType = newCollisionType; }
+	inline void SetCollisionCenter(const glm::vec3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
+	inline void SetCollisionBoxSize(const glm::vec3 newSize) { m_collisionData.size = newSize; }
+	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
+	inline const CollisionData& const GetCollisionData() { return m_collisionData; }
+	inline const CollisionType const GetCollisionType() { return m_collisionData.collisionType; }
+	inline const glm::vec3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
+	inline const glm::vec3 const GetCollisionBoxSize() { return m_collisionData.size; }
+	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
+
+	virtual void AddCollision(GameObject* collidingObject);
+	virtual void RemoveCollision(GameObject* gameObject);
+
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 
@@ -44,12 +59,13 @@ public:
 	void UpdateObjectData(GameObjectData* newData);
 
 protected:
-	Texture* m_texture;
+	Texture* m_texture = nullptr;
+	VertexArray* m_va = nullptr;
+	GameObjectData* m_data = nullptr;
+	Transform* m_transform = nullptr;
 
-	VertexArray* m_va;
-		
-	GameObjectData* m_data;
-
-	Transform* m_transform;
+	/* Collision */
+	CollisionData m_collisionData = CollisionData();
+	std::vector<GameObject*> m_collidingObjects;
 };
 

@@ -96,23 +96,26 @@ Shader* Quack::m_3dShader;
 
 OrthographicCamera* Quack::m_mainCamera;
 PhysicsManager* Quack::m_physicsManager;
+CollisionManager* Quack::m_collisionManager;
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, -750.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	const CollisionData groundCollisionData = CollisionData(glm::vec3(groundTransformData.position.x/1280, groundTransformData.position.y/960, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
-	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundTextureData);
+	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundCollisionData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(600.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	const TransformData duckTransformData = TransformData(glm::vec3(1200.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	const CollisionData duckCollisionData = CollisionData(glm::vec3(duckTransformData.position.x / 1280, duckTransformData.position.y / 960, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
 	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewActor(duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
+	m_duck = CreateNewActor(duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
 }
 
 void Quack::SetupShaders()
@@ -147,6 +150,7 @@ int Quack::InitEngine()
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
 	m_physicsManager = new PhysicsManager();
+	m_collisionManager = new CollisionManager();
 
 	m_layerStack->PushOverlay(m_uiMain);
 
@@ -214,16 +218,17 @@ void Quack::HandleInput()
 		}
 		case 'I': // JUMP
 		{
-			if (m_duck)
+			/*if (m_duck)
 			{
 				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
-			}
+			}*/
+			m_duck->AdjustPosition(glm::vec3(1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			break; 
 		}
 		case 'L': // JUMP Right
 		{
 			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
-			//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
@@ -348,7 +353,9 @@ void Quack::RenderUpdate()
 
 void Quack::PhysicsUpdate()
 {
-	m_physicsManager->Update(m_gameTimer.GetDeltaTime());
+	const float deltaTime = m_gameTimer.GetDeltaTime();
+	m_collisionManager->Update(deltaTime);
+	m_physicsManager->Update(deltaTime);
 }
 
 void Quack::ImGUIInit()
@@ -356,31 +363,46 @@ void Quack::ImGUIInit()
 
 }
 
-GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)
+GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
 {
 	GameObject* createdGameObject = nullptr;
-	createdGameObject = new GameObject(objectData, transformData, textureData);
+	createdGameObject = new GameObject(objectData, transformData, collisionData, textureData);
 
 	if (createdGameObject)
 	{
 		m_gameObjects.push_back(createdGameObject);
+
+		if (collisionData.collisionType != CollisionType::NONE)
+		{
+			// Update collision managers game object array
+			m_collisionManager->AddGameObject(createdGameObject);
+		}
 	}
 
 	return createdGameObject;
 }
 
-Actor* Quack::CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+Actor* Quack::CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
 	Actor* createdActor = nullptr;
-	createdActor = new Actor(objectData, transformData, textureData, physicsData, animationData);
+	createdActor = new Actor(objectData, transformData, collisionData, textureData, physicsData, animationData);
 
 	if (createdActor)
 	{
 		m_gameObjects.push_back(createdActor);
 		m_gameActors.push_back(createdActor);
 
-		// Update physics managers actor array
-		m_physicsManager->AddGameActor(createdActor);
+		if (collisionData.collisionType != CollisionType::NONE)
+		{
+			// Update collision managers game object array
+			m_collisionManager->AddGameObject(createdActor);
+		}
+
+		if (physicsData.bsimulateGravity)
+		{
+			// Update physics managers actor object array
+			m_physicsManager->AddGameActor(createdActor);
+		}
 	}
 
 	return createdActor;
