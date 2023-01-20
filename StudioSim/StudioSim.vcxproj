@@ -166,6 +166,7 @@
     <ClCompile Include="src\PerspectiveCamera.cpp" />
     <ClCompile Include="src\PhysicsManager.cpp" />
     <ClCompile Include="src\Actor.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
     <ClCompile Include="src\EngineManager.cpp" />
     <ClCompile Include="src\GameTime.cpp" />
@@ -173,6 +174,8 @@
     <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\JsonLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\MouseClass.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
     <ClCompile Include="src\QuackCallbacks.cpp" />
     <ClCompile Include="src\KeyboardClass.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
@@ -197,6 +200,10 @@
     <ClInclude Include="src\PhysicsManager.h" />
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\Actor.h" />
+    <ClCompile Include="src\UIWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\FrameBuffer.h" />
     <ClInclude Include="src\Animate.h" />
     <ClInclude Include="src\EngineManager.h" />
     <ClInclude Include="src\GameTime.h" />
@@ -204,6 +211,8 @@
     <ClInclude Include="src\Layer.h" />
     <ClInclude Include="src\JsonLoader.h" />
     <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\MouseClass.h" />
+    <ClInclude Include="src\MouseEvent.h" />
     <ClInclude Include="src\QuackPhysics.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\QuackCallbacks.h" />
@@ -224,6 +233,7 @@
     <ClInclude Include="src\UIRenderer.h" />
     <ClInclude Include="src\UILayer.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\UIWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

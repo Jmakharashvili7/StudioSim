@@ -39,13 +39,15 @@ public:
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
+	inline Texture* GetTexture() const { return m_texture; }
+	inline std::string GetName() const { return m_name; }
 
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
 
 protected:
+	std::string m_name;
 	Texture* m_texture;
-
 	VertexArray* m_va;
 		
 	GameObjectData* m_data;

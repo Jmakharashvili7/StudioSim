@@ -37,6 +37,10 @@
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\PerspectiveCamera.cpp" />
     <ClCompile Include="CustomMaths.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
+    <ClCompile Include="src\UIWindow.cpp" />
+    <ClCompile Include="src\MouseClass.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -70,6 +74,10 @@
     <ClInclude Include="src\PhysicsManager.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="CustomMaths.h" />
+    <ClInclude Include="src\FrameBuffer.h" />
+    <ClInclude Include="src\UIWindow.h" />
+    <ClInclude Include="src\MouseClass.h" />
+    <ClInclude Include="src\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />
