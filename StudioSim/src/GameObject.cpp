@@ -24,32 +24,33 @@ GameObject::~GameObject()
 
 void GameObject::Draw(Shader* mainShader)
 {
-	glm::vec3 screenPosition = m_transform->GetPosition();
-	screenPosition.x /= 1280;
-	screenPosition.y /= 960;
+	//Vector3 screenPosition = m_transform->GetPosition();
+	//screenPosition.x /= 1280;
+	//screenPosition.y /= 960;
 
-	glm::mat4 testMatrix = glm::mat4(1.0f);
+	//glm::mat4 testMatrix = glm::mat4(1.0f);
 
-	glm::vec3 rotation = m_transform->GetRotation();
+	//Vector3 rotation = m_transform->GetRotation();
 
-	testMatrix = glm::scale(testMatrix, m_transform->GetScale());
+	//testMatrix = glm::scale(testMatrix, m_transform->GetScale());
 
-	// x
-	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	// y
-	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	// z
-	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	//// x
+	//testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), Vector3(1.0f, 0.0f, 0.0f));
+	//// y
+	//testMatrix = glm::rotate(testMatrix, glm::radians(rotation.y), Vector3(0.0f, 1.0f, 0.0f));
+	//// z
+	//testMatrix = glm::rotate(testMatrix, glm::radians(rotation.z), Vector3(0.0f, 0.0f, 1.0f));
 
-	testMatrix = glm::translate(testMatrix, screenPosition);
+	//testMatrix = glm::translate(testMatrix, screenPosition);
 
 
-	mainShader->SetUniform4x4("u_world", m_transform->GetTransformationMatrix());
+	mainShader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
 
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
+	
 	m_texture->UnBind();
 	m_va->Unbind();
 }

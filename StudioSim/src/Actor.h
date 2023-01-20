@@ -29,12 +29,12 @@ public:
 	inline Animate* const GetAnimator() { return m_animator; }
 
 	//TEST
-	void AddImpulseForce(glm::vec3 force);
+	void AddImpulseForce(Vector3 force);
 	inline const bool GetImpulseActive() const { return m_bimpulseActive; }
 	inline void SetImpulseActive(const bool bimpulseActive) { m_bimpulseActive = bimpulseActive; }
-	inline void SetCurrentImpulseForce(const glm::vec3 inImpulseForce) { m_currentImpulseForce = inImpulseForce; }
-	inline const glm::vec3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
-	inline const glm::vec3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
+	inline void SetCurrentImpulseForce(const Vector3 inImpulseForce) { m_currentImpulseForce = inImpulseForce; }
+	inline const Vector3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
+	inline const Vector3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
 
 
 private:
@@ -54,7 +54,7 @@ private:
 
 	//TEST
 	bool m_bimpulseActive = false;
-	glm::vec3 m_testImpulseForceMag = glm::vec3(0.0, 3.0f, 0.0f);
-	glm::vec3 m_currentImpulseForce = glm::vec3(0.0f);
+	Vector3 m_testImpulseForceMag = Vector3(0.0, 3.0f, 0.0f);
+	Vector3 m_currentImpulseForce = Vector3::Zero;
 };
 

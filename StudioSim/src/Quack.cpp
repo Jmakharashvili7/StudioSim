@@ -106,19 +106,20 @@ void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	const TransformData groundTransformData = TransformData(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
 	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	const TransformData duckTransformData = TransformData(Vector3(1.0f, 1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3::One);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
 	const AnimationData duckAnimationData = AnimationData();
 	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
 	m_gameObjects.push_back(m_duck);
+	//m_duck->SetRotationAroundPivot(Vector3(0, 0, 0), 90.0f);
 
 	EngineManager::SetGameObjects(m_gameObjects);
 }
@@ -229,7 +230,7 @@ void Quack::HandleInput()
 		{
 			if (m_uiMain->GetViewport()->GetIsFocused())
 			{
-				glm::vec3 temp = m_mainCamera->GetPosition();	
+				glm::vec3 temp = m_mainCamera->GetPosition();
 				temp.x -= 0.3f;
 				m_mainCamera->SetPosition(temp);
 			}
@@ -249,9 +250,9 @@ void Quack::HandleInput()
 		{
 			if (m_duck)
 			{
-				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
+				m_duck->AddImpulseForce(Vector3(-1000.0f, 5000.0f, 0.0f));
 			}
-			break; 
+			break;
 		}
 		case 'L': // JUMP Right
 		{
@@ -279,11 +280,11 @@ void Quack::HandleInput()
 		}
 		if (e.GetType() == MouseEvent::EventType::R_CLICK)
 		{
-			
+
 		}
 		if (e.GetType() == MouseEvent::EventType::MOVE)
 		{
-			
+
 		}
 	}
 }
@@ -291,8 +292,9 @@ void Quack::HandleInput()
 void Quack::Update()
 {
 	m_gameTimer.Tick();
-
+	//m_physicsManager->Update(m_deltaTime);
 	// get mouse position
+	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
 
@@ -399,6 +401,11 @@ void Quack::RenderUpdate()
 	glfwPollEvents();
 
 	m_frameBuffer->Unbind();
+}
+
+void Quack::PhysicsUpdate()
+{
+	m_physicsManager->Update(m_gameTimer.GetDeltaTime());
 }
 
 GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)

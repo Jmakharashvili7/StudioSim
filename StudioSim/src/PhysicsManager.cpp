@@ -20,12 +20,12 @@ void PhysicsManager::Update(const float deltaTime)
 	{
 		if (actor->GetSimulatingGravity())
 		{
-			if (actor->GetPosition().y >= -500)
+			if (actor->GetPosition().y >= -5.0f)
 			{
 				// Gravity calculations
 				// weight = mass * gravitaional force
 				float weight = actor->GetMass() * GFORCE;
-				actor->AdjustPosition(glm::vec3(0.0f, -weight * deltaTime, 0.0f));
+				actor->AdjustPosition(Vector3(0.0f, -weight * deltaTime, 0.0f));
 
 				std::cout << actor->GetPosition().y << std::endl;
 			}
@@ -39,7 +39,7 @@ void PhysicsManager::Update(const float deltaTime)
 			{
 				const float currentJumpForce = actor->GetCurrentJumpForce();
 				const float jumpHeight = actor->GetJumpHeight();
-				actor->AdjustPosition(glm::vec3(0.0f, currentJumpForce * deltaTime, 0.0f));
+				actor->AdjustPosition(Vector3(0.0f, currentJumpForce * deltaTime, 0.0f));
 				
 				// Update jump force
 				const float newJumpForce = currentJumpForce - (jumpHeight * deltaTime);
@@ -59,13 +59,13 @@ void PhysicsManager::Update(const float deltaTime)
 			// Impulse calculations
 			if (actor->GetImpulseActive())
 			{
-				const glm::vec3 currentImpulseForce = actor->GetCurrentImpulseForce();
-				const glm::vec3 forceMagnitude = actor->GetImpulseForceMag();
+				const Vector3 currentImpulseForce = actor->GetCurrentImpulseForce();
+				const Vector3 forceMagnitude = actor->GetImpulseForceMag();
 
-				actor->AdjustPosition(glm::vec3(currentImpulseForce.x * deltaTime, currentImpulseForce.y * deltaTime, currentImpulseForce.z* deltaTime));
+				actor->AdjustPosition(Vector3(currentImpulseForce.x * deltaTime, currentImpulseForce.y * deltaTime, currentImpulseForce.z* deltaTime));
 
 				// Update impulse force
-				glm::vec3 newImpulseForce = glm::vec3(currentImpulseForce.x - (forceMagnitude.x * deltaTime), currentImpulseForce.y - (forceMagnitude.y * deltaTime), currentImpulseForce.z - (forceMagnitude.z * deltaTime));
+				Vector3 newImpulseForce = Vector3(currentImpulseForce.x - (forceMagnitude.x * deltaTime), currentImpulseForce.y - (forceMagnitude.y * deltaTime), currentImpulseForce.z - (forceMagnitude.z * deltaTime));
 
 				if (glm::abs(newImpulseForce.x) <= 0.0f)
 					newImpulseForce.x = 0.0f;
@@ -77,7 +77,7 @@ void PhysicsManager::Update(const float deltaTime)
 				if (glm::abs(newImpulseForce.x) <= 0.0f && glm::abs(newImpulseForce.y) <= 0.0f && glm::abs(newImpulseForce.z) <= 0.0f)
 				{
 					actor->SetImpulseActive(false);
-					actor->SetCurrentImpulseForce(glm::vec3(0.0f));
+					actor->SetCurrentImpulseForce(Vector3::Zero);
 				}
 				else
 				{

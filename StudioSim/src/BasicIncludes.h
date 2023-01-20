@@ -20,6 +20,9 @@
 #include "json.h"
 #include "Log.h"
 #include "KeyEvent.h"
+#include "CustomMaths.h"
+
+using namespace std;
 
 //#define _3D_SHADER
 #define _2D_SHADER

@@ -43,14 +43,14 @@ struct AnimationData
 
 struct TransformData
 {
-	TransformData(const glm::vec3 inPosition, const glm::vec3 inRotation, const glm::vec3 inScale)
+	TransformData(const Vector3 inPosition, const Vector3 inRotation, const Vector3 inScale)
 		: position(inPosition), rotation(inRotation), scale(inScale) {};
 
-	TransformData() : position(glm::vec3(0.0f)), rotation(glm::vec3(0.0f)), scale(glm::vec3(1.0f)) {};
+	TransformData() : position(Vector3::Zero), rotation(Vector3::Zero), scale(Vector3::One) {};
 
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
+	Vector3 position;
+	Vector3 rotation;
+	Vector3 scale;
 };
 
 
