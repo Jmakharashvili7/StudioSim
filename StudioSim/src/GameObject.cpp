@@ -32,6 +32,8 @@ void GameObject::Draw(Shader* mainShader)
 
 	glm::vec3 rotation = m_transform->GetRotation();
 
+	testMatrix = glm::scale(testMatrix, m_transform->GetScale());
+
 	// x
 	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 	// y
@@ -41,10 +43,8 @@ void GameObject::Draw(Shader* mainShader)
 
 	testMatrix = glm::translate(testMatrix, screenPosition);
 
-	testMatrix = glm::scale(testMatrix, m_transform->GetScale());
 
-
-	mainShader->SetUniform4x4("u_model", m_transform->GetTransformationMatrix());
+	mainShader->SetUniform4x4("u_world", m_transform->GetTransformationMatrix());
 
 	// draw square
 	m_texture->Bind();

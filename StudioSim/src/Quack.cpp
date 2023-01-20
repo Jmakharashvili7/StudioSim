@@ -141,7 +141,7 @@ int Quack::InitEngine()
 {
 	s_running = true;
 
-	m_mainCamera = new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f);
+	m_mainCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 	m_window = new Window("Quack", 1280, 960, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();

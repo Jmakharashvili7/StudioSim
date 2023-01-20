@@ -35,6 +35,8 @@
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\PhysicsManager.cpp" />
     <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\PerspectiveCamera.cpp" />
+    <ClCompile Include="CustomMaths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EngineManager.h" />
@@ -67,6 +69,7 @@
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\PhysicsManager.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="CustomMaths.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png" />
