@@ -56,9 +56,15 @@ public:
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
-	inline void UpdateCamProjection(float l, float r, float b, float t) { m_mainCamera->RecalculateProjection(l, r, b, t); }
+	inline void UpdateScreenSize(float w, float h) { currentWidth = w; currentHeight = h; }
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
+
+
+	static float currentWidth;
+	static float currentHeight;
+
+	
 private:
 	Quack();
 	~Quack();
@@ -104,6 +110,8 @@ private:
 	static GameObject* m_testSprite;
 
 	int spTest = 0;
+	static int one;
+	static int two;
 	static std::vector<GameObject*> m_gameObjects;
 	static std::vector<Actor*> m_gameActors;
 

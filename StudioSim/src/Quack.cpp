@@ -31,6 +31,9 @@ double Quack::m_deltaTime;
 double Quack::m_frameTime;
 double Quack::m_frameDelay;
 
+float Quack::currentWidth;
+float Quack::currentHeight;
+
 GameTimer Quack::m_gameTimer;
 
 LayerStack* Quack::m_layerStack;
@@ -39,6 +42,10 @@ std::vector<Actor*> Quack::m_gameActors;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
+
+int Quack::one = 0;
+int Quack::two = 0;
+
 
 FrameBuffer* Quack::m_frameBuffer;
 
@@ -158,6 +165,7 @@ int Quack::InitEngine()
 
 	m_layerStack->PushOverlay(m_uiMain);
 
+
 	// Initilaize window
 	m_window->UseWindow();
 
@@ -255,16 +263,42 @@ void Quack::HandleInput()
 		}
 		case 'L': // JUMP Right
 		{
-			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
-			//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			
+			//m_duck->SetPosition(glm::vec3(currentWidth /currentWidth, currentHeight /currentHeight, 0.0f));
+			m_duck->AdjustPosition(glm::vec3(-1500.0f/currentWidth * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			
+			if (m_duck->GetPosition().x > 0)
+			{
+				one++;
+				two++;
+			}
+			else
+			{
+				if (one > 0)
+				{
+					std::cout << one << std::endl;
+					one = 0;
+				}
+
+				two++;
+				if (m_duck->GetPosition().x < -currentWidth /currentWidth && two > 0)
+				{
+					std::cout << two << std::endl;
+					two = 0;
+				}
+			}
+
+
+
 			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
 		case 'J': // JUMP Left
 		{
+			m_duck->SetPosition(glm::vec3(0.0f / currentWidth, 0.0f / currentHeight, 0.0f));
 			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
 			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
-			m_duck->Jump();
+			//m_duck->Jump();
 			break;
 		}
 		}

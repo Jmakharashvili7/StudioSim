@@ -41,12 +41,13 @@ void ViewportUI::Render()
 		float h = m_size.y;
 		float aspect = w / h;
 
-		std::cout << aspect << std::endl;
-
 		if (Quack::m_mainCamera)
 		{
 			Quack::m_mainCamera->RecalculateProjection(-5.0f * aspect, 5.0f * aspect, -5.0f, 5.0f);
 		}
+
+		Quack::currentWidth = w;
+		Quack::currentHeight = h;
 	}
 
 	m_isFocused = ImGui::IsWindowFocused();
