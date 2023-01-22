@@ -43,7 +43,7 @@ public:
 	static Window* GetWindow() { return m_window; }
 
 	static void GetFrameRate(float deltatime);
-
+	
 	static void ImGUIInit();
 
 	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
@@ -56,6 +56,8 @@ public:
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
+	inline void UpdateCamProjection(float l, float r, float b, float t) { m_mainCamera->RecalculateProjection(l, r, b, t); }
+
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
 	Quack();
@@ -65,6 +67,7 @@ private:
 	static void InitObjects();
 	static void SetupShaders();
 public:
+	static OrthographicCamera* m_mainCamera;
 	static bool m_capFrames;
 	static bool s_running;
 	static bool s_glfwInitialised;
@@ -132,5 +135,4 @@ private:
 
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;
-	static OrthographicCamera* m_mainCamera;
 };

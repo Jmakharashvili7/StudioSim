@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "Quack.h"
 
 ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : UIWindow(name), m_frameBuffer(frameBuffer)
 {
@@ -35,6 +36,17 @@ void ViewportUI::Render()
 	{
 		m_size = { viewportSize.x, viewportSize.y };
 		m_frameBuffer->Resize(m_size.x, m_size.y);
+		
+		float w = m_size.x;
+		float h = m_size.y;
+		float aspect = w / h;
+
+		std::cout << aspect << std::endl;
+
+		if (Quack::m_mainCamera)
+		{
+			Quack::m_mainCamera->RecalculateProjection(-5.0f * aspect, 5.0f * aspect, -5.0f, 5.0f);
+		}
 	}
 
 	m_isFocused = ImGui::IsWindowFocused();

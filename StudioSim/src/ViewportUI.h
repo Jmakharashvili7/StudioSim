@@ -1,6 +1,7 @@
 #pragma once
 #include "UIWindow.h"
 #include "FrameBuffer.h"
+#include "Quack.h"
 
 class ViewportUI : public UIWindow
 {
