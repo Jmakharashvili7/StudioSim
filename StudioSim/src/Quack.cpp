@@ -250,7 +250,14 @@ void Quack::HandleInput()
 		}
 		case 'J': // MOVE LEFT
 		{
-			m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			m_duck->SetThrustForce(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			if(m_duck->GetPosition().x<-5.0f)
+				m_duck->SetBrakeForce(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			else
+			{
+				m_duck->SetThrustForce(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			}
+			//m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			break; 
 		}
 		case 'L': // MOVE RIGHT

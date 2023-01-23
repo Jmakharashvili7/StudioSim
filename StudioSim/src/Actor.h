@@ -40,6 +40,35 @@ public:
 	inline const Vector3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
 	inline const Vector3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
 
+	//Physics
+	void Update(float deltatime);
+	void moveUp();
+	void moveDown();
+	void moveLeft();
+	void moveRight();
+	void moveConstVelocity(Vector3 velocity, float deltaTime);
+	void moveConstAcceleration(Vector3 acceleration, float deltaTime);
+
+	float GetWeight() { return m_weight; }
+	Vector3 GetThrustForce() { return m_thrustForce; }
+	Vector3 GetBrakeForce() { return m_brakeForce; }
+	Vector3 GetGravityForce() { return m_gravityForce; }
+	Vector3 GetAcceleration() { return m_acceleration; }
+	Vector3 GetVelocity() { return m_velocity; }
+	Vector3 GetNetForce() { return m_netForce; }
+
+
+	void SetThrustForce(Vector3 tForce) { m_thrustForce = tForce; }
+	void SetBrakeForce(Vector3 bForce) { m_brakeForce = bForce; }
+	void SetGravityForce(Vector3 gForce) { m_gravityForce = gForce; }
+	void SetVelocity(Vector3 velocity) { m_velocity = velocity; }
+	void SetAcceleration(Vector3 acceleration) { m_acceleration = acceleration; }
+	void Reset();
+
+	void UpdateNetForce();
+	void UpdateAcceleration();
+
+	
 
 private:
 	// Animation
@@ -59,5 +88,14 @@ private:
 	bool m_bimpulseActive = false;
 	Vector3 m_testImpulseForceMag = Vector3(0.0, 3.0f, 0.0f);
 	Vector3 m_currentImpulseForce = Vector3::Zero;
+
+	//Physics variables
+	Vector3 m_velocity;
+	Vector3 m_acceleration;
+	Vector3 m_netForce;
+	Vector3 m_thrustForce;
+	Vector3 m_brakeForce;
+	Vector3 m_gravityForce;
+	float m_weight;
 };
 

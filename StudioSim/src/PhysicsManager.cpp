@@ -19,14 +19,15 @@ void PhysicsManager::Update(const float deltaTime)
 	// Update physics for each actor
 	for (Actor* actor : m_gameActors)
 	{
+		actor->Update(deltaTime);
 		if (actor->GetSimulatingGravity())
 		{
 			if (!actor->GetCollidingWithGround())
 			{
 				// Gravity calculations
 				// weight = mass * gravitaional force
-				float weight = actor->GetMass() * GFORCE;
-				actor->AdjustPosition(Vector3(0.0f, -weight * deltaTime, 0.0f));
+				//float weight = actor->GetMass() * GFORCE;
+				actor->AdjustPosition(Vector3(0.0f, -actor->GetWeight() * deltaTime, 0.0f));
 			}
 
 			// Jumping calculations
