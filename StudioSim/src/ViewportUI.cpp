@@ -3,16 +3,16 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : UIWindow(name), m_frameBuffer(frameBuffer)
+ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : 
+	UIWindow(name), 
+	m_frameBuffer(frameBuffer)
 {
+
 }
 
 ViewportUI::~ViewportUI()
 {
-}
 
-void ViewportUI::Init()
-{
 }
 
 void ViewportUI::Render()

@@ -3,7 +3,7 @@
 #include "Window.h"
 #include "EngineManager.h"
 
-UILayer::UILayer() : Layer("UI Layer")
+UILayer::UILayer() : Layer("UI Layer"), m_color(1.0f, 1.0f, 1.0f, 1.0f)
 {
 
 }
@@ -20,10 +20,14 @@ void UILayer::OnAttach()
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	ImGui::StyleColorsDark();
 
-	m_viewport = new ViewportUI("Viewport", Quack::GetFrameBuffer());
-
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGui_ImplGlfw_InitForOpenGL(Quack::GetWindow()->GetGLFWWindow(), true);
+}
+
+void UILayer::InitWindows()
+{
+	m_viewportUI = new ViewportUI("Viewport", Quack::GetFrameBuffer());
+	m_editorUI = new EditorUI("Settings", EngineManager::GetGameObject("duck"));
 }
 
 void UILayer::OnDetach()
@@ -97,22 +101,9 @@ void UILayer::EnableDocking()
 
 	static glm::vec3 vector;
 
-	m_viewport->Render();
+	m_viewportUI->Render();
+	m_editorUI->Render();
 
-	ImGui::Begin("Settings");
-	GameObject* duck = EngineManager::GetGameObject("duck");
-	Texture* texture = duck->GetTexture();
-	ImGui::Text(duck->GetName().c_str());
-	ImGui::Image((void*) texture->GetRendererID(), ImVec2(100, 100), ImVec2(0,1), ImVec2(1, 0));
-	if (ImGui::TreeNode("Transform"))
-	{
-		ImGui::DragFloat3("Position", &vector[0]);
-		ImGui::DragFloat3("Rotation", &vector[0]);
-		ImGui::DragFloat3("Scale", &vector[0]);
-		ImGui::TreePop();
-		ImGui::Separator();
-	}
-	ImGui::End();
 	ImGui::PopStyleVar();
 
 	// Menu at the top of the window

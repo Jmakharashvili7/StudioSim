@@ -15,6 +15,8 @@
 #include "QuackDataTypes.h"
 #include "PhysicsManager.h"
 #include "FrameBuffer.h"
+#include "Grid.h"
+#include "PathNode.h"
 
 class LayerStack;
 class UIRenderer;
@@ -38,6 +40,7 @@ public:
 	static void Update();
 	static void RenderUpdate();
 	static void PhysicsUpdate();
+	static void HandleLights();
 
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
@@ -80,6 +83,7 @@ private:
 	static double m_deltaTime;
 	static double m_frameTime;
 	static double m_frameDelay;
+	static Grid<PathNode> m_grid;
 
 	static GameTimer m_gameTimer;
 
@@ -95,7 +99,7 @@ private:
 	static float m_projectileForce;
 
 	static FrameBuffer* m_frameBuffer;
-
+	
 	static Actor* m_duck;
 	static GameObject* m_ground;
 	static GameObject* m_testSprite;
@@ -103,7 +107,6 @@ private:
 	int spTest = 0;
 	static std::vector<GameObject*> m_gameObjects;
 	static std::vector<Actor*> m_gameActors;
-
 
 	static VertexArray* m_squareVAO;
 	static glm::vec4 m_objColor;

@@ -76,10 +76,7 @@
     <ClCompile Include="src\Window.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomMaths.cpp">
+    <ClCompile Include="src\CustomMaths.cpp">
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineManager.cpp">
@@ -126,6 +123,17 @@
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
       <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EditorUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Grid.cpp">
+      <Filter>QuackEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PathNode.cpp" />
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>QuackEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,7 +191,7 @@
     <ClInclude Include="src\GameTime.h">
       <Filter>QuackEngine</Filter>
     </ClInclude>
-    <ClInclude Include="CustomMaths.h">
+    <ClInclude Include="src\CustomMaths.h">
       <Filter>QuackEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\VertexArray.h">
@@ -242,6 +250,16 @@
     </ClInclude>
     <ClInclude Include="src\stb_image\stb_image.h">
       <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EditorUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Grid.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PathNode.h" />
+    <ClInclude Include="src\Renderer.h">
+      <Filter>QuackEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

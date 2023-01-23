@@ -25,8 +25,6 @@ GameObject::~GameObject()
 void GameObject::Draw(Shader* mainShader)
 {
 	glm::vec3 screenPosition = m_transform->GetPosition();
-	screenPosition.x /= 1280;
-	screenPosition.y /= 960;
 
 	glm::mat4 testMatrix = glm::mat4(1.0f);
 
