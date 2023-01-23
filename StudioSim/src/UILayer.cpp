@@ -3,10 +3,6 @@
 #include "Window.h"
 #include "EngineManager.h"
 
-
-glm::vec3 UILayer::vectorPos = { glm::vec3(0.5, 0.5, 0.5) };
-glm::vec3 UILayer::vectorRot = { glm::vec3(0.5, 0.5, 0.5) };
-glm::vec3 UILayer::vectorScale = { glm::vec3(0.5, 0.5, 0.5) };
 UILayer::UILayer() : Layer("UI Layer")
 {
 
@@ -58,12 +54,6 @@ void UILayer::OnEvent()
 {
 }
 
-void UILayer::SetPos(glm::vec3 pos)
-{
-	vectorPos = pos;
-	
-}
-
 void UILayer::EnableDocking()
 {
 	static bool opt_fullscreen = true;
@@ -105,7 +95,7 @@ void UILayer::EnableDocking()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
-
+	static glm::vec3 vector;
 
 	m_viewport->Render();
 
@@ -116,9 +106,9 @@ void UILayer::EnableDocking()
 	ImGui::Image((void*) texture->GetRendererID(), ImVec2(100, 100), ImVec2(0,1), ImVec2(1, 0));
 	if (ImGui::TreeNode("Transform"))
 	{
-		ImGui::DragFloat3("Position", &vectorPos[0]);
-		ImGui::DragFloat3("Rotation", &vectorRot[0]);
-		ImGui::DragFloat3("Scale", &vectorScale[0]);
+		ImGui::DragFloat3("Position", &vector[0]);
+		ImGui::DragFloat3("Rotation", &vector[0]);
+		ImGui::DragFloat3("Scale", &vector[0]);
 		ImGui::TreePop();
 		ImGui::Separator();
 	}
