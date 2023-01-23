@@ -14,7 +14,13 @@ public:
 
 	inline static void AddGameActor(Actor* inGameActor) { m_gameActors.push_back(inGameActor); }
 
+	
 private:
 	static std::vector<Actor*> m_gameActors;
+
+	
+
+
+
 };
 

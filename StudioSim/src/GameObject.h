@@ -45,6 +45,8 @@ public:
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
 
+	inline Transform* GetTransform() { return m_transform; }
+
 protected:
 	std::string m_name;
 	Texture* m_texture;

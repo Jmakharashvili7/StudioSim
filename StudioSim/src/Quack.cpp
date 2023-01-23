@@ -249,7 +249,9 @@ void Quack::HandleInput()
 		{
 			if (m_duck)
 			{
-				m_duck->AddImpulseForce(glm::vec3(-500.0f, 300.0f, 0.0f));
+				//m_duck->moveLeft();
+				m_duck->SetVelocity(glm::vec3(-500.0f, 300.0f, 0.0f));
+				//m_duck->AddImpulseForce(glm::vec3(-500.0f, 300.0f, 0.0f));
 			}
 			break; 
 		}
@@ -257,7 +259,9 @@ void Quack::HandleInput()
 		{
 			if (m_duck)
 			{
+				m_duck->moveRight();
 				m_duck->AddImpulseForce(glm::vec3(500.0f, 300.0f, 0.0f));
+				//m_duck->GetTransform();
 			}
 			break; 
 		}
@@ -274,6 +278,7 @@ void Quack::HandleInput()
 			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
 			if (m_duck)
 				m_duck->Jump();
+		
 			break;
 		}
 		}
@@ -304,6 +309,8 @@ void Quack::Update()
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
+	
+	m_duck->Update(m_deltaTime);
 
 	HandleInput();
 }
