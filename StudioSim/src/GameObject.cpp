@@ -1,9 +1,9 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
 	: m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data)
+	m_texture(new Texture(textureData)), m_data(data), m_name(name)
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();
@@ -54,33 +54,10 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
-void GameObject::SetPosition(const glm::vec3 newPosition)
-{
-	m_transform->SetPosition(newPosition);
-	SetCollisionCenter(glm::vec3(newPosition.x / 1280, newPosition.y / 960.0f, 0.0f));
-}
-
-void GameObject::AdjustPosition(const glm::vec3 adjustPosition)
-{
-	m_transform->AdjustPosition(adjustPosition);
-	const glm::vec3 newPosition = m_transform->GetPosition();
-	SetCollisionCenter(glm::vec3(newPosition.x / 1280, newPosition.y / 960.0f, 0.0f));
-}
-
 void GameObject::UpdateObjectData(GameObjectData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();
-}
-
-void GameObject::AddCollision(GameObject* collidingObject)
-{
-	std::cout << "START COLLISION!" << std::endl;
-}
-
-void GameObject::RemoveCollision(GameObject* gameObject)
-{
-	std::cout << "END COLLISION!" << std::endl;
 }
 
 void GameObject::UpdateVertexArray()
