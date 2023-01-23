@@ -19,7 +19,7 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
+	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	~GameObject();
 
 	virtual void Draw(Shader* mainShader);
@@ -51,9 +51,11 @@ public:
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
 	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
-
 	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
+
+	// Other
+	inline const std::string const GetName() { return m_name; }
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
@@ -62,6 +64,8 @@ public:
 	void UpdateObjectData(GameObjectData* newData);
 
 protected:
+	std::string m_name = "";
+
 	Texture* m_texture = nullptr;
 	VertexArray* m_va = nullptr;
 	GameObjectData* m_data = nullptr;

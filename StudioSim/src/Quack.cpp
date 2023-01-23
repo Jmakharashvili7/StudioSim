@@ -106,7 +106,7 @@ void Quack::InitObjects()
 	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, -1000.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 0.6f, 1.0f));
 	const CollisionData groundCollisionData = CollisionData(glm::vec3(groundTransformData.position.x/1280, groundTransformData.position.y/960, 0.0f), groundTransformData.scale);
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
-	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundCollisionData, groundTextureData);
+	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundCollisionData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
@@ -115,7 +115,7 @@ void Quack::InitObjects()
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
 	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewActor(duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
+	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
 }
 
 void Quack::SetupShaders()
@@ -261,7 +261,7 @@ void Quack::Update()
 {
 	m_gameTimer.Tick();
 
-	if (m_duck && m_ground)
+	/*if (m_duck && m_ground)
 	{
 		if (m_duck->GetIsCollidingGameObject(m_ground))
 		{
@@ -271,7 +271,7 @@ void Quack::Update()
 		{
 			m_duck->SetCollidingWithGround(false);
 		}
-	}
+	}*/
 
 	// get mouse position
 	double xpos, ypos;
@@ -389,10 +389,10 @@ void Quack::ImGUIInit()
 
 }
 
-GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
 {
 	GameObject* createdGameObject = nullptr;
-	createdGameObject = new GameObject(objectData, transformData, collisionData, textureData);
+	createdGameObject = new GameObject(name, objectData, transformData, collisionData, textureData);
 
 	if (createdGameObject)
 	{
@@ -408,10 +408,10 @@ GameObject* Quack::CreateNewGameObject(GameObjectData* objectData, const Transfo
 	return createdGameObject;
 }
 
-Actor* Quack::CreateNewActor(GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
 	Actor* createdActor = nullptr;
-	createdActor = new Actor(objectData, transformData, collisionData, textureData, physicsData, animationData);
+	createdActor = new Actor(name, objectData, transformData, collisionData, textureData, physicsData, animationData);
 
 	if (createdActor)
 	{

@@ -2,8 +2,8 @@
 #include "Animate.h"
 #include "Quack.h"
 
-Actor::Actor(GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
-	: GameObject{ data, transformData, collisionData, textureData }, m_physicsData(physicsData)
+Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData)
 {
 	//Animation init
 	m_banimated = animationData.banimated;
@@ -35,6 +35,28 @@ void Actor::Draw(Shader* mainShader)
 	}
 
 	GameObject::Draw(mainShader);
+}
+
+void Actor::AddCollision(GameObject* collidingObject)
+{
+	if (collidingObject->GetName() == "ground")
+	{
+		std::cout << "HIT GROUND" << std::endl;
+		SetCollidingWithGround(true);
+	}
+
+	GameObject::AddCollision(collidingObject);
+}
+
+void Actor::RemoveCollision(GameObject* gameObject)
+{
+	if (gameObject->GetName() == "ground")
+	{
+		std::cout << "END GROUND" << std::endl;
+		SetCollidingWithGround(false);
+	}
+
+	GameObject::RemoveCollision(gameObject);
 }
 
 bool const Actor::GetCollidingWithGround()

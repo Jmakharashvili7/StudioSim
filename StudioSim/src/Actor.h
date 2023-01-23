@@ -7,27 +7,28 @@ class Animate;
 class Actor : public GameObject
 {
 public:
-	Actor(GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 	~Actor();
 
-	void Jump();
-
+	// Rendering
 	virtual void Draw(Shader* mainShader) override;
 
-	// Setters
+	// Physics
+	void Jump();
 	inline void SetJumping(const bool bjumping) { m_bjumping = bjumping; }
+	inline const bool GetJumping() const { return m_bjumping; }
+	inline const float GetJumpHeight() const { return m_physicsData.jumpHeight; }
 	inline void SetCurrentJumpForce(const float inJumpForce) { m_currentJumpForce = inJumpForce; }
-
-	// Getters
+	inline const float GetCurrentJumpForce() const { return m_currentJumpForce; }
 	inline const bool GetSimulatingGravity() const { return m_physicsData.bsimulateGravity; }
 	inline const float GetMass() const { return m_physicsData.mass; }
-	inline const float GetJumpHeight() const { return m_physicsData.jumpHeight; }
 
-	inline const bool GetJumping() const { return m_bjumping; }
-	inline const float GetCurrentJumpForce() const { return m_currentJumpForce; }
-
+	// Animation
 	inline Animate* const GetAnimator() { return m_animator; }
 
+	// Collision
+	virtual void AddCollision(GameObject* collidingObject) override;
+	virtual void RemoveCollision(GameObject* gameObject) override;
 	inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
 	const bool const GetCollidingWithGround();
 
@@ -41,16 +42,17 @@ public:
 
 
 private:
-	/* Animation */
+	// Animation
 	Animate* m_animator = nullptr;
 	bool m_banimated = false;
 
-	/* Physics */
+	// Physics
 	PhysicsData m_physicsData = PhysicsData();
 
 	bool m_bjumping = false;
 	float m_currentJumpForce = 0.0f;
 
+	// Collision
 	bool m_bcollidingWithGround = false;
 
 	//TEST
