@@ -64,7 +64,7 @@ bool const Actor::GetCollidingWithGround()
 	return m_bcollidingWithGround;
 }
 
-void Actor::AddImpulseForce(glm::vec3 force)
+void Actor::AddImpulseForce(Vector3 force)
 {
 	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)
 	{

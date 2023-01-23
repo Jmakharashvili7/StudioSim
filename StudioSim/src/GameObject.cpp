@@ -55,17 +55,17 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
-void GameObject::SetPosition(const glm::vec3 newPosition)
+void GameObject::SetPosition(const Vector3 newPosition)
 {
 	m_transform->SetPosition(newPosition);
-	SetCollisionCenter(glm::vec3(newPosition.x / 1280, newPosition.y / 960.0f, 0.0f));
+	SetCollisionCenter(newPosition);
 }
 
-void GameObject::AdjustPosition(const glm::vec3 adjustPosition)
+void GameObject::AdjustPosition(const Vector3 adjustPosition)
 {
 	m_transform->AdjustPosition(adjustPosition);
-	const glm::vec3 newPosition = m_transform->GetPosition();
-	SetCollisionCenter(glm::vec3(newPosition.x / 1280, newPosition.y / 960.0f, 0.0f));
+	const Vector3 newPosition = m_transform->GetPosition();
+	SetCollisionCenter(newPosition);
 }
 
 void GameObject::UpdateObjectData(GameObjectData* newData)

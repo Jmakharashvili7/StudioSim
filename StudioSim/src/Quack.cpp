@@ -107,19 +107,21 @@ void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, -1000.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 0.6f, 1.0f));
-	const CollisionData groundCollisionData = CollisionData(glm::vec3(groundTransformData.position.x/1280, groundTransformData.position.y/960, 0.0f), groundTransformData.scale);
+	const TransformData groundTransformData = TransformData(Vector3(0.0f, -2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 0.6f, 1.0f));
+	const CollisionData groundCollisionData = CollisionData(groundTransformData.position, groundTransformData.scale);
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
 	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundCollisionData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(0.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.25f));
-	const CollisionData duckCollisionData = CollisionData(glm::vec3(duckTransformData.position.x / 1280, duckTransformData.position.y / 960, 0.0f), duckTransformData.scale);
+	const TransformData duckTransformData = TransformData(Vector3(0.0f, 2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
+	const CollisionData duckCollisionData = CollisionData(duckTransformData.position, duckTransformData.scale);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
 	const AnimationData duckAnimationData = AnimationData();
 	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
+
+	// Update engine manager
 	EngineManager::SetGameObjects(m_gameObjects);
 }
 
@@ -246,41 +248,29 @@ void Quack::HandleInput()
 			}
 			break;
 		}
-		case 'I': // JUMP
+		case 'J': // MOVE LEFT
 		{
-			/*if (m_duck)
-			{
-				m_duck->AddImpulseForce(glm::vec3(-1000.0f, 5000.0f, 0.0f));
-			}*/
-			m_duck->AdjustPosition(glm::vec3(1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			break; 
 		}
-		case 'L': // JUMP Right
+		case 'L': // MOVE RIGHT
 		{
-			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
-			m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
+			m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			break;
 		}
-		case 'J': // JUMP Left
+		case 'H': // MOVE UP
 		{
-			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
-			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_duck->AdjustPosition(Vector3(0.0f, -2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
+			break;
+		}
+		case 'Y': // MOVE DOWN
+		{
+			m_duck->AdjustPosition(Vector3(0.0f, 2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
+			break;
+		}
+		case 'O': // JUMP UP
+		{
 			m_duck->Jump();
-			break;
-		}
-		case 'H': // JUMP Left
-		{
-			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
-			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
-			m_duck->AdjustPosition(glm::vec3(0.0f, -1500.0f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		case 'Y': // JUMP Left
-		{
-			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
-			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
-			m_duck->AdjustPosition(glm::vec3(0.0f, 1500.0f * m_gameTimer.GetDeltaTime(), 0.0f));
 			break;
 		}
 		}

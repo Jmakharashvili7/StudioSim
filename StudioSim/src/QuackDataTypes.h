@@ -65,18 +65,18 @@ enum class CollisionType
 
 struct CollisionData
 {
-	CollisionData(const glm::vec3 inCenterPosition, const glm::vec3 inSize)
+	CollisionData(const Vector3 inCenterPosition, const Vector3 inSize)
 		: collisionType(CollisionType::BOX), centerPosition(inCenterPosition), size(inSize), radius(0.0f) {};
 
-	CollisionData(const glm::vec3 inCenterPosition, const float inRadius)
-		: collisionType(CollisionType::SPHERE), centerPosition(inCenterPosition), size(glm::vec3(0.0f)), radius(inRadius) {};
+	CollisionData(const Vector3 inCenterPosition, const float inRadius)
+		: collisionType(CollisionType::SPHERE), centerPosition(inCenterPosition), size(Vector3::Zero), radius(inRadius) {};
 
 	CollisionData() 
-		: collisionType(CollisionType::NONE), centerPosition(glm::vec3(0.0f)), size(glm::vec3(0.0f)), radius(0.0f) {};
+		: collisionType(CollisionType::NONE), centerPosition(Vector3::Zero), size(Vector3::Zero), radius(0.0f) {};
 
 	CollisionType collisionType;
-	glm::vec3 centerPosition;
-	glm::vec3 size;
+	Vector3 centerPosition;
+	Vector3 size;
 	float radius;
 };
 

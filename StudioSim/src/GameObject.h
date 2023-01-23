@@ -25,8 +25,8 @@ public:
 	virtual void Draw(Shader* mainShader);
 
 	// Position
-	virtual void SetPosition(const Vector3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
-	virtual void AdjustPosition(const Vector3 adjustPosition) { if (m_transform) m_transform->AdjustPosition(adjustPosition); }
+	virtual void SetPosition(const Vector3 newPosition);
+	virtual void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
 
 	// Rotation
@@ -41,13 +41,13 @@ public:
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
 	inline void SetCollisionType(const CollisionType newCollisionType) { m_collisionData.collisionType = newCollisionType; }
-	inline void SetCollisionCenter(const glm::vec3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
-	inline void SetCollisionBoxSize(const glm::vec3 newSize) { m_collisionData.size = newSize; }
+	inline void SetCollisionCenter(const Vector3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
+	inline void SetCollisionBoxSize(const Vector3 newSize) { m_collisionData.size = newSize; }
 	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
 	inline const CollisionData& const GetCollisionData() { return m_collisionData; }
 	inline const CollisionType const GetCollisionType() { return m_collisionData.collisionType; }
-	inline const glm::vec3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
-	inline const glm::vec3 const GetCollisionBoxSize() { return m_collisionData.size; }
+	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
+	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
 	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
