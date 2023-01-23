@@ -17,6 +17,7 @@
 #include "FrameBuffer.h"
 #include "Grid.h"
 #include "PathNode.h"
+#include "CollisionManager.h"
 
 class LayerStack;
 class UIRenderer;
@@ -49,8 +50,8 @@ public:
 
 	static void ImGUIInit();
 
-	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData);
-	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
+	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
@@ -76,6 +77,7 @@ private:
 	static LayerStack* m_layerStack;
 	static UILayer* m_uiMain;
 	static PhysicsManager* m_physicsManager;
+	static CollisionManager* m_collisionManager;
 
 	//Frame related variables
 	static double m_currentTime;

@@ -32,6 +32,13 @@ namespace CustomMaths
 			return false;
 		}
 	}
+	//inline glm::vec3 Vector3ToVec3(Vector3 _oldVec) {
+	//	return glm::vec3(_oldVec.x, _oldVec.y, _oldVec.z);
+	//}
+	// Vector3 Vec3ToVector3(glm::vec3 _oldVec) {
+	//	Vector3 newVector(_oldVec.x, _oldVec.y, _oldVec.z);
+	//	return newVector;
+	//}
 
 	template <typename T>
 	T Max(const T& a, const T& b)
@@ -300,6 +307,12 @@ public:
 	friend Vector3 operator*(float scalar, const Vector3& vec)
 	{
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+	}	
+	
+	// Component-wise division
+	friend Vector3 operator/(const Vector3& left, const Vector3& right)
+	{
+		return Vector3(left.x / right.x, left.y / right.y, left.z / right.z);
 	}
 
 	// Scalar *=
@@ -394,6 +407,7 @@ public:
 	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
 
 	static const Vector3 Zero;
+	static const Vector3 One;
 	static const Vector3 UnitX;
 	static const Vector3 UnitY;
 	static const Vector3 UnitZ;
@@ -852,19 +866,19 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreateOrtho(float width, float height, float near, float far)
+	static Matrix4 CreateOrtho(float width, float height, float near1, float far1)
 	{
 		float temp[4][4] =
 		{
 			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
 			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f / (far - near), 0.0f },
-			{ 0.0f, 0.0f, near / (near - far), 1.0f }
+			{ 0.0f, 0.0f, 1.0f / (far1 - near1), 0.0f },
+			{ 0.0f, 0.0f, near1 / (near1 - far1), 1.0f }
 		};
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near, float far)
+	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near1, float far1)
 	{
 		float yScale = CustomMaths::Cot(fovY / 2.0f);
 		float xScale = yScale * height / width;
@@ -872,8 +886,8 @@ public:
 		{
 			{ xScale, 0.0f, 0.0f, 0.0f },
 			{ 0.0f, yScale, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, far / (far - near), 1.0f },
-			{ 0.0f, 0.0f, -near * far / (far - near), 0.0f }
+			{ 0.0f, 0.0f, far1 / (far1 - near1), 1.0f },
+			{ 0.0f, 0.0f, -near1 * far1 / (far1 - near1), 0.0f }
 		};
 		return Matrix4(temp);
 	}

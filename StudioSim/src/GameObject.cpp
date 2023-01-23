@@ -1,9 +1,9 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
-	: m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_texture(new Texture(textureData)), m_data(data), m_name(name)
+GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
+	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data)
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();
@@ -26,36 +26,87 @@ void GameObject::Draw(Shader* mainShader)
 {
 	glm::vec3 screenPosition = m_transform->GetPosition();
 
-	glm::mat4 testMatrix = glm::mat4(1.0f);
-
-	glm::vec3 rotation = m_transform->GetRotation();
-
-	testMatrix = glm::scale(testMatrix, m_transform->GetScale());
-
-	// x
-	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	// y
-	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	// z
-	testMatrix = glm::rotate(testMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-
-	testMatrix = glm::translate(testMatrix, screenPosition);
-
-
-	mainShader->SetUniform4x4("u_world", m_transform->GetTransformationMatrix());
+	mainShader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
 
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
+	
 	m_texture->UnBind();
 	m_va->Unbind();
+}
+
+void GameObject::SetPosition(const Vector3 newPosition)
+{
+	m_transform->SetPosition(newPosition);
+	SetCollisionCenter(newPosition);
+}
+
+void GameObject::AdjustPosition(const Vector3 adjustPosition)
+{
+	m_transform->AdjustPosition(adjustPosition);
+	const Vector3 newPosition = m_transform->GetPosition();
+	SetCollisionCenter(newPosition);
 }
 
 void GameObject::UpdateObjectData(GameObjectData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();
+}
+
+int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
+{
+	int i = 0;
+	int indexToReturn = -1;
+
+	for (GameObject* collidingGameObject : m_collidingObjects)
+	{
+		if (gameObject == collidingGameObject)
+		{
+			indexToReturn = i;
+		}
+
+		i++;
+	}
+
+	return indexToReturn;
+}
+
+bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
+{
+	bool bFound = false;
+
+	for (GameObject* collidingGameObject : m_collidingObjects)
+	{
+		if (gameObject == collidingGameObject)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	return bFound;
+}
+
+void GameObject::AddCollision(GameObject* collidingObject)
+{
+	//std::cout << "START COLLISION!" << std::endl;
+	if (collidingObject)
+	{
+		m_collidingObjects.push_back(collidingObject);
+	}
+}
+
+void GameObject::RemoveCollision(GameObject* gameObject)
+{
+	//std::cout << "END COLLISION!" << std::endl;
+	if (gameObject)
+	{
+		const int gameObjectIndex = GetGameObjectCollisionIndex(gameObject);
+		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
+	}
 }
 
 void GameObject::UpdateVertexArray()

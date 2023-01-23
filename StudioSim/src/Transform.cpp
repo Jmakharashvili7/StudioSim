@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-Transform::Transform(const glm::vec3 inPosition, const glm::vec3 inRotation, const glm::vec3 inScale)
+Transform::Transform(const Vector3 inPosition, const Vector3 inRotation, const Vector3 inScale)
 	: m_position(inPosition), m_rotation(inRotation), m_scale(inScale)
 {
 	UpdateTransformMatrix();
@@ -18,45 +18,30 @@ Transform::~Transform()
 
 void Transform::UpdateTransformMatrix()
 {
-	glm::mat4 startingMatrix = glm::mat4(1.0f);
-
-	glm::vec3 screenPosition = glm::vec3(m_position.x, m_position.y, 0.0f);
-
-	startingMatrix = glm::translate(startingMatrix, glm::vec3(screenPosition));
-
-	// x
-	startingMatrix = glm::rotate(startingMatrix, glm::radians(m_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	// y
-	startingMatrix = glm::rotate(startingMatrix, glm::radians(m_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	// z
-	startingMatrix = glm::rotate(startingMatrix, glm::radians(m_rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-
-	startingMatrix = glm::scale(startingMatrix, glm::vec3(m_scale));
-
-
-
-	m_transformationMatrix = startingMatrix;
+	m_transformationMatrix = Matrix4::CreateScale(m_scale);      
+	m_transformationMatrix *= Matrix4::CreateRotationZ(m_fRotation);      
+	m_transformationMatrix *= Matrix4::CreateTranslation(Vector3(m_position.x, m_position.y, 0.0f));
 }
 
-void Transform::SetPosition(const glm::vec3 newPosition)
+void Transform::SetPosition(const Vector3 newPosition)
 {
 	m_position = newPosition;
 	UpdateTransformMatrix();
 }
 
-void Transform::AdjustPosition(const glm::vec3 adjustPosition)
+void Transform::AdjustPosition(const Vector3 adjustPosition)
 {
 	m_position += adjustPosition;
 	UpdateTransformMatrix();
 }
 
-void Transform::SetRotation(const glm::vec3 newRotation)
+void Transform::SetRotation(const Vector3 newRotation)
 {
 	m_rotation = newRotation;
 	UpdateTransformMatrix();
 }
 
-void Transform::AdjustRotation(const glm::vec3 adjustRotation)
+void Transform::AdjustRotation(const Vector3 adjustRotation)
 {
 	m_rotation.x += adjustRotation.x;
 	m_rotation.y += adjustRotation.y;
@@ -64,18 +49,20 @@ void Transform::AdjustRotation(const glm::vec3 adjustRotation)
 	UpdateTransformMatrix();
 }
 
-void Transform::SetRotationAroundPivot(const glm::vec3 pivotPosition, const glm::vec3 newRotation)
+void Transform::SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation)
 {
+	m_fRotation = newRotation;
+	m_transformationMatrix *= Matrix4::CreateRotationZAboutPoint(pivotPosition.x, pivotPosition.y, m_fRotation);
 
 }
 
-void Transform::SetScale(const glm::vec3 newScale)
+void Transform::SetScale(const Vector3 newScale)
 {
 	m_scale = newScale;
 	UpdateTransformMatrix();
 }
 
-void Transform::AdjustScale(const glm::vec3 adjustScale)
+void Transform::AdjustScale(const Vector3 adjustScale)
 {
 	m_scale += adjustScale;
 	UpdateTransformMatrix();
