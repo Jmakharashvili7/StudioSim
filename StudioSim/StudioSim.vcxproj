@@ -165,6 +165,7 @@
     <ClCompile Include="CustomMaths.cpp" />
     <ClCompile Include="src\ObjectUI.cpp" />
     <ClCompile Include="src\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\CollisionManager.cpp" />
     <ClCompile Include="src\PhysicsManager.cpp" />
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="CustomMaths.h" />
     <ClInclude Include="src\ObjectUI.h" />
     <ClInclude Include="src\PerspectiveCamera.h" />
+    <ClInclude Include="src\CollisionManager.h" />
     <ClInclude Include="src\PhysicsManager.h" />
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\Actor.h" />
