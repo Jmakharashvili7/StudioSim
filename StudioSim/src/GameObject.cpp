@@ -1,9 +1,9 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData)
-	: m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_texture(new Texture(textureData)), m_data(data), m_name(name)
+GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
+	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data)
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();
@@ -55,10 +55,76 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
+void GameObject::SetPosition(const glm::vec3 newPosition)
+{
+	m_transform->SetPosition(newPosition);
+	SetCollisionCenter(glm::vec3(newPosition.x / 1280, newPosition.y / 960.0f, 0.0f));
+}
+
+void GameObject::AdjustPosition(const glm::vec3 adjustPosition)
+{
+	m_transform->AdjustPosition(adjustPosition);
+	const glm::vec3 newPosition = m_transform->GetPosition();
+	SetCollisionCenter(glm::vec3(newPosition.x / 1280, newPosition.y / 960.0f, 0.0f));
+}
+
 void GameObject::UpdateObjectData(GameObjectData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();
+}
+
+int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
+{
+	int i = 0;
+	int indexToReturn = -1;
+
+	for (GameObject* collidingGameObject : m_collidingObjects)
+	{
+		if (gameObject == collidingGameObject)
+		{
+			indexToReturn = i;
+		}
+
+		i++;
+	}
+
+	return indexToReturn;
+}
+
+bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
+{
+	bool bFound = false;
+
+	for (GameObject* collidingGameObject : m_collidingObjects)
+	{
+		if (gameObject == collidingGameObject)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	return bFound;
+}
+
+void GameObject::AddCollision(GameObject* collidingObject)
+{
+	//std::cout << "START COLLISION!" << std::endl;
+	if (collidingObject)
+	{
+		m_collidingObjects.push_back(collidingObject);
+	}
+}
+
+void GameObject::RemoveCollision(GameObject* gameObject)
+{
+	//std::cout << "END COLLISION!" << std::endl;
+	if (gameObject)
+	{
+		const int gameObjectIndex = GetGameObjectCollisionIndex(gameObject);
+		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
+	}
 }
 
 void GameObject::UpdateVertexArray()
