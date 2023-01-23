@@ -73,9 +73,29 @@ void GameObject::UpdateObjectData(GameObjectData* newData)
 	UpdateVertexArray();
 }
 
-void GameObject::AddCollision(GameObject* collidingObject)
+void GameObject::AddCollision(GameObject* collidingObject, std::vector<CollisionSide>& sidesCollided)
 {
-	std::cout << "START COLLISION!" << std::endl;
+	for (CollisionSide& collisionSide : sidesCollided)
+	{
+		if (collisionSide == CollisionSide::BOTTOM)
+		{
+			std::cout << "BOTTOM" << std::endl;
+		}
+		if (collisionSide == CollisionSide::LEFT)
+		{
+			std::cout << "LEFT" << std::endl;
+		}
+		if (collisionSide == CollisionSide::RIGHT)
+		{
+			std::cout << "RIGHT" << std::endl;
+		}
+		if (collisionSide == CollisionSide::TOP)
+		{
+			std::cout << "TOP" << std::endl;
+		}
+
+		//std::cout << sidesCollided.size() << std::endl;
+	}
 }
 
 void GameObject::RemoveCollision(GameObject* gameObject)

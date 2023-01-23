@@ -7,6 +7,7 @@
 #include "QuackDataTypes.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "QuackPhysics.h"
 
 struct GameObjectData
 {
@@ -49,7 +50,7 @@ public:
 	inline const glm::vec3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
 
-	virtual void AddCollision(GameObject* collidingObject);
+	virtual void AddCollision(GameObject* collidingObject, std::vector<CollisionSide>& sidesCollided);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	inline VertexArray* GetVertexArray() { return m_va;  };

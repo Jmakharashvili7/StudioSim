@@ -239,6 +239,20 @@ void Quack::HandleInput()
 			m_duck->Jump();
 			break;
 		}
+		case 'H': // JUMP Left
+		{
+			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
+			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_duck->AdjustPosition(glm::vec3(0.0f, -1500.0f * m_gameTimer.GetDeltaTime(), 0.0f));
+			break;
+		}
+		case 'Y': // JUMP Left
+		{
+			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
+			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_duck->AdjustPosition(glm::vec3(0.0f, 1500.0f * m_gameTimer.GetDeltaTime(), 0.0f));
+			break;
+		}
 		}
 	}
 }

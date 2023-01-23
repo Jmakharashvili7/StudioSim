@@ -1,7 +1,7 @@
 #pragma once
 #include "BasicIncludes.h"
-#include "GameObject.h"
 #include "QuackPhysics.h"
+#include "Actor.h"
 
 class CollisionManager
 {
