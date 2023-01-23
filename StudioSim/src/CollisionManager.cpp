@@ -27,6 +27,8 @@ void CollisionManager::Update(const float deltaTime)
 			std::vector<GameObject*> tempGameObjects = m_gameObjects;
 			tempGameObjects.erase(tempGameObjects.begin() + index);
 
+			std::map<CollisionSide, bool> collisionSides;
+
 			for (GameObject* otherGameObject : tempGameObjects)
 			{
 				bool bColliding = false;
@@ -36,7 +38,8 @@ void CollisionManager::Update(const float deltaTime)
 				{
 					BoundingBox owningBox = BoundingBox(gameObject->GetCollisionCenter(), gameObject->GetCollisionBoxSize());
 					BoundingBox otherBox = BoundingBox(otherGameObject->GetCollisionCenter(), otherGameObject->GetCollisionBoxSize());
-					bColliding = m_quackPhysics->BoxToBox(owningBox, otherBox);
+					collisionSides = m_quackPhysics->BoxToBox(owningBox, otherBox);
+					bColliding = (m_quackPhysics->BoxToBox(owningBox, otherBox)).size() != 0;	
 				}
 				// sphere to sphere
 				else if (gameObject->GetCollisionType() == CollisionType::SPHERE && otherGameObject->GetCollisionType() == CollisionType::SPHERE)
@@ -56,7 +59,7 @@ void CollisionManager::Update(const float deltaTime)
 				{
 					if (!gameObject->GetIsCollidingGameObject(otherGameObject))
 					{
-						gameObject->AddCollision(otherGameObject);
+						gameObject->AddCollision(otherGameObject, collisionSides);
 					}
 				}
 				else

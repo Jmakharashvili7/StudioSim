@@ -51,7 +51,7 @@ public:
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
 	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
-	virtual void AddCollision(GameObject* collidingObject);
+	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	// Other

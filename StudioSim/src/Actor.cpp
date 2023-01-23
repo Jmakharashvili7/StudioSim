@@ -37,22 +37,47 @@ void Actor::Draw(Shader* mainShader)
 	GameObject::Draw(mainShader);
 }
 
-void Actor::AddCollision(GameObject* collidingObject)
+void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
 {
+	// Debug
+	/*for (auto side : collidingSides)
+	{
+		switch (side.first)
+		{
+		case CollisionSide::LEFT:
+			std::cout << "LEFT COLLISION:  " << side.second << std::endl;
+			break;
+		case CollisionSide::RIGHT:
+			std::cout << "RIGHT COLLISION:  " << side.second << std::endl;
+			break;
+		case CollisionSide::TOP:
+			std::cout << "TOP COLLISION:  " << side.second << std::endl;
+			break;
+		case CollisionSide::BOTTOM:
+			std::cout << "BOTTOM COLLISION:  " << side.second << std::endl;
+			break;
+		default:
+			std::cout << "NO COLLISION" << std::endl;
+			break;
+		}
+	}
+
+	std::cout << " " << std::endl;*/
+
 	if (collidingObject->GetName() == "ground")
 	{
-		std::cout << "HIT GROUND" << std::endl;
+		//std::cout << "HIT GROUND" << std::endl;
 		SetCollidingWithGround(true);
 	}
 
-	GameObject::AddCollision(collidingObject);
+	GameObject::AddCollision(collidingObject, collidingSides);
 }
 
 void Actor::RemoveCollision(GameObject* gameObject)
 {
 	if (gameObject->GetName() == "ground")
 	{
-		std::cout << "END GROUND" << std::endl;
+		//std::cout << "END GROUND" << std::endl;
 		SetCollidingWithGround(false);
 	}
 
