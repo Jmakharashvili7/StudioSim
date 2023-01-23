@@ -49,8 +49,10 @@ public:
 	inline const glm::vec3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
 	inline const glm::vec3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
+	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
+	const bool const GetIsCollidingGameObject(GameObject* gameObject);
 
-	virtual void AddCollision(GameObject* collidingObject, std::vector<CollisionSide>& sidesCollided);
+	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	inline VertexArray* GetVertexArray() { return m_va;  };

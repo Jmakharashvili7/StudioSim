@@ -21,17 +21,13 @@ void PhysicsManager::Update(const float deltaTime)
 	{
 		if (actor->GetSimulatingGravity())
 		{
-			//if (actor->GetPosition().y >= -500)
-			//{
-			//	// Gravity calculations
-			//	// weight = mass * gravitaional force
-			//	float weight = actor->GetMass() * GFORCE;
-			//	actor->AdjustPosition(glm::vec3(0.0f, -weight * deltaTime, 0.0f));
-			//}
-			//else
-			//{
-			//	//actor->SetJumping(false);
-			//}
+			if (!actor->GetCollidingWithGround())
+			{
+				// Gravity calculations
+				// weight = mass * gravitaional force
+				float weight = actor->GetMass() * GFORCE;
+				actor->AdjustPosition(glm::vec3(0.0f, -weight * deltaTime, 0.0f));
+			}
 
 			// Jumping calculations
 			if (actor->GetJumping())

@@ -37,6 +37,11 @@ void Actor::Draw(Shader* mainShader)
 	GameObject::Draw(mainShader);
 }
 
+bool const Actor::GetCollidingWithGround()
+{
+	return m_bcollidingWithGround;
+}
+
 void Actor::AddImpulseForce(glm::vec3 force)
 {
 	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)

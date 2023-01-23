@@ -103,15 +103,15 @@ void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, -750.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	const CollisionData groundCollisionData = CollisionData(glm::vec3(groundTransformData.position.x/1280, groundTransformData.position.y/960, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, -1000.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 0.6f, 1.0f));
+	const CollisionData groundCollisionData = CollisionData(glm::vec3(groundTransformData.position.x/1280, groundTransformData.position.y/960, 0.0f), groundTransformData.scale);
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
 	m_ground = CreateNewGameObject(groundObjectData, groundTransformData, groundCollisionData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(1200.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	const CollisionData duckCollisionData = CollisionData(glm::vec3(duckTransformData.position.x / 1280, duckTransformData.position.y / 960, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	const TransformData duckTransformData = TransformData(glm::vec3(0.0f, 600.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.25f));
+	const CollisionData duckCollisionData = CollisionData(glm::vec3(duckTransformData.position.x / 1280, duckTransformData.position.y / 960, 0.0f), duckTransformData.scale);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
 	const AnimationData duckAnimationData = AnimationData();
@@ -260,6 +260,18 @@ void Quack::HandleInput()
 void Quack::Update()
 {
 	m_gameTimer.Tick();
+
+	if (m_duck && m_ground)
+	{
+		if (m_duck->GetIsCollidingGameObject(m_ground))
+		{
+			m_duck->SetCollidingWithGround(true);
+		}
+		else
+		{
+			m_duck->SetCollidingWithGround(false);
+		}
+	}
 
 	// get mouse position
 	double xpos, ypos;

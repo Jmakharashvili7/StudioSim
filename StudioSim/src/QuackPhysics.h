@@ -39,15 +39,6 @@ struct BoundingSphere
 	float radius;
 };
 
-enum class CollisionSide
-{
-	LEFT,
-	RIGHT,
-	TOP,
-	BOTTOM,
-	NONE
-};
-
 class QuackPhysics
 {
 public:
@@ -55,58 +46,27 @@ public:
 	QuackPhysics() {};
 	~QuackPhysics() {};
 
-	
-
-	
 	/// <summary>
 	/// Check if 2 squares collide
 	/// </summary>
 	/// <param name="box 1"></param>
 	/// <param name="box 2"></param>
 	/// <returns></returns>
-	std::vector<CollisionSide> BoxToBox(BoundingBox b1, BoundingBox b2)
+	bool BoxToBox(BoundingBox b1, BoundingBox b2)
 	{
-		std::vector<CollisionSide> sidesCollided;
-
 		glm::vec3 min1 = b1.center - b1.size/glm::vec3(2,2,2);
 		glm::vec3 max1 = b1.center + b1.size/glm::vec3(2,2,2);
 		glm::vec3 min2 = b2.center - b2.size/glm::vec3(2,2,2);
 		glm::vec3 max2 = b2.center + b2.size/glm::vec3(2,2,2);
 
-		bool horizontalCollision;
-
 		if ((min1.x <= max2.x && max1.x >= min2.x) &&
 			(min1.y <= max2.y && max1.y >= min2.y) &&
 			(min1.z <= max2.z && max1.z >= min2.z))
 		{
-			if (min1.x <= max2.x && max1.x >= min2.x)
-			{
-				horizontalCollision = true;
-
-				if (min1.x <= max2.x && max1.x <= min2.x)
-				{
-					sidesCollided.push_back(CollisionSide::LEFT);
-				}
-				if (max1.x >= min2.x)
-				{
-					sidesCollided.push_back(CollisionSide::RIGHT);
-				}
-			}
-
-			if (min1.y <= max2.y && max1.y >= min2.y)
-			{
-				if (min1.y <= max2.y)
-				{
-					sidesCollided.push_back(CollisionSide::BOTTOM);
-				}
-				else
-				{
-					sidesCollided.push_back(CollisionSide::TOP);
-				}
-			}
+			return true;
 		}
 
-		return sidesCollided;
+		return false;
 	}
 
 

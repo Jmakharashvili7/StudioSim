@@ -73,34 +73,57 @@ void GameObject::UpdateObjectData(GameObjectData* newData)
 	UpdateVertexArray();
 }
 
-void GameObject::AddCollision(GameObject* collidingObject, std::vector<CollisionSide>& sidesCollided)
+int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
 {
-	for (CollisionSide& collisionSide : sidesCollided)
+	int i = 0;
+	int indexToReturn = -1;
+
+	for (GameObject* collidingGameObject : m_collidingObjects)
 	{
-		if (collisionSide == CollisionSide::BOTTOM)
+		if (gameObject == collidingGameObject)
 		{
-			std::cout << "BOTTOM" << std::endl;
-		}
-		if (collisionSide == CollisionSide::LEFT)
-		{
-			std::cout << "LEFT" << std::endl;
-		}
-		if (collisionSide == CollisionSide::RIGHT)
-		{
-			std::cout << "RIGHT" << std::endl;
-		}
-		if (collisionSide == CollisionSide::TOP)
-		{
-			std::cout << "TOP" << std::endl;
+			indexToReturn = i;
 		}
 
-		//std::cout << sidesCollided.size() << std::endl;
+		i++;
+	}
+
+	return indexToReturn;
+}
+
+bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
+{
+	bool bFound = false;
+
+	for (GameObject* collidingGameObject : m_collidingObjects)
+	{
+		if (gameObject == collidingGameObject)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	return bFound;
+}
+
+void GameObject::AddCollision(GameObject* collidingObject)
+{
+	std::cout << "START COLLISION!" << std::endl;
+	if (collidingObject)
+	{
+		m_collidingObjects.push_back(collidingObject);
 	}
 }
 
 void GameObject::RemoveCollision(GameObject* gameObject)
 {
 	std::cout << "END COLLISION!" << std::endl;
+	if (gameObject)
+	{
+		const int gameObjectIndex = GetGameObjectCollisionIndex(gameObject);
+		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
+	}
 }
 
 void GameObject::UpdateVertexArray()

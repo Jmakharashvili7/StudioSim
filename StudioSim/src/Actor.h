@@ -28,6 +28,9 @@ public:
 
 	inline Animate* const GetAnimator() { return m_animator; }
 
+	inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
+	const bool const GetCollidingWithGround();
+
 	//TEST
 	void AddImpulseForce(glm::vec3 force);
 	inline const bool GetImpulseActive() const { return m_bimpulseActive; }
@@ -47,6 +50,8 @@ private:
 
 	bool m_bjumping = false;
 	float m_currentJumpForce = 0.0f;
+
+	bool m_bcollidingWithGround = false;
 
 	//TEST
 	bool m_bimpulseActive = false;

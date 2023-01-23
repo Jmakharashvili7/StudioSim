@@ -30,16 +30,13 @@ void CollisionManager::Update(const float deltaTime)
 			for (GameObject* otherGameObject : tempGameObjects)
 			{
 				bool bColliding = false;
-				std::vector<CollisionSide> sidesCollided;
-
-
+				
 				// box to box
 				if (gameObject->GetCollisionType() == CollisionType::BOX && otherGameObject->GetCollisionType() == CollisionType::BOX) 
 				{
 					BoundingBox owningBox = BoundingBox(gameObject->GetCollisionCenter(), gameObject->GetCollisionBoxSize());
 					BoundingBox otherBox = BoundingBox(otherGameObject->GetCollisionCenter(), otherGameObject->GetCollisionBoxSize());
-					sidesCollided = m_quackPhysics->BoxToBox(owningBox, otherBox);
-					bColliding = sidesCollided.size() != 0;
+					bColliding = m_quackPhysics->BoxToBox(owningBox, otherBox);
 				}
 				// sphere to sphere
 				else if (gameObject->GetCollisionType() == CollisionType::SPHERE && otherGameObject->GetCollisionType() == CollisionType::SPHERE)
@@ -57,13 +54,17 @@ void CollisionManager::Update(const float deltaTime)
 
 				if (bColliding)
 				{
-					Actor* isActor = dynamic_cast<Actor*>(gameObject);
-					if (isActor)
-						gameObject->AddCollision(otherGameObject, sidesCollided);
+					if (!gameObject->GetIsCollidingGameObject(otherGameObject))
+					{
+						gameObject->AddCollision(otherGameObject);
+					}
 				}
 				else
 				{
-					gameObject->RemoveCollision(otherGameObject);
+					if (gameObject->GetIsCollidingGameObject(otherGameObject))
+					{
+						gameObject->RemoveCollision(otherGameObject);
+					}
 				}
 			}
 		}
