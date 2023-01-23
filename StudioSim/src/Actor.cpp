@@ -42,6 +42,10 @@ void Actor::Draw(Shader* mainShader)
 	GameObject::Draw(mainShader);
 }
 
+void Actor::Update(float deltaTime)
+{
+}
+
 void Actor::AddImpulseForce(Vector3 force)
 {
 	if (m_bsimulateGravity && !m_bimpulseActive)

@@ -7,6 +7,7 @@ public:
 	{
 		PRESS,
 		RELEASE,
+		HELD,
 		INVALID
 	};
 
@@ -14,6 +15,7 @@ public:
 	KeyEvent(const EventType type, const unsigned char key);
 
 	bool IsPressed() const;
+	bool IsHeld() const;
 	bool IsReleased() const;
 	bool IsValid() const;
 	unsigned char GetKeyCode() const; 

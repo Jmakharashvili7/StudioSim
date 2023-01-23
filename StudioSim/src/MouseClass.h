@@ -17,8 +17,10 @@ public:
 	static void Init();
 	static void OnLeftClick(int x, int y);
 	static void OnLeftRelease(int x, int y);
+	static void OnLeftHeld(int x, int y);
 	static void OnRightClick(int x, int y);
 	static void OnRightRelease(int x, int y);
+	static void OnRightHeld(int x, int y);
 	static void OnScrollClick(int x, int y);
 	static void OnScrollRelease(int x, int y);
 	static void OnScrollUp(int x, int y);

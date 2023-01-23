@@ -20,8 +20,10 @@ public:
 	{
 		L_CLICK,
 		L_RELEASE,
+		L_HELD,
 		R_CLICK,
 		R_RELEASE,
+		R_HELD,
 		SCROLL_CLICK,
 		SCROLL_RELEASE,
 		SCROLL_UP,

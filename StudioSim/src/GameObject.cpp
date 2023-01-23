@@ -55,10 +55,27 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
+void GameObject::Update(float deltaTime)
+{
+	for (Component* comp : m_Components)
+	{
+		comp->Update(deltaTime);
+	}
+}
+
 void GameObject::UpdateObjectData(GameObjectData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();
+}
+
+void GameObject::AddComponent(Component* comp)
+{
+	m_Components.push_back(comp);
+}
+
+void GameObject::RemoveComponent(Component* comp)
+{
 }
 
 void GameObject::UpdateVertexArray()

@@ -13,6 +13,11 @@ bool KeyEvent::IsPressed() const
     return m_Type == EventType::PRESS;
 }
 
+bool KeyEvent::IsHeld() const
+{
+    return m_Type == EventType::HELD;
+}
+
 bool KeyEvent::IsReleased() const
 {
     return m_Type == EventType::RELEASE;

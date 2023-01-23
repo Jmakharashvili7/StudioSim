@@ -79,9 +79,6 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="CustomMaths.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
     <ClCompile Include="src\EngineManager.cpp">
       <Filter>source files</Filter>
     </ClCompile>
@@ -125,6 +122,15 @@
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CustomMaths.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputComponent.cpp">
       <Filter>source files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,6 +248,12 @@
     </ClInclude>
     <ClInclude Include="src\stb_image\stb_image.h">
       <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputComponent.h">
+      <Filter>Inputs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

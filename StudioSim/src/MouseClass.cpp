@@ -41,6 +41,12 @@ void MouseClass::OnLeftRelease(int x, int y)
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::L_RELEASE, x, y));
 }
 
+void MouseClass::OnLeftHeld(int x, int y)
+{
+	s_IsLeftClick = true;
+	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::L_HELD, x, y));
+}
+
 void MouseClass::OnRightClick(int x, int y)
 {
 	s_IsRightClick = true;
@@ -52,6 +58,12 @@ void MouseClass::OnRightRelease(int x, int y)
 {
 	s_IsRightClick = false;
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::R_RELEASE, x, y));
+}
+
+void MouseClass::OnRightHeld(int x, int y)
+{
+	s_IsRightClick = true;
+	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::R_HELD, x, y));
 }
 
 void MouseClass::OnScrollClick(int x, int y)

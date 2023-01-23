@@ -7,6 +7,8 @@
 #include "QuackDataTypes.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "component.h"
+#include "InputComponent.h"
 
 struct GameObjectData
 {
@@ -22,6 +24,7 @@ public:
 	~GameObject();
 
 	virtual void Draw(Shader* mainShader);
+	virtual void Update(float deltaTime);
 
 	// Position
 	virtual void SetPosition(const Vector3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
@@ -44,6 +47,9 @@ public:
 
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
+
+	void AddComponent(Component* comp);
+	void RemoveComponent(Component* comp);
 	
 
 protected:
@@ -52,6 +58,7 @@ protected:
 	VertexArray* m_va;
 		Transform* m_transform;
 	GameObjectData* m_data;
+	vector<Component*> m_Components;
 
 	
 
