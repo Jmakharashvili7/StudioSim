@@ -100,28 +100,26 @@ Shader* Quack::m_3dShader;
 
 OrthographicCamera* Quack::m_mainCamera;
 PhysicsManager* Quack::m_physicsManager;
-CollisionManager* Quack::m_collisionManager;
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(Vector3(0.0f, -2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 0.6f, 1.0f));
-	const CollisionData groundCollisionData = CollisionData(groundTransformData.position, groundTransformData.scale);
+	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
-	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundCollisionData, groundTextureData);
+	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundTextureData);
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(Vector3(0.0f, 2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
-	const CollisionData duckCollisionData = CollisionData(duckTransformData.position, duckTransformData.scale);
+	const TransformData duckTransformData = TransformData(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
 	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
+	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
+	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
+	m_gameObjects.push_back(m_duck);
 
-	// Update engine manager
 	EngineManager::SetGameObjects(m_gameObjects);
 }
 
@@ -157,7 +155,6 @@ int Quack::InitEngine()
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
 	m_physicsManager = new PhysicsManager();
-	m_collisionManager = new CollisionManager();
 
 	m_layerStack->PushOverlay(m_uiMain);
 
@@ -232,7 +229,7 @@ void Quack::HandleInput()
 		{
 			if (m_uiMain->GetViewport()->GetIsFocused())
 			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
+				glm::vec3 temp = m_mainCamera->GetPosition();	
 				temp.x -= 0.3f;
 				m_mainCamera->SetPosition(temp);
 			}
@@ -248,7 +245,7 @@ void Quack::HandleInput()
 			}
 			break;
 		}
-		case 'J': // MOVE LEFT
+		case 'I': // JUMP
 		{
 			m_duck->SetThrustForce(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			if(m_duck->GetPosition().x<-5.0f)
@@ -260,24 +257,30 @@ void Quack::HandleInput()
 			//m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
 			break; 
 		}
-		case 'L': // MOVE RIGHT
+		case 'O': // JUMP
 		{
-			m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			if (m_duck)
+			{
+				m_duck->moveRight();
+				m_duck->AddImpulseForce(glm::vec3(500.0f, 300.0f, 0.0f));
+				//m_duck->GetTransform();
+			}
+			break; 
+		}
+		case 'L': // JUMP Right
+		{
+			//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
+			//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
 			break;
 		}
-		case 'H': // MOVE UP
+		case 'J': // JUMP Left
 		{
-			m_duck->AdjustPosition(Vector3(0.0f, -2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		case 'Y': // MOVE DOWN
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, 2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		case 'O': // JUMP UP
-		{
-			m_duck->Jump();
+			//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
+			//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
+			if (m_duck)
+				m_duck->Jump();
+		
 			break;
 		}
 		}
@@ -292,11 +295,11 @@ void Quack::HandleInput()
 		}
 		if (e.GetType() == MouseEvent::EventType::R_CLICK)
 		{
-
+			
 		}
 		if (e.GetType() == MouseEvent::EventType::MOVE)
 		{
-
+			
 		}
 	}
 }
@@ -304,11 +307,12 @@ void Quack::HandleInput()
 void Quack::Update()
 {
 	m_gameTimer.Tick();
-	
+
 	// get mouse position
-	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
+	
+	m_duck->Update(m_deltaTime);
 
 	HandleInput();
 }
@@ -415,58 +419,31 @@ void Quack::RenderUpdate()
 	m_frameBuffer->Unbind();
 }
 
-void Quack::PhysicsUpdate()
-{
-	const float deltaTime = m_gameTimer.GetDeltaTime();
-	m_collisionManager->Update(deltaTime);
-	m_physicsManager->Update(deltaTime);
-}
-
-void Quack::ImGUIInit()
-{
-
-}
-
-GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData)
 {
 	GameObject* createdGameObject = nullptr;
-	createdGameObject = new GameObject(name, objectData, transformData, collisionData, textureData);
+	createdGameObject = new GameObject(name, objectData, transformData, textureData);
 
 	if (createdGameObject)
 	{
 		m_gameObjects.push_back(createdGameObject);
-
-		if (collisionData.collisionType != CollisionType::NONE)
-		{
-			// Update collision managers game object array
-			m_collisionManager->AddGameObject(createdGameObject);
-		}
 	}
 
 	return createdGameObject;
 }
 
-Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 {
 	Actor* createdActor = nullptr;
-	createdActor = new Actor(name, objectData, transformData, collisionData, textureData, physicsData, animationData);
+	createdActor = new Actor(name, objectData, transformData, textureData, physicsData, animationData);
 
 	if (createdActor)
 	{
 		m_gameObjects.push_back(createdActor);
 		m_gameActors.push_back(createdActor);
 
-		if (collisionData.collisionType != CollisionType::NONE)
-		{
-			// Update collision managers game object array
-			m_collisionManager->AddGameObject(createdActor);
-		}
-
-		if (physicsData.bsimulateGravity)
-		{
-			// Update physics managers actor object array
-			m_physicsManager->AddGameActor(createdActor);
-		}
+		// Update physics managers actor array
+		m_physicsManager->AddGameActor(createdActor);
 	}
 
 	return createdActor;

@@ -3,8 +3,8 @@
 
 struct BoundingBox
 {
-	Vector3 center;
-	Vector3 size;
+	glm::vec3 center;
+	glm::vec3 size;
 	BoundingBox()
 	{
 		center.x = 0;
@@ -14,7 +14,7 @@ struct BoundingBox
 		size.y = 0;
 		size.z = 0;	
 	}
-	BoundingBox(Vector3 position, Vector3 size)
+	BoundingBox(glm::vec3 position, glm::vec3 size)
 	{
 		center = position;
 		this->size = size;
@@ -30,12 +30,12 @@ struct BoundingSphere
 		center.z = 0;
 		radius = 0;
 	}
-	BoundingSphere(Vector3 position, float radius)
+	BoundingSphere(glm::vec3 position, float radius)
 	{
 		center = position;
 		this->radius = radius;
 	}
-	Vector3 center;
+	glm::vec3 center;
 	float radius;
 };
 
@@ -46,6 +46,7 @@ public:
 	QuackPhysics() {};
 	~QuackPhysics() {};
 
+	
 	/// <summary>
 	/// Check if 2 squares collide
 	/// </summary>
@@ -54,19 +55,14 @@ public:
 	/// <returns></returns>
 	bool BoxToBox(BoundingBox b1, BoundingBox b2)
 	{
-		Vector3 min1 = b1.center - b1.size/Vector3(2,2,2);
-		Vector3 max1 = b1.center + b1.size/Vector3(2,2,2);
-		Vector3 min2 = b2.center - b2.size/Vector3(2,2,2);
-		Vector3 max2 = b2.center + b2.size/Vector3(2,2,2);
-
-		if ((min1.x <= max2.x && max1.x >= min2.x) &&
+		glm::vec3 min1 = b1.center - b1.size/glm::vec3(2,2,2);
+		glm::vec3 max1 = b1.center + b1.size/glm::vec3(2,2,2);
+		glm::vec3 min2 = b2.center - b2.size/glm::vec3(2,2,2);
+		glm::vec3 max2 = b2.center + b2.size/glm::vec3(2,2,2);
+		     
+		return (min1.x <= max2.x && max1.x >= min2.x) &&
 			(min1.y <= max2.y && max1.y >= min2.y) &&
-			(min1.z <= max2.z && max1.z >= min2.z))
-		{
-			return true;
-		}
-
-		return false;
+			(min1.z <= max2.z && max1.z >= min2.z);
 	}
 
 
@@ -86,4 +82,18 @@ public:
 
 		return distance < (sp1.radius + sp2.radius);
 	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	static void Gravity(glm::vec3 objectPos, float deltaTime)
+	{
+		//weight = mass * gforce
+		float weight = 0.1f * GFORCE;
+		objectPos.y -= weight * deltaTime;
+	}
+
+
+
+
 };
