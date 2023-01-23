@@ -4,35 +4,40 @@
 class Transform
 {
 public:
-	Transform(const glm::vec3 inPosition, const glm::vec3 inRotation, const glm::vec3 inScale);
+	Transform(const Vector3 inPosition, const Vector3 inRotation, const Vector3 inScale);
 	Transform();
 	~Transform();
 
 	// Position
-	void SetPosition(const glm::vec3 newPosition);
-	void AdjustPosition(const glm::vec3 adjustPosition);
-	inline const glm::vec3 GetPosition() const { return m_position; }
+	void SetPosition(const Vector3 newPosition);
+	void AdjustPosition(const Vector3 adjustPosition);
+	inline const Vector3 GetPosition() const { return m_position; }
 
 	// Rotation
-	void SetRotation(const glm::vec3 newRotation);
-	void AdjustRotation(const glm::vec3 adjustRotation);
-	void SetRotationAroundPivot(const glm::vec3 pivotPosition, const glm::vec3 newRotation);
-	inline const glm::vec3 GetRotation() const { return m_rotation; }
+	void SetRotation(const Vector3 newRotation);
+	void AdjustRotation(const Vector3 adjustRotation);
+	void SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation);
+	inline const Vector3 GetRotation() const { return m_rotation; }
+	inline const float GetFloatRotation() const { return m_fRotation; }
 
 	// Scale
-	void SetScale(const glm::vec3 newScale);
-	void AdjustScale(const glm::vec3 adjustScale);
-	inline const glm::vec3 GetScale() const { return m_scale; }
+	void SetScale(const Vector3 newScale);
+	void AdjustScale(const Vector3 adjustScale);
+	inline const Vector3 GetScale() const { return m_scale; }
 
 	// Transformation matrix
-	inline const glm::mat4 GetTransformationMatrix() const { return m_transformationMatrix; }
+	inline const Matrix4 GetTransformationMatrix() const { return m_transformationMatrix; }
 	// Update the matrix transform, used in draw
 	void UpdateTransformMatrix();
+	
+	
 
 private:
-	glm::mat4 m_transformationMatrix = glm::mat4(1.0f);
-	glm::vec3 m_position = glm::vec3(0.0f);
-	glm::vec3 m_rotation = glm::vec3(0.0f);
-	glm::vec3 m_scale = glm::vec3(1.0f);
+	Matrix4 m_transformationMatrix = Matrix4::Identity;
+	Vector3 m_position = Vector3::Zero;
+	Vector3 m_rotation = Vector3::Zero;
+	float m_fRotation = 0.0f;
+	Vector3 m_scale = Vector3::One;
+
 };
 

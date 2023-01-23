@@ -65,6 +65,11 @@ void Shader::SetUniform4x4(const std::string& name, glm::mat4 viewProj)
     GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(viewProj)));
 }
 
+void Shader::SetMatrixUniform4(const std::string& name, Matrix4 viewProj)
+{
+    GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, viewProj.GetAsFloatPtr()));
+}
+
 struct ShaderProgramSource Shader::ParseShader(const std::string& filepath)
 {
 
