@@ -12,7 +12,7 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "FrameBuffer.h"
-#include "QuackAudio.h"
+#include "AudioEngine.h"
 
 
 class LayerStack;
@@ -61,7 +61,7 @@ public:
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
-	static QuackAudio* a;
+	static AudioEngine* a;
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
@@ -71,6 +71,7 @@ private:
 	static void HandleInput();
 	static void InitObjects();
 	static void SetupShaders();
+	static void InitAudioEngine();
 public:
 	static bool m_capFrames;
 	static bool s_running;

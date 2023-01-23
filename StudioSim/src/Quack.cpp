@@ -96,10 +96,11 @@ UILayer* Quack::m_uiMain;
 Shader* Quack::m_mainShader;
 Shader* Quack::m_3dShader;
 
-QuackAudio* Quack::a;
+AudioEngine* Quack::a;
 
 OrthographicCamera* Quack::m_mainCamera;
 #pragma endregion DeclareMembers
+
 
 void Quack::InitObjects()
 {
@@ -108,6 +109,12 @@ void Quack::InitObjects()
 	m_gameObjects.push_back(m_duck);
 
 	EngineManager::SetGameObjects(m_gameObjects);
+}
+
+void Quack::InitAudioEngine()
+{
+	a = new AudioEngine;
+	a->Init();
 }
 
 void Quack::SetupShaders()
@@ -177,8 +184,8 @@ int Quack::InitEngine()
 
 	InitObjects();
 	SetupShaders();
-	a = new QuackAudio;
-
+	InitAudioEngine();
+	
 	return 0;	
 }
 
@@ -193,6 +200,8 @@ void Quack::HandleInput()
 			break;
 		case 'W': // move camera up
 		{
+			
+
 			if (m_uiMain->GetViewport()->GetIsFocused())
 			{
 				glm::vec3 temp = m_mainCamera->GetPosition();
@@ -234,6 +243,7 @@ void Quack::HandleInput()
 		case 'I': // JUMP
 		{
 			Jump();
+			
 			break;
 		}
 		case 'L': // JUMP Right
@@ -275,6 +285,9 @@ void Quack::Update()
 {
 	m_gameTimer.Tick();
 
+	
+
+
 	if (m_jumping)
 	{
 		JumpDecrement();
@@ -283,17 +296,18 @@ void Quack::Update()
 	{
 		ProjectileDecrement(m_direction);
 	}
-	if (GetAsyncKeyState('D'))
+	if (GetAsyncKeyState('O'))
 	{
-
-		a->PlaySound("Sounds/QuackHentai",
-			Vec3{ 0,0,0 },
-			true,
+		std::cout << "sex" << std::endl;
+		a->PlaySound("res/Sounds/a.mp3",
+			Vec3{ 0.0f,0.0f,-1.0f },
+			false,
 			false,
 			true,
-			5.0f,
-			1.0f
-		);
+			2.0f,
+			1.0f);
+		
+		
 	}
 	// get mouse position
 	double xpos, ypos;
@@ -304,6 +318,7 @@ void Quack::Update()
 
 void Quack::RenderUpdate()
 {
+	
 	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	// Draw layers 

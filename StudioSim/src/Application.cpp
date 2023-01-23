@@ -13,6 +13,7 @@ int main(void)
     {
         Quack::Update();
         Quack::RenderUpdate();
+        AudioEngine::Update();
     }
     Quack::ShutDown();
     return 0;
