@@ -101,6 +101,7 @@ Shader* Quack::m_primitiveShader;
 OrthographicCamera* Quack::m_mainCamera;
 PhysicsManager* Quack::m_physicsManager;
 CollisionManager* Quack::m_collisionManager;
+
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
@@ -286,13 +287,27 @@ void Quack::HandleInput()
 	if (!MouseClass::IsEventBufferEmpty())
 	{
 		MouseEvent e = MouseClass::ReadEvent();
+		double port_x = m_uiMain->GetViewport()->GetSize().x;
+		double port_y = m_uiMain->GetViewport()->GetSize().y;
+		double screen_x = m_window->GetWidth();
+		double screen_y = m_window->GetHeight();
+
+		float new_x = ImGui::GetMousePos().x - ViewportUI::startViewportX;
+		float new_y = ImGui::GetMousePos().y - ViewportUI::startViewportY;
 
 		if (e.GetType() == MouseEvent::EventType::L_CLICK)
 		{
+			std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
+			std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
+			std::cout << "Mouse Port X: " << new_x << std::endl;
+			std::cout << "Mouse Port Y: " << new_y << std::endl;
 		}
 		if (e.GetType() == MouseEvent::EventType::R_CLICK)
 		{
-
+			std::cout << "Viewport X size: " << port_x << std::endl;
+			std::cout << "Viewport Y size: " << port_y << std::endl;
+			std::cout << "Screen X size: " << screen_x << std::endl;
+			std::cout << "Screen Y size: " << screen_y << std::endl;
 		}
 		if (e.GetType() == MouseEvent::EventType::MOVE)
 		{
@@ -383,6 +398,7 @@ void Quack::Update()
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
+	//glfwGetCursorPos(m_window->GetGLFWWindow(), &m_mouseX, &m_mouseY);
 
 	HandleInput();
 }

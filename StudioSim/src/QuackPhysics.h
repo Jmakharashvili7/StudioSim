@@ -97,4 +97,23 @@ public:
 
 		return distance < (sp1.radius + sp2.radius);
 	}
+
+	/// <summary>
+	/// Checks if point is inside box collider
+	/// </summary>
+	/// <param name="box"></param>
+	/// <param name="point"></param>
+	/// <returns></returns>
+	bool BoxToPoint(BoundingBox box, Vector2 point)
+	{
+		Vector3 min = box.center - box.size / Vector3(2, 2, 2);
+		Vector3 max = box.center + box.size / Vector3(2, 2, 2);
+
+		if (point.x > min.x && point.x < max.x && point.y > min.y && point.y < max.y)
+		{
+			return true;
+		}
+
+		return false;
+	}
 };

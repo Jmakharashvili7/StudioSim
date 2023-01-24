@@ -10,6 +10,8 @@ public:
 
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
+	static float startViewportX;
+	static float startViewportY;
 private:
 	FrameBuffer* m_frameBuffer;
 };

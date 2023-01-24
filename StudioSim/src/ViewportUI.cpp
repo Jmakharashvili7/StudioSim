@@ -7,12 +7,15 @@
 
 ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : UIWindow(name), m_frameBuffer(frameBuffer)
 {
+	
 }
 
 ViewportUI::~ViewportUI()
 {
 }
 
+float ViewportUI::startViewportX;
+float ViewportUI::startViewportY;
 
 
 void ViewportUI::Render()
@@ -44,6 +47,11 @@ void ViewportUI::Render()
 		}
 
 	}
+
+	startViewportX = ImGui::GetCursorScreenPos().x;
+	startViewportY = ImGui::GetCursorScreenPos().y;
+
+	//std::cout << startViewportX << ", " << startViewportY << std::endl;
 
 	m_isFocused = ImGui::IsWindowFocused();
 	ImGui::Image((void*)m_frameBuffer->GetID(), ImVec2(m_size.x, m_size.y), ImVec2(0, 1), ImVec2(1, 0));
