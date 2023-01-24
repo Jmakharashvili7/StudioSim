@@ -61,23 +61,6 @@ public:
 	/// <param name="box 1"></param>
 	/// <param name="box 2"></param>
 	/// <returns></returns>
-	/*bool BoxToBox(BoundingBox b1, BoundingBox b2)
-	{
-		Vector3 min1 = b1.center - b1.size/Vector3(2,2,2);
-		Vector3 max1 = b1.center + b1.size/Vector3(2,2,2);
-		Vector3 min2 = b2.center - b2.size/Vector3(2,2,2);
-		Vector3 max2 = b2.center + b2.size/Vector3(2,2,2);
-
-		if ((min1.x <= max2.x && max1.x >= min2.x) &&
-			(min1.y <= max2.y && max1.y >= min2.y) &&
-			(min1.z <= max2.z && max1.z >= min2.z))
-		{
-			return true;
-		}
-
-		return false;
-	}*/
-
 	std::map<CollisionSide, bool> BoxToBox(BoundingBox b1, BoundingBox b2)
 	{
 		std::map<CollisionSide, bool> collisionSides;

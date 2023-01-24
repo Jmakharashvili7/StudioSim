@@ -67,6 +67,7 @@ void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSi
 	if (collidingObject->GetName() == "ground")
 	{
 		//std::cout << "HIT GROUND" << std::endl;
+		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
 		SetCollidingWithGround(true);
 	}
 

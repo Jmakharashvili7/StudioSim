@@ -48,7 +48,6 @@ private:
 
 	// Physics
 	PhysicsData m_physicsData = PhysicsData();
-
 	bool m_bjumping = false;
 	float m_currentJumpForce = 0.0f;
 

@@ -12,6 +12,7 @@ public:
 	void SetPosition(const Vector3 newPosition);
 	void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { return m_position; }
+	inline const Vector3 GetPreviousPosition() const { return m_previousPosition; }
 
 	// Rotation
 	void SetRotation(const Vector3 newRotation);
@@ -35,6 +36,7 @@ public:
 private:
 	Matrix4 m_transformationMatrix = Matrix4::Identity;
 	Vector3 m_position = Vector3::Zero;
+	Vector3 m_previousPosition = Vector3::Zero;
 	Vector3 m_rotation = Vector3::Zero;
 	float m_fRotation = 0.0f;
 	Vector3 m_scale = Vector3::One;

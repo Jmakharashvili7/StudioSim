@@ -11,6 +11,8 @@ public:
 
 	static void Update(const float deltaTime);
 
+	static Vector3 RepositionGameObject(GameObject* a, GameObject* b);
+
 	inline static void AddGameObject(GameObject* inGameObject) { m_gameObjects.push_back(inGameObject); }
 
 private:

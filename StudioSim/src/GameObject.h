@@ -28,6 +28,7 @@ public:
 	virtual void SetPosition(const Vector3 newPosition);
 	virtual void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
+	inline const Vector3 GetPreviousPosition() const { if (m_transform) return m_transform->GetPreviousPosition(); }
 
 	// Rotation
 	virtual void SetRotation(const Vector3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
