@@ -91,7 +91,7 @@ bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 	return bFound;
 }
 
-void GameObject::AddCollision(GameObject* collidingObject)
+void GameObject::AddCollision(GameObject* collidingObject, const std::map <CollisionSide, bool>& collidingSides)
 {
 	//std::cout << "START COLLISION!" << std::endl;
 	if (collidingObject)

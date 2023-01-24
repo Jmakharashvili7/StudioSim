@@ -15,11 +15,12 @@ OrthographicCamera::OrthographicCamera(float width, float height)
 	m_viewProj = Matrix4::CreateSimpleViewProj(width, height);
 }
 
-void OrthographicCamera::SetViewMatrix(float aspect)
+void OrthographicCamera::RecalculateProjection(float l, float r, float b, float t)
 {
-	m_projectionMatrix = glm::ortho(-5.0f * aspect, 5.0f * aspect, -5.0f * aspect, 5.0f * aspect, -1.0f, 1.0f);
+	m_projectionMatrix = glm::ortho(l, r, b, t, -1.0f, 1.0f);
 
 	m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
+
 }
 
 void OrthographicCamera::RecalculateViewMatix()

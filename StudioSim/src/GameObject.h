@@ -28,6 +28,7 @@ public:
 	virtual void SetPosition(const Vector3 newPosition);
 	virtual void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
+	inline const Vector3 GetPreviousPosition() const { if (m_transform) return m_transform->GetPreviousPosition(); }
 
 	// Rotation
 	virtual Vector3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
@@ -53,7 +54,7 @@ public:
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
 	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
-	virtual void AddCollision(GameObject* collidingObject);
+	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	// Other

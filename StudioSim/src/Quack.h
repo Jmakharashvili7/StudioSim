@@ -63,6 +63,9 @@ public:
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
+	static OrthographicCamera* GetOrthoCam() { return m_mainCamera; }
+	
+
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
 	Quack();

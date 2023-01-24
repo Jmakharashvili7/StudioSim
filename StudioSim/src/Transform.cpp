@@ -25,12 +25,14 @@ void Transform::UpdateTransformMatrix()
 
 void Transform::SetPosition(const Vector3 newPosition)
 {
+	m_previousPosition = m_position;
 	m_position = newPosition;
 	UpdateTransformMatrix();
 }
 
 void Transform::AdjustPosition(const Vector3 adjustPosition)
 {
+	m_previousPosition = m_position;
 	m_position += adjustPosition;
 	UpdateTransformMatrix();
 }
