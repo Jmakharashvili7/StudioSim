@@ -83,11 +83,7 @@ public:
 	}
 
 protected:
-	std::string m_name;
-	Texture* m_texture;
-	VertexArray* m_va;
-		Transform* m_transform;
-	GameObjectData* m_data;
+
 	vector<Component*> m_Components;
 	std::string m_name = "";
 

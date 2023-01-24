@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 #include "BasicIncludes.h"
 
 class Animate;
@@ -41,7 +42,8 @@ public:
 	inline const Vector3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
 	inline const Vector3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
 
-	InputComponent* GetInput() { return m_Input; }
+	inline InputComponent* GetInput() { return m_Input; }
+	
 
 private:
 	// Animation

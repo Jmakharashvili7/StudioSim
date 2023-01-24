@@ -8,7 +8,8 @@
 InputComponent::InputComponent(Actor* Owner, int updateOrder, GLFWwindow* window) : Component(Owner, updateOrder)
 {
 	m_Window = window;
-	glfwSetKeyCallback(m_Window, QuackEngine::key_callback);
+	glfwSetKeyCallback(m_Window, QuackEngine::key_callback); 
+	glfwSetMouseButtonCallback(m_Window, QuackEngine::mouse_button_callback);
 }
 
 void InputComponent::Update(float deltaTime)

@@ -176,10 +176,10 @@ int Quack::InitEngine()
 	MouseClass::Init();
 
 	/* Setup glfw callbacks */
-	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
+	//glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
 	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
-	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
+	//glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
 
 
@@ -204,124 +204,15 @@ int Quack::InitEngine()
 void Quack::HandleInput()
 {
 	
-	//InputComponent* input = (InputComponent*)m_duck->GetComponent(2);
-	//
-	//input->Update(m_gameTimer.GetDeltaTime());
-	//if (static_cast<InputComponent*>(m_duck->GetComponent(2))->GetKey('r'))
-	//{
-	//	cout << "Told you spike" << endl;
-	//}
-	//if (static_cast<InputComponent*>(m_duck->GetComponent(2))->GetKeyDown('j'))
-	//{
-	//	m_duck->Jump();
-	//}
-	//cout << input->GetAxisRaw(EHorizontal) << endl;
-	
 
-	if (m_duck->GetInput()->GetKeyDown('r')) {
+	
+	if (m_duck->GetInput()->GetKeyDown('t'))
+	{
 		m_duck->Jump();
 	}
 
-	//KeyEvent key = KeyboardClass::ReadKey();
 
-	//if (key.IsHeld())
-	//{
-	//	switch (key.GetKeyCode())
-	//	{
-	//	case 'W': 
-	//		cout << "I pressed" << endl;
-	//		break;
-	//	}
-	//}
-
-	//if (key.IsPressed())
-	//{
-	//	switch (key.GetKeyCode())
-	//	{
-	//	case 0: // default value means no input so break out of loop
-	//		break;
-	//	case 'W': // move camera up
-	//	{
-	//		
-	//		if (m_uiMain->GetViewport()->GetIsFocused())
-	//		{
-	//			glm::vec3 temp = m_mainCamera->GetPosition();
-	//			temp.y += 0.3f;
-	//			m_mainCamera->SetPosition(temp);
-	//		}
-	//		break;
-	//	}
-	//	case 'S': // move camera down
-	//	{
-	//		if (m_uiMain->GetViewport()->GetIsFocused())
-	//		{
-	//			glm::vec3 temp = m_mainCamera->GetPosition();
-	//			temp.y -= 0.3f;
-	//			m_mainCamera->SetPosition(temp);
-	//		}
-	//		break;
-	//	}
-	//	case 'A': // move camera left
-	//	{
-	//		if (m_uiMain->GetViewport()->GetIsFocused())
-	//		{
-	//			glm::vec3 temp = m_mainCamera->GetPosition();
-	//			temp.x -= 0.3f;
-	//			m_mainCamera->SetPosition(temp);
-	//		}
-	//		break;
-	//	}
-	//	case 'D': // move camera right
-	//	{
-	//		if (m_uiMain->GetViewport()->GetIsFocused())
-	//		{
-	//			glm::vec3 temp = m_mainCamera->GetPosition();
-	//			temp.x += 0.3f;
-	//			m_mainCamera->SetPosition(temp);
-	//		}
-	//		break;
-	//	}
-	//	case 'I': // JUMP
-	//	{
-	//		if (m_duck)
-	//		{
-	//			m_duck->AddImpulseForce(Vector3(-1000.0f, 5000.0f, 0.0f));
-	//		}
-	//		break;
-	//	}
-	//	case 'L': // JUMP Right
-	//	{
-	//		//m_duck->SetPosition(glm::vec3(-600.0f, -600.0f, 0.0f));
-	//		//m_duck->AdjustPosition(glm::vec3(-1500.0f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-	//		//m_duck->AdjustScale(glm::vec3(1.25f * m_gameTimer.GetDeltaTime(), 1.25f * m_gameTimer.GetDeltaTime(), 0.f));
-	//		break;
-	//	}
-	//	case 'J': // JUMP Left
-	//	{
-	//		//m_duck->SetRotationAroundPivot(glm::vec3(600.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f));
-	//		//m_duck->AdjustRotation(glm::vec3(0.0f, 0.0f, 10.0f));
-	//		m_duck->Jump();
-	//		break;
-	//	}
-	//	}
-	//}
-
-	//if (!MouseClass::IsEventBufferEmpty())
-	//{
-	//	MouseEvent e = MouseClass::ReadEvent();
-
-	//	if (e.GetType() == MouseEvent::EventType::L_CLICK)
-	//	{
-	//	}
-	//	if (e.GetType() == MouseEvent::EventType::R_CLICK)
-	//	{
-
-	//	}
-	//	if (e.GetType() == MouseEvent::EventType::MOVE)
-	//	{
-
-	//	}
-	//}
+	
 }
 
 void Quack::Update()
@@ -330,7 +221,7 @@ void Quack::Update()
 	
 	// get mouse position
 	HandleInput();
-	m_gameObjects[1]->Update(m_gameTimer.GetDeltaTime());
+	m_duck->Update(m_gameTimer.GetDeltaTime());
 
 
 	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));

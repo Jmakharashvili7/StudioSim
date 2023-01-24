@@ -61,6 +61,7 @@ void GameObject::Update(float deltaTime)
 	{
 		comp->Update(deltaTime);
 	}
+}
 	
 void GameObject::SetPosition(const Vector3 newPosition)
 {
@@ -88,6 +89,8 @@ void GameObject::AddComponent(Component* comp)
 
 void GameObject::RemoveComponent(Component* comp)
 {
+}
+
 int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
 {
 	int i = 0;

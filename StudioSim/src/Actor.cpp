@@ -42,7 +42,7 @@ void Actor::Update(float deltaTime)
 {
 
 	GameObject::Update(deltaTime);
-	//m_Input->Update(deltaTime);
+	m_Input->Update(deltaTime);
 }
 	
 void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
