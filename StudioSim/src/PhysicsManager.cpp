@@ -44,10 +44,8 @@ void PhysicsManager::Update(const float deltaTime)
 				// Update jump force
 				const float newJumpForce = currentJumpForce - (jumpHeight * deltaTime);
 
-				// feel like this can be better - collision with ground maybe
 				if (newJumpForce <= 0.0f)
 				{
-					actor->SetJumping(false);
 					actor->SetCurrentJumpForce(0.0f);
 				}
 				else

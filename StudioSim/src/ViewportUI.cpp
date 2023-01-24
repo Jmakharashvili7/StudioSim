@@ -7,13 +7,13 @@
 
 ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : UIWindow(name), m_frameBuffer(frameBuffer)
 {
+
 }
 
 ViewportUI::~ViewportUI()
 {
+
 }
-
-
 
 void ViewportUI::Render()
 {
