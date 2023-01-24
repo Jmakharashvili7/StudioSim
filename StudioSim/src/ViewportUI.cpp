@@ -13,9 +13,7 @@ ViewportUI::~ViewportUI()
 {
 }
 
-void ViewportUI::Init()
-{
-}
+
 
 void ViewportUI::Render()
 {
