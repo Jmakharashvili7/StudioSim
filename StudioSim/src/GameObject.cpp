@@ -56,6 +56,19 @@ void GameObject::AdjustPosition(const Vector3 adjustPosition)
 	SetCollisionCenter(newPosition);
 }
 
+void GameObject::SetScale(const Vector3 newScale)
+{
+	m_transform->SetScale(newScale);
+	SetCollisionBoxSize(newScale);
+}
+
+void GameObject::AdjustScale(const Vector3 adjustScale)
+{
+	m_transform->AdjustScale(adjustScale);
+	const Vector3 newScale = m_transform->GetScale();
+	SetCollisionBoxSize(newScale);
+}
+
 void GameObject::UpdateObjectData(GameObjectData* newData)
 {
 	m_data = newData;

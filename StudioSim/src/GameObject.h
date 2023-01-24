@@ -42,8 +42,8 @@ public:
 
 	// Scale
 	virtual Vector3 GetScale() const { if (m_transform) return m_transform->GetScale(); }
-	virtual void SetScale(const Vector3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
-	virtual void AdjustScale(const Vector3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
+	virtual void SetScale(const Vector3 newScale);
+	virtual void AdjustScale(const Vector3 adjustScale);
 
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
