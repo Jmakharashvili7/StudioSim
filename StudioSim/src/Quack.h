@@ -1,5 +1,4 @@
 #pragma once
-
 #include "BasicIncludes.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
@@ -18,6 +17,7 @@
 #include "Grid.h"
 #include "PathNode.h"
 #include "CollisionManager.h"
+#include "Scene.h"
 
 class LayerStack;
 class UIRenderer;
@@ -31,11 +31,6 @@ class QuackPhysics;
 class Quack
 {
 public:
-	enum Facing
-	{
-		RIGHT,
-		LEFT
-	};
 	static int InitEngine();
 
 	static void Update();
@@ -46,15 +41,7 @@ public:
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
 
-	static void GetFrameRate(float deltatime);
-
 	static void ImGUIInit();
-
-	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
-	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
-
-	static void Projectile(float force);
-	static void ProjectileDecrement(Facing direction);
 
 	static OrthographicCamera* GetOrthoCamera() { return m_mainCamera; }
 	static void SetOrthoCamera(OrthographicCamera* camera) { m_mainCamera = camera; }
@@ -63,9 +50,7 @@ public:
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
-	static OrthographicCamera* GetOrthoCam() { return m_mainCamera; }
-	
-
+	static OrthographicCamera* GetOrthoCam() { return m_mainScene.GetCamera(); }
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
 	Quack();
@@ -73,7 +58,6 @@ private:
 
 	static void HandleInput();
 	static void InitObjects();
-	static void SetupShaders();
 public:
 	static bool m_capFrames;
 	static bool s_running;
@@ -94,17 +78,10 @@ private:
 	static Grid<PathNode> m_grid;
 
 	static GameTimer m_gameTimer;
+	static Scene m_mainScene;
 
 	static int m_frameCounter;
 	static int m_currentFrameRate;
-
-	static bool m_jumping;
-	static float m_jump_force;
-	static bool m_thrown;
-	static float m_throw_force;
-	static Facing m_direction;
-	static float m_rotation;
-	static float m_projectileForce;
 
 	static FrameBuffer* m_frameBuffer;
 	
@@ -112,16 +89,11 @@ private:
 	static GameObject* m_ground;
 	static GameObject* m_testSprite;
 
-	int spTest = 0;
 	static std::vector<GameObject*> m_gameObjects;
 	static std::vector<Actor*> m_gameActors;
 
 	static VertexArray* m_squareVAO;
 	static glm::vec4 m_objColor;
-
-	static glm::vec3 squarePositionData[];
-	static glm::vec3 squareScaleData[];
-
 
 	static QuackPhysics* p_QuackPhysics;
 
@@ -141,8 +113,5 @@ private:
 	static glm::vec4 m_spotSpecular;
 	static glm::vec4 m_lightAmbient;
 
-	static Shader* m_mainShader;
-	static Shader* m_3dShader;
-	static Shader* m_primitiveShader;
 	static OrthographicCamera* m_mainCamera;
 };

@@ -9,6 +9,12 @@
 #include "Transform.h"
 #include "QuackPhysics.h"
 
+enum class GameObjectType
+{
+	OBJECT,
+	ACTOR
+};
+
 struct GameObjectData
 {
 	std::vector<float> vertices;
@@ -57,6 +63,10 @@ public:
 	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
 	virtual void RemoveCollision(GameObject* gameObject);
 
+	inline TransformData GetTransformData() { return m_transformData; }
+	inline Transform* GetTransform() { return m_transform; }
+	inline TextureData GetTextureData() { return m_textureData; }
+
 	// Other
 	inline const std::string const GetName() { return m_name; }
 
@@ -64,18 +74,20 @@ public:
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
 	inline std::string GetName() const { return m_name; }
+	inline GameObjectType GetType() const { return m_type; }
 
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
-	
-
 protected:
 	std::string m_name = "";
+	GameObjectType m_type;
 
 	Texture* m_texture = nullptr;
+	TextureData m_textureData = nullptr;
 	VertexArray* m_va = nullptr;
 	GameObjectData* m_data = nullptr;
 	Transform* m_transform = nullptr;
+	TransformData m_transformData;
 
 	/* Collision */
 	CollisionData m_collisionData = CollisionData();

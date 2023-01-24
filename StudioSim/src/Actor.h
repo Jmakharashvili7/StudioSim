@@ -39,12 +39,14 @@ public:
 	inline void SetCurrentImpulseForce(const Vector3 inImpulseForce) { m_currentImpulseForce = inImpulseForce; }
 	inline const Vector3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
 	inline const Vector3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
-
-
+	
+	inline PhysicsData GetPhysicsData() { return m_physicsData; }
+	inline AnimationData GetAnimationData() { return m_animationData; }
 private:
 	// Animation
 	Animate* m_animator = nullptr;
 	bool m_banimated = false;
+	AnimationData m_animationData;
 
 	// Physics
 	PhysicsData m_physicsData = PhysicsData();

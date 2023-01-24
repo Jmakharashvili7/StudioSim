@@ -2,6 +2,7 @@
 #include <math.h>
 #include <memory.h>
 #include <limits>
+#include "BasicIncludes.h"
 
 namespace CustomMaths
 {
@@ -277,6 +278,12 @@ public:
 		x = inX;
 		y = inY;
 		z = inZ;
+	}
+
+	glm::vec3 GetglmVec3()
+	{
+		glm::vec3 temp =  { this->x, this->y, this->z };
+		return temp;
 	}
 
 	// Vector addition (a + b)
