@@ -90,7 +90,7 @@ void Actor::UpdateNetForce()
 }
 
 	/// <summary>
-	/// redefinition of physics that pisses on all einstein did for his entire life
+	/// redefinition of physics that pisses on all einstein and newton and steve jobs did for his entire life
 	/// </summary>
 void Actor::UpdateAcceleration()
 {
