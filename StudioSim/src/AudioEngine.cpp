@@ -155,7 +155,7 @@ void AudioEngine::Init()
 	pFmod->pChannels[0]->addDSP(0, pFmod->pDspFader);
 	pFmod->pChannels[0]->set3DAttributes(&pos, &vel);
 
-	Play(pFmod->pSounds[0], nullptr, true, &pFmod->pChannels[0]);
+	Play(pFmod->pSounds[0], nullptr, true, &pFmod->pChannels[0]); 
 	//FadeIn(0);
 	pFmod->pChannels[0]->setPaused(false);
 	//FadeOut(0);
