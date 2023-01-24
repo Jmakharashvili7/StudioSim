@@ -15,6 +15,7 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 
 	// Input init
 	m_inputComponent = new InputComponent(this, 0);
+	AddComponent(m_inputComponent);
 }
 
 Actor::~Actor()
@@ -45,7 +46,10 @@ void Actor::Update(const float deltaTime)
 {
 	GameObject::Update(deltaTime);
 
-	m_inputComponent->Update(deltaTime);
+	for (Component* component : m_components)
+	{
+		component->Update(deltaTime);
+	}
 }
 
 void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)

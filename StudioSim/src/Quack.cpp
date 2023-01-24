@@ -351,8 +351,6 @@ void Quack::Update()
 		if (gameObject) gameObject->Update(deltaTime);
 	}
 
-	//m_duck->Update(deltaTime);
-
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
