@@ -7,6 +7,8 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 {
 	//Animation init
 	m_banimated = animationData.banimated;
+	m_lastSafePos = transformData.position;
+	  
 	if (m_banimated)
 	{
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
@@ -66,9 +68,10 @@ void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSi
 
 	if (collidingObject->GetName() == "ground")
 	{
-		//std::cout << "HIT GROUND" << std::endl;
+		std::cout << "HIT GROUND" << std::endl;
 		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
 		SetCollidingWithGround(true);
+		//SetPosition(m_lastSafePos);
 	}
 
 	GameObject::AddCollision(collidingObject, collidingSides);

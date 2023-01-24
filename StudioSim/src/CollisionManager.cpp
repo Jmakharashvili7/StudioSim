@@ -38,11 +38,6 @@ void CollisionManager::Update(const float deltaTime)
 				{
 					BoundingBox owningBox = BoundingBox(gameObject->GetCollisionCenter(), gameObject->GetCollisionBoxSize());
 					BoundingBox otherBox = BoundingBox(otherGameObject->GetCollisionCenter(), otherGameObject->GetCollisionBoxSize());
-					/*if (Actor* actor = dynamic_cast<Actor*>(gameObject))
-					{
-						std::cout << "Duck Boi		" << (owningBox.center - owningBox.size / Vector3(2.0f, 2.0f, 2.0f)).y << std::endl;
-						std::cout << "Ground Boi		" << (otherBox.center + otherBox.size / Vector3(2.0f, 2.0f, 2.0f)).y << std::endl;
-					}*/
 					collisionSides = m_quackPhysics->BoxToBox(owningBox, otherBox);
 					bColliding = (m_quackPhysics->BoxToBox(owningBox, otherBox)).size() != 0;	
 				}

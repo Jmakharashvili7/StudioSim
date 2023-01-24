@@ -16,6 +16,11 @@ PhysicsManager::~PhysicsManager()
 
 void PhysicsManager::Update(const float deltaTime)
 {
+	if (deltaTime > 1.0f)
+	{
+		return;
+	}
+
 	// Update physics for each actor
 	for (Actor* actor : m_gameActors)
 	{

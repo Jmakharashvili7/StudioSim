@@ -117,7 +117,7 @@ void Quack::InitObjects()
 	const TransformData duckTransformData = TransformData(Vector3(0.0f, 2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
 	const CollisionData duckCollisionData = CollisionData(duckTransformData.position, duckTransformData.scale);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 2.5f, 25.0f);
 	const AnimationData duckAnimationData = AnimationData();
 	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
 
@@ -430,8 +430,19 @@ void Quack::RenderUpdate()
 void Quack::PhysicsUpdate()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
-	//m_collisionManager->Update(deltaTime);
-	//m_physicsManager->Update(deltaTime);
+	m_collisionManager->Update(deltaTime);
+	m_physicsManager->Update(deltaTime);
+
+	if (m_duck->GetCollidingWithGround())
+	{
+		m_duck->SetPosition(m_duck->GetLastSafePos());
+	}
+	else
+	{
+		m_duck->SetLastSafePos(m_duck->GetPosition());
+		
+		//std::cout << m_duck->GetLastSafePos().y << std::endl;
+	}
 }
 
 void Quack::ImGUIInit()

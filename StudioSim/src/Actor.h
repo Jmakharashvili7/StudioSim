@@ -13,6 +13,8 @@ public:
 	// Rendering
 	virtual void Draw(Shader* mainShader) override;
 
+
+
 	// Physics
 	void Jump();
 	inline void SetJumping(const bool bjumping) { m_bjumping = bjumping; }
@@ -32,6 +34,9 @@ public:
 	inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
 	const bool const GetCollidingWithGround();
 
+	inline void SetLastSafePos(Vector3 safePos) { m_lastSafePos = safePos;  }
+	inline Vector3 GetLastSafePos() { return m_lastSafePos;  }
+
 	//TEST
 	void AddImpulseForce(Vector3 force);
 	inline const bool GetImpulseActive() const { return m_bimpulseActive; }
@@ -50,6 +55,7 @@ private:
 	PhysicsData m_physicsData = PhysicsData();
 	bool m_bjumping = false;
 	float m_currentJumpForce = 0.0f;
+	bool m_isGrounded = false;
 
 	// Collision
 	bool m_bcollidingWithGround = false;
@@ -58,5 +64,7 @@ private:
 	bool m_bimpulseActive = false;
 	Vector3 m_testImpulseForceMag = Vector3(0.0, 3.0f, 0.0f);
 	Vector3 m_currentImpulseForce = Vector3::Zero;
+
+	Vector3 m_lastSafePos;
 };
 
