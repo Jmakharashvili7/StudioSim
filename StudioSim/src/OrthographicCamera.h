@@ -18,6 +18,8 @@ public:
 	const glm::mat4& GetViewMatrix() const { return m_viewMatrix; }
 	const glm::mat4& GetViewProjectionMatrix() const { return m_viewProjectionMatrix; }
 	const Matrix4 GetViewProjMatrix() const { return m_viewProj; }
+
+	void RecalculateProjection(float l, float r, float b, float t);
 private:
 	void RecalculateViewMatix();
 private:
