@@ -1,16 +1,23 @@
 #include "KeyEvent.h"
 
-KeyEvent::KeyEvent() : m_Type(), m_Key(0u)
+KeyEvent::KeyEvent() : m_Type(NONE), m_Key(0u)
 {
+
 }
 
 KeyEvent::KeyEvent(const EventType type, const unsigned char key) : m_Type(type), m_Key(key)
 {
+
 }
 
 bool KeyEvent::IsPressed() const
 {
     return m_Type == EventType::PRESS;
+}
+
+bool KeyEvent::IsHeld() const
+{
+    return m_Type == EventType::HELD;
 }
 
 bool KeyEvent::IsReleased() const

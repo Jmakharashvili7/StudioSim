@@ -65,8 +65,6 @@ public:
 
 	static OrthographicCamera* GetOrthoCam() { return m_mainCamera; }
 	
-
-	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
 	Quack();
 	~Quack();

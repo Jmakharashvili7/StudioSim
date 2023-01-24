@@ -1,6 +1,7 @@
 #include "Actor.h"
 #include "Animate.h"
 #include "Quack.h"
+#include "InputComponent.h"
 
 Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData)
@@ -11,6 +12,9 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 	{
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
 	}
+
+	// Input init
+	m_inputComponent = new InputComponent(this, 0);
 }
 
 Actor::~Actor()
@@ -35,6 +39,13 @@ void Actor::Draw(Shader* mainShader)
 	}
 
 	GameObject::Draw(mainShader);
+}
+
+void Actor::Update(const float deltaTime)
+{
+	GameObject::Update(deltaTime);
+
+	m_inputComponent->Update(deltaTime);
 }
 
 void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
@@ -90,6 +101,21 @@ void Actor::RemoveCollision(GameObject* gameObject)
 bool const Actor::GetCollidingWithGround()
 {
 	return m_bcollidingWithGround;
+}
+
+void Actor::AddComponent(Component* component)
+{
+	m_components.push_back(component);
+}
+
+void Actor::ClearComponents()
+{
+	m_components.clear();
+}
+
+void Actor::ReorderComponents()
+{
+	return;
 }
 
 void Actor::AddImpulseForce(Vector3 force)

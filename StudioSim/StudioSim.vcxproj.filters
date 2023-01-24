@@ -22,14 +22,8 @@
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp">
       <Filter>External</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="src\stb_image\stb_image.cpp">
       <Filter>External</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor.cpp">
-      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\OrthographicCamera.cpp">
       <Filter>Cameras</Filter>
@@ -115,9 +109,6 @@
     <ClCompile Include="src\Transform.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KeyEvent.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Log.cpp">
       <Filter>source files</Filter>
     </ClCompile>
@@ -125,11 +116,28 @@
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\CollisionManager.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\EditorUI.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\PathNode.cpp" />
+    <ClCompile Include="src\CollisionManager.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KeyEvent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputComponent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\InputComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -222,9 +230,6 @@
     <ClInclude Include="src\QuackPhysics.h">
       <Filter>QuackEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\KeyboardClass.h">
-      <Filter>Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="src\MouseClass.h">
       <Filter>Inputs</Filter>
     </ClInclude>
@@ -246,11 +251,20 @@
     <ClInclude Include="src\stb_image\stb_image.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="src\CollisionManager.h" />
     <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\EditorUI.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\PathNode.h" />
+    <ClInclude Include="src\CollisionManager.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputComponent.h">
+      <Filter>Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyboardClass.h" />
+    <ClInclude Include="src\Component.h" />
+    <ClInclude Include="src\Component.h" />
+    <ClInclude Include="src\InputComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">

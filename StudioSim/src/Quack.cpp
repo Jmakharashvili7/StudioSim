@@ -9,6 +9,7 @@
 #include "QuackCallbacks.h"
 #include "EngineManager.h"
 #include "Renderer.h"
+#include "InputComponent.h"
 
 //#define _2D_SHADER
 #include "Animate.h"
@@ -208,95 +209,57 @@ int Quack::InitEngine()
 
 void Quack::HandleInput()
 {
-	KeyEvent key = KeyboardClass::ReadKey();
-	if (key.IsPressed())
+	const float deltaTime = m_gameTimer.GetDeltaTime();
+	const float movementAmount = 5.0f;
+
+	if (m_duck)
 	{
-		switch (key.GetKeyCode())
+		// MOVE RIGHT
+		if (m_duck->GetInputComponent()->GetKeyPressed('l'))
 		{
-		case 0: // default value means no input so break out of loop
-			break;
-		case 'W': // move camera up
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.y += 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
+			m_duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
 		}
-		case 'S': // move camera down
+		if (m_duck->GetInputComponent()->GetKeyDown('l'))
 		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.y -= 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
+			m_duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
 		}
-		case 'A': // move camera left
+
+		// MOVE LEFT
+		if (m_duck->GetInputComponent()->GetKeyPressed('j'))
 		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.x -= 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
+			m_duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
 		}
-		case 'D': // move camera right
+		if (m_duck->GetInputComponent()->GetKeyDown('j'))
 		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.x += 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
+			m_duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
 		}
-		case 'J': // MOVE LEFT
+
+
+		// MOVE UP
+		if (m_duck->GetInputComponent()->GetKeyPressed('i'))
 		{
-			m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break; 
+			m_duck->AdjustPosition(Vector3(0.0f, (movementAmount * deltaTime), 0.0f));
 		}
-		case 'L': // MOVE RIGHT
+		if (m_duck->GetInputComponent()->GetKeyDown('i'))
 		{
-			m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break;
+			m_duck->AdjustPosition(Vector3(0.0f, (movementAmount * deltaTime), 0.0f));
 		}
-		case 'H': // MOVE UP
+		
+
+		// MOVE DOWN
+		if (m_duck->GetInputComponent()->GetKeyPressed('k'))
 		{
-			m_duck->AdjustPosition(Vector3(0.0f, -2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
+			m_duck->AdjustPosition(Vector3(0.0f, (-movementAmount * deltaTime), 0.0f));
 		}
-		case 'Y': // MOVE DOWN
+		if (m_duck->GetInputComponent()->GetKeyDown('k'))
 		{
-			m_duck->AdjustPosition(Vector3(0.0f, 2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
+			m_duck->AdjustPosition(Vector3(0.0f, (-movementAmount * deltaTime), 0.0f));
 		}
-		case 'O': // JUMP UP
+
+		// JUMP
+		if (m_duck->GetInputComponent()->GetKeyPressed('o'))
 		{
 			m_duck->Jump();
-			break;
-		}
-		}
-	}
-
-	if (!MouseClass::IsEventBufferEmpty())
-	{
-		MouseEvent e = MouseClass::ReadEvent();
-
-		if (e.GetType() == MouseEvent::EventType::L_CLICK)
-		{
-		}
-		if (e.GetType() == MouseEvent::EventType::R_CLICK)
-		{
-
-		}
-		if (e.GetType() == MouseEvent::EventType::MOVE)
-		{
-
 		}
 	}
 }
@@ -379,6 +342,16 @@ void Quack::HandleLights()
 void Quack::Update()
 {
 	m_gameTimer.Tick();
+
+	const float deltaTime = m_gameTimer.GetDeltaTime();
+
+	// Update game objects
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (gameObject) gameObject->Update(deltaTime);
+	}
+
+	//m_duck->Update(deltaTime);
 
 	// get mouse position
 	double xpos, ypos;

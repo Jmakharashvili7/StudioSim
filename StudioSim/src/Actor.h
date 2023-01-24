@@ -3,6 +3,8 @@
 #include "BasicIncludes.h"
 
 class Animate;
+class InputComponent;
+class Component;
 
 class Actor : public GameObject
 {
@@ -12,6 +14,9 @@ public:
 
 	// Rendering
 	virtual void Draw(Shader* mainShader) override;
+
+	// Update
+	virtual void Update(const float deltaTime) override;
 
 	// Physics
 	void Jump();
@@ -31,6 +36,14 @@ public:
 	virtual void RemoveCollision(GameObject* gameObject) override;
 	inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
 	const bool const GetCollidingWithGround();
+
+	// Components
+	void AddComponent(Component* component);
+	void ClearComponents();
+	void ReorderComponents(); //TODO
+
+	// Input
+	inline InputComponent* const GetInputComponent() { return m_inputComponent; }
 
 	//TEST
 	void AddImpulseForce(Vector3 force);
@@ -53,6 +66,12 @@ private:
 
 	// Collision
 	bool m_bcollidingWithGround = false;
+
+	// Components
+	std::vector<Component*> m_components;
+
+	// Input
+	InputComponent* m_inputComponent = nullptr;
 
 	//TEST
 	bool m_bimpulseActive = false;

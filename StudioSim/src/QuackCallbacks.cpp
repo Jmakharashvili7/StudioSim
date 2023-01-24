@@ -13,6 +13,9 @@ namespace QuackEngine {
 		case GLFW_PRESS:
 			KeyboardClass::OnKeyPressed(key);
 			break;
+		case GLFW_REPEAT:
+			KeyboardClass::OnKeyHeld(key);
+			break;
 		case GLFW_RELEASE:
 			KeyboardClass::OnKeyReleased(key);
 			break;
@@ -33,6 +36,10 @@ namespace QuackEngine {
 			{
 				MouseClass::OnRightRelease(posX, posY);
 			}
+			else if (action == GLFW_REPEAT)
+			{
+				MouseClass::OnRightHeld(posX, posY);
+			}
 		}
 		if (button == GLFW_MOUSE_BUTTON_LEFT)
 		{
@@ -45,6 +52,10 @@ namespace QuackEngine {
 			else if (action != GLFW_RELEASE)
 			{
 				MouseClass::OnLeftRelease(posX, posY);
+			}
+			else if (action == GLFW_REPEAT)
+			{
+				MouseClass::OnLeftHeld(posX, posY);
 			}
 		}
 	}

@@ -38,6 +38,11 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
+void GameObject::Update(const float deltaTime)
+{
+
+}
+
 void GameObject::SetPosition(const Vector3 newPosition)
 {
 	m_transform->SetPosition(newPosition);

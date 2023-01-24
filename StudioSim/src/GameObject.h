@@ -22,7 +22,11 @@ public:
 	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	~GameObject();
 
+	// Rendering
 	virtual void Draw(Shader* mainShader);
+
+	// Update
+	virtual void Update(const float deltaTime);
 
 	// Position
 	virtual void SetPosition(const Vector3 newPosition);
@@ -60,11 +64,10 @@ public:
 	// Other
 	inline const std::string const GetName() { return m_name; }
 
+	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
-	inline std::string GetName() const { return m_name; }
-
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
 	
