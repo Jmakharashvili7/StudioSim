@@ -251,19 +251,24 @@ void Quack::HandleInput()
 		case 'J': // MOVE LEFT
 		{
 			//m_duck->SetThrustForce(Vector3(-0.1f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			m_duck->SetVelocity(Vector3(-2.0f , 0.0f, 0.0f));
-			
+			//m_duck->SetVelocity(Vector3(-2.0f , 0.0f, 0.0f));
+			//m_duck->moveConstAcceleration(Vector3(-200.0f, 0.0f, 0.0f),m_gameTimer.GetDeltaTime());
+			//m_duck->SetThrustForce(Vector3(0.0f, 5.0f, 0.0f));
 			//m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break; 
+			m_duck->moveLeft();
+
+			break;
 		}
 		case 'L': // MOVE RIGHT
 		{
-			m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			//m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			m_duck->moveRight();
 			break;
 		}
 		case 'H': // MOVE UP
 		{
 			m_duck->AdjustPosition(Vector3(0.0f, -2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
+		
 			break;
 		}
 		case 'Y': // MOVE DOWN
@@ -300,15 +305,19 @@ void Quack::HandleInput()
 void Quack::Update()
 {
 	m_gameTimer.Tick();
-	if (m_duck->GetPosition().x <= -2.0f)
-	{
-		m_duck->SetVelocity(Vector3(2.0f, 0, 0));
-	}
-	else if (m_duck->GetPosition().x >= 2.0f)
-	{
-		m_duck->SetVelocity(Vector3(-2.0f, 0, 0));
-	}
-	std::cout << m_duck->GetPosition().x<<endl;
+	//if (m_duck->GetPosition().x <= -2.0f)
+	//{
+	//	m_duck->Reset();
+	//	m_duck->SetBrakeForce(Vector3(0.1f, 0.2f, 0.0f));
+	//	//m_duck->SetVelocity(Vector3(2.0f, 0, 0));
+	//}
+	//else if (m_duck->GetPosition().x >= 2.0f)
+	//{
+	//	m_duck->Reset();
+	//	m_duck->SetBrakeForce(Vector3(-0.1f, 0.2f, 0.0f));
+	//	//m_duck->SetVelocity(Vector3(-2.0f, 0, 0));
+	//}
+	std::cout << m_duck->GetPosition().x << endl;
 	// get mouse position
 	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));
 	double xpos, ypos;

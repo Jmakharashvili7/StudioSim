@@ -27,7 +27,14 @@ void PhysicsManager::Update(const float deltaTime)
 				// Gravity calculations
 				// weight = mass * gravitaional force
 				//float weight = actor->GetMass() * GFORCE;
-				actor->AdjustPosition(Vector3(0.0f, -actor->GetWeight() * deltaTime, 0.0f));
+				//actor->AdjustPosition(Vector3(0.0f, -actor->GetWeight() * deltaTime, 0.0f));
+				actor->SetGravityForce(Vector3(0.0f, -actor->GetWeight() * deltaTime, 0.0f));
+				cout << "Weight: " << actor->GetWeight() << endl;
+			}
+			else
+			{
+				actor->Reset();
+				actor->SetVelocity(Vector3(0.0f, 0.0f, 0.0f));
 			}
 
 			// Jumping calculations

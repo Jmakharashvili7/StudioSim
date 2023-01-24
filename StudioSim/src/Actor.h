@@ -97,5 +97,6 @@ private:
 	Vector3 m_brakeForce;
 	Vector3 m_gravityForce;
 	float m_weight;
+	float _decelRate = 2.0f;
 };
 

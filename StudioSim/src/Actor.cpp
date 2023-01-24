@@ -79,7 +79,7 @@ void Actor::Update(float deltaTime)
 {
 	UpdateNetForce();
 	UpdateAcceleration();
-	std::cout << "Velocity" << m_velocity.x << endl;
+	cout << "Velocity: " << m_velocity.y << endl;
 	moveConstAcceleration(m_acceleration, deltaTime);
 
 }
@@ -165,6 +165,10 @@ void Actor::moveConstAcceleration(Vector3 acceleration, float deltaTime)
 	m_velocity.x += acceleration.x * deltaTime;
 	m_velocity.y += acceleration.y * deltaTime;
 	m_velocity.z += acceleration.z * deltaTime;
+
+	m_velocity.x = m_velocity.x * (1 - _decelRate * deltaTime);
+	m_velocity.y = m_velocity.y * (1 - _decelRate * deltaTime);
+	m_velocity.z = m_velocity.z * (1 - _decelRate * deltaTime);
 
 	this->SetPosition(position);
 
