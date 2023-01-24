@@ -124,17 +124,12 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\EditorUI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Grid.cpp">
-      <Filter>QuackEngine</Filter>
-    </ClCompile>
+    <ClCompile Include="src\CollisionManager.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\EditorUI.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\PathNode.cpp" />
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>QuackEngine</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -251,16 +246,11 @@
     <ClInclude Include="src\stb_image\stb_image.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="src\EditorUI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Grid.h">
-      <Filter>QuackEngine</Filter>
-    </ClInclude>
+    <ClInclude Include="src\CollisionManager.h" />
+    <ClInclude Include="src\Grid.h" />
+    <ClInclude Include="src\EditorUI.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\PathNode.h" />
-    <ClInclude Include="src\Renderer.h">
-      <Filter>QuackEngine</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">
@@ -295,6 +285,7 @@
     <None Include="res\textures\test sheet.png~">
       <Filter>resources</Filter>
     </None>
+    <None Include="res\shaders\Primitive.shader" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

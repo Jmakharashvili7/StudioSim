@@ -24,13 +24,14 @@ GameObject::~GameObject()
 
 void GameObject::Draw(Shader* mainShader)
 {
-	glm::vec3 screenPosition = m_transform->GetPosition();
+	Vector3 screenPosition = m_transform->GetPosition();
 
 	mainShader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
 
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();
+
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	
 	m_texture->UnBind();

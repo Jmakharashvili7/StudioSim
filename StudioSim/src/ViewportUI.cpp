@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "Quack.h"
 
 ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : 
 	UIWindow(name), 
@@ -35,6 +36,12 @@ void ViewportUI::Render()
 	{
 		m_size = { viewportSize.x, viewportSize.y };
 		m_frameBuffer->Resize(m_size.x, m_size.y);
+
+		float aspect = m_size.x / m_size.y;
+
+		OrthographicCamera* camera = Quack::GetOrthoCamera();
+
+		camera->SetViewMatrix(aspect);
 	}
 
 	m_isFocused = ImGui::IsWindowFocused();

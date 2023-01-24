@@ -18,16 +18,16 @@ void EditorUI::Render()
 	ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
 	if (ImGui::TreeNode("Transform"))
 	{
-		glm::vec3 pos = m_object->GetPosition();
-		ImGui::DragFloat3("Position", &pos[0]);
+		Vector3 pos = m_object->GetPosition();
+		ImGui::DragFloat3("Position", &pos.x);
 		m_object->SetPosition(pos);
 
-		glm::vec3 rot = m_object->GetRotation();
+		Vector3 rot = m_object->GetRotation();
 		ImGui::DragFloat("Rotation", &rot.z);
 		m_object->SetRotation(rot);
 
-		glm::vec3 scale = m_object->GetScale();
-		ImGui::DragFloat3("Scale", &scale[0]);
+		Vector3 scale = m_object->GetScale();
+		ImGui::DragFloat3("Scale", &scale.x);
 		m_object->SetScale(scale);
 
 		ImGui::TreePop();

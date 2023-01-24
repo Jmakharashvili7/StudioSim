@@ -30,13 +30,13 @@ public:
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
 
 	// Rotation
-	virtual glm::vec3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
+	virtual Vector3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
 	virtual void SetRotation(const Vector3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
 	virtual void AdjustRotation(const Vector3 adjustRotation) { if (m_transform) m_transform->AdjustRotation(adjustRotation); }
 	virtual void SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation) { if (m_transform) m_transform->SetRotationAroundPivot(pivotPosition, newRotation); }
 
 	// Scale
-	virtual glm::vec3 GetScale() const { if (m_transform) return m_transform->GetScale(); }
+	virtual Vector3 GetScale() const { if (m_transform) return m_transform->GetScale(); }
 	virtual void SetScale(const Vector3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
 	virtual void AdjustScale(const Vector3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
 

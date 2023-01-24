@@ -3,7 +3,7 @@
 #include "Window.h"
 #include "EngineManager.h"
 
-UILayer::UILayer() : Layer("UI Layer"), m_color(1.0f, 1.0f, 1.0f, 1.0f)
+UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 0.0f, 1.0f)
 {
 
 }

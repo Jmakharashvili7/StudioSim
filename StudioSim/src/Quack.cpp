@@ -53,7 +53,6 @@ float Quack::m_projectileForce = 1.388f;
 
 Grid<PathNode> Quack::m_grid;
 
-
 glm::vec3 Quack::squarePositionData[] = {
 		glm::vec3(-0.7f, 0.7f, 0.0f),       //0
 		glm::vec3(0.7f, 0.7f, 0.0f),		//1
@@ -97,6 +96,7 @@ UILayer* Quack::m_uiMain;
 
 Shader* Quack::m_mainShader;
 Shader* Quack::m_3dShader;
+Shader* Quack::m_primitiveShader;
 
 OrthographicCamera* Quack::m_mainCamera;
 PhysicsManager* Quack::m_physicsManager;
@@ -122,17 +122,24 @@ void Quack::InitObjects()
 	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
 
 	// Update engine manager
+	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6,0 });
 	EngineManager::SetGameObjects(m_gameObjects);
 }
 
 void Quack::SetupShaders()
 {
 #ifdef _2D_SHADER
+
 	// Shader setup
 	m_mainShader = new Shader("res/shaders/basic.shader");
 	m_mainShader->Bind();
 	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	m_mainShader->Unbind();
+
+	m_primitiveShader = new Shader("res/shaders/Primitive.shader");
+	m_primitiveShader->Bind();
+	m_primitiveShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	m_primitiveShader->Unbind();
 
 #endif // _2D_SHADER
 
@@ -197,52 +204,6 @@ int Quack::InitEngine()
 	m_uiMain->InitWindows(); // should always be after init objects
 
 	return 0;
-}
-
-void Quack::InitObjects()
-{
-	// Init game objects
-	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
-	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundTextureData);
-
-	// Init actors
-	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 150.0f, 5000.0f);
-	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
-	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_gameObjects.push_back(m_duck);
-
-	m_grid = Grid<PathNode>(30, 30, 0.5, {-6,-6,0});
-
-	Renderer::DrawLine(glm::vec3(1, 1, 0), glm::vec3(1, 2, 0), glm::vec3(1.0f, 1.0f, 1.0f));
-	EngineManager::SetGameObjects(m_gameObjects);
-}
-
-void Quack::SetupShaders()
-{
-#ifdef _2D_SHADER
-	// Shader setup
-	m_mainShader = new Shader("res/shaders/basic.shader");
-	m_mainShader->Bind();
-	m_mainShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_mainShader->Unbind();
-
-#endif // _2D_SHADER
-
-#ifdef _3D_SHADER
-
-	//3D Shader setup
-	m_3dShader = new Shader("res/shaders/3Dbasic.shader");
-	m_3dShader->Bind();
-	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-	m_3dShader->Unbind();
-
-#endif // !_3D_SHADER
 }
 
 void Quack::HandleInput()
@@ -342,30 +303,6 @@ void Quack::HandleInput()
 
 void Quack::HandleLights()
 {
-	m_gameTimer.Tick();
-	
-	// get mouse position
-	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));
-	double xpos, ypos;
-	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
-
-	HandleInput();
-}
-
-void Quack::RenderUpdate()
-{
-	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	// Draw layers 
-	for (Layer* layer : m_layerStack->GetLayers())
-	{
-		if (layer) layer->OnUpdate();
-	}
-
-	m_frameBuffer->Bind();
-	/* Render here */
-	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
 #ifdef _3D_SHADER
 	// bind shader
 	m_3dShader->Bind();
@@ -476,7 +413,11 @@ void Quack::RenderUpdate()
 	glm::vec3 p0 = { 1.0f, 1.0f, 1.0f };
 	glm::vec3 p1 = { 0.0f, 0.0f, 1.0f };
 	glm::vec4 color = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	m_primitiveShader->Bind();
+	m_primitiveShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	Renderer::DrawDebugLines();
+	m_primitiveShader->Unbind();
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
@@ -489,8 +430,8 @@ void Quack::RenderUpdate()
 void Quack::PhysicsUpdate()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
-	m_collisionManager->Update(deltaTime);
-	m_physicsManager->Update(deltaTime);
+	//m_collisionManager->Update(deltaTime);
+	//m_physicsManager->Update(deltaTime);
 }
 
 void Quack::ImGUIInit()

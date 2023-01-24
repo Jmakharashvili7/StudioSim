@@ -37,7 +37,7 @@ public:
 
         // set debug to true to draw the grid 
         bool showDebug = true;
-        glm::vec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
+        glm::vec4 white = { 0.0f, 0.0f, 0.0f, 1.0f };
         if (showDebug)
         {
             for (int x = 0; x < width; x++) {

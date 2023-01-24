@@ -56,6 +56,9 @@ public:
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
 
+	static OrthographicCamera* GetOrthoCamera() { return m_mainCamera; }
+	static void SetOrthoCamera(OrthographicCamera* camera) { m_mainCamera = camera; }
+
 	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
@@ -137,5 +140,6 @@ private:
 
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;
+	static Shader* m_primitiveShader;
 	static OrthographicCamera* m_mainCamera;
 };
