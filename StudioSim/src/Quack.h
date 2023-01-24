@@ -57,8 +57,8 @@ public:
 	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
-	inline OrthographicCamera* GetOrthoCam() { return m_mainCamera; }
-	static OrthographicCamera* m_mainCamera;
+	static OrthographicCamera* GetOrthoCam() { return m_mainCamera; }
+	
 
 	//static BoundingBox CreateBoundingBox(glm::vec3 positions,glm::vec3 scale);
 private:
@@ -137,4 +137,5 @@ private:
 
 	static Shader* m_mainShader;
 	static Shader* m_3dShader;
+	static OrthographicCamera* m_mainCamera;
 };

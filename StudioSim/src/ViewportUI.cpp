@@ -40,9 +40,9 @@ void ViewportUI::Render()
 
 		float aspect = m_size.x / m_size.y;
 
-		if(Quack::m_mainCamera)
+		if(Quack::GetOrthoCam())
 		{
-			Quack::m_mainCamera->RecalculateProjection(-5.0f * aspect, 5.0f * aspect, -5.0f, 5.0f);
+			Quack::GetOrthoCam()->RecalculateProjection(-5.0f * aspect, 5.0f * aspect, -5.0f, 5.0f);
 		}
 
 	}
