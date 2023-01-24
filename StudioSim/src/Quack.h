@@ -146,4 +146,9 @@ private:
 	static Shader* m_3dShader;
 	static Shader* m_primitiveShader;
 	static OrthographicCamera* m_mainCamera;
+
+	static float viewStart_x;
+	static float viewStart_y;
+	static float viewEnd_x;
+	static float viewEnd_y;
 };

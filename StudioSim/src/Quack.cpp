@@ -102,6 +102,11 @@ OrthographicCamera* Quack::m_mainCamera;
 PhysicsManager* Quack::m_physicsManager;
 CollisionManager* Quack::m_collisionManager;
 
+float Quack::viewStart_x;
+float Quack::viewStart_y;
+float Quack::viewEnd_x;
+float Quack::viewEnd_y;
+
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
@@ -292,15 +297,18 @@ void Quack::HandleInput()
 		double screen_x = m_window->GetWidth();
 		double screen_y = m_window->GetHeight();
 
-		float new_x = ImGui::GetMousePos().x - ViewportUI::startViewportX;
-		float new_y = ImGui::GetMousePos().y - ViewportUI::startViewportY;
+		float viewDiff_x;
+		float viewDiff_y;
 
 		if (e.GetType() == MouseEvent::EventType::L_CLICK)
 		{
+			viewStart_x = ImGui::GetMousePos().x - ViewportUI::startViewportX;
+			viewStart_y = ImGui::GetMousePos().y - ViewportUI::startViewportY;
+			m_duck->SetPosition(Vector3(viewStart_x, viewStart_y, 0.0f));
 			std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
 			std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
-			std::cout << "Mouse Port X: " << new_x << std::endl;
-			std::cout << "Mouse Port Y: " << new_y << std::endl;
+			std::cout << "Mouse Port X: " << viewStart_x << std::endl;
+			std::cout << "Mouse Port Y: " << viewStart_y << std::endl;
 		}
 		if (e.GetType() == MouseEvent::EventType::R_CLICK)
 		{
@@ -313,6 +321,19 @@ void Quack::HandleInput()
 		{
 
 		}
+		/*
+		if (e.GetType() == MouseEvent::EventType::R_CLICK)
+		{
+			viewEnd_x = ImGui::GetMousePos().x - ViewportUI::startViewportX;
+			viewEnd_y = ImGui::GetMousePos().y - ViewportUI::startViewportY;
+
+			viewDiff_x = viewEnd_x - viewStart_x;
+			viewDiff_y = viewEnd_y - viewStart_y;
+
+			m_duck->AdjustPosition(Vector3(viewDiff_x * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			m_duck->AdjustPosition(Vector3(0.0f, viewDiff_y * m_gameTimer.GetDeltaTime(), 0.0f));
+		}
+		*/
 	}
 }
 
