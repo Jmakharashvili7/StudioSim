@@ -16,7 +16,7 @@ bool KeyEvent::IsPressed() const
 bool KeyEvent::IsHeld() const
 {
     return m_Type == EventType::HELD;
-}
+} 
 
 bool KeyEvent::IsReleased() const
 {

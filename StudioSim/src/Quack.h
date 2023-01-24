@@ -67,6 +67,7 @@ private:
 	static void HandleInput();
 	static void InitObjects();
 	static void SetupShaders();
+	
 public:
 	static bool m_capFrames;
 	static bool s_running;

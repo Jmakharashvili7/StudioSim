@@ -23,7 +23,7 @@ void Actor::Jump()
 {
 	if (m_physicsData.bsimulateGravity && !m_bjumping)
 	{
-		m_bjumping = true;
+		m_bjumping = true; 
 		m_currentJumpForce = m_physicsData.jumpHeight;
 	}
 }
@@ -40,7 +40,7 @@ void Actor::Draw(Shader* mainShader)
 
 void Actor::Update(float deltaTime)
 {
-
+	  
 	GameObject::Update(deltaTime);
 	m_Input->Update(deltaTime);
 }

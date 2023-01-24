@@ -1,5 +1,6 @@
 #include "KeyboardClass.h"
 
+
 bool KeyboardClass::s_AutoRepeatKeys;
 bool KeyboardClass::s_AutoRepeatChars;
 bool KeyboardClass::s_KeyStates[256];
@@ -48,6 +49,11 @@ void KeyboardClass::OnKeyPressed(const unsigned char key)
 {
 	s_KeyStates[key] = true;
 	s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::PRESS, key));
+	if (s_KeyStates[key] == true)
+	{
+		s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
+	}
+	
 }
 
 void KeyboardClass::OnKeyHeld(const unsigned char key)

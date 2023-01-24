@@ -176,7 +176,8 @@ int Quack::InitEngine()
 	MouseClass::Init();
 
 	/* Setup glfw callbacks */
-	//glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
+	glfwSetKeyCallback(m_window->GetGLFWWindow(), QuackEngine::key_callback);
+	
 	glfwSetWindowCloseCallback(m_window->GetGLFWWindow(), QuackEngine::window_close_callback);
 	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
 	//glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
@@ -204,14 +205,10 @@ int Quack::InitEngine()
 void Quack::HandleInput()
 {
 	
-
-	
 	if (m_duck->GetInput()->GetKeyDown('t'))
 	{
 		m_duck->Jump();
 	}
-
-
 	
 }
 
