@@ -61,6 +61,7 @@ void GameObject::Update(float deltaTime)
 	{
 		comp->Update(deltaTime);
 	}
+	
 }
 
 void GameObject::UpdateObjectData(GameObjectData* newData)

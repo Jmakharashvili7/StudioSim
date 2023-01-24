@@ -50,7 +50,17 @@ public:
 
 	void AddComponent(Component* comp);
 	void RemoveComponent(Component* comp);
-	
+
+	Component* GetComponent(int Order) {
+		for (Component* comp : m_Components)
+		{
+			if (comp->GetComponentFromUpdateOrder(Order) != nullptr)
+			{
+				return comp->GetComponentFromUpdateOrder(Order);
+			}
+		}
+		return nullptr;
+	}
 
 protected:
 	std::string m_name;

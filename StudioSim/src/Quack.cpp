@@ -120,7 +120,6 @@ void Quack::InitObjects()
 	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckTextureData, duckPhysicsData, duckAnimationData);
 	
 	GameObjectData* data = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	m_gameObjects.push_back(m_duck);
 	//m_duck->SetRotationAroundPivot(Vector3(0, 0, 0), 90.0f);
 
 	EngineManager::SetGameObjects(m_gameObjects);
@@ -202,10 +201,23 @@ int Quack::InitEngine()
 
 void Quack::HandleInput()
 {
-	InputComponent* input = (InputComponent*)m_duck->GetComponent(2);
-	if (input->GetKey('r'))
-	{
-		cout << "Told you spike" << endl;
+	
+	//InputComponent* input = (InputComponent*)m_duck->GetComponent(2);
+	//
+	//input->Update(m_gameTimer.GetDeltaTime());
+	//if (static_cast<InputComponent*>(m_duck->GetComponent(2))->GetKey('r'))
+	//{
+	//	cout << "Told you spike" << endl;
+	//}
+	//if (static_cast<InputComponent*>(m_duck->GetComponent(2))->GetKeyDown('j'))
+	//{
+	//	m_duck->Jump();
+	//}
+	//cout << input->GetAxisRaw(EHorizontal) << endl;
+	
+
+	if (m_duck->GetInput()->GetKeyDown('r')) {
+		m_duck->Jump();
 	}
 
 	//KeyEvent key = KeyboardClass::ReadKey();
@@ -315,10 +327,14 @@ void Quack::Update()
 	m_gameTimer.Tick();
 	//m_physicsManager->Update(m_deltaTime);
 	// get mouse position
+	HandleInput();
+	m_gameObjects[1]->Update(m_gameTimer.GetDeltaTime());
+
+
 	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
-	HandleInput();
+	
 }
 
 void Quack::RenderUpdate()

@@ -11,15 +11,15 @@ enum MouseClickType
 {
 
 };
-
+enum ButtonNames
+{
+	EHorizontal,
+	EVertical
+};
 class InputComponent : public Component
 {
 public:
-	enum ButtonNames
-	{
-		EHorizontal,
-		EVertical
-	};
+
 
 	InputComponent(class Actor* Owner, int updateOrder, GLFWwindow* window);
 
@@ -62,12 +62,14 @@ public:
 
 	
 protected:
+	void ProcessInput();
 
 private:
 	GLFWwindow* m_Window;
 
 	map<KeyType, int>ButtonsKeys;
 	
-
+	KeyEvent key;
+	MouseEvent e;
 };
 

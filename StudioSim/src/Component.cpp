@@ -18,6 +18,7 @@ Component::Component(Actor* owner, int updateOrder)
 
 void Component::Update(float deltaTime)
 {
+	
 }
 
 Component* Component::GetComponentFromUpdateOrder(int updateOrder)

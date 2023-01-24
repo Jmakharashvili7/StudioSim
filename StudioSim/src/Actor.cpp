@@ -16,6 +16,7 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 	{
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
 	}
+	m_Input = new InputComponent(this, 2, Quack::GetWindow()->GetGLFWWindow());
 }
 
 Actor::~Actor()
@@ -44,6 +45,10 @@ void Actor::Draw(Shader* mainShader)
 
 void Actor::Update(float deltaTime)
 {
+
+	GameObject::Update(deltaTime);
+	//m_Input->Update(deltaTime);
+	
 }
 
 void Actor::AddImpulseForce(Vector3 force)

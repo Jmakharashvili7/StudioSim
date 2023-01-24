@@ -37,9 +37,7 @@ public:
 	inline const Vector3 const GetCurrentImpulseForce() { return m_currentImpulseForce; }
 	inline const Vector3 const GetImpulseForceMag() { return m_testImpulseForceMag; }
 
-	Component* GetComponent(int Order) {
-		return m_Components[0]->GetComponentFromUpdateOrder(Order);
-	}
+	InputComponent* GetInput() { return m_Input; }
 
 private:
 	/* Animation */
@@ -61,6 +59,6 @@ private:
 	Vector3 m_testImpulseForceMag = Vector3(0.0, 3.0f, 0.0f);
 	Vector3 m_currentImpulseForce = Vector3::Zero;
 
-
+	InputComponent* m_Input;
 };
 

@@ -22,6 +22,7 @@
 #include "json.h"
 #include "Log.h"
 #include "KeyEvent.h"
+#include "MouseEvent.h"
 #include "CustomMaths.h"
 
 using namespace std;
