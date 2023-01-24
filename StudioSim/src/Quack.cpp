@@ -296,19 +296,8 @@ void Quack::Update()
 	{
 		ProjectileDecrement(m_direction);
 	}
-	if (GetAsyncKeyState('O'))
-	{
-		std::cout << "sex" << std::endl;
-		a->PlaySound("res/Sounds/a.mp3",
-			Vec3{ 0.0f,0.0f,-1.0f },
-			false,
-			false,
-			true,
-			2.0f,
-			1.0f);
-		
-		
-	}
+	
+	
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(m_window->GetGLFWWindow(), &xpos, &ypos);
