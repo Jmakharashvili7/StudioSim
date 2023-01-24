@@ -87,5 +87,5 @@ Vector3 CollisionManager::RepositionGameObject(GameObject* a, GameObject* b)
 	//Vector3 outPosition = Vector3(a->GetPosition() - pen);
 
 	//Vector3 outPosition = Vector3(a->GetPosition().x, (b->GetCollisionCenter().y + b->GetCollisionBoxSize().y / 2.0f) - (a->GetCollisionCenter().y - a->GetCollisionBoxSize().y / 2.0f), 0.0f);
-	//return outPosition;
+	return Vector3();
 }
