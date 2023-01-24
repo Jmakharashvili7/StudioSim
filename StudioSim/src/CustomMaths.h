@@ -307,6 +307,12 @@ public:
 	friend Vector3 operator*(float scalar, const Vector3& vec)
 	{
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+	}	
+	
+	// Component-wise division
+	friend Vector3 operator/(const Vector3& left, const Vector3& right)
+	{
+		return Vector3(left.x / right.x, left.y / right.y, left.z / right.z);
 	}
 
 	// Scalar *=

@@ -2,14 +2,9 @@
 #include "Animate.h"
 #include "Quack.h"
 
-Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData) 
-	: GameObject{name, data, transformData, textureData }
+Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
+	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData)
 {
-	// Physics init
-	m_bsimulateGravity = physicsData.bsimulateGravity;
-	m_mass = physicsData.mass;
-	m_jumpHeight = physicsData.jumpHeight;
-
 	//Animation init
 	m_banimated = animationData.banimated;
 	if (m_banimated)
@@ -26,10 +21,10 @@ Actor::~Actor()
 
 void Actor::Jump()
 {
-	if (m_bsimulateGravity && !m_bjumping)
+	if (m_physicsData.bsimulateGravity && !m_bjumping)
 	{
 		m_bjumping = true;
-		m_currentJumpForce = m_jumpHeight;
+		m_currentJumpForce = m_physicsData.jumpHeight;
 	}
 }
 
@@ -48,12 +43,63 @@ void Actor::Update(float deltaTime)
 
 	GameObject::Update(deltaTime);
 	//m_Input->Update(deltaTime);
+}
 	
+void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
+{
+	// Debug
+	/*for (auto side : collidingSides)
+	{
+		switch (side.first)
+		{
+		case CollisionSide::LEFT:
+			std::cout << "LEFT COLLISION:  " << side.second << std::endl;
+			break;
+		case CollisionSide::RIGHT:
+			std::cout << "RIGHT COLLISION:  " << side.second << std::endl;
+			break;
+		case CollisionSide::TOP:
+			std::cout << "TOP COLLISION:  " << side.second << std::endl;
+			break;
+		case CollisionSide::BOTTOM:
+			std::cout << "BOTTOM COLLISION:  " << side.second << std::endl;
+			break;
+		default:
+			std::cout << "NO COLLISION" << std::endl;
+			break;
+		}
+	}
+
+	std::cout << " " << std::endl;*/
+
+	if (collidingObject->GetName() == "ground")
+	{
+		//std::cout << "HIT GROUND" << std::endl;
+		SetCollidingWithGround(true);
+	}
+
+	GameObject::AddCollision(collidingObject, collidingSides);
+}
+
+void Actor::RemoveCollision(GameObject* gameObject)
+{
+	if (gameObject->GetName() == "ground")
+	{
+		//std::cout << "END GROUND" << std::endl;
+		SetCollidingWithGround(false);
+	}
+
+	GameObject::RemoveCollision(gameObject);
+}
+
+bool const Actor::GetCollidingWithGround()
+{
+	return m_bcollidingWithGround;
 }
 
 void Actor::AddImpulseForce(Vector3 force)
 {
-	if (m_bsimulateGravity && !m_bimpulseActive)
+	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)
 	{
 		m_bimpulseActive = true;
 		m_currentImpulseForce = force;

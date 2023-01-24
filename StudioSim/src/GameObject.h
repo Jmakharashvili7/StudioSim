@@ -9,6 +9,7 @@
 #include "Transform.h"
 #include "component.h"
 #include "InputComponent.h"
+#include "QuackPhysics.h"
 
 struct GameObjectData
 {
@@ -20,15 +21,15 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const TextureData& textureData);
+	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	~GameObject();
 
 	virtual void Draw(Shader* mainShader);
 	virtual void Update(float deltaTime);
 
 	// Position
-	virtual void SetPosition(const Vector3 newPosition) { if (m_transform) m_transform->SetPosition(newPosition); }
-	virtual void AdjustPosition(const Vector3 adjustPosition) { if (m_transform) m_transform->AdjustPosition(adjustPosition); }
+	virtual void SetPosition(const Vector3 newPosition);
+	virtual void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
 
 	// Rotation
@@ -39,6 +40,25 @@ public:
 	// Scale
 	virtual void SetScale(const Vector3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
 	virtual void AdjustScale(const Vector3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
+
+	// Collision
+	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
+	inline void SetCollisionType(const CollisionType newCollisionType) { m_collisionData.collisionType = newCollisionType; }
+	inline void SetCollisionCenter(const Vector3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
+	inline void SetCollisionBoxSize(const Vector3 newSize) { m_collisionData.size = newSize; }
+	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
+	inline const CollisionData& const GetCollisionData() { return m_collisionData; }
+	inline const CollisionType const GetCollisionType() { return m_collisionData.collisionType; }
+	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
+	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
+	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
+	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
+	const bool const GetIsCollidingGameObject(GameObject* gameObject);
+	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
+	virtual void RemoveCollision(GameObject* gameObject);
+
+	// Other
+	inline const std::string const GetName() { return m_name; }
 
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
@@ -69,9 +89,15 @@ protected:
 		Transform* m_transform;
 	GameObjectData* m_data;
 	vector<Component*> m_Components;
+	std::string m_name = "";
 
-	
+	Texture* m_texture = nullptr;
+	VertexArray* m_va = nullptr;
+	GameObjectData* m_data = nullptr;
+	Transform* m_transform = nullptr;
 
-	
+	/* Collision */
+	CollisionData m_collisionData = CollisionData();
+	std::vector<GameObject*> m_collidingObjects;
 };
 

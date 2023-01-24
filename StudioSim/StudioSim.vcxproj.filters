@@ -124,15 +124,8 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Component.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CustomMaths.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\InputComponent.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
+    <ClCompile Include="src\CollisionManager.cpp" />
+    <ClCompile Include="src\CustomMaths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -187,9 +180,6 @@
       <Filter>QuackEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\GameTime.h">
-      <Filter>QuackEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomMaths.h">
       <Filter>QuackEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\VertexArray.h">
@@ -249,12 +239,8 @@
     <ClInclude Include="src\stb_image\stb_image.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="component.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\InputComponent.h">
-      <Filter>Inputs</Filter>
-    </ClInclude>
+    <ClInclude Include="src\CollisionManager.h" />
+    <ClInclude Include="src\CustomMaths.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">
