@@ -24,7 +24,7 @@ struct PhysicsData
 		: bsimulateGravity(inSimulateGravity), mass(inMass), jumpHeight(inJumpHeight) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f), jumpHeight(0.0f) {};
+		: bsimulateGravity(false), mass(1.0f), jumpHeight(0.0f) {};
 
 	bool bsimulateGravity;
 	float mass;

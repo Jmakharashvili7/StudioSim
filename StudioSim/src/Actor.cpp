@@ -11,7 +11,7 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 	{
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
 	}
-	m_weight = this->GetMass() * GFORCE;
+	m_weight = GetMass() * GFORCE;
 }
 
 Actor::~Actor()
@@ -79,7 +79,6 @@ void Actor::Update(float deltaTime)
 {
 	UpdateNetForce();
 	UpdateAcceleration();
-	cout << "Velocity: " << m_velocity.y << endl;
 	moveConstAcceleration(m_acceleration, deltaTime);
 
 }
@@ -90,11 +89,17 @@ void Actor::UpdateNetForce()
 	m_netForce.z += m_thrustForce.z + m_brakeForce.z + m_gravityForce.z;
 }
 
+	/// <summary>
+	/// redefinition of physics that pisses on all einstein did for his entire life
+	/// </summary>
 void Actor::UpdateAcceleration()
 {
-	m_acceleration.x = m_netForce.x / this->GetMass();
-	m_acceleration.y = m_netForce.y / this->GetMass();
-	m_acceleration.z = m_netForce.z / this->GetMass();
+	std::cout << "MASS  " << GetMass() << std::endl;
+	m_acceleration.x = m_netForce.x * GetMass();
+	m_acceleration.y = m_netForce.y * GetMass();
+	m_acceleration.z = m_netForce.z * GetMass();
+
+	std::cout << "Acceleration :		" << m_acceleration.y << std::endl;
 }
 
 void Actor::moveUp()
@@ -150,27 +155,36 @@ void Actor::moveConstVelocity(Vector3 velocity, float deltaTime)
 	position.y += velocity.y * deltaTime;
 	position.z += velocity.z * deltaTime;
 
-	this->SetPosition(position);
+	SetPosition(position);
 
 }
 
 void Actor::moveConstAcceleration(Vector3 acceleration, float deltaTime)
 {
 
-	Vector3 position = this->GetPosition();
+	Vector3 position = GetPosition();
+
 	position.x += m_velocity.x * deltaTime + 0.5f * acceleration.x * deltaTime * deltaTime;
 	position.y += m_velocity.y * deltaTime + 0.5f * acceleration.y * deltaTime * deltaTime;
+	//position.y += m_velocity.y * deltaTime;
 	position.z += m_velocity.z * deltaTime + 0.5f * acceleration.z * deltaTime * deltaTime;
 
 	m_velocity.x += acceleration.x * deltaTime;
 	m_velocity.y += acceleration.y * deltaTime;
 	m_velocity.z += acceleration.z * deltaTime;
 
+	std::cout << "Velocity:   " << m_velocity.y << std::endl;
+
 	m_velocity.x = m_velocity.x * (1 - _decelRate * deltaTime);
 	m_velocity.y = m_velocity.y * (1 - _decelRate * deltaTime);
 	m_velocity.z = m_velocity.z * (1 - _decelRate * deltaTime);
 
-	this->SetPosition(position);
+	/*m_velocity = m_velocity + acceleration * deltaTime;
+	std::cout << "Velocity:   " << m_velocity.y << std::endl;
+
+	position = position + m_velocity * deltaTime;*/
+
+	SetPosition(position);
 
 
 }

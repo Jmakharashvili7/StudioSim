@@ -117,7 +117,7 @@ void Quack::InitObjects()
 	const TransformData duckTransformData = TransformData(Vector3(0.0f, 2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
 	const CollisionData duckCollisionData = CollisionData(duckTransformData.position, duckTransformData.scale);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 10.0f, 25.0f);
 	const AnimationData duckAnimationData = AnimationData();
 	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
 
@@ -317,7 +317,7 @@ void Quack::Update()
 	//	m_duck->SetBrakeForce(Vector3(-0.1f, 0.2f, 0.0f));
 	//	//m_duck->SetVelocity(Vector3(-2.0f, 0, 0));
 	//}
-	std::cout << m_duck->GetPosition().x << endl;
+	//std::cout << m_duck->GetPosition().x << endl;
 	// get mouse position
 	UILayer::SetPos(glm::vec3(m_duck->GetPosition().x, m_duck->GetPosition().y, m_duck->GetPosition().z));
 	double xpos, ypos;

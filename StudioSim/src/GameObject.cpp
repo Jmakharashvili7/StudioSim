@@ -1,7 +1,9 @@
 #include "GameObject.h"
 #include "Animate.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData,
+	const CollisionData& collisionData,
+ const TextureData& textureData)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
 	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data)
 {

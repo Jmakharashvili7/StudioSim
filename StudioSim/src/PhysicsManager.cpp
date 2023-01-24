@@ -28,8 +28,8 @@ void PhysicsManager::Update(const float deltaTime)
 				// weight = mass * gravitaional force
 				//float weight = actor->GetMass() * GFORCE;
 				//actor->AdjustPosition(Vector3(0.0f, -actor->GetWeight() * deltaTime, 0.0f));
-				actor->SetGravityForce(Vector3(0.0f, -actor->GetWeight() * deltaTime, 0.0f));
-				cout << "Weight: " << actor->GetWeight() << endl;
+				actor->SetGravityForce(Vector3(0.0f, -GFORCE, 0.0f));
+				//cout << "Weight: " << actor->GetWeight() << endl;
 			}
 			else
 			{

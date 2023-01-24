@@ -22,6 +22,7 @@ public:
 	inline const float GetCurrentJumpForce() const { return m_currentJumpForce; }
 	inline const bool GetSimulatingGravity() const { return m_physicsData.bsimulateGravity; }
 	inline const float GetMass() const { return m_physicsData.mass; }
+	inline  void SetMass(float mass) { m_physicsData.mass = mass; }
 
 	// Animation
 	inline Animate* const GetAnimator() { return m_animator; }
@@ -68,7 +69,7 @@ public:
 	void UpdateNetForce();
 	void UpdateAcceleration();
 
-	
+
 
 private:
 	// Animation
