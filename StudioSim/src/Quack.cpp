@@ -292,23 +292,29 @@ void Quack::HandleInput()
 	if (!MouseClass::IsEventBufferEmpty())
 	{
 		MouseEvent e = MouseClass::ReadEvent();
+		//Size of viewport
 		double port_x = m_uiMain->GetViewport()->GetSize().x;
 		double port_y = m_uiMain->GetViewport()->GetSize().y;
+		//Size of whole window
 		double screen_x = m_window->GetWidth();
 		double screen_y = m_window->GetHeight();
 
-		float viewDiff_x;
-		float viewDiff_y;
-
 		if (e.GetType() == MouseEvent::EventType::L_CLICK)
 		{
+			//Current mouse position within viewport scale
 			viewStart_x = ImGui::GetMousePos().x - ViewportUI::startViewportX;
 			viewStart_y = ImGui::GetMousePos().y - ViewportUI::startViewportY;
-			m_duck->SetPosition(Vector3(viewStart_x, viewStart_y, 0.0f));
-			std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
-			std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
-			std::cout << "Mouse Port X: " << viewStart_x << std::endl;
-			std::cout << "Mouse Port Y: " << viewStart_y << std::endl;
+
+			//Only counting the click within viewport boundary
+			if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
+			{
+				m_duck->SetPosition(Vector3(viewStart_x, viewStart_y, 0.0f));
+				std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
+				std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
+				std::cout << "Mouse Port X: " << viewStart_x << std::endl;
+				std::cout << "Mouse Port Y: " << viewStart_y << std::endl;
+			}
+			//m_duck->GetPosition();
 		}
 		if (e.GetType() == MouseEvent::EventType::R_CLICK)
 		{
