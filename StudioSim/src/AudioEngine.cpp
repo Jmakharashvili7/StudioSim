@@ -9,6 +9,11 @@ FmodInit::FmodInit()
 	pSystem = nullptr;
 	pDspFader = nullptr;
 	pDspPan = nullptr;
+	pTestGroup = nullptr;
+	pMasterGroup = nullptr;
+	pReverb = nullptr;
+
+	m_IsPlaying = false;
 
 	m_SoundVolume = 1.0f;
 	m_SoundtrackVolume = 2.0f;
@@ -18,6 +23,8 @@ FmodInit::FmodInit()
 	m_MaxDistance = 20.0f;
 	m_ListenerPos = { 0.0f, 0.0f, -1.0f * DISTANCE };
 	m_ReverbPos = { -10.0f, 0.0f, 0.0f };
+	m_Pos = { 50.0f * DISTANCE, 0.0f, 0.0f };
+	m_Vel = { 0.0f, 0.0f, 0.0f };
 	
 	result = FMOD::System_Create(&pSystem);
 	if (result != FMOD_OK)
@@ -70,12 +77,14 @@ FmodInit::FmodInit()
 #endif //  _7_1_AUDIO
 
 
-	result = pSystem->init(512, FMOD_INIT_NORMAL | FMOD_INIT_PROFILE_ENABLE, 0);
+	result = pSystem->init(512, FMOD_INIT_NORMAL, 0);
 	if (result != FMOD_OK)
 	{
 		printf("Error initializing fmod:  (%d) %s ", result, FMOD_ErrorString(result));
 		exit(-1);
 	}
+
+	
 
 	//Setting up 3D sound
 	result = pSystem->set3DSettings(1.0, DISTANCE, 1.0f);
@@ -143,28 +152,37 @@ void AudioEngine::Init()
 	pFmod = new FmodInit;
 
 
-	FMOD_VECTOR pos = { 50.0f * DISTANCE, 0.0f, 0.0f };
-	FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
-
-	CreateChannelGroup("Testgroup", &pFmod->pTestGroup);
 	//pFmod->pDspFader->setActive(true);
 
 	CreateSound("res/Sounds/a.mp3", true, true, false, nullptr, &pFmod->pSounds[0]);
-	pFmod->pSounds[0]->set3DMinMaxDistance(0.5f * DISTANCE, 5000.0f * DISTANCE);
-	pFmod->pChannels[0]->setChannelGroup(pFmod->pTestGroup);
-	pFmod->pChannels[0]->addDSP(0, pFmod->pDspFader);
-	pFmod->pChannels[0]->set3DAttributes(&pos, &vel);
 
+	pFmod->pSystem->createChannelGroup("Test", &pFmod->pTestGroup);
+	pFmod->pSystem->getMasterChannelGroup(&pFmod->pMasterGroup);// can use functions just pay attention to the order that it is called https://katyscode.wordpress.com/2013/01/15/cutting-your-teeth-on-fmod-part-2-channel-groups/
+	pFmod->pMasterGroup->addGroup(pFmod->pTestGroup);
+
+	Set3DMinMax(0, 5.0f * DISTANCE, 5000.0f * DISTANCE);
+	//SetChannelGroup(0, pFmod->pTestGroup);
 	Play(pFmod->pSounds[0], nullptr, true, &pFmod->pChannels[0]); 
-	//FadeIn(0);
-	pFmod->pChannels[0]->setPaused(false);
-	//FadeOut(0);
-		
 
-
-	SetVolume(2.0f, 2.0f);
-	SetPitch(1.0f);
-	MuteChannel(false);
+	FMOD_RESULT result;
+	result = pFmod->pChannels[0]->setChannelGroup(pFmod->pTestGroup);
+	if (result != FMOD_OK)
+	{
+		printf("Error setting channel group:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+	//AddDsp(0, 0, pFmod->pDspFader);
+	//Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
+	/*pFmod->pSounds[0]->set3DMinMaxDistance(0.5f * DISTANCE, 5000.0f * DISTANCE);
+	pFmod->pChannels[0]->addDSP(0, pFmod->pDspFader);
+	pFmod->pChannels[0]->set3DAttributes(&pos, &vel);*/
+	/*pFmod->pChannels[0]->setPaused(false);*/
+	Pause(0, false);
+	//FadeIn(0, 10.0f);
+	//FadeOut(0, 10.0f);
+	SetVolume(0, 2.0f);
+	SetPitch(0,1.0f);
+	MuteChannel(0,false);
 
 
 
@@ -244,21 +262,33 @@ void AudioEngine::MasterChannelManager()
 
 }
 
-void AudioEngine::SetVolume(float soundtrackVolume, float soundsVolume)
+void AudioEngine::SetVolume(int channelID, float volumeDB)
 {
 	FMOD_RESULT result;
-	result = pFmod->pTestGroup->setVolume(ChangingDBToVolume(soundtrackVolume));
+	result = pFmod->pChannels[channelID]->setVolume(ChangingDBToVolume(volumeDB));
 	if (result != FMOD_OK)
 	{
 		printf("Error setting up volume:  (%d) %s ", result, FMOD_ErrorString(result));
 		exit(-1);
 	}
+
 }
 
-void AudioEngine::SetPitch(float pitch)
+void AudioEngine::SetMasterChannelVolume(float volumeDB)
 {
 	FMOD_RESULT result;
-	result = pFmod->pTestGroup->setPitch(pitch);
+	result = pFmod->pMasterGroup->setVolume(ChangingDBToVolume(volumeDB));
+	if (result != FMOD_OK)
+	{
+		printf("Error setting up master channel volume:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+}
+
+void AudioEngine::SetPitch(int channelID, float pitch)
+{
+	FMOD_RESULT result;
+	result = pFmod->pChannels[channelID]->setPitch(pitch);
 	if (result != FMOD_OK)
 	{
 		printf("Error setting up pitch:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -266,17 +296,65 @@ void AudioEngine::SetPitch(float pitch)
 	}
 }
 
-void AudioEngine::MuteChannel(bool mute)
+void AudioEngine::SetMasterChannelPitch(float pitch)
 {
-	if (mute == true)
+	FMOD_RESULT result;
+	result = pFmod->pMasterGroup->setPitch(pitch);
+	if (result != FMOD_OK)
 	{
-		bool mut = true;
-		pFmod->pTestGroup->getMute(&mut);
-		pFmod->pTestGroup->setMute(!mut);
+		printf("Error setting up master channel volume:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
 	}
 }
 
-void  AudioEngine::FadeIn(int channelID)
+void AudioEngine::MuteChannel(int channelID, bool mute)
+{
+	FMOD_RESULT result;
+
+	if (mute == true)
+	{
+		bool mut = true;
+		result = pFmod->pChannels[channelID]->getMute(&mut);
+		if (result != FMOD_OK)
+		{
+			printf("Error getting mute:  (%d) %s ", result, FMOD_ErrorString(result));
+			exit(-1);
+		}
+
+		result = pFmod->pChannels[channelID]->setMute(!mut);
+		if (result != FMOD_OK)
+		{
+			printf("Error setting up mute :  (%d) %s ", result, FMOD_ErrorString(result));
+			exit(-1);
+		}
+		
+	}
+}
+
+void AudioEngine::MuteMasterChannel(bool mute)
+{
+	FMOD_RESULT result;
+
+	if (mute == true)
+	{
+		bool mut = true;
+
+		result = pFmod->pMasterGroup->getMute(&mut);
+		if (result != FMOD_OK)
+		{
+			printf("Error getting mute:  (%d) %s ", result, FMOD_ErrorString(result));
+			exit(-1);
+		}
+		result = pFmod->pMasterGroup->setMute(!mut);
+		if (result != FMOD_OK)
+		{
+			printf("Error setting up mute :  (%d) %s ", result, FMOD_ErrorString(result));
+			exit(-1);
+		}
+	}
+}
+
+void  AudioEngine::FadeIn(int channelID, float fadeTime)
 {
 	int rate = 0;
 	unsigned long long dspClock;
@@ -285,11 +363,11 @@ void  AudioEngine::FadeIn(int channelID)
 	pFmod->pSystem->getSoftwareFormat(&rate, 0, 0);
 	pFmod->pChannels[channelID]->getDSPClock(0, &dspClock);
 	pFmod->pChannels[channelID]->addFadePoint(dspClock, 0.0f);
-	pFmod->pChannels[channelID]->addFadePoint(dspClock + (rate * 5), 1.0f);
+	pFmod->pChannels[channelID]->addFadePoint(dspClock + (rate * fadeTime), 1.0f);
 
 }
 
-void AudioEngine::FadeOut(int channelID)
+void AudioEngine::FadeOut(int channelID, float fadeTime)
 {
 	int rate = 0;
 	unsigned long long dspClock;
@@ -297,9 +375,87 @@ void AudioEngine::FadeOut(int channelID)
 	pFmod->pSystem->getSoftwareFormat(&rate, 0, 0);
 	pFmod->pChannels[channelID]->getDSPClock(0, &dspClock);
 	pFmod->pChannels[channelID]->addFadePoint(dspClock, 1.0f);
-	pFmod->pChannels[channelID]->addFadePoint(dspClock + (rate * 5), 0.0f);
-	pFmod->pChannels[channelID]->setDelay(0, dspClock + (rate * 5), true);
+	pFmod->pChannels[channelID]->addFadePoint(dspClock + (rate * fadeTime), 0.0f);
+	pFmod->pChannels[channelID]->setDelay(0, dspClock + (rate * fadeTime), true);
 
+
+}
+
+void AudioEngine::Set3DMinMax(int soundID, float min, float max)
+{
+	FMOD_RESULT result;
+	result = pFmod->pSounds[soundID]->set3DMinMaxDistance(min, max);
+	if (result != FMOD_OK)
+	{
+		printf("Error setting 3D min max:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+}
+
+void AudioEngine::Set3DAttributes(int channelID, const FMOD_VECTOR* pos, const FMOD_VECTOR* vel)
+{
+	FMOD_RESULT result;
+	result = pFmod->pChannels[channelID]->set3DAttributes(&pFmod->m_Pos, &pFmod->m_Vel);
+	if (result != FMOD_OK)
+	{
+		printf("Error setting 3D attributes:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+}
+
+void AudioEngine::AddDsp(int channelID, int index, FMOD::DSP* dsp)
+{
+	FMOD_RESULT result;
+	result = pFmod->pChannels[channelID]->addDSP(index, dsp);
+	if (result != FMOD_OK)
+	{
+		printf("Error adding dsp:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+}
+
+void AudioEngine::SetChannelGroup(int channelID, FMOD::ChannelGroup* channelGroup)
+{
+	FMOD_RESULT result;
+	result = pFmod->pChannels[channelID]->setChannelGroup(channelGroup);
+	if (result != FMOD_OK)
+	{
+		printf("Error setting channel group:  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
+	
+}
+
+
+void AudioEngine::Pause(int channelID, bool pause)
+{
+	FMOD_RESULT result;
+	if (pause == false)
+	{
+		result = pFmod->pChannels[channelID]->setPaused(false);
+		if (result != FMOD_OK)
+		{
+			printf("Error unpausing:  (%d) %s ", result, FMOD_ErrorString(result));
+			exit(-1);
+		}
+	}
+	if (pause == true)
+	{
+		result = pFmod->pChannels[channelID]->setPaused(true);
+		if (result != FMOD_OK)
+		{
+			printf("Error pausing:  (%d) %s ", result, FMOD_ErrorString(result));
+			exit(-1);
+		}
+	}
+}
+
+bool AudioEngine::IsPlaying(int channelID)
+{
+	if (pFmod->pChannels[channelID]->isPlaying(&pFmod->m_IsPlaying))
+	{
+		return true;
+	}
 
 }
 

@@ -9,8 +9,8 @@
 //#define _7_1_AUDIO
 #define _5_1_AUDIO
 
-const int SOUNDCOUNT = 50;
-const int CHANNELCOUNT = 5;
+const int SOUNDCOUNT = 1;
+const int CHANNELCOUNT = 1;
 const int DISTANCE = 1.0f; //Units per Meter
 
 struct Vec3
@@ -51,10 +51,14 @@ struct FmodInit
 	float m_MinDistance;
 	float m_MaxDistance;
 
+	bool  m_IsPlaying;
+
 	unsigned int m_Version;
 
 	FMOD_VECTOR m_ListenerPos;
 	FMOD_VECTOR m_ReverbPos;
+	FMOD_VECTOR m_Pos;
+	FMOD_VECTOR m_Vel;
 
 };
 
@@ -62,33 +66,33 @@ class AudioEngine
 {
 public:
 
-
-
-
-	static void  Init();
-	static void  Update();
-	static void  Shutdown();
-	static void	 CreateSound(const std::string& pathtoSound, 
+	void  Init();
+	void  Update();
+	void  Shutdown();
+	void	 CreateSound(const std::string& pathtoSound, 
 		bool isLoop, bool is3D, bool isStream,
 		FMOD_CREATESOUNDEXINFO* soundInfo, FMOD::Sound** sound);
-	static void  CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** channelGroup);
-	static void  MasterChannelManager();
-	static void  Play(FMOD::Sound* sound, FMOD::ChannelGroup* channelGroup, bool isPaused, FMOD::Channel** channel);
-	static void  SetVolume(float soundtrackVolume, float soundsVolume);
-	static void  SetPitch(float pitch);
-	static void  MuteChannel(bool mute);
-	static void  FadeIn(int channelID );
-	static void  FadeOut(int channelID);
-	static void  IsPlaying();
+	void  CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** channelGroup);
+	void  MasterChannelManager();
+	void  Play(FMOD::Sound* sound, FMOD::ChannelGroup* channelGroup, bool isPaused, FMOD::Channel** channel);
+	void  SetVolume(int channelID, float volumeDB);
+	void  SetMasterChannelVolume(float volumeDB);
+	void  SetPitch(int channelID, float pitch);
+	void  SetMasterChannelPitch(float pitch);
+	void  SetChannelGroup(int channelID, FMOD::ChannelGroup* channelGroup);
+	void  Set3DMinMax(int soundID,float min, float max);
+	void  Set3DAttributes(int channelID, const FMOD_VECTOR* pos, const FMOD_VECTOR* vel);
+	void  AddDsp(int channelID, int index, FMOD::DSP* dsp);
+	void  MuteChannel(int channelID, bool mute);
+	void  MuteMasterChannel(bool mute);
+	void  Pause(int channelID, bool pause);
+	void  FadeIn(int channelID, float fadeTime );
+	void  FadeOut(int channelID, float fadeTime );
+	
+	bool  IsPlaying(int channelID);
 				 
-		
-	static float ChangingDBToVolume(float DB);
+	float ChangingDBToVolume(float DB);
 
-	static FMOD_VECTOR VectorToFmodVec(const Vec3& soundPo);
-
-
-
-	static AudioEngine* pQuackAudio;
-
+	FMOD_VECTOR VectorToFmodVec(const Vec3& soundPo);
 };
 
