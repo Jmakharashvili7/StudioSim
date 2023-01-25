@@ -12,10 +12,11 @@ namespace QuackEngine {
 		{
 		case GLFW_PRESS:
 			KeyboardClass::OnKeyPressed(key);
+			//KeyboardClass::IsKeyPressed(key);
 			break;
-		case GLFW_PRESS:
-			KeyboardClass::OnKeyHeld(key);
-			break;
+		//case GLFW_PRESS:
+		//	KeyboardClass::OnKeyHeld(key);
+		//	break;
 		case GLFW_RELEASE:
 			KeyboardClass::OnKeyReleased(key);
 			break;

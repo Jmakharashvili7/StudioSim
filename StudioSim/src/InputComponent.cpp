@@ -10,6 +10,7 @@ InputComponent::InputComponent(Actor* Owner, int updateOrder, GLFWwindow* window
 	m_Window = window;
 	glfwSetKeyCallback(m_Window, QuackEngine::key_callback); 
 	glfwSetMouseButtonCallback(m_Window, QuackEngine::mouse_button_callback);
+	KeyboardClass::Init();
 }
 
 void InputComponent::Update(float deltaTime)
@@ -109,8 +110,9 @@ bool InputComponent::GetKey(char keyButton)
 	keyButton = toupper(keyButton);
 	
 	
-	if (key.IsHeld())
+	if (KeyboardClass::IsKeyPressed(keyButton))
 	{
+		KeyboardClass::OnKeyPressed(keyButton);
 		if (key.GetKeyCode() == keyButton)
 		{
 			return true;
@@ -311,6 +313,10 @@ void InputComponent::ProcessInput()
 {
 	key = KeyboardClass::ReadKey();
 	e = MouseClass::ReadEvent();
-	//cout << "iam here" << endl;
+	
+	if (key.IsPressed())
+	{
+		cout << key.GetKeyCode() << endl;
+	}
 }
 

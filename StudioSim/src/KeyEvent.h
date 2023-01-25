@@ -5,6 +5,7 @@ class KeyEvent
 public:
 	enum EventType
 	{
+		NONE,
 		PRESS,
 		RELEASE,
 		HELD,

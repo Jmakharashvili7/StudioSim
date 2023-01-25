@@ -1,6 +1,6 @@
 #include "KeyEvent.h"
 
-KeyEvent::KeyEvent() : m_Type(), m_Key(0u)
+KeyEvent::KeyEvent() : m_Type(NONE), m_Key(0u)
 {
 }
 
