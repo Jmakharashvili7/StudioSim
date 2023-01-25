@@ -73,6 +73,7 @@ FmodInit::FmodInit()
 	{
 		printf("Error setting output:  (%d) %s ", result, FMOD_ErrorString(result));
 		exit(-1);
+	}
 
 #endif //  _7_1_AUDIO
 
@@ -157,30 +158,18 @@ void AudioEngine::Init()
 	CreateSound("res/Sounds/a.mp3", true, true, false, nullptr, &pFmod->pSounds[0]);
 
 	pFmod->pSystem->createChannelGroup("Test", &pFmod->pTestGroup);
-	pFmod->pSystem->getMasterChannelGroup(&pFmod->pMasterGroup);// can use functions just pay attention to the order that it is called https://katyscode.wordpress.com/2013/01/15/cutting-your-teeth-on-fmod-part-2-channel-groups/
-	pFmod->pMasterGroup->addGroup(pFmod->pTestGroup);
 
+	MasterChannelManager();
 	Set3DMinMax(0, 5.0f * DISTANCE, 5000.0f * DISTANCE);
-	//SetChannelGroup(0, pFmod->pTestGroup);
+	
 	Play(pFmod->pSounds[0], nullptr, true, &pFmod->pChannels[0]); 
-
-	FMOD_RESULT result;
-	result = pFmod->pChannels[0]->setChannelGroup(pFmod->pTestGroup);
-	if (result != FMOD_OK)
-	{
-		printf("Error setting channel group:  (%d) %s ", result, FMOD_ErrorString(result));
-		exit(-1);
-	}
-	//AddDsp(0, 0, pFmod->pDspFader);
-	//Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
-	/*pFmod->pSounds[0]->set3DMinMaxDistance(0.5f * DISTANCE, 5000.0f * DISTANCE);
-	pFmod->pChannels[0]->addDSP(0, pFmod->pDspFader);
-	pFmod->pChannels[0]->set3DAttributes(&pos, &vel);*/
-	/*pFmod->pChannels[0]->setPaused(false);*/
+	SetChannelGroup(0, pFmod->pTestGroup);
+	Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
+	AddDsp(0, 0, pFmod->pDspFader);
 	Pause(0, false);
-	//FadeIn(0, 10.0f);
+	FadeIn(0, 10.0f);
 	//FadeOut(0, 10.0f);
-	SetVolume(0, 2.0f);
+	SetVolume(0, 10.0f);
 	SetPitch(0,1.0f);
 	MuteChannel(0,false);
 
@@ -464,7 +453,7 @@ void AudioEngine::Play(FMOD::Sound* sound, FMOD::ChannelGroup* channelGroup, boo
 	FMOD_RESULT result;
 
 	result = pFmod->pSystem->playSound(sound, channelGroup, isPaused, channel);
-	
+	std::cout << "Sexy" << std::endl;
 
 	if (result != FMOD_OK)
 	{

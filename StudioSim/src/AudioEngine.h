@@ -6,8 +6,8 @@
 
 #include "BasicIncludes.h"
 
-//#define _7_1_AUDIO
-#define _5_1_AUDIO
+#define _7_1_AUDIO
+//#define _5_1_AUDIO
 
 const int SOUNDCOUNT = 1;
 const int CHANNELCOUNT = 1;
