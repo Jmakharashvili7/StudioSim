@@ -313,32 +313,106 @@ void Quack::HandleInput()
 				mousePos.x = ImGui::GetMousePos().x;
 				mousePos.y = ImGui::GetMousePos().y;
 
+				//get the camera viewProjection matrix, and inverse it
 				glm::mat4 auxCamera = m_mainCamera->GetViewProjectionMatrix();
 				glm::mat4 invCamera = glm::inverse(auxCamera);
 
-				/*float newposition_x = (viewStart_x - port_x) / port_x,
-					 newposition_y = -1 * (viewStart_y - port_y) / port_y;*/
+				//new position of the duck based on the mouse's position normalised based on 
+				//the viewport
 				float newposition_x = (viewStart_x / (port_x / 2) - 1),
 					newposition_y = -(viewStart_y / (port_y / 2) - 1);
 
 				Vector3 ndc = Vector3(newposition_x, newposition_y, 0);
-				
-				//ndc = ndc * invCamera;
 
-
+				//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
 				ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
 				ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
 				ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
 
+				//get the int part of the number
+				int integer_x = (int)ndc.x;
+				int integer_y = (int)ndc.y;
+				int integer_z = (int)ndc.z;
+
+				//get the decimals of the number
+				float floater_x = ndc.x - integer_x;
+				float floater_y = ndc.y - integer_y;
+				float floater_z = ndc.z - integer_z;
+
+				//check if the number is closer to 0 or to 0.5
+				if (integer_x > 0)
+				{
+					if (floater_x >= 0.25 && floater_x <= 0.75)
+						floater_x = 0.5;
+					else if (floater_x < 0.25)
+						floater_x = 0.0f;
+					else if (floater_x > 0.75)
+						floater_x = 1.0f;
+				}
+				else
+				{
+					if (floater_x <= -0.25 && floater_x >= -0.75)
+						floater_x = 0.5;
+					else if (floater_x > -0.25)
+						floater_x = 0.0f;
+					else if (floater_x < -0.75)
+						floater_x = 1.0f;
+				}
+				if (integer_y > 0)
+				{
+					if (floater_y >= 0.25 && floater_y <= 0.75)
+						floater_y = 0.5;
+					else if (floater_y < 0.25)
+						floater_y = 0.0f;
+					else if (floater_y > 0.75)
+						floater_y = 1.0f;
+				}
+				else
+				{
+					if (floater_y <= -0.25 && floater_y >= -0.75)
+						floater_y = 0.5;
+					else if (floater_y > -0.25)
+						floater_y = 0.0f;
+					else if (floater_y < -0.75)
+						floater_y = 1.0f;
+				}
+				if (integer_z > 0)
+				{
+					if (floater_z >= 0.25 && floater_z <= 0.75)
+						floater_z = 0.5;
+					else if (floater_z < 0.25)
+						floater_z = 0.0f;
+					else if (floater_z > 0.75)
+						floater_z = 1.0f;
+				}
+				else
+				{
+					if (floater_z <= -0.25 && floater_z >= -0.75)
+						floater_z = 0.5;
+					else if (floater_z > -0.25)
+						floater_z = 0.0f;
+					else if (floater_z < -0.75)
+						floater_z = 1.0f;
+				}
+				float finalPosition_x, finalPosition_y, finalPosition_z;
+				//calculate the final position
+				if (integer_x > 0)
+					 finalPosition_x = integer_x + floater_x;
+				else  finalPosition_x = integer_x - floater_x;
+				if (integer_y > 0)
+					 finalPosition_y = integer_y + floater_y;
+				else  finalPosition_y = integer_y - floater_y;
+				if (integer_z > 0)
+					 finalPosition_z = integer_z + floater_z;
+				else  finalPosition_z = integer_z - floater_z;
+				Vector3 finalPosition = Vector3(finalPosition_x, finalPosition_y, finalPosition_z);
 
 				//Vector3 *a = new Vector3(newposition_x * invCamera, newposition_y * invCamera,0.0f);
-				m_duck->SetPosition(ndc);
+				m_duck->SetPosition(finalPosition);
 				std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
 				std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
 				std::cout << "viewStart_x X: " << viewStart_x << std::endl;
 				std::cout << "viewStart_y Y: " << viewStart_y << std::endl;
-				std::cout << "Start viewport X: " << ViewportUI::startViewportX << std::endl;
-				std::cout << "Start viewport Y: " << ViewportUI::startViewportY << std::endl;
 				std::cout << "Duck pos X: " << m_duck->GetPosition().x << std::endl;
 				std::cout << "Duck pos Y: " << m_duck->GetPosition().y << std::endl;
 			}
@@ -444,7 +518,7 @@ void Quack::HandleLights()
 	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
 
 #endif // _2D_SHADER
-	}
+		}
 
 void Quack::Update()
 {
