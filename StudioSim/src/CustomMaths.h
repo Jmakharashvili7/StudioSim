@@ -363,6 +363,7 @@ public:
 		z /= length;
 	}
 
+
 	// Normalize the provided vector
 	static Vector3 Normalize(const Vector3& vec)
 	{

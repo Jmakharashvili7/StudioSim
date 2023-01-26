@@ -26,6 +26,7 @@
 #include "CustomMaths.h"
 
 using namespace std;
+using namespace CustomMaths;
 
 //#define _3D_SHADER
 #define _2D_SHADER

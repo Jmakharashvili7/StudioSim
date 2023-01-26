@@ -25,6 +25,10 @@ public:
 	void AdjustScale(const Vector3 adjustScale);
 	inline const Vector3 GetScale() const { return m_scale; }
 
+	//Direction
+	inline Vector3 GetForward() const{return Vector3::Normalize(Vector3(cos(m_fRotation), sin(m_fRotation), 0.0f));}
+	inline Vector3 GetUp() const{return Vector3::Normalize( Vector3(cos(m_fRotation+90), sin(m_fRotation+90), 0.0f));}
+
 	// Transformation matrix
 	inline const Matrix4 GetTransformationMatrix() const { return m_transformationMatrix; }
 	// Update the matrix transform, used in draw
