@@ -3,6 +3,7 @@
 #include "UIWindow.h"
 #include "ViewportUI.h"
 #include "EditorUI.h"
+#include "WorldOutlinerUI.h"
 
 class UILayer : public Layer
 {
@@ -25,5 +26,6 @@ private:
 	glm::vec4 m_color;
 	ViewportUI* m_viewportUI;	
 	EditorUI* m_editorUI;
+	WorldOutlinerUI* m_worldOutliner;
 };
 

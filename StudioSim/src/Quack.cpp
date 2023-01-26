@@ -200,10 +200,11 @@ int Quack::InitEngine()
 	/// 
 	m_uiMain->OnAttach();
 
+	
+
 	InitObjects();
 	SetupShaders();
 	m_uiMain->InitWindows(); // should always be after init objects
-
 	return 0;
 }
 

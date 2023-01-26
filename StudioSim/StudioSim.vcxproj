@@ -202,6 +202,7 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\InputComponent.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
+    <ClInclude Include="src\WorldOutlinerUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\FrameBuffer.h" />

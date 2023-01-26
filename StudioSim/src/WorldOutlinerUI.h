@@ -2,14 +2,12 @@
 #include "UIWindow.h"
 #include "GameObject.h"
 
-class EditorUI : public UIWindow
+class WorldOutlinerUI : public UIWindow
 {
 public:
-	EditorUI(std::string name, GameObject* gameObject);
-	~EditorUI();
+	WorldOutlinerUI(std::string name);
+	~WorldOutlinerUI();
 
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
-private:
-	GameObject* m_object;
 };
