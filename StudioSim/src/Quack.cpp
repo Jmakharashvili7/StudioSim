@@ -308,11 +308,31 @@ void Quack::HandleInput()
 			//Only counting the click within viewport boundary
 			if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
 			{
+				Vector2 mousePos;
+
+				mousePos.x = ImGui::GetMousePos().x;
+				mousePos.y = ImGui::GetMousePos().y;
+
+				glm::mat4 auxCamera = m_mainCamera->GetViewProjectionMatrix();
+				glm::mat4 invCamera = glm::inverse(auxCamera);
+
 				/*float newposition_x = (viewStart_x - port_x) / port_x,
 					 newposition_y = -1 * (viewStart_y - port_y) / port_y;*/
-				float newposition_x = (ImGui::GetMousePos().x / screen_x * 2 - 1),
-					newposition_y = -(ImGui::GetMousePos().y / port_y * 2 - 1);
-				m_duck->SetPosition(Vector3(newposition_x, newposition_y, 0.0f));
+				float newposition_x = (viewStart_x / (port_x / 2) - 1),
+					newposition_y = -(viewStart_y / (port_y / 2) - 1);
+
+				Vector3 ndc = Vector3(newposition_x, newposition_y, 0);
+				
+				//ndc = ndc * invCamera;
+
+
+				ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
+				ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
+				ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
+
+
+				//Vector3 *a = new Vector3(newposition_x * invCamera, newposition_y * invCamera,0.0f);
+				m_duck->SetPosition(ndc);
 				std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
 				std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
 				std::cout << "viewStart_x X: " << viewStart_x << std::endl;
@@ -424,7 +444,7 @@ void Quack::HandleLights()
 	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
 
 #endif // _2D_SHADER
-}
+	}
 
 void Quack::Update()
 {

@@ -31,3 +31,4 @@ void OrthographicCamera::RecalculateViewMatix()
 	//m_viewMatrix = glm::inverse(transform);
 	//m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 }
+
