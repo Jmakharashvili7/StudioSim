@@ -20,7 +20,14 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 
 Actor::~Actor()
 {
+	delete m_animator;
+	m_animator = nullptr;
 
+	for (Component* component : m_components)
+	{
+		delete component;
+		component = nullptr;
+	}
 }
 
 void Actor::Draw(Shader* mainShader)
@@ -101,4 +108,9 @@ void Actor::ClearComponents()
 void Actor::ReorderComponents()
 {
 	return;
+}
+
+void Actor::Destroy()
+{
+	GameObject::Destroy();
 }

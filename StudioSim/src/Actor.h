@@ -10,7 +10,7 @@ class Actor : public GameObject
 {
 public:
 	Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
-	~Actor();
+	virtual ~Actor();
 
 	// Rendering
 	virtual void Draw(Shader* mainShader) override;
@@ -38,6 +38,9 @@ public:
 
 	// Input
 	virtual inline InputComponent* const GetInputComponent() { return m_inputComponent; }
+
+	// Destroy
+	virtual void Destroy() override;
 
 protected:
 	// Animation

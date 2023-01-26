@@ -42,6 +42,15 @@ struct MovementData
 	float jumpHeight;
 };
 
+struct EntityData
+{
+	EntityData(const float inHealth) : health(inHealth) {};
+
+	EntityData() : health(0.0f) {};
+
+	float health;
+};
+
 struct AnimationData
 {
 	AnimationData(const bool inAnimated, const int inRows, const int inColumns)

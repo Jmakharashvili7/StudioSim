@@ -21,11 +21,11 @@
 class LayerStack;
 class UIRenderer;
 class UILayer;
+class QuackPhysics;
+class QuackOperations;
 
 #define MAX_FRAME_RATE 144
 #define NUMBER_OF_SQUARES 4
-
-class QuackPhysics;
 
 class Quack
 {
@@ -51,7 +51,9 @@ public:
 
 	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
-	static Character* CreateNewCharacter(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const AnimationData& animationData);
+	static Character* CreateNewCharacter(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData);
+
+	static void DestroyGameObject(GameObject* gameObjectToDestroy);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
@@ -121,8 +123,8 @@ private:
 	static glm::vec3 squarePositionData[];
 	static glm::vec3 squareScaleData[];
 
-
 	static QuackPhysics* p_QuackPhysics;
+	static QuackOperations* p_QuackOperations;
 
 	//lights
 	static glm::vec4 m_lightPos;

@@ -11,6 +11,10 @@ public:
 
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
+
+	inline void RemoveDisplayedGameObject() { m_object = nullptr; }
+	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
+
 private:
 	GameObject* m_object;
 };

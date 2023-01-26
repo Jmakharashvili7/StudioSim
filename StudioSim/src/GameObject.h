@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Transform.h"
 #include "QuackPhysics.h"
+#include "QuackOperations.h"
 
 struct GameObjectData
 {
@@ -20,7 +21,7 @@ class GameObject
 {
 public:
 	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
-	~GameObject();
+	virtual ~GameObject();
 
 	// Rendering
 	virtual void Draw(Shader* mainShader);
@@ -56,13 +57,15 @@ public:
 	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
 	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
-	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
 	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	// Other
 	inline const std::string const GetName() { return m_name; }
+
+	// Destroy
+	virtual void Destroy();
 
 	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };

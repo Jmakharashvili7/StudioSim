@@ -61,3 +61,12 @@ void PhysicsManager::Update(const float deltaTime)
 		}
 	}
 }
+
+void PhysicsManager::RemoveGameActor(Actor* actorToRemove)
+{
+	if (actorToRemove)
+	{
+		const int actorIndex = QuackOperations::GetActorIndex(actorToRemove, m_gameActors);
+		m_gameActors.erase(m_gameActors.begin() + actorIndex);
+	}
+}

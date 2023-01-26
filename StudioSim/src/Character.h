@@ -4,8 +4,8 @@
 class Character : public Actor
 {
 public:
-	Character(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const AnimationData& animationData);
-	~Character();
+	Character(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData);
+	virtual ~Character();
 
 public:
 	// Collision
@@ -20,10 +20,28 @@ public:
 	virtual inline void SetCurrentJumpForce(const float inJumpForce) { m_currentJumpForce = inJumpForce; }
 	virtual inline const float GetCurrentJumpForce() const { return m_currentJumpForce; }
 
+	// Movement
+	virtual inline float GetMovementSpeed() const { return m_movementData.movementSpeed; }
+
+	// Health
+	virtual void TakeDamage(const float amount);
+	virtual void Kill();
+	virtual void Die();
+	virtual void SetHealth(const float inHealth);
+	virtual void AdjustHealth(const float adjustAmount);
+	virtual const inline float GetHealth() const { return m_entityData.health; }
+	virtual void CheckShouldDie();
+
+	// Destroy
+	virtual void Destroy() override;
+
 protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
 	float m_currentJumpForce = 0.0f;
+
+	// Entity
+	EntityData m_entityData = EntityData();
 };
 

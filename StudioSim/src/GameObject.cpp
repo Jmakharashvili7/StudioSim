@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Animate.h"
+#include "Quack.h"
 
 GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
@@ -17,9 +18,11 @@ GameObject::~GameObject()
 	delete m_va;
 	m_va = nullptr;
 
-	if (m_texture) delete m_texture;
-	if (m_va) delete m_va;
-	if (m_data) delete m_data;
+	delete m_data;
+	m_data = nullptr;
+
+	delete m_transform;
+	m_transform = nullptr;
 }
 
 void GameObject::Draw(Shader* mainShader)
@@ -75,24 +78,6 @@ void GameObject::UpdateObjectData(GameObjectData* newData)
 	UpdateVertexArray();
 }
 
-int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
-{
-	int i = 0;
-	int indexToReturn = -1;
-
-	for (GameObject* collidingGameObject : m_collidingObjects)
-	{
-		if (gameObject == collidingGameObject)
-		{
-			indexToReturn = i;
-		}
-
-		i++;
-	}
-
-	return indexToReturn;
-}
-
 bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 {
 	bool bFound = false;
@@ -123,9 +108,14 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 	//std::cout << "END COLLISION!" << std::endl;
 	if (gameObject)
 	{
-		const int gameObjectIndex = GetGameObjectCollisionIndex(gameObject);
+		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObject, m_collidingObjects);
 		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
 	}
+}
+
+void GameObject::Destroy()
+{
+	Quack::DestroyGameObject(this);
 }
 
 void GameObject::UpdateVertexArray()

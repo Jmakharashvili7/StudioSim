@@ -162,6 +162,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\QuackOperations.cpp" />
     <ClCompile Include="src\Character.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\CustomMaths.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />
     <ClInclude Include="src\InputComponent.h" />
     <ClInclude Include="src\Component.h" />

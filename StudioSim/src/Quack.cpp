@@ -44,6 +44,7 @@ FrameBuffer* Quack::m_frameBuffer;
 
 VertexArray* Quack::m_squareVAO;
 QuackPhysics* Quack::p_QuackPhysics;
+QuackOperations* Quack::p_QuackOperations;
 
 bool Quack::m_jumping = false;
 float Quack::m_jump_force = 10.0f;
@@ -121,8 +122,9 @@ void Quack::InitObjects()
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f);
 	const MovementData duckMovementData = MovementData(5.0f, 25.f);
+	const EntityData duckEntityData = EntityData(100.0f);
 	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewCharacter("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckMovementData, duckAnimationData);
+	m_duck = CreateNewCharacter("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckMovementData, duckEntityData, duckAnimationData);
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6,0 });
@@ -212,39 +214,48 @@ int Quack::InitEngine()
 void Quack::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
-	const float movementAmount = 5.0f;
-
 	if (m_duck)
 	{
-		//// MOVE RIGHT
-		if (m_duck->GetInputComponent()->GetKeyDown('l'))
-		{
-			m_duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
-		}
+		const float movementAmount = m_duck->GetMovementSpeed();
 
-		// MOVE LEFT
-		if (m_duck->GetInputComponent()->GetKeyDown('j'))
+		if (m_duck)
 		{
-			m_duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
-		}
+			//// MOVE RIGHT
+			if (m_duck->GetInputComponent()->GetKeyDown('l'))
+			{
+				m_duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+			}
 
+			// MOVE LEFT
+			if (m_duck->GetInputComponent()->GetKeyDown('j'))
+			{
+				m_duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+			}
 
-		// MOVE UP
-		if (m_duck->GetInputComponent()->GetKeyDown('i'))
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, (movementAmount * deltaTime), 0.0f));
-		}
-		
-		// MOVE DOWN
-		if (m_duck->GetInputComponent()->GetKeyDown('k'))
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, (-movementAmount * deltaTime), 0.0f));
-		}
+			// MOVE UP
+			if (m_duck->GetInputComponent()->GetKeyDown('i'))
+			{
+				m_duck->AdjustPosition(Vector3(0.0f, (movementAmount * deltaTime), 0.0f));
+			}
 
-		// JUMP
-		if (m_duck->GetInputComponent()->GetKeyPressed('o'))
-		{
-			m_duck->Jump();
+			// MOVE DOWN
+			if (m_duck->GetInputComponent()->GetKeyDown('k'))
+			{
+				m_duck->AdjustPosition(Vector3(0.0f, (-movementAmount * deltaTime), 0.0f));
+			}
+
+			// JUMP
+			if (m_duck->GetInputComponent()->GetKeyPressed('o'))
+			{
+				m_duck->Jump();
+			}
+
+			// TEST DIE
+			if (m_duck->GetInputComponent()->GetKeyPressed('d'))
+			{
+				m_duck->Kill();
+				m_uiMain->GetEditorUI()->RemoveDisplayedGameObject();
+			}
 		}
 	}
 }
@@ -440,10 +451,10 @@ Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const
 	return createdActor;
 }
 
-Character* Quack::CreateNewCharacter(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const AnimationData& animationData)
+Character* Quack::CreateNewCharacter(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
 {
 	Character* createdCharacter = nullptr;
-	createdCharacter = new Character(name, objectData, transformData, collisionData, textureData, physicsData, movementData, animationData);
+	createdCharacter = new Character(name, objectData, transformData, collisionData, textureData, physicsData, movementData, entityData, animationData);
 
 	if (createdCharacter)
 	{
@@ -465,6 +476,38 @@ Character* Quack::CreateNewCharacter(std::string name, GameObjectData* objectDat
 	}
 
 	return createdCharacter;
+}
+
+void Quack::DestroyGameObject(GameObject* gameObjectToDestroy)
+{
+	if (gameObjectToDestroy)
+	{
+		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObjectToDestroy, m_gameObjects);
+		m_gameObjects.erase(m_gameObjects.begin() + gameObjectIndex);
+	}
+	m_collisionManager->RemoveGameObject(gameObjectToDestroy);
+
+	Actor* actorToRemove = dynamic_cast<Actor*>(gameObjectToDestroy);
+	if (actorToRemove)
+	{
+		const int actorIndex = QuackOperations::GetActorIndex(actorToRemove, m_gameActors);
+		m_gameActors.erase(m_gameActors.begin() + actorIndex);
+	}
+	m_physicsManager->RemoveGameActor(actorToRemove);
+
+	Character* characterToRemove = dynamic_cast<Character*>(gameObjectToDestroy);
+	if (characterToRemove)
+	{
+		const int characterIndex = QuackOperations::GetCharacterIndex(characterToRemove, m_gameCharacters);
+		m_gameCharacters.erase(m_gameCharacters.begin() + characterIndex);
+	}
+
+	// todo fix this
+	if (gameObjectToDestroy->GetName() == "duck")
+	{
+		delete m_duck;
+		m_duck = nullptr;
+	}
 }
 
 void Quack::Projectile(float force)
