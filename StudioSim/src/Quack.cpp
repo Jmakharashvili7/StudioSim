@@ -108,7 +108,7 @@ void Quack::InitObjects()
 {
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData groundTransformData = TransformData(Vector3(0.0f, -2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 0.6f, 1.0f));
+	const TransformData groundTransformData = TransformData(Vector3(0.0f, -2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
 	const CollisionData groundCollisionData = CollisionData(groundTransformData.position, groundTransformData.scale);
 	const TextureData groundTextureData = TextureData("res/textures/concretefloor.png", GL_RGB, GL_RGB);
 	m_ground = CreateNewGameObject("ground", groundObjectData, groundTransformData, groundCollisionData, groundTextureData);

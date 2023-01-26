@@ -259,6 +259,20 @@ public:
 		, z(0.0f)
 	{}
 
+	Vector3(int inVal)
+	{
+		x = inVal;
+		y = inVal;
+		z = inVal;
+	}
+
+	Vector3(float inVal)
+	{
+		x = inVal;
+		y = inVal;
+		z = inVal;
+	}
+
 	explicit Vector3(float inX, float inY, float inZ)
 		:x(inX)
 		, y(inY)

@@ -7,6 +7,8 @@ GameObject::GameObject(std::string name, GameObjectData* data, const TransformDa
 {
 	m_va = new VertexArray();
 	UpdateVertexArray();
+	
+	std::cout << "FELYPE LIKES GOTHS" << std::endl;
 }
 
 GameObject::~GameObject()
@@ -109,7 +111,7 @@ bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 	return bFound;
 }
 
-void GameObject::AddCollision(GameObject* collidingObject, const std::map <CollisionSide, bool>& collidingSides)
+void GameObject::AddCollision(GameObject* collidingObject)
 {
 	//std::cout << "START COLLISION!" << std::endl;
 	if (collidingObject)

@@ -43,8 +43,7 @@ void CollisionManager::Update(const float deltaTime)
 						std::cout << "Duck Boi		" << (owningBox.center - owningBox.size / Vector3(2.0f, 2.0f, 2.0f)).y << std::endl;
 						std::cout << "Ground Boi		" << (otherBox.center + otherBox.size / Vector3(2.0f, 2.0f, 2.0f)).y << std::endl;
 					}*/
-					collisionSides = m_quackPhysics->BoxToBox(owningBox, otherBox);
-					bColliding = (m_quackPhysics->BoxToBox(owningBox, otherBox)).size() != 0;	
+					bColliding = (m_quackPhysics->BoxToBox(owningBox, otherBox));
 				}
 				// sphere to sphere
 				else if (gameObject->GetCollisionType() == CollisionType::SPHERE && otherGameObject->GetCollisionType() == CollisionType::SPHERE)
@@ -64,7 +63,7 @@ void CollisionManager::Update(const float deltaTime)
 				{
 					if (!gameObject->GetIsCollidingGameObject(otherGameObject))
 					{
-						gameObject->AddCollision(otherGameObject, collisionSides);
+						gameObject->AddCollision(otherGameObject);
 					}
 				}
 				else
@@ -87,5 +86,6 @@ Vector3 CollisionManager::RepositionGameObject(GameObject* a, GameObject* b)
 	//Vector3 outPosition = Vector3(a->GetPosition() - pen);
 
 	//Vector3 outPosition = Vector3(a->GetPosition().x, (b->GetCollisionCenter().y + b->GetCollisionBoxSize().y / 2.0f) - (a->GetCollisionCenter().y - a->GetCollisionBoxSize().y / 2.0f), 0.0f);
-	return Vector3();
+	//return outPosition;
+	return Vector3::Zero;
 }
