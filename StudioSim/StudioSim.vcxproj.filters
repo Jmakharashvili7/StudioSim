@@ -136,8 +136,10 @@
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Component.cpp" />
-    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\InputComponent.cpp" />
+    <ClCompile Include="src\Component.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -263,8 +265,10 @@
     </ClInclude>
     <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\Component.h" />
-    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\InputComponent.h" />
+    <ClInclude Include="src\Component.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">

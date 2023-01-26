@@ -16,8 +16,9 @@ const bool InputComponent::GetKeyDown(const char key) const
 	bool bkeyHeld = false;
 	const char upperCaseKey = toupper(key);
 
-	if (keyEvent.IsHeld())
+	if (KeyboardClass::IsKeyPressed(upperCaseKey))
 	{
+		KeyboardClass::OnKeyPressed(upperCaseKey);
 		if (keyEvent.GetKeyCode() == upperCaseKey)
 		{
 			bkeyHeld = true;

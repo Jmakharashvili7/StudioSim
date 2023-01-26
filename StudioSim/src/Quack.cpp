@@ -214,21 +214,13 @@ void Quack::HandleInput()
 
 	if (m_duck)
 	{
-		// MOVE RIGHT
-		if (m_duck->GetInputComponent()->GetKeyPressed('l'))
-		{
-			m_duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
-		}
+		//// MOVE RIGHT
 		if (m_duck->GetInputComponent()->GetKeyDown('l'))
 		{
 			m_duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
 		}
 
 		// MOVE LEFT
-		if (m_duck->GetInputComponent()->GetKeyPressed('j'))
-		{
-			m_duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
-		}
 		if (m_duck->GetInputComponent()->GetKeyDown('j'))
 		{
 			m_duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
@@ -236,21 +228,12 @@ void Quack::HandleInput()
 
 
 		// MOVE UP
-		if (m_duck->GetInputComponent()->GetKeyPressed('i'))
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, (movementAmount * deltaTime), 0.0f));
-		}
 		if (m_duck->GetInputComponent()->GetKeyDown('i'))
 		{
 			m_duck->AdjustPosition(Vector3(0.0f, (movementAmount * deltaTime), 0.0f));
 		}
 		
-
 		// MOVE DOWN
-		if (m_duck->GetInputComponent()->GetKeyPressed('k'))
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, (-movementAmount * deltaTime), 0.0f));
-		}
 		if (m_duck->GetInputComponent()->GetKeyDown('k'))
 		{
 			m_duck->AdjustPosition(Vector3(0.0f, (-movementAmount * deltaTime), 0.0f));
