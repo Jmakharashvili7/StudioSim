@@ -35,6 +35,7 @@ GameTimer Quack::m_gameTimer;
 LayerStack* Quack::m_layerStack;
 std::vector<GameObject*> Quack::m_gameObjects;
 std::vector<Actor*> Quack::m_gameActors;
+std::vector<Character*> Quack::m_gameCharacters;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
@@ -89,7 +90,7 @@ glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
 
 glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
 
-Actor* Quack::m_duck;
+Character* Quack::m_duck;
 GameObject* Quack::m_ground;
 GameObject* Quack::m_testSprite;
 
@@ -118,9 +119,10 @@ void Quack::InitObjects()
 	const TransformData duckTransformData = TransformData(Vector3(0.0f, 2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
 	const CollisionData duckCollisionData = CollisionData(duckTransformData.position, duckTransformData.scale);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
-	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
+	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f);
+	const MovementData duckMovementData = MovementData(5.0f, 25.f);
 	const AnimationData duckAnimationData = AnimationData();
-	m_duck = CreateNewActor("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckAnimationData);
+	m_duck = CreateNewCharacter("duck", duckObjectData, duckTransformData, duckCollisionData, duckTextureData, duckPhysicsData, duckMovementData, duckAnimationData);
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6,0 });
@@ -436,6 +438,33 @@ Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const
 	}
 
 	return createdActor;
+}
+
+Character* Quack::CreateNewCharacter(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const AnimationData& animationData)
+{
+	Character* createdCharacter = nullptr;
+	createdCharacter = new Character(name, objectData, transformData, collisionData, textureData, physicsData, movementData, animationData);
+
+	if (createdCharacter)
+	{
+		m_gameObjects.push_back(createdCharacter);
+		m_gameActors.push_back(createdCharacter);
+		m_gameCharacters.push_back(createdCharacter);
+
+		if (collisionData.collisionType != CollisionType::NONE)
+		{
+			// Update collision managers game object array
+			m_collisionManager->AddGameObject(createdCharacter);
+		}
+
+		if (physicsData.bsimulateGravity)
+		{
+			// Update physics managers actor object array
+			m_physicsManager->AddGameActor(createdCharacter);
+		}
+	}
+
+	return createdCharacter;
 }
 
 void Quack::Projectile(float force)

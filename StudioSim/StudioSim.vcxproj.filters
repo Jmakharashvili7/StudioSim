@@ -140,6 +140,9 @@
     <ClCompile Include="src\Component.cpp">
       <Filter>source files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Character.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -267,6 +270,9 @@
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\InputComponent.h" />
     <ClInclude Include="src\Component.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Character.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>

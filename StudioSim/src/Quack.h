@@ -9,9 +9,8 @@
 #include "OrthographicCamera.h"
 #include "Window.h"
 #include "Texture.h"
-#include "GameObject.h"
 #include "GameTime.h"
-#include "Actor.h"
+#include "Character.h"
 #include "QuackDataTypes.h"
 #include "PhysicsManager.h"
 #include "FrameBuffer.h"
@@ -52,6 +51,7 @@ public:
 
 	static GameObject* CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	static Actor* CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	static Character* CreateNewCharacter(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const AnimationData& animationData);
 
 	static void Projectile(float force);
 	static void ProjectileDecrement(Facing direction);
@@ -106,13 +106,14 @@ private:
 
 	static FrameBuffer* m_frameBuffer;
 	
-	static Actor* m_duck;
+	static Character* m_duck;
 	static GameObject* m_ground;
 	static GameObject* m_testSprite;
 
 	int spTest = 0;
 	static std::vector<GameObject*> m_gameObjects;
 	static std::vector<Actor*> m_gameActors;
+	static std::vector<Character*> m_gameCharacters;
 
 	static VertexArray* m_squareVAO;
 	static glm::vec4 m_objColor;

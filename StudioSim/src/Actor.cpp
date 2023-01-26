@@ -23,15 +23,6 @@ Actor::~Actor()
 
 }
 
-void Actor::Jump()
-{
-	if (m_physicsData.bsimulateGravity && !m_bjumping)
-	{
-		m_bjumping = true;
-		m_currentJumpForce = m_physicsData.jumpHeight;
-	}
-}
-
 void Actor::Draw(Shader* mainShader)
 {
 	if (m_animator)
@@ -81,10 +72,6 @@ void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSi
 
 	if (collidingObject->GetName() == "ground")
 	{
-		//std::cout << "HIT GROUND" << std::endl;
-		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
-		SetJumping(false);
-		SetCurrentJumpForce(0.0f);
 		SetCollidingWithGround(true);
 	}
 
@@ -95,16 +82,10 @@ void Actor::RemoveCollision(GameObject* gameObject)
 {
 	if (gameObject->GetName() == "ground")
 	{
-		//std::cout << "END GROUND" << std::endl;
 		SetCollidingWithGround(false);
 	}
 
 	GameObject::RemoveCollision(gameObject);
-}
-
-bool const Actor::GetCollidingWithGround()
-{
-	return m_bcollidingWithGround;
 }
 
 void Actor::AddComponent(Component* component)
@@ -120,14 +101,4 @@ void Actor::ClearComponents()
 void Actor::ReorderComponents()
 {
 	return;
-}
-
-void Actor::AddImpulseForce(Vector3 force)
-{
-	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)
-	{
-		m_bimpulseActive = true;
-		m_currentImpulseForce = force;
-		m_testImpulseForceMag = force;
-	}
 }

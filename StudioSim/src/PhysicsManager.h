@@ -1,6 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
-#include "Actor.h"
+#include "Character.h"
 
 #define GFORCE 9.81
 
