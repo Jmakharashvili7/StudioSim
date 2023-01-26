@@ -162,8 +162,6 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\InputComponent.cpp" />
-    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\CustomMaths.cpp" />
     <ClCompile Include="src\EditorUI.cpp" />
@@ -208,11 +206,9 @@
   <ItemGroup>
     <ClInclude Include="src\InputComponent.h" />
     <ClInclude Include="src\Component.h" />
-    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\CustomMaths.h" />
     <ClInclude Include="src\EditorUI.h" />
     <ClInclude Include="src\Grid.h" />
-    <ClInclude Include="src\InputComponent.h" />
     <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\ObjectUI.h" />
     <ClInclude Include="src\PathNode.h" />
