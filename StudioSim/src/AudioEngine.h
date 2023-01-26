@@ -2,6 +2,9 @@
 #include "fmod.hpp"
 #include "fmod_dsp.h"
 #include "fmod_dsp_effects.h"
+#include "fmod_common.h"
+#include "fmod_codec.h"
+#include "fmod_output.h"
 #include "fmod_errors.h"
 
 #include "BasicIncludes.h"
@@ -9,9 +12,71 @@
 #define _7_1_AUDIO
 //#define _5_1_AUDIO
 
-const int SOUNDCOUNT = 1;
-const int CHANNELCOUNT = 1;
+
+const int SOUNDCOUNT = 3;
+const int CHANNELCOUNT = 3;
 const int DISTANCE = 1.0f; //Units per Meter
+
+
+
+//Setting up override FMOD'S file system with callbacks
+
+FMOD_RESULT F_CALLBACK Open(const char* name, int code, unsigned int* fileSize, void** handle, void** userData)
+{
+	if (name)
+	{
+		FILE* pFile;
+
+		pFile = fopen(name, "rb");
+		if (!pFile)
+		{
+			return FMOD_ERR_FILE_NOTFOUND;
+		}
+
+		fseek(pFile, 0, SEEK_END);
+		*fileSize = ftell(pFile);
+		fseek(pFile, 0, SEEK_SET);
+
+		*userData = (void*)0x12345678;
+		*handle = pFile;
+	}
+
+	return FMOD_OK;
+};
+
+FMOD_RESULT F_CALLBACK Close(void* handle, void* userData)
+{
+	if (!handle)
+	{
+		return FMOD_ERR_INVALID_PARAM;
+	}
+
+	fclose((FILE*)handle);
+
+	return FMOD_OK;
+};
+
+FMOD_RESULT F_CALLBACK AsyncRead(FMOD_ASYNCREADINFO* info, void* userData)
+{
+	return; //PutReadRequestOntoQueue(info)
+};
+
+FMOD_RESULT F_CALLBACK AsyncCancel(void* handle, void* userData)
+{
+	return; //SearchQueueForFileHandleAndRemove(info);
+};
+
+
+
+enum AudioState
+{
+	INITIALIZE,
+	LOADING,
+	TOPLAY,
+	PLAYING,
+	STOPPING,
+	STOPPED
+};
 
 struct Vec3
 {
@@ -31,6 +96,7 @@ struct FmodInit
 
 	//Functions
 	void Update();
+
 
 	//Variables
 	FMOD::System* pSystem;
@@ -61,6 +127,7 @@ struct FmodInit
 	FMOD_VECTOR m_Vel;
 
 };
+
 
 class AudioEngine
 {

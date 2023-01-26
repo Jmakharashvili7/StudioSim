@@ -1,8 +1,6 @@
 #include "AudioEngine.h"
 
 
-
-
 FmodInit::FmodInit()
 {
 	FMOD_RESULT result;
@@ -25,7 +23,10 @@ FmodInit::FmodInit()
 	m_ReverbPos = { -10.0f, 0.0f, 0.0f };
 	m_Pos = { 50.0f * DISTANCE, 0.0f, 0.0f };
 	m_Vel = { 0.0f, 0.0f, 0.0f };
+
 	
+
+#pragma region Fmod setup
 	result = FMOD::System_Create(&pSystem);
 	if (result != FMOD_OK)
 	{
@@ -85,7 +86,7 @@ FmodInit::FmodInit()
 		exit(-1);
 	}
 
-	
+
 
 	//Setting up 3D sound
 	result = pSystem->set3DSettings(1.0, DISTANCE, 1.0f);
@@ -132,9 +133,11 @@ FmodInit::FmodInit()
 		printf("Error setting DSP pan settings:  (%d) %s ", result, FMOD_ErrorString(result));
 		exit(-1);
 	}
-
+#pragma endregion Fmod Setup
 
 }
+
+
 FmodInit::~FmodInit()
 {
 	pSystem->release();
@@ -144,6 +147,7 @@ void FmodInit::Update()
 {
 	
 	pSystem->update();
+	
 }
 
 FmodInit* pFmod;
@@ -152,11 +156,13 @@ void AudioEngine::Init()
 {
 	pFmod = new FmodInit;
 
+	
 
 	//pFmod->pDspFader->setActive(true);
 
 	CreateSound("res/Sounds/a.mp3", true, true, false, nullptr, &pFmod->pSounds[0]);
-
+	CreateSound("res/Sounds/ohh.mp3", false, true, false, nullptr, &pFmod->pSounds[1]);
+	
 	pFmod->pSystem->createChannelGroup("Test", &pFmod->pTestGroup);
 
 	MasterChannelManager();
