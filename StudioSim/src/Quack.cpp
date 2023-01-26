@@ -264,7 +264,7 @@ void Quack::HandleInput()
 		case 'J': // MOVE LEFT
 		{
 			m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break; 
+			break;
 		}
 		case 'L': // MOVE RIGHT
 		{
@@ -308,11 +308,19 @@ void Quack::HandleInput()
 			//Only counting the click within viewport boundary
 			if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
 			{
-				m_duck->SetPosition(Vector3(viewStart_x, viewStart_y, 0.0f));
+				/*float newposition_x = (viewStart_x - port_x) / port_x,
+					 newposition_y = -1 * (viewStart_y - port_y) / port_y;*/
+				float newposition_x = (ImGui::GetMousePos().x / screen_x * 2 - 1),
+					newposition_y = -(ImGui::GetMousePos().y / port_y * 2 - 1);
+				m_duck->SetPosition(Vector3(newposition_x, newposition_y, 0.0f));
 				std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
 				std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
-				std::cout << "Mouse Port X: " << viewStart_x << std::endl;
-				std::cout << "Mouse Port Y: " << viewStart_y << std::endl;
+				std::cout << "viewStart_x X: " << viewStart_x << std::endl;
+				std::cout << "viewStart_y Y: " << viewStart_y << std::endl;
+				std::cout << "Start viewport X: " << ViewportUI::startViewportX << std::endl;
+				std::cout << "Start viewport Y: " << ViewportUI::startViewportY << std::endl;
+				std::cout << "Duck pos X: " << m_duck->GetPosition().x << std::endl;
+				std::cout << "Duck pos Y: " << m_duck->GetPosition().y << std::endl;
 			}
 			//m_duck->GetPosition();
 		}
@@ -553,7 +561,7 @@ void Quack::ProjectileDecrement(Facing direction)
 	if (m_throw_force <= 0.0f)
 	{
 		m_thrown = false;
-	}	
+	}
 }
 
 void Quack::ShutDown()
