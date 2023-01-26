@@ -139,6 +139,12 @@
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\InputComponent.cpp" />
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
+    <ClCompile Include="src\ContentBrowser.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ContentBrowserUI.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -267,6 +273,9 @@
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\InputComponent.h" />
     <ClInclude Include="src\WorldOutlinerUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ContentBrowserUI.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
