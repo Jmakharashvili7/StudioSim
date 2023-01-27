@@ -59,11 +59,6 @@ void Character::CheckShouldDie()
 	}
 }
 
-void Character::Destroy()
-{
-	Actor::Destroy();
-}
-
 void Character::TakeDamage(const float amount)
 {
 	std::cout << "Ouch" << std::endl;
@@ -78,5 +73,5 @@ void Character::Kill()
 void Character::Die()
 {
 	std::cout << "Im dead" << std::endl;
-	Destroy();
+	// tell scene im dead
 }

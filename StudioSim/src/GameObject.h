@@ -40,6 +40,8 @@ public:
 	virtual void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
 	inline const Vector3 GetPreviousPosition() const { if (m_transform) return m_transform->GetPreviousPosition(); }
+	inline TransformData GetTransformData() { return m_transformData; }
+	inline Transform* GetTransform() { return m_transform; }
 
 	// Rotation
 	virtual Vector3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
@@ -67,37 +69,41 @@ public:
 	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
 
-	inline TransformData GetTransformData() { return m_transformData; }
-	inline Transform* GetTransform() { return m_transform; }
-	inline TextureData GetTextureData() { return m_textureData; }
-
 	// Other
 	inline const std::string const GetName() { return m_name; }
-
-	// Destroy
-	virtual void Destroy();
 
 	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
+	void UpdateVertexArray();
+	void UpdateObjectData(GameObjectData* newData);
+
+	// Texture
 	inline Texture* GetTexture() const { return m_texture; }
+	inline TextureData GetTextureData() { return m_textureData; }
+
+	// Name + type
 	inline std::string GetName() const { return m_name; }
 	inline GameObjectType GetType() const { return m_type; }
 
-	void UpdateVertexArray();
-	void UpdateObjectData(GameObjectData* newData);
 protected:
+	// Name + type
 	std::string m_name = "";
 	GameObjectType m_type;
 
+	// Texture
 	Texture* m_texture = nullptr;
-	TextureData m_textureData = nullptr;
+	TextureData m_textureData;
+
+	// Object
 	VertexArray* m_va = nullptr;
 	GameObjectData* m_data = nullptr;
+
+	// Transform
 	Transform* m_transform = nullptr;
 	TransformData m_transformData;
 
-	/* Collision */
+	// Collision
 	CollisionData m_collisionData = CollisionData();
 	std::vector<GameObject*> m_collidingObjects;
 };

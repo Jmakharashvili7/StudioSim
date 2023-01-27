@@ -9,8 +9,6 @@ GameObject::GameObject(std::string name, GameObjectData* data, const TransformDa
 	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
-	
-	std::cout << "FELYPE LIKES GOTHS" << std::endl;
 }
 
 GameObject::~GameObject()
@@ -114,11 +112,6 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObject, m_collidingObjects);
 		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
 	}
-}
-
-void GameObject::Destroy()
-{
-	//Quack::DestroyGameObject(this);
 }
 
 void GameObject::UpdateVertexArray()

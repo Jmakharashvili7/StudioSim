@@ -7,6 +7,7 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData), m_animationData(animationData)
 {
 	m_type = GameObjectType::ACTOR;
+
 	//Animation init
 	m_banimated = animationData.banimated;
 	if (m_banimated)
@@ -55,7 +56,7 @@ void Actor::AddCollision(GameObject* collidingObject)
 {
 	// Debug
 	
-	if (GetPosition().y < collidingObject->GetPosition().y)
+	/*if (GetPosition().y < collidingObject->GetPosition().y)
 	{
 		std::cout << "BOTTOM HIT" << std::endl;
 	}
@@ -70,17 +71,17 @@ void Actor::AddCollision(GameObject* collidingObject)
 	else
 	{
 		std::cout << "Bottom HIT" << std::endl;
-	}
+	}*/
 
 	if (collidingObject->GetName() == "ground")
 	{
-		Vector3 duckLeft = GetPosition() - GetScale() / Vector3(2.0f);
+		/*Vector3 duckLeft = GetPosition() - GetScale() / Vector3(2.0f);
 		Vector3 duckRight = GetPosition() + GetScale() / Vector3(2.0f);
 		Vector3 floorLeft = collidingObject->GetPosition() - collidingObject->GetScale() / Vector3(2.0f);
 		Vector3 floorRight = collidingObject->GetPosition() + collidingObject->GetScale() / Vector3(2.0f);
 
 		std::cout << "DUCK CENTRE: " << GetPosition().x << "  DUCK LEFT: " << duckLeft.x << "  DUCK RIGHT: " << duckRight.x << std::endl;
-		std::cout << "FLOOR CENTRE:  " << collidingObject->GetPosition().x << "  FLOOR LEFT: " << floorLeft.x << "  FLOOR RIGHT: " << floorRight.x << std::endl;
+		std::cout << "FLOOR CENTRE:  " << collidingObject->GetPosition().x << "  FLOOR LEFT: " << floorLeft.x << "  FLOOR RIGHT: " << floorRight.x << std::endl;*/
 
 
 		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
@@ -113,9 +114,4 @@ void Actor::ClearComponents()
 void Actor::ReorderComponents()
 {
 	return;
-}
-
-void Actor::Destroy()
-{
-	GameObject::Destroy();
 }

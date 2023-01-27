@@ -2,8 +2,8 @@
     "banimated": false,
     "bsimulateGravity": true,
     "centerPosition": [
-        0.0,
-        -1.311402678489685,
+        0.670165479183197,
+        -1.2135589122772217,
         0.0
     ],
     "collisionType": 0,
@@ -34,8 +34,8 @@
     "name": "duck",
     "objectType": 1,
     "position": [
-        0.0,
-        -1.311402678489685,
+        0.670165479183197,
+        -1.2135589122772217,
         0.0
     ],
     "radius": 0.0,

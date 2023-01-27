@@ -84,77 +84,7 @@ int Quack::InitEngine()
 
 void Quack::HandleInput()
 {
-	KeyEvent key = KeyboardClass::ReadKey();
-	if (key.IsPressed())
-	{
-		switch (key.GetKeyCode())
-		{
-		case 0: // default value means no input so break out of loop
-			break;
-		case 'W': // move camera up
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.y += 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
-		}
-		case 'S': // move camera down
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.y -= 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
-		}
-		case 'A': // move camera left
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.x -= 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
-		}
-		case 'D': // move camera right
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.x += 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
-		}
-		case 'J': // MOVE LEFT
-		{
-			m_mainScene = Scene("MainScene", m_uiMain, m_window);
-			break; 
-		}
-		}
-	}
 
-	if (!MouseClass::IsEventBufferEmpty())
-	{
-		MouseEvent e = MouseClass::ReadEvent();
-
-		if (e.GetType() == MouseEvent::EventType::L_CLICK)
-		{
-		}
-		if (e.GetType() == MouseEvent::EventType::R_CLICK)
-		{
-
-		}
-		if (e.GetType() == MouseEvent::EventType::MOVE)
-		{
-
-		}
-	}
 }
 
 void Quack::Update()

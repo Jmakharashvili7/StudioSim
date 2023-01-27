@@ -21,19 +21,17 @@ public:
 	// Physics
 	virtual inline const bool GetSimulatingGravity() const { return m_physicsData.bsimulateGravity; }
 	virtual inline const float GetMass() const { return m_physicsData.mass; }
+	inline PhysicsData GetPhysicsData() { return m_physicsData; }
 
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }
+	inline AnimationData GetAnimationData() { return m_animationData; }
 
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject) override;
 	virtual void RemoveCollision(GameObject* gameObject) override;
 	virtual inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
-
-	// Getter functions
-	inline PhysicsData GetPhysicsData() { return m_physicsData; }
-	inline AnimationData GetAnimationData() { return m_animationData; }
 
 	// Components
 	virtual void AddComponent(Component* component);
@@ -42,9 +40,6 @@ public:
 
 	// Input
 	virtual inline InputComponent* const GetInputComponent() { return m_inputComponent; }
-
-	// Destroy
-	virtual void Destroy() override;
 
 protected:
 	// Animation
