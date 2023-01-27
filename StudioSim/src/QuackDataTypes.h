@@ -20,15 +20,35 @@ struct TextureData
 
 struct PhysicsData
 {
-	PhysicsData(const bool inSimulateGravity, const float inMass, const float inJumpHeight)
-		: bsimulateGravity(inSimulateGravity), mass(inMass), jumpHeight(inJumpHeight) {};
+	PhysicsData(const bool inSimulateGravity, const float inMass)
+		: bsimulateGravity(inSimulateGravity), mass(inMass) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f), jumpHeight(0.0f) {};
+		: bsimulateGravity(false), mass(0.0f) {};
 
 	bool bsimulateGravity;
 	float mass;
+};
+
+struct MovementData
+{
+	MovementData(const float inMovementSpeed, const float inJumpHeight)
+		: movementSpeed(inMovementSpeed), jumpHeight(inJumpHeight) {};
+
+	MovementData()
+		: movementSpeed(0.0f), jumpHeight(0.0f) {};
+
+	float movementSpeed;
 	float jumpHeight;
+};
+
+struct EntityData
+{
+	EntityData(const float inHealth) : health(inHealth) {};
+
+	EntityData() : health(0.0f) {};
+
+	float health;
 };
 
 struct AnimationData

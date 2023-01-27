@@ -52,8 +52,10 @@ void KeyboardClass::OnKeyPressed(const unsigned char key)
 
 void KeyboardClass::OnKeyHeld(const unsigned char key)
 {
-	s_KeyStates[key] = true;
-	s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
+	if (s_KeyBuffer.front().IsPressed())
+	{
+		s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
+	}
 }
 
 void KeyboardClass::OnKeyReleased(const unsigned char key)

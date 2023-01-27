@@ -4,8 +4,9 @@
 #include "InputComponent.h"
 
 Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
-	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData)
+	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData), m_animationData(animationData)
 {
+	m_type = GameObjectType::ACTOR;
 	//Animation init
 	m_banimated = animationData.banimated;
 	if (m_banimated)
@@ -20,15 +21,13 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 
 Actor::~Actor()
 {
+	delete m_animator;
+	m_animator = nullptr;
 
-}
-
-void Actor::Jump()
-{
-	if (m_physicsData.bsimulateGravity && !m_bjumping)
+	for (Component* component : m_components)
 	{
-		m_bjumping = true;
-		m_currentJumpForce = m_physicsData.jumpHeight;
+		delete component;
+		component = nullptr;
 	}
 }
 
@@ -81,10 +80,6 @@ void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSi
 
 	if (collidingObject->GetName() == "ground")
 	{
-		//std::cout << "HIT GROUND" << std::endl;
-		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
-		SetJumping(false);
-		SetCurrentJumpForce(0.0f);
 		SetCollidingWithGround(true);
 	}
 
@@ -95,16 +90,10 @@ void Actor::RemoveCollision(GameObject* gameObject)
 {
 	if (gameObject->GetName() == "ground")
 	{
-		//std::cout << "END GROUND" << std::endl;
 		SetCollidingWithGround(false);
 	}
 
 	GameObject::RemoveCollision(gameObject);
-}
-
-bool const Actor::GetCollidingWithGround()
-{
-	return m_bcollidingWithGround;
 }
 
 void Actor::AddComponent(Component* component)
@@ -122,12 +111,7 @@ void Actor::ReorderComponents()
 	return;
 }
 
-void Actor::AddImpulseForce(Vector3 force)
+void Actor::Destroy()
 {
-	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)
-	{
-		m_bimpulseActive = true;
-		m_currentImpulseForce = force;
-		m_testImpulseForceMag = force;
-	}
+	GameObject::Destroy();
 }

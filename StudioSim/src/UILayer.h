@@ -29,6 +29,8 @@ public:
 
 	inline glm::vec4& GetColor() { return m_color; }
 	inline ViewportUI* GetViewport() { return m_viewportUI; }
+	inline EditorUI* GetEditorUI() { return m_editorUI; }
+
 private:
 	void EnableDocking();
 private:

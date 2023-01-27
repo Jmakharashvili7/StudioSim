@@ -8,6 +8,13 @@
 #include "Shader.h"
 #include "Transform.h"
 #include "QuackPhysics.h"
+#include "QuackOperations.h"
+
+enum class GameObjectType
+{
+	OBJECT,
+	ACTOR
+};
 
 struct GameObjectData
 {
@@ -20,7 +27,7 @@ class GameObject
 {
 public:
 	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
-	~GameObject();
+	virtual ~GameObject();
 
 	// Rendering
 	virtual void Draw(Shader* mainShader);
@@ -56,29 +63,39 @@ public:
 	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
 	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
-	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
 	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
 	virtual void RemoveCollision(GameObject* gameObject);
 
+	inline TransformData GetTransformData() { return m_transformData; }
+	inline Transform* GetTransform() { return m_transform; }
+	inline TextureData GetTextureData() { return m_textureData; }
+
 	// Other
 	inline const std::string const GetName() { return m_name; }
+
+	// Destroy
+	virtual void Destroy();
 
 	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
+	inline std::string GetName() const { return m_name; }
+	inline GameObjectType GetType() const { return m_type; }
+
 	void UpdateVertexArray();
 	void UpdateObjectData(GameObjectData* newData);
-	
-
 protected:
 	std::string m_name = "";
+	GameObjectType m_type;
 
 	Texture* m_texture = nullptr;
+	TextureData m_textureData = nullptr;
 	VertexArray* m_va = nullptr;
 	GameObjectData* m_data = nullptr;
 	Transform* m_transform = nullptr;
+	TransformData m_transformData;
 
 	/* Collision */
 	CollisionData m_collisionData = CollisionData();
