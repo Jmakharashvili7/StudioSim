@@ -162,9 +162,13 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\QuackOperations.cpp" />
+    <ClCompile Include="src\Character.cpp" />
+    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\CustomMaths.cpp" />
     <ClCompile Include="src\EditorUI.cpp" />
     <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\InputComponent.cpp" />
     <ClCompile Include="src\ObjectUI.cpp" />
     <ClCompile Include="src\PathNode.cpp" />
     <ClCompile Include="src\PerspectiveCamera.cpp" />
@@ -203,9 +207,14 @@
     <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\QuackOperations.h" />
+    <ClInclude Include="src\Character.h" />
+    <ClInclude Include="src\InputComponent.h" />
+    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\CustomMaths.h" />
     <ClInclude Include="src\EditorUI.h" />
     <ClInclude Include="src\Grid.h" />
+    <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\ObjectUI.h" />
     <ClInclude Include="src\PathNode.h" />
     <ClInclude Include="src\PerspectiveCamera.h" />
@@ -230,7 +239,6 @@
     <ClInclude Include="src\QuackPhysics.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\QuackCallbacks.h" />
-    <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\KeyEvent.h" />
     <ClInclude Include="src\OrthographicCamera.h" />
     <ClInclude Include="src\Quack.h" />

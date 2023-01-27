@@ -89,3 +89,12 @@ Vector3 CollisionManager::RepositionGameObject(GameObject* a, GameObject* b)
 	//Vector3 outPosition = Vector3(a->GetPosition().x, (b->GetCollisionCenter().y + b->GetCollisionBoxSize().y / 2.0f) - (a->GetCollisionCenter().y - a->GetCollisionBoxSize().y / 2.0f), 0.0f);
 	return Vector3();
 }
+
+void CollisionManager::RemoveGameObject(GameObject* gameObjectToRemove)
+{
+	if (gameObjectToRemove)
+	{
+		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObjectToRemove, m_gameObjects);
+		m_gameObjects.erase(m_gameObjects.begin() + gameObjectIndex);
+	}
+}

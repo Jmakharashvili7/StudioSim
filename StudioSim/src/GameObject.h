@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Transform.h"
 #include "QuackPhysics.h"
+#include "QuackOperations.h"
 
 enum class GameObjectType
 {
@@ -26,9 +27,13 @@ class GameObject
 {
 public:
 	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
-	~GameObject();
+	virtual ~GameObject();
 
+	// Rendering
 	virtual void Draw(Shader* mainShader);
+
+	// Update
+	virtual void Update(const float deltaTime);
 
 	// Position
 	virtual void SetPosition(const Vector3 newPosition);
@@ -44,8 +49,8 @@ public:
 
 	// Scale
 	virtual Vector3 GetScale() const { if (m_transform) return m_transform->GetScale(); }
-	virtual void SetScale(const Vector3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
-	virtual void AdjustScale(const Vector3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
+	virtual void SetScale(const Vector3 newScale);
+	virtual void AdjustScale(const Vector3 adjustScale);
 
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
@@ -58,7 +63,6 @@ public:
 	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
 	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
-	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
 	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
 	virtual void RemoveCollision(GameObject* gameObject);
@@ -70,6 +74,10 @@ public:
 	// Other
 	inline const std::string const GetName() { return m_name; }
 
+	// Destroy
+	virtual void Destroy();
+
+	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline GameObjectData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }

@@ -34,63 +34,39 @@ void PhysicsManager::Update(const float deltaTime)
 				actor->AdjustPosition(Vector3(0.0f, -weight * deltaTime, 0.0f));
 			}
 
-			// Jumping calculations
-			if (actor->GetJumping())
+			// Check to see if the actor is a character
+			Character* character = dynamic_cast<Character*>(actor);
+			if (character)
 			{
-				const float currentJumpForce = actor->GetCurrentJumpForce();
-				const float jumpHeight = actor->GetJumpHeight();
-				actor->AdjustPosition(Vector3(0.0f, currentJumpForce * deltaTime, 0.0f));
-				
-				// Update jump force
-				const float newJumpForce = currentJumpForce - (jumpHeight * deltaTime);
+				// Jumping calculations, cast to character
+				if (character->GetJumping())
+				{
+					const float currentJumpForce = character->GetCurrentJumpForce();
+					const float jumpHeight = character->GetJumpHeight();
+					character->AdjustPosition(Vector3(0.0f, currentJumpForce * deltaTime, 0.0f));
 
-				// feel like this can be better - collision with ground maybe
-				if (newJumpForce <= 0.0f)
-				{
-					actor->SetJumping(false);
-					actor->SetCurrentJumpForce(0.0f);
-				}
-				else
-				{
-					actor->SetCurrentJumpForce(newJumpForce);
-				}
-			}
+					// Update jump force
+					const float newJumpForce = currentJumpForce - (jumpHeight * deltaTime);
 
-			// Impulse calculations
-			if (actor->GetImpulseActive())
-			{
-				const Vector3 currentImpulseForce = actor->GetCurrentImpulseForce();
-				const Vector3 forceMagnitude = actor->GetImpulseForceMag();
-
-				actor->AdjustPosition(Vector3(currentImpulseForce.x * deltaTime, currentImpulseForce.y * deltaTime, currentImpulseForce.z* deltaTime));
-
-				// Update impulse force
-				Vector3 newImpulseForce = Vector3(currentImpulseForce.x - (forceMagnitude.x * deltaTime), currentImpulseForce.y - (forceMagnitude.y * deltaTime), currentImpulseForce.z - (forceMagnitude.z * deltaTime));
-
-				if (actor->GetCurrentImpulseForce().x > 0.0f)
-				{
-					if ((newImpulseForce.x) <= 0.0f)
-						newImpulseForce.x = 0.0f;
-				}
-				else
-				{
-					if ((newImpulseForce.x) >= 0.0f)
-						newImpulseForce.x = 0.0f;
-				}
-				if ((newImpulseForce.y) <= 0.0f)
-					newImpulseForce.y = 0.0f;
-				if ((newImpulseForce.z) <= 0.0f)
-					newImpulseForce.z = 0.0f;
-				if ((newImpulseForce.x) == 0.0f && (newImpulseForce.y) == 0.0f && (newImpulseForce.z) == 0.0f)
-				{
-					actor->SetImpulseActive(false);
-					actor->SetCurrentImpulseForce(Vector3::Zero);
-				}
-				else
-				{
-					actor->SetCurrentImpulseForce(newImpulseForce);
+					if (newJumpForce <= 0.0f)
+					{
+						character->SetCurrentJumpForce(0.0f);
+					}
+					else
+					{
+						character->SetCurrentJumpForce(newJumpForce);
+					}
 				}
 			}
 		}
+	}
+}
+
+void PhysicsManager::RemoveGameActor(Actor* actorToRemove)
+{
+	if (actorToRemove)
+	{
+		const int actorIndex = QuackOperations::GetActorIndex(actorToRemove, m_gameActors);
+		m_gameActors.erase(m_gameActors.begin() + actorIndex);
 	}
 }

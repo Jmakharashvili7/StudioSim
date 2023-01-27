@@ -18,6 +18,7 @@ public:
 	static KeyEvent ReadKey();
 	static unsigned char ReadChar();
 	static void OnKeyPressed(const unsigned char key);
+	static void OnKeyHeld(const unsigned char key);
 	static void OnKeyReleased(const unsigned char key);
 	static void OnCharInput(const unsigned char key);
 	static inline void EnableAutoRepeatKeys() { s_AutoRepeatKeys = true; }

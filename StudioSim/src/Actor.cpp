@@ -1,6 +1,7 @@
 #include "Actor.h"
 #include "Animate.h"
 #include "Quack.h"
+#include "InputComponent.h"
 
 Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData), m_animationData(animationData)
@@ -12,19 +13,21 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 	{
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
 	}
+
+	// Input init
+	m_inputComponent = new InputComponent(this, 0);
+	AddComponent(m_inputComponent);
 }
 
 Actor::~Actor()
 {
+	delete m_animator;
+	m_animator = nullptr;
 
-}
-
-void Actor::Jump()
-{
-	if (m_physicsData.bsimulateGravity && !m_bjumping)
+	for (Component* component : m_components)
 	{
-		m_bjumping = true;
-		m_currentJumpForce = m_physicsData.jumpHeight;
+		delete component;
+		component = nullptr;
 	}
 }
 
@@ -36,6 +39,16 @@ void Actor::Draw(Shader* mainShader)
 	}
 
 	GameObject::Draw(mainShader);
+}
+
+void Actor::Update(const float deltaTime)
+{
+	GameObject::Update(deltaTime);
+
+	for (Component* component : m_components)
+	{
+		component->Update(deltaTime);
+	}
 }
 
 void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
@@ -67,8 +80,6 @@ void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSi
 
 	if (collidingObject->GetName() == "ground")
 	{
-		//std::cout << "HIT GROUND" << std::endl;
-		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
 		SetCollidingWithGround(true);
 	}
 
@@ -79,24 +90,28 @@ void Actor::RemoveCollision(GameObject* gameObject)
 {
 	if (gameObject->GetName() == "ground")
 	{
-		//std::cout << "END GROUND" << std::endl;
 		SetCollidingWithGround(false);
 	}
 
 	GameObject::RemoveCollision(gameObject);
 }
 
-bool const Actor::GetCollidingWithGround()
+void Actor::AddComponent(Component* component)
 {
-	return m_bcollidingWithGround;
+	m_components.push_back(component);
 }
 
-void Actor::AddImpulseForce(Vector3 force)
+void Actor::ClearComponents()
 {
-	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)
-	{
-		m_bimpulseActive = true;
-		m_currentImpulseForce = force;
-		m_testImpulseForceMag = force;
-	}
+	m_components.clear();
+}
+
+void Actor::ReorderComponents()
+{
+	return;
+}
+
+void Actor::Destroy()
+{
+	GameObject::Destroy();
 }

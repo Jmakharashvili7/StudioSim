@@ -33,6 +33,10 @@ namespace QuackEngine {
 			{
 				MouseClass::OnRightRelease(posX, posY);
 			}
+			else if (action == GLFW_REPEAT)
+			{
+				MouseClass::OnRightHeld(posX, posY);
+			}
 		}
 		if (button == GLFW_MOUSE_BUTTON_LEFT)
 		{
@@ -45,6 +49,10 @@ namespace QuackEngine {
 			else if (action != GLFW_RELEASE)
 			{
 				MouseClass::OnLeftRelease(posX, posY);
+			}
+			else if (action == GLFW_REPEAT)
+			{
+				MouseClass::OnLeftHeld(posX, posY);
 			}
 		}
 	}

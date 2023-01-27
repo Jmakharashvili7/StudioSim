@@ -1,6 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
-#include "Actor.h"
+#include "Character.h"
 
 #define GFORCE 9.81
 
@@ -13,6 +13,7 @@ public:
 	static void Update(const float deltaTime);
 
 	inline static void AddGameActor(Actor* inGameActor) { m_gameActors.push_back(inGameActor); }
+	static void RemoveGameActor(Actor* actorToRemove);
 
 private:
 	static std::vector<Actor*> m_gameActors;

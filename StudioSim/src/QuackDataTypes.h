@@ -20,15 +20,35 @@ struct TextureData
 
 struct PhysicsData
 {
-	PhysicsData(const bool inSimulateGravity, const float inMass, const float inJumpHeight)
-		: bsimulateGravity(inSimulateGravity), mass(inMass), jumpHeight(inJumpHeight) {};
+	PhysicsData(const bool inSimulateGravity, const float inMass)
+		: bsimulateGravity(inSimulateGravity), mass(inMass) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f), jumpHeight(0.0f) {};
+		: bsimulateGravity(false), mass(0.0f) {};
 
 	bool bsimulateGravity;
 	float mass;
+};
+
+struct MovementData
+{
+	MovementData(const float inMovementSpeed, const float inJumpHeight)
+		: movementSpeed(inMovementSpeed), jumpHeight(inJumpHeight) {};
+
+	MovementData()
+		: movementSpeed(0.0f), jumpHeight(0.0f) {};
+
+	float movementSpeed;
 	float jumpHeight;
+};
+
+struct EntityData
+{
+	EntityData(const float inHealth) : health(inHealth) {};
+
+	EntityData() : health(0.0f) {};
+
+	float health;
 };
 
 struct AnimationData
@@ -78,6 +98,19 @@ struct CollisionData
 	Vector3 centerPosition;
 	Vector3 size;
 	float radius;
+};
+
+enum class KeyType
+{
+	A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+	NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, NUM_7, NUM_8, NUM_9,
+	ENTER, SPACE, BACKSPACE, LFSHIFT, RSHIFT
+};
+
+enum class AxisType
+{
+	HORIZONTAL,
+	VERTICAL
 };
 
 
