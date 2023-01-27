@@ -140,11 +140,14 @@ FmodInit::FmodInit()
 
 FmodInit::~FmodInit()
 {
+	
 	pSystem->release();
 }
 
 void FmodInit::Update()
 {
+	
+
 	
 	pSystem->update();
 	
@@ -454,12 +457,27 @@ bool AudioEngine::IsPlaying(int channelID)
 
 }
 
+
+void AudioEngine::UpdateTest()
+{
+	switch (m_State)
+	{
+	case AudioState::INITIALIZE:
+	case AudioState::DEVIRTUALIZE:
+	case AudioState::TOPLAY:
+	{
+		break;
+	}
+	default:
+		break;
+	}
+}
+
 void AudioEngine::Play(FMOD::Sound* sound, FMOD::ChannelGroup* channelGroup, bool isPaused, FMOD::Channel** channel)
 {
 	FMOD_RESULT result;
 
 	result = pFmod->pSystem->playSound(sound, channelGroup, isPaused, channel);
-	std::cout << "Sexy" << std::endl;
 
 	if (result != FMOD_OK)
 	{

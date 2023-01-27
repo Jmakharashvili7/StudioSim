@@ -11,6 +11,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <glm\glm.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtx/rotate_vector.hpp>

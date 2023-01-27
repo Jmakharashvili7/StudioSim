@@ -6,7 +6,8 @@
 #include "fmod_codec.h"
 #include "fmod_output.h"
 #include "fmod_errors.h"
-
+#include <math.h>
+#include <vector>
 #include "BasicIncludes.h"
 
 #define _7_1_AUDIO
@@ -17,6 +18,8 @@ const int SOUNDCOUNT = 3;
 const int CHANNELCOUNT = 3;
 const int DISTANCE = 1.0f; //Units per Meter
 
+//https://github.com/SuperCLine/audiofmod/blob/master/src/audio_fmod.cpp
+//https://github.com/SuperCLine/audiofmod/blob/master/inc/private/audio_fmod.h
 
 
 //Setting up override FMOD'S file system with callbacks
@@ -72,9 +75,12 @@ enum AudioState
 {
 	INITIALIZE,
 	LOADING,
+	DEVIRTUALIZE,
 	TOPLAY,
 	PLAYING,
+	VIRTUALIZING,
 	STOPPING,
+	VIRTUAL,
 	STOPPED
 };
 
@@ -97,6 +103,10 @@ struct FmodInit
 	//Functions
 	void Update();
 
+	//Maps
+	typedef std::map<int, FMOD::Sound*> SoundMap;
+	typedef std::map<int, FMOD::Channel*> ChannelMap;
+
 
 	//Variables
 	FMOD::System* pSystem;
@@ -117,6 +127,7 @@ struct FmodInit
 	float m_MinDistance;
 	float m_MaxDistance;
 
+	bool  m_StopRequested;
 	bool  m_IsPlaying;
 
 	unsigned int m_Version;
@@ -135,6 +146,7 @@ public:
 
 	void  Init();
 	void  Update();
+	void  UpdateTest();
 	void  Shutdown();
 	void	 CreateSound(const std::string& pathtoSound, 
 		bool isLoop, bool is3D, bool isStream,
@@ -157,9 +169,12 @@ public:
 	void  FadeOut(int channelID, float fadeTime );
 	
 	bool  IsPlaying(int channelID);
+	
 				 
 	float ChangingDBToVolume(float DB);
 
 	FMOD_VECTOR VectorToFmodVec(const Vec3& soundPo);
+
+	AudioState m_State;
 };
 
