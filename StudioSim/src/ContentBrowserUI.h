@@ -15,4 +15,9 @@ public:
 private:
 	std::string m_ContentRoot = "res";
 	std::string m_CurrentDirectory;
+
+	ImGuiIO& m_IO = ImGui::GetIO();
+
+	float m_thumbnailPadding;
+	float m_thumbnailSize;
 };

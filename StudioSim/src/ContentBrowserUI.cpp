@@ -7,6 +7,9 @@ namespace fs = std::filesystem;
 ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)
 {
 	m_CurrentDirectory = m_ContentRoot;
+
+	m_thumbnailPadding = 0.0f;
+	m_thumbnailSize = 0.0f;
 }
 
 ContentBrowserUI::~ContentBrowserUI()
@@ -34,6 +37,10 @@ void ContentBrowserUI::Render()
 		}
 	}
 
+	ImGui::Columns(4, 0, false);
+
+
+
 	//loop through the directory in contentBrowser and show all directories
 	//directory iterator goes through all subdirectories within the directory passed in
 	//directory entry is each directory where the directory iterator is located
@@ -44,16 +51,22 @@ void ContentBrowserUI::Render()
 
 		if (directory.is_directory())
 		{
-			if (ImGui::Button(directoryName.c_str()))
+			if (ImGui::Button(directoryName.c_str(), { 128, 128}))
 			{
 				m_CurrentDirectory = path;
 			}
+			ImGui::Text(directoryName.c_str());
 		}
 		if (directory.is_regular_file())
 		{
 			std::string file= directory.path().filename().string();
-			ImGui::Text(file.c_str());
+			if (ImGui::Button(file.c_str()))
+			{
+				
+			}
+
 		}
+		ImGui::NextColumn();
 	}
 
 	
