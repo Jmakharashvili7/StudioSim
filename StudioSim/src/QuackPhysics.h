@@ -54,7 +54,6 @@ public:
 
 	QuackPhysics() {};
 	~QuackPhysics() {};
-	bool show = true;
 
 	/// <summary>
 	/// Check if 2 squares collide
