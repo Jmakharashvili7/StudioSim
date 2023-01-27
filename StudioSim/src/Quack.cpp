@@ -111,6 +111,7 @@ float Quack::viewEnd_y;
 
 void Quack::InitObjects()
 {
+
 	// Init game objects
 	GameObjectData* groundObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
 	const TransformData groundTransformData = TransformData(Vector3(0.0f, -2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 0.6f, 1.0f));
@@ -120,7 +121,7 @@ void Quack::InitObjects()
 
 	// Init actors
 	GameObjectData* duckObjectData = QuackEngine::JsonLoader::LoadObject2D("res/ObjectData/Square.json");
-	const TransformData duckTransformData = TransformData(Vector3(0.0f, 2.5f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
+	const TransformData duckTransformData = TransformData(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f));
 	const CollisionData duckCollisionData = CollisionData(duckTransformData.position, duckTransformData.scale);
 	const TextureData duckTextureData = TextureData("res/textures/duck2.png", GL_RGBA, GL_RGBA);
 	const PhysicsData duckPhysicsData = PhysicsData(true, 1.0f, 25.0f);
@@ -339,8 +340,10 @@ void Quack::HandleInput()
 				float floater_y = ndc.y - integer_y;
 				float floater_z = ndc.z - integer_z;
 
+				std::cout << "Click Y:  " << ndc.y << "			Int Y:  " << integer_y << "			Floater Y:  " << floater_y << std::endl;
+
 				//check if the number is closer to 0 or to 0.5
-				if (integer_x > 0)
+				if (floater_x >= 0)
 				{
 					if (floater_x >= 0.25 && floater_x <= 0.75)
 						floater_x = 0.5;
@@ -352,13 +355,13 @@ void Quack::HandleInput()
 				else
 				{
 					if (floater_x <= -0.25 && floater_x >= -0.75)
-						floater_x = 0.5;
+						floater_x = -0.5;
 					else if (floater_x > -0.25)
 						floater_x = 0.0f;
 					else if (floater_x < -0.75)
-						floater_x = 1.0f;
+						floater_x = -1.0f;
 				}
-				if (integer_y > 0)
+				if (floater_y >= 0)
 				{
 					if (floater_y >= 0.25 && floater_y <= 0.75)
 						floater_y = 0.5;
@@ -370,20 +373,20 @@ void Quack::HandleInput()
 				else
 				{
 					if (floater_y <= -0.25 && floater_y >= -0.75)
-						floater_y = 0.5;
+						floater_y = -0.5;
 					else if (floater_y > -0.25)
 						floater_y = 0.0f;
 					else if (floater_y < -0.75)
-						floater_y = 1.0f;
+						floater_y = -1.0f;
 				}
 				if (integer_z > 0)
 				{
 					if (floater_z >= 0.25 && floater_z <= 0.75)
-						floater_z = 0.5;
+						floater_z = -0.5;
 					else if (floater_z < 0.25)
 						floater_z = 0.0f;
 					else if (floater_z > 0.75)
-						floater_z = 1.0f;
+						floater_z = -1.0f;
 				}
 				else
 				{
@@ -392,29 +395,63 @@ void Quack::HandleInput()
 					else if (floater_z > -0.25)
 						floater_z = 0.0f;
 					else if (floater_z < -0.75)
-						floater_z = 1.0f;
+						floater_z = -1.0f;
 				}
 				float finalPosition_x, finalPosition_y, finalPosition_z;
-				//calculate the final position
+				//calculate the final position X
 				if (integer_x > 0)
-					 finalPosition_x = integer_x + floater_x;
-				else  finalPosition_x = integer_x - floater_x;
+				{
+					finalPosition_x = integer_x + floater_x;
+				}
+				else if (integer_x == 0)
+				{
+					finalPosition_x = floater_x;
+				}
+				else
+				{
+					finalPosition_x = integer_x + floater_x;
+				}
+				//if(integer_x==0)
+
+				//calculate the final position Y
 				if (integer_y > 0)
-					 finalPosition_y = integer_y + floater_y;
-				else  finalPosition_y = integer_y - floater_y;
+				{
+					finalPosition_y = integer_y + floater_y;
+				}
+				else if (integer_y == 0)
+				{
+					finalPosition_y = floater_y;
+				}
+				else
+				{
+					finalPosition_y = integer_y + floater_y;
+				}
+				//calculate the final position Z
 				if (integer_z > 0)
-					 finalPosition_z = integer_z + floater_z;
-				else  finalPosition_z = integer_z - floater_z;
+				{
+					finalPosition_z = integer_z + floater_z;
+				}
+				else if (integer_z == 0)
+				{
+					finalPosition_z = floater_z;
+				}
+				else
+				{
+					finalPosition_z = integer_z + floater_z;
+				}
+
+				std::cout << "Final Y: " << finalPosition_y << std::endl;
+
 				Vector3 finalPosition = Vector3(finalPosition_x, finalPosition_y, finalPosition_z);
 
 				//Vector3 *a = new Vector3(newposition_x * invCamera, newposition_y * invCamera,0.0f);
 				m_duck->SetPosition(finalPosition);
-				std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
+				/*std::cout << "Mouse Screen X: " << MouseClass::GetPosX() << std::endl;
 				std::cout << "Mouse Screen Y: " << MouseClass::GetPosY() << std::endl;
 				std::cout << "viewStart_x X: " << viewStart_x << std::endl;
 				std::cout << "viewStart_y Y: " << viewStart_y << std::endl;
 				std::cout << "Duck pos X: " << m_duck->GetPosition().x << std::endl;
-				std::cout << "Duck pos Y: " << m_duck->GetPosition().y << std::endl;
+				std::cout << "Duck pos Y: " << m_duck->GetPosition().y << std::endl;*/
 			}
 			//m_duck->GetPosition();
 		}
