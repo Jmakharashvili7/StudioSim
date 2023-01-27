@@ -27,7 +27,7 @@ void UILayer::OnAttach()
 void UILayer::InitWindows()
 {
 	m_viewportUI = new ViewportUI("Viewport", Quack::GetFrameBuffer());
-	m_editorUI = new EditorUI("Settings", EngineManager::GetGameObject("ground"));
+	m_editorUI = new EditorUI("Settings", EngineManager::GetGameObject("duck"));
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_contentBrowser = new ContentBrowserUI("Content Browser");
 	
