@@ -11,4 +11,8 @@ public:
 
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
+
+private:
+	std::string m_ContentRoot = "res";
+	std::string m_CurrentDirectory;
 };
