@@ -6,6 +6,7 @@ ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)
 
 ContentBrowserUI::~ContentBrowserUI()
 {
+	
 }
 
 void ContentBrowserUI::Render()
