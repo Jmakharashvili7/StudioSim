@@ -11,6 +11,8 @@
 #include "MouseClass.h"
 #include "UILayer.h"
 #include "Window.h"
+#include "InputComponent.h"
+#include "QuackOperations.h"
 
 Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_uiMain(uiLayer),
@@ -143,9 +145,19 @@ void Scene::Update()
 {
 	m_gameTimer.Tick();
 
+	const float deltaTime = m_gameTimer.GetDeltaTime();
+
+	// Update game objects
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (gameObject) gameObject->Update(deltaTime);
+	}
+
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(Quack::GetWindow()->GetGLFWWindow(), &xpos, &ypos);
+
+	HandleInput();
 }
 
 void Scene::Render()
@@ -175,90 +187,26 @@ void Scene::PhysicsUpdate()
 
 void Scene::HandleInput()
 {
-	KeyEvent key = KeyboardClass::ReadKey();
-	if (key.IsPressed())
+	const float deltaTime = m_gameTimer.GetDeltaTime();
+	const float movementAmount = 5.0f;
+
+	// jabas engine manager get can also be used here 
+	Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
+	if (duck)
 	{
-		switch (key.GetKeyCode())
+		if (InputComponent* inputComponent = duck->GetInputComponent())
 		{
-		case 0: // default value means no input so break out of loop
-			break;
-		case 'W': // move camera up
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
+			// MOVE RIGHT
+			if (inputComponent->GetKeyDown('d'))
 			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.y += 0.3f;
-				m_mainCamera->SetPosition(temp);
+				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
 			}
-			break;
-		}
-		case 'S': // move camera down
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
+
+			// MOVE LEFT
+			if (inputComponent->GetKeyDown('a'))
 			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.y -= 0.3f;
-				m_mainCamera->SetPosition(temp);
+				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
 			}
-			break;
-		}
-		case 'A': // move camera left
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.x -= 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
-		}
-		case 'D': // move camera right
-		{
-			if (m_uiMain->GetViewport()->GetIsFocused())
-			{
-				glm::vec3 temp = m_mainCamera->GetPosition();
-				temp.x += 0.3f;
-				m_mainCamera->SetPosition(temp);
-			}
-			break;
-		}
-		case 'J': // MOVE LEFT
-		{
-			m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break;
-		}
-		case 'L': // MOVE RIGHT
-		{
-			m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break;
-		}
-		case 'H': // MOVE UP
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, -2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		case 'Y': // MOVE DOWN
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, 2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		}
-	}
-
-	if (!MouseClass::IsEventBufferEmpty())
-	{
-		MouseEvent e = MouseClass::ReadEvent();
-
-		if (e.GetType() == MouseEvent::EventType::L_CLICK)
-		{
-		}
-		if (e.GetType() == MouseEvent::EventType::R_CLICK)
-		{
-
-		}
-		if (e.GetType() == MouseEvent::EventType::MOVE)
-		{
-
 		}
 	}
 }

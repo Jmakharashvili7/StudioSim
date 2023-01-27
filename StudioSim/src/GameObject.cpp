@@ -114,11 +114,6 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 	}
 }
 
-void GameObject::Destroy()
-{
-	//Quack::DestroyGameObject(this);
-}
-
 void GameObject::UpdateVertexArray()
 {
 	VertexBuffer vertexBuffer = VertexBuffer(m_data->vertices.data(), m_data->vertices.size() * sizeof(float));

@@ -40,6 +40,8 @@ private:
 
 	GameObject* LoadGameObject(std::string path);
 	bool StoreGameObject(GameObject* gameObject, int index);
+
+
 private:
 	std::string m_name;
 
@@ -84,9 +86,5 @@ private:
 	//static double m_deltaTime;
 	//static double m_frameTime;
 	//static double m_frameDelay;
-
-	Actor* m_duck;
-	GameObject* m_ground;
-	GameObject* m_testSprite;
 };
 

@@ -22,6 +22,7 @@ public:
 
 	// Movement
 	virtual inline float GetMovementSpeed() const { return m_movementData.movementSpeed; }
+	inline MovementData GetMovementData() { return m_movementData; }
 
 	// Health
 	virtual void TakeDamage(const float amount);
@@ -32,8 +33,8 @@ public:
 	virtual const inline float GetHealth() const { return m_entityData.health; }
 	virtual void CheckShouldDie();
 
-	// Destroy
-	virtual void Destroy() override;
+	// Entity
+	inline EntityData GetEntityData() { return m_entityData; }
 
 protected:
 	// Movement

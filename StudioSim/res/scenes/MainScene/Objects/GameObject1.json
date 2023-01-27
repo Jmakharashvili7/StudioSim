@@ -2,7 +2,7 @@
     "banimated": false,
     "bsimulateGravity": true,
     "centerPosition": [
-        0.0,
+        0.6052328944206238,
         -1.2230383157730103,
         0.0
     ],
@@ -34,7 +34,7 @@
     "name": "duck",
     "objectType": 1,
     "position": [
-        0.0,
+        0.6052328944206238,
         -1.2230383157730103,
         0.0
     ],

@@ -7,6 +7,7 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData), m_animationData(animationData)
 {
 	m_type = GameObjectType::ACTOR;
+
 	//Animation init
 	m_banimated = animationData.banimated;
 	if (m_banimated)
@@ -109,9 +110,4 @@ void Actor::ClearComponents()
 void Actor::ReorderComponents()
 {
 	return;
-}
-
-void Actor::Destroy()
-{
-	GameObject::Destroy();
 }
