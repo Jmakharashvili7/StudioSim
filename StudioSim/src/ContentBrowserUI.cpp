@@ -1,7 +1,5 @@
 #include "ContentBrowserUI.h"
 
-using namespace std::experimental;
-
 ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)
 {
 }
@@ -18,7 +16,7 @@ void ContentBrowserUI::Render()
 	ImGui::Begin("Content Browser");
 
 	//loop through the directory in contentBrowser and show all directories
-	for (auto& directory : filesystem::directory_iterator(contentBrowserDirectory))
+	for (auto& directory : std::filesystem::directory_iterator(contentBrowserDirectory))
 	{
 		ImGui::Text("%s", directory.path().c_str());
 	}
