@@ -66,7 +66,7 @@ public:
 	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
-	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
+	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	// Other

@@ -127,6 +127,8 @@
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableModules>true</EnableModules>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,6 +164,8 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\ContentBrowser.cpp" />
+    <ClCompile Include="src\ContentBrowserUI.cpp" />
     <ClCompile Include="src\QuackOperations.cpp" />
     <ClCompile Include="src\Character.cpp" />
     <ClCompile Include="src\Component.cpp" />
@@ -205,8 +209,10 @@
     <ClCompile Include="src\UIRenderer.cpp" />
     <ClCompile Include="src\UILayer.cpp" />
     <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ContentBrowserUI.h" />
     <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />
     <ClInclude Include="src\InputComponent.h" />
@@ -224,6 +230,7 @@
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
+    <ClInclude Include="src\WorldOutlinerUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\FrameBuffer.h" />

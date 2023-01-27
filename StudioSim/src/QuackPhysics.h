@@ -10,9 +10,9 @@ struct BoundingBox
 		center.x = 0;
 		center.y = 0;
 		center.z = 0;
-		size.x = 0;
-		size.y = 0;
-		size.z = 0;	
+		size.x = 1;
+		size.y = 1;
+		size.z = 1;	
 	}
 	BoundingBox(Vector3 position, Vector3 size)
 	{
@@ -54,6 +54,7 @@ public:
 
 	QuackPhysics() {};
 	~QuackPhysics() {};
+	bool show = true;
 
 	/// <summary>
 	/// Check if 2 squares collide
@@ -61,24 +62,17 @@ public:
 	/// <param name="box 1"></param>
 	/// <param name="box 2"></param>
 	/// <returns></returns>
-	std::map<CollisionSide, bool> BoxToBox(BoundingBox b1, BoundingBox b2)
+	bool BoxToBox(BoundingBox b1, BoundingBox b2)
 	{
-		std::map<CollisionSide, bool> collisionSides;
+		Vector3 min1 = b1.center - b1.size / Vector3(2.0f);
+		Vector3 max1 = b1.center + b1.size / Vector3(2.0f);
+		Vector3 min2 = b2.center - b2.size / Vector3(2.0f);
+		Vector3 max2 = b2.center + b2.size / Vector3(2.0f);
 
-		Vector3 min1 = b1.center - b1.size / Vector3(2, 2, 2);
-		Vector3 max1 = b1.center + b1.size / Vector3(2, 2, 2);
-		Vector3 min2 = b2.center - b2.size / Vector3(2, 2, 2);
-		Vector3 max2 = b2.center + b2.size / Vector3(2, 2, 2);
+		bool bCollisionX = (min2.x <= min1.x && min1.x <= max2.x) || (min2.x <= max1.x && max1.x <= max2.x);
+		bool bCollisionY = (min2.y <= min1.y && min1.y <= max2.y) || (min2.y <= max1.y && max1.y <= max2.y);
 
-		if ((min1.x <= max2.x && max1.x <= min2.x) || (max1.y >= min2.y && min1.y <= max2.y))
-		{
-			collisionSides[CollisionSide::RIGHT] = max1.x >= min2.x && max1.x <= max2.x;
-			collisionSides[CollisionSide::LEFT] = min1.x <= max2.x && min1.x >= min2.x;
-			collisionSides[CollisionSide::TOP] = max1.y >= min2.y && max1.y <= max2.y;
-			collisionSides[CollisionSide::BOTTOM] = min1.y <= max2.y && min1.y >= min2.y;
-		}
-
-		return collisionSides;
+		return bCollisionX && bCollisionY;
 	}
 
 	/// <summary>

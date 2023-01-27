@@ -79,7 +79,6 @@ int Quack::InitEngine()
 
 	m_mainScene = Scene("MainScene", m_uiMain, m_window);
 	m_uiMain->InitWindows(); // should always be after init objects
-
 	return 0;
 }
 
