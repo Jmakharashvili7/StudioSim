@@ -26,7 +26,7 @@ public:
 	virtual inline Animate* const GetAnimator() { return m_animator; }
 
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides) override;
+	virtual void AddCollision(GameObject* collidingObject) override;
 	virtual void RemoveCollision(GameObject* gameObject) override;
 	virtual inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }

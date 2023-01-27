@@ -51,39 +51,45 @@ void Actor::Update(const float deltaTime)
 	}
 }
 
-void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
+void Actor::AddCollision(GameObject* collidingObject)
 {
 	// Debug
-	/*for (auto side : collidingSides)
+	
+	if (GetPosition().y < collidingObject->GetPosition().y)
 	{
-		switch (side.first)
-		{
-		case CollisionSide::LEFT:
-			std::cout << "LEFT COLLISION:  " << side.second << std::endl;
-			break;
-		case CollisionSide::RIGHT:
-			std::cout << "RIGHT COLLISION:  " << side.second << std::endl;
-			break;
-		case CollisionSide::TOP:
-			std::cout << "TOP COLLISION:  " << side.second << std::endl;
-			break;
-		case CollisionSide::BOTTOM:
-			std::cout << "BOTTOM COLLISION:  " << side.second << std::endl;
-			break;
-		default:
-			std::cout << "NO COLLISION" << std::endl;
-			break;
-		}
+		std::cout << "BOTTOM HIT" << std::endl;
 	}
-
-	std::cout << " " << std::endl;*/
+	else
+	{
+		std::cout << "BOTTOM HIT" << std::endl;
+	}
+	if (GetPosition().x < collidingObject->GetPosition().x)
+	{
+		std::cout << "Right HIT" << std::endl;
+	}
+	else
+	{
+		std::cout << "Bottom HIT" << std::endl;
+	}
 
 	if (collidingObject->GetName() == "ground")
 	{
+		Vector3 duckLeft = GetPosition() - GetScale() / Vector3(2.0f);
+		Vector3 duckRight = GetPosition() + GetScale() / Vector3(2.0f);
+		Vector3 floorLeft = collidingObject->GetPosition() - collidingObject->GetScale() / Vector3(2.0f);
+		Vector3 floorRight = collidingObject->GetPosition() + collidingObject->GetScale() / Vector3(2.0f);
+
+		std::cout << "DUCK CENTRE: " << GetPosition().x << "  DUCK LEFT: " << duckLeft.x << "  DUCK RIGHT: " << duckRight.x << std::endl;
+		std::cout << "FLOOR CENTRE:  " << collidingObject->GetPosition().x << "  FLOOR LEFT: " << floorLeft.x << "  FLOOR RIGHT: " << floorRight.x << std::endl;
+
+
+		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
+		SetJumping(false);
+		SetCurrentJumpForce(0.0f);
 		SetCollidingWithGround(true);
 	}
 
-	GameObject::AddCollision(collidingObject, collidingSides);
+	GameObject::AddCollision(collidingObject);
 }
 
 void Actor::RemoveCollision(GameObject* gameObject)
