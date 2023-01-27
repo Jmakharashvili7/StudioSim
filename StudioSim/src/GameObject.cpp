@@ -9,8 +9,6 @@ GameObject::GameObject(std::string name, GameObjectData* data, const TransformDa
 	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
-	
-	std::cout << "FELYPE LIKES GOTHS" << std::endl;
 }
 
 GameObject::~GameObject()
