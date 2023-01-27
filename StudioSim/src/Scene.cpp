@@ -242,11 +242,6 @@ void Scene::HandleInput()
 			m_duck->AdjustPosition(Vector3(0.0f, 2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
 			break;
 		}
-		case 'O': // JUMP UP
-		{
-			m_duck->Jump();
-			break;
-		}
 		}
 	}
 

@@ -3,7 +3,7 @@
     "bsimulateGravity": true,
     "centerPosition": [
         0.0,
-        -1.7321243286132813,
+        -1.2230383157730103,
         0.0
     ],
     "collisionType": 0,
@@ -30,13 +30,12 @@
     "columns": 0,
     "imageFormat": 6408,
     "internalFormat": 6408,
-    "jumpHeight": 25.0,
     "mass": 1.0,
     "name": "duck",
     "objectType": 1,
     "position": [
         0.0,
-        -1.7321243286132813,
+        -1.2230383157730103,
         0.0
     ],
     "radius": 0.0,
@@ -52,8 +51,8 @@
         1.0
     ],
     "size": [
-        1.0,
-        1.0,
+        2.0,
+        2.0,
         1.0
     ],
     "texCoords": [

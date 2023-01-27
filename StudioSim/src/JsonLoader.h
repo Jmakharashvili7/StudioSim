@@ -80,13 +80,12 @@ namespace QuackEngine {
 				Actor* actor = dynamic_cast<Actor*>(gameObject);
 				PhysicsData physicsData = actor->GetPhysicsData();
 				j["mass"] = physicsData.mass;
-				j["jumpHeight"] = physicsData.jumpHeight;
 				j["bsimulateGravity"] = physicsData.bsimulateGravity;
 
 				AnimationData animationData = actor->GetAnimationData();
 				j["banimated"] = animationData.banimated;
 				j["columns"] = animationData.columns;
-				j["rows"] = animationData.rows;
+				j["rows"] = animationData.rows;	
 			}
 
 			std::ofstream o(filename);
@@ -156,7 +155,6 @@ namespace QuackEngine {
 
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
-				physicsData.jumpHeight = j["jumpHeight"].get<float>();
 				physicsData.mass = j["mass"].get<float>();
 
 				// Load AnimationData

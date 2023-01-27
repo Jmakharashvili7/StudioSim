@@ -116,7 +116,7 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 
 void GameObject::Destroy()
 {
-	Quack::DestroyGameObject(this);
+	//Quack::DestroyGameObject(this);
 }
 
 void GameObject::UpdateVertexArray()
