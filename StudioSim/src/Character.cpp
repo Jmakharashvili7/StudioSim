@@ -13,7 +13,7 @@ Character::~Character()
 
 }
 
-void Character::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
+void Character::AddCollision(GameObject* collidingObject)
 {
 	if (collidingObject->GetName() == "ground")
 	{
@@ -22,7 +22,7 @@ void Character::AddCollision(GameObject* collidingObject, const std::map<Collisi
 		SetCollidingWithGround(true);
 	}
 
-	Actor::AddCollision(collidingObject, collidingSides);
+	Actor::AddCollision(collidingObject);
 }
 
 void Character::RemoveCollision(GameObject* gameObject)

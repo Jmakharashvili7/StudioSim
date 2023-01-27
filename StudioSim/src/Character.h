@@ -9,7 +9,7 @@ public:
 
 public:
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides) override;
+	virtual void AddCollision(GameObject* collidingObject) override;
 	virtual void RemoveCollision(GameObject* gameObject) override;
 
 	// Jumping

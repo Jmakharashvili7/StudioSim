@@ -84,8 +84,6 @@ void Actor::AddCollision(GameObject* collidingObject)
 
 
 		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
-		SetJumping(false);
-		SetCurrentJumpForce(0.0f);
 		SetCollidingWithGround(true);
 	}
 
