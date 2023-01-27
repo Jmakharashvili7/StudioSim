@@ -10,7 +10,6 @@ class Shader;
 class OrthographicCamera;
 class PhysicsManager;
 class CollisionManager;
-class GameTimer;
 class UILayer;
 class Window;
 
@@ -72,14 +71,22 @@ private:
 	Shader* m_3dShader;
 	Shader* m_primitiveShader;
 	OrthographicCamera* m_mainCamera;
+;
+	PhysicsManager* m_physicsManager;
+	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
+
+	// idk if we need this
+	////Frame related variables
+	//static double m_currentTime;
+	//static double m_lastTime;
+	//static double m_deltaTime;
+	//static double m_frameTime;
+	//static double m_frameDelay;
 
 	Actor* m_duck;
 	GameObject* m_ground;
 	GameObject* m_testSprite;
-
-	PhysicsManager* m_physicsManager;
-	CollisionManager* m_collisionManager;
 };
 

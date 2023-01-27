@@ -4,13 +4,10 @@
 #include "IndexBuffer.h"
 #include "KeyboardClass.h"
 #include "MouseClass.h"
-#include "QuackPhysics.h"
 #include "Animate.h"
 #include "QuackCallbacks.h"
 #include "EngineManager.h"
 #include "Renderer.h"
-
-//#define _2D_SHADER
 #include "Animate.h"
 #include "JsonLoader.h"
 #include "LayerStack.h"
@@ -23,63 +20,20 @@ bool Quack::s_glfwInitialised = false;
 bool Quack::s_running = false;
 Window* Quack::m_window;
 
-//Frame related variables
-double Quack::m_currentTime;
-double Quack::m_lastTime;
-double Quack::m_deltaTime;
-double Quack::m_frameTime;
-double Quack::m_frameDelay;
-
 GameTimer Quack::m_gameTimer;
 
 LayerStack* Quack::m_layerStack;
-std::vector<GameObject*> Quack::m_gameObjects;
-std::vector<Actor*> Quack::m_gameActors;
 
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
 
 FrameBuffer* Quack::m_frameBuffer;
 
-VertexArray* Quack::m_squareVAO;
-QuackPhysics* Quack::p_QuackPhysics;
-
-Grid<PathNode> Quack::m_grid;
-
-glm::vec4 Quack::m_objColor;
-glm::vec4 Quack::m_lightPos;
-
-glm::vec4 Quack::m_dirAmbient = { glm::vec4(0.5, 0.5, 0.5, 1.0f) };
-glm::vec4 Quack::m_dirDiffuse = { glm::vec4(5.2f, 3.4f, 1.8f, 1.0f) };
-glm::vec4 Quack::m_dirSpecular = { glm::vec4(3.4f, 5.43f, 2.4f, 1.0f) };
-
-glm::vec3 Quack::m_pointLightPositions[] =
-{
-	glm::vec3(0.0f,  0.0f,  -2.0f),
-	glm::vec3(0.0f,  0.0f,  -2.0f),
-	glm::vec3(0.0f,  0.0f,  -2.0f)
-};
-glm::vec4 Quack::m_pointAmbient = { glm::vec4(-0.15f, 0.15f, 0.15f, 1.0f) };
-glm::vec4 Quack::m_pointDiffuse = { glm::vec4(3.42f, 3.08f, 3.2f, 1.0f) };
-glm::vec4 Quack::m_pointSpecular = { glm::vec4(1.3f, 0.6f, 1.85f, 1.0f) };
-
-glm::vec4 Quack::m_spotAmbient = { glm::vec4(3.5f, 0.2f, 0.05f, 1.0f) };
-glm::vec4 Quack::m_spotDiffuse = { glm::vec4(0.15f, 0.05f, 0.0f, 1.0f) };
-glm::vec4 Quack::m_spotSpecular = { glm::vec4(0.0f,0.0f,0.0f, 1.0f) };
-
-glm::vec4 Quack::m_lightAmbient = { glm::vec4(1.0f,1.0f,1.0f, 1.0f) };
-
-Actor* Quack::m_duck;
-GameObject* Quack::m_ground;
-GameObject* Quack::m_testSprite;
-
 UILayer* Quack::m_uiMain;
 
 Scene Quack::m_mainScene;
 
 OrthographicCamera* Quack::m_mainCamera;
-PhysicsManager* Quack::m_physicsManager;
-CollisionManager* Quack::m_collisionManager;
 #pragma endregion DeclareMembers
 
 int Quack::InitEngine()
@@ -89,8 +43,6 @@ int Quack::InitEngine()
 	m_window = new Window("Quack", 1920, 1080, FullScreenMode::WINDOWED);
 	m_layerStack = new LayerStack();
 	m_uiMain = new UILayer();
-	m_physicsManager = new PhysicsManager();
-	m_collisionManager = new CollisionManager();
 
 	m_layerStack->PushOverlay(m_uiMain);
 
@@ -182,28 +134,8 @@ void Quack::HandleInput()
 		}
 		case 'J': // MOVE LEFT
 		{
-			m_duck->AdjustPosition(Vector3(-2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
+			m_mainScene = Scene("MainScene", m_uiMain, m_window);
 			break; 
-		}
-		case 'L': // MOVE RIGHT
-		{
-			m_duck->AdjustPosition(Vector3(2.5f * m_gameTimer.GetDeltaTime(), 0.0f, 0.0f));
-			break;
-		}
-		case 'H': // MOVE UP
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, -2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		case 'Y': // MOVE DOWN
-		{
-			m_duck->AdjustPosition(Vector3(0.0f, 2.5f * m_gameTimer.GetDeltaTime(), 0.0f));
-			break;
-		}
-		case 'O': // JUMP UP
-		{
-			m_duck->Jump();
-			break;
 		}
 		}
 	}
@@ -260,13 +192,6 @@ void Quack::RenderUpdate()
 	glfwPollEvents();
 
 	m_frameBuffer->Unbind();
-}
-
-void Quack::PhysicsUpdate()
-{
-	const float deltaTime = m_gameTimer.GetDeltaTime();
-	m_collisionManager->Update(deltaTime);
-	m_physicsManager->Update(deltaTime);
 }
 
 //GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)

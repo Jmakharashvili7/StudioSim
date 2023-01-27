@@ -21,11 +21,15 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 
 	SceneInfo sceneInfo = QuackEngine::JsonLoader::LoadSceneInfo(name);
+	m_gameTimer.Start();
 
 	for (int i = 0; i < sceneInfo.objectCount; i++)
 	{
 		GameObject* gameObject = LoadGameObject("GameObject" + std::to_string(i));
 	}
+
+	m_physicsManager = new PhysicsManager();
+	m_collisionManager = new CollisionManager();
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
@@ -137,7 +141,7 @@ void Scene::HandleLights()
 
 void Scene::Update()
 {
-	//m_gameTimer.Tick();
+	m_gameTimer.Tick();
 
 	// get mouse position
 	double xpos, ypos;
@@ -147,6 +151,8 @@ void Scene::Update()
 void Scene::Render()
 {
 	HandleLights();
+	Update();
+	PhysicsUpdate();
 
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
@@ -296,8 +302,8 @@ GameObject* Scene::LoadGameObject(std::string name)
 }
 
 /// <summary>
-/// The problem is that the order of the vector and the order we store the objects is not the same
-/// change order or completely change how they are stored
+/// currently the game objects are being stored seperetly but it would probably be better to 
+/// keep the whole game data 
 /// </summary>
 /// <param name="gameObject"></param>
 /// <param name="index"></param>
@@ -313,7 +319,7 @@ void Scene::CloseScene()
 {
 	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
-		StoreGameObject(m_gameObjects[0], i);
+		StoreGameObject(m_gameObjects[i], i);
 	}
 
 	SceneInfo sceneInfo;
