@@ -15,6 +15,7 @@ class Window;
 
 struct SceneInfo
 {
+	std::string sceneName;
 	uint32_t objectCount;
 };
 
@@ -52,6 +53,9 @@ private:
 	// windows
 	UILayer* m_uiMain;
 	Window* m_window;
+
+	// Scene Info
+	SceneInfo m_sceneInfo;
 
 	//lights
 	glm::vec4 m_lightPos;

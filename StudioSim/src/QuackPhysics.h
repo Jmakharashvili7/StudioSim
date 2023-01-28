@@ -48,13 +48,9 @@ enum class CollisionSide
 	LEFT
 };
 
-class QuackPhysics
+class CollisionHelper
 {
 public:
-
-	QuackPhysics() {};
-	~QuackPhysics() {};
-
 	/// <summary>
 	/// Check if 2 squares collide
 	/// </summary>
@@ -80,7 +76,7 @@ public:
 	/// <param name="sphere 1"></param>
 	/// <param name="sphere 2"></param>
 	/// <returns></returns>
-	bool SpheretoSphere(BoundingSphere& sp1, BoundingSphere& sp2)
+	static bool SpheretoSphere(BoundingSphere& sp1, BoundingSphere& sp2)
 	{
 		float distance = sqrt(
 			(sp1.center.x - sp2.center.x) * (sp1.center.x - sp2.center.x)
@@ -90,4 +86,7 @@ public:
 
 		return distance < (sp1.radius + sp2.radius);
 	}
+private:
+	CollisionHelper() {};
+	~CollisionHelper() {};
 };

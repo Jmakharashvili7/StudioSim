@@ -1,6 +1,7 @@
 #pragma once
 #include "BasicIncludes.h"
 #include "Character.h"
+#include "CollisionManager.h"
 
 #define GFORCE 9.81
 
@@ -10,12 +11,11 @@ public:
 	PhysicsManager();
 	~PhysicsManager();
 
-	static void Update(const float deltaTime);
+	void Update(const float deltaTime);
 
-	inline static void AddGameActor(Actor* inGameActor) { m_gameActors.push_back(inGameActor); }
-	static void RemoveGameActor(Actor* actorToRemove);
-
+	inline void AddGameActor(Actor* inGameActor) { m_gameActors.push_back(inGameActor); }
+	void RemoveGameActor(Actor* actorToRemove);
 private:
-	static std::vector<Actor*> m_gameActors;
+	std::vector<Actor*> m_gameActors;
 };
 
