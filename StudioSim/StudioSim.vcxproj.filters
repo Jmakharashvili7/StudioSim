@@ -156,6 +156,8 @@
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\QuackOperations.cpp" />
+    <ClCompile Include="src\Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -294,6 +296,8 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\QuackOperations.h" />
+    <ClInclude Include="src\Character.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">

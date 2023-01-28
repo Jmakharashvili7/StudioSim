@@ -186,24 +186,24 @@ void Scene::HandleInput()
 	const float movementAmount = 5.0f;
 
 	// jabas engine manager get can also be used here 
-	Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
-	if (duck)
-	{
-		if (InputComponent* inputComponent = duck->GetInputComponent())
-		{
-			// MOVE RIGHT
-			if (inputComponent->GetKeyDown('d'))
-			{
-				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
-			}
-
-			// MOVE LEFT
-			if (inputComponent->GetKeyDown('a'))
-			{
-				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
-			}
-		}
-	}
+	//Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
+	//if (duck)
+	//{
+	//	if (InputComponent* inputComponent = duck->GetInputComponent())
+	//	{
+	//		// MOVE RIGHT
+	//		if (inputComponent->GetKeyDown('d'))
+	//		{
+	//			duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+	//		}
+	//
+	//		// MOVE LEFT
+	//		if (inputComponent->GetKeyDown('a'))
+	//		{
+	//			duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+	//		}
+	//	}
+	//}
 }
 
 void Scene::CloseScene()
