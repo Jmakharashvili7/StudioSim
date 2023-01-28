@@ -1,5 +1,6 @@
 #pragma once
 #include "UIWindow.h"
+#include "Texture.h"
 
 
 class ContentBrowserUI : public UIWindow
@@ -20,4 +21,7 @@ private:
 
 	float m_thumbnailPadding;
 	float m_thumbnailSize;
+
+	Texture* m_folderThumbnail;
+	Texture* m_fileThumbnail;
 };

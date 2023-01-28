@@ -8,8 +8,11 @@ ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)
 {
 	m_CurrentDirectory = m_ContentRoot;
 
-	m_thumbnailPadding = 0.0f;
-	m_thumbnailSize = 0.0f;
+	m_thumbnailPadding = 24.0f;
+	m_thumbnailSize = 128.0f;
+
+	m_folderThumbnail = new Texture(TextureData("engine res/icons/duck folder icon.png"));
+	m_fileThumbnail = new Texture(TextureData("engine res/icons/big boi.jpg"));
 }
 
 ContentBrowserUI::~ContentBrowserUI()
@@ -37,9 +40,10 @@ void ContentBrowserUI::Render()
 		}
 	}
 
-	ImGui::Columns(4, 0, false);
+	//Gets number of columns based off current window size
+	int numberOfColumns = ImGui::GetContentRegionAvail().x / (m_thumbnailSize + m_thumbnailPadding);
 
-
+	ImGui::Columns(numberOfColumns, 0, false);
 
 	//loop through the directory in contentBrowser and show all directories
 	//directory iterator goes through all subdirectories within the directory passed in
@@ -49,26 +53,37 @@ void ContentBrowserUI::Render()
 		std::string path = directory.path().string();
 		std::string directoryName = directory.path().stem().string();
 
+		//for folders
 		if (directory.is_directory())
 		{
-			if (ImGui::Button(directoryName.c_str(), { 128, 128}))
+			if (ImGui::ImageButton((ImTextureID)m_folderThumbnail->GetRendererID(), ImVec2(m_thumbnailSize, m_thumbnailSize), ImVec2(0, 1), ImVec2(1, 0)))
 			{
 				m_CurrentDirectory = path;
 			}
+
+
 			ImGui::Text(directoryName.c_str());
 		}
+
+
+
+		//for files
 		if (directory.is_regular_file())
 		{
 			std::string file= directory.path().filename().string();
-			if (ImGui::Button(file.c_str()))
+
+			if(ImGui::ImageButton((ImTextureID)m_fileThumbnail->GetRendererID(), ImVec2(m_thumbnailSize, m_thumbnailSize), ImVec2(0, 1), ImVec2(1, 0)))
 			{
-				
+				std::cout << " I'M SEXY AND I KNOW IT" << std::endl;
 			}
 
+			ImGui::Text(file.c_str());
 		}
+
 		ImGui::NextColumn();
 	}
 
+	ImGui::Columns(1);
 	
 
 	ImGui::End();
