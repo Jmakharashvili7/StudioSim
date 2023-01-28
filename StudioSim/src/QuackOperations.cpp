@@ -55,23 +55,23 @@ const int QuackOperations::GetActorIndex(Actor* actor, std::vector<Actor*> actor
 	return indexToReturn;
 }
 
-const int QuackOperations::GetActorIndex(std::string actorName, std::vector<Actor*> actorArray)
-{
-	int i = 0;
-	int indexToReturn = -1;
-
-	for (Actor* loopedActor : actorArray)
-	{
-		if (actorName == loopedActor->GetName())
-		{
-			indexToReturn = i;
-		}
-
-		i++;
-	}
-
-	return indexToReturn;
-}
+//const int QuackOperations::GetActorIndex(std::string actorName, std::vector<Actor*> actorArray)
+//{
+//	int i = 0;
+//	int indexToReturn = -1;
+//
+//	for (Actor* loopedActor : actorArray)
+//	{
+//		if (actorName == loopedActor->GetName())
+//		{
+//			indexToReturn = i;
+//		}
+//
+//		i++;
+//	}
+//
+//	return indexToReturn;
+//}
 
 const int QuackOperations::GetCharacterIndex(Character* character, std::vector<Character*> characterArray)
 {

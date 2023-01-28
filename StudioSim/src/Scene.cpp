@@ -22,16 +22,11 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_mainCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 
-	SceneInfo sceneInfo = QuackEngine::JsonLoader::LoadSceneInfo(name);
-	m_gameTimer.Start();
-
-	for (int i = 0; i < sceneInfo.objectCount; i++)
-	{
-		GameObject* gameObject = LoadGameObject("GameObject" + std::to_string(i));
-	}
-
 	m_physicsManager = new PhysicsManager();
 	m_collisionManager = new CollisionManager();
+
+	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_physicsManager, m_collisionManager);
+	m_gameTimer.Start();
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
@@ -180,9 +175,9 @@ void Scene::Render()
 
 void Scene::PhysicsUpdate()
 {
-	const float deltaTime = m_gameTimer.GetDeltaTime();
-	m_collisionManager->Update(deltaTime);
+	float deltaTime = m_gameTimer.GetDeltaTime();
 	m_physicsManager->Update(deltaTime);
+	m_collisionManager->Update(deltaTime);
 }
 
 void Scene::HandleInput()
@@ -191,81 +186,27 @@ void Scene::HandleInput()
 	const float movementAmount = 5.0f;
 
 	// jabas engine manager get can also be used here 
-	Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
-	if (duck)
-	{
-		if (InputComponent* inputComponent = duck->GetInputComponent())
-		{
-			// MOVE RIGHT
-			if (inputComponent->GetKeyDown('d'))
-			{
-				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
-			}
-
-			// MOVE LEFT
-			if (inputComponent->GetKeyDown('a'))
-			{
-				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
-			}
-		}
-	}
-}
-
-GameObject* Scene::LoadGameObject(std::string name)
-{
-	GameObject* createdGameObject = nullptr;
-	std::string path = "res/scenes/" + m_name + "/Objects/" + name + ".json";
-	createdGameObject = QuackEngine::JsonLoader::LoadGameObject2D(path);
-
-	if (createdGameObject)
-	{
-		m_gameObjects.push_back(createdGameObject);
-
-		if (createdGameObject->GetCollisionData().collisionType != CollisionType::NONE)
-		{
-			// Update collision managers game object array
-			m_collisionManager->AddGameObject(createdGameObject);
-		}
-
-		switch (createdGameObject->GetType())
-		{
-		case GameObjectType::ACTOR:
-			Actor* actor = static_cast<Actor*>(createdGameObject);
-			m_gameActors.push_back(actor);
-			if (actor->GetPhysicsData().bsimulateGravity)
-			{
-				// Update physics managers actor object array
-				m_physicsManager->AddGameActor(actor);
-			}
-			break;
-		}
-	}
-
-	return createdGameObject;
-}
-
-/// <summary>
-/// currently the game objects are being stored seperetly but it would probably be better to 
-/// keep the whole game data 
-/// </summary>
-/// <param name="gameObject"></param>
-/// <param name="index"></param>
-/// <returns></returns>
-bool Scene::StoreGameObject(GameObject* gameObject, int index)
-{
-	// where to store the object
-	std::string path = "res/scenes/" + m_name + "/Objects/GameObject" + std::to_string(index) + ".json";
-	return QuackEngine::JsonLoader::StoreGameObject2D(path, gameObject);
+	//Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
+	//if (duck)
+	//{
+	//	if (InputComponent* inputComponent = duck->GetInputComponent())
+	//	{
+	//		// MOVE RIGHT
+	//		if (inputComponent->GetKeyDown('d'))
+	//		{
+	//			duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+	//		}
+	//
+	//		// MOVE LEFT
+	//		if (inputComponent->GetKeyDown('a'))
+	//		{
+	//			duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+	//		}
+	//	}
+	//}
 }
 
 void Scene::CloseScene()
 {
-	for (int i = 0; i < m_gameObjects.size(); i++)
-	{
-		StoreGameObject(m_gameObjects[i], i);
-	}
-
-	SceneInfo sceneInfo;
-	sceneInfo.objectCount = m_gameObjects.size();
-	QuackEngine::JsonLoader::StoreSceneInfo(m_name, sceneInfo);
+	QuackEngine::JsonLoader::StoreScene(m_sceneInfo, m_gameObjects);
 }

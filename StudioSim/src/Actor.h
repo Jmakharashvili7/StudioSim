@@ -9,7 +9,7 @@ class Component;
 class Actor : public GameObject
 {
 public:
-	Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
 	virtual ~Actor();
 
 	// Rendering
@@ -28,8 +28,8 @@ public:
 	inline AnimationData GetAnimationData() { return m_animationData; }
 
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject) override;
-	virtual void RemoveCollision(GameObject* gameObject) override;
+	virtual void AddCollision(GameObject* collidingObject);
+	virtual void RemoveCollision(GameObject* gameObject);
 	virtual inline void SetCollidingWithGround(const bool bcollidingWithGround) { m_bcollidingWithGround = bcollidingWithGround; }
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
 

@@ -19,7 +19,7 @@ class UILayer;
 #define MAX_FRAME_RATE 144
 #define NUMBER_OF_SQUARES 4
 
-class QuackPhysics;
+class CollisionHelper;
 
 class Quack
 {

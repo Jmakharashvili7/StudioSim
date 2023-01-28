@@ -11,16 +11,17 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <array>
 #include <glm\glm.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <array>
 #include "json.h"
 #include "Log.h"
 #include "KeyEvent.h"
 #include "CustomMaths.h"
+#include "Structs.h"
 
 using namespace std;
 

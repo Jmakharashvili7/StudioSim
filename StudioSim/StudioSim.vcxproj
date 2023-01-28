@@ -93,6 +93,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;"$(SolutionDir)dependencies\FMOD\api\studio\inc";"$(SolutionDir)dependencies\FMOD\api\core\inc";"$(SolutionDir)dependencies\FMOD\api\fsbank\inc";"$(SolutionDir)dependencies\Win32\GLFW\include";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,6 +111,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\Win32\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +131,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +149,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
