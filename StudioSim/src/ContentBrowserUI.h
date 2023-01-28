@@ -19,9 +19,11 @@ private:
 
 	ImGuiIO& m_IO = ImGui::GetIO();
 
-	float m_thumbnailPadding;
-	float m_thumbnailSize;
+	float m_ThumbnailPadding;
+	float m_ThumbnailSize;
 
-	Texture* m_folderThumbnail;
-	Texture* m_fileThumbnail;
+	Texture* m_FolderThumbnail;
+	Texture* m_FileThumbnail;
+
+	bool m_ButtonHighlighted;
 };

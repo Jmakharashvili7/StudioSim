@@ -14,6 +14,7 @@
 #include "UIRenderer.h"
 #include "UILayer.h"
 #include "Scene.h"
+#include "WorldOutlinerUI.h"
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -90,6 +91,8 @@ void Quack::HandleInput()
 void Quack::Update()
 {
 	m_gameTimer.Tick();
+
+	m_uiMain->GetWorldOutliner()->SetCurrentScene(&m_mainScene);
 
 	// get mouse position
 	double xpos, ypos;

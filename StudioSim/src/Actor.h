@@ -38,6 +38,8 @@ public:
 	virtual void ClearComponents();
 	virtual void ReorderComponents(); //TODO
 
+	inline virtual std::vector<Component*> GetComoponents() { return m_components; }
+
 	// Input
 	virtual inline InputComponent* const GetInputComponent() { return m_inputComponent; }
 
