@@ -2,7 +2,7 @@
 #include "Animate.h"
 #include "Quack.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
 	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data), m_textureData(textureData), m_transformData(transformData) 
 {
@@ -73,7 +73,7 @@ void GameObject::AdjustScale(const Vector3 adjustScale)
 	SetCollisionBoxSize(newScale);
 }
 
-void GameObject::UpdateObjectData(GameObjectData* newData)
+void GameObject::UpdateObjectData(VertexData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();

@@ -9,15 +9,11 @@ public:
 	CollisionManager();
 	~CollisionManager();
 
-	static void Update(const float deltaTime);
+	void Update(const float deltaTime);
 
-	static Vector3 RepositionGameObject(GameObject* a, GameObject* b);
-
-	inline static void AddGameObject(GameObject* inGameObject) { m_gameObjects.push_back(inGameObject); }
-	static void RemoveGameObject(GameObject* gameObjectToRemove);
-
+	inline void AddGameObject(GameObject* inGameObject) { m_gameObjects.push_back(inGameObject); }
+	void RemoveGameObject(GameObject* gameObjectToRemove);
 private:
-	static std::vector<GameObject*> m_gameObjects;
-	static QuackPhysics* m_quackPhysics;
+	std::vector<GameObject*> m_gameObjects;
 };
 

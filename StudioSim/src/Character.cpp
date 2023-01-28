@@ -1,7 +1,7 @@
 #include "Character.h"
 #include "Quack.h"
 
-Character::Character(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, 
+Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
 	const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
 	: Actor {name, data, transformData, collisionData, textureData, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
 {

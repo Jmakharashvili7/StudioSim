@@ -108,4 +108,8 @@ void GameTimer::Tick()
 	{
 		m_DeltaTime = 0.0;
 	}
+	if (m_DeltaTime > 0.1)
+	{
+		m_DeltaTime = 0.0f;
+	}
 }

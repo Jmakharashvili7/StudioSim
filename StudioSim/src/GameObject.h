@@ -13,10 +13,11 @@
 enum class GameObjectType
 {
 	OBJECT,
-	ACTOR
+	ACTOR,
+	CHARACTER
 };
 
-struct GameObjectData
+struct VertexData
 {
 	std::vector<float> vertices;
 	std::vector<float> colors;
@@ -26,7 +27,7 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
+	GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
 	virtual ~GameObject();
 
 	// Rendering
@@ -79,13 +80,13 @@ public:
 
 	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
-	inline GameObjectData* GetGameObjectData() { return m_data; }
+	inline VertexData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
 	inline std::string GetName() const { return m_name; }
 	inline GameObjectType GetType() const { return m_type; }
 
 	void UpdateVertexArray();
-	void UpdateObjectData(GameObjectData* newData);
+	void UpdateObjectData(VertexData* newData);
 protected:
 	std::string m_name = "";
 	GameObjectType m_type;
@@ -93,7 +94,7 @@ protected:
 	Texture* m_texture = nullptr;
 	TextureData m_textureData = nullptr;
 	VertexArray* m_va = nullptr;
-	GameObjectData* m_data = nullptr;
+	VertexData* m_data = nullptr;
 	Transform* m_transform = nullptr;
 	TransformData m_transformData;
 
