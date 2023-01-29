@@ -35,6 +35,8 @@ void EditorUI::Render()
 		std::string menuTitle = "Current Texture: ";
 		menuTitle += fs::path(m_object->GetTextureData().texturePath).filename().string();
 
+		ImGui::Separator();
+
 
 		if (ImGui::BeginMenu(menuTitle.c_str()))
 		{
