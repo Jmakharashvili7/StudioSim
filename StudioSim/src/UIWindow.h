@@ -1,5 +1,8 @@
 #pragma once
 #include "BasicIncludes.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 class UIWindow
 {
@@ -7,7 +10,6 @@ public:
 	UIWindow(std::string name);
 	~UIWindow() {}
 
-	virtual void Init() {}
 	virtual void Render() {}
 	virtual void HandleInput(KeyEvent key) {}
 

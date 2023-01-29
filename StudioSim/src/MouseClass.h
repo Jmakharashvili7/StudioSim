@@ -23,6 +23,7 @@ public:
 	static void OnRightHeld(int x, int y);
 	static void OnScrollClick(int x, int y);
 	static void OnScrollRelease(int x, int y);
+	static void OnScrollHeld(int x, int y);
 	static void OnScrollUp(int x, int y);
 	static void OnScrollDown(int x, int y);
 	static void OnMouseMove(int x, int y);

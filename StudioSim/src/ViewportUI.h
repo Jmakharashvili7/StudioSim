@@ -8,7 +8,6 @@ public:
 	ViewportUI(std::string name, FrameBuffer* frameBuffer);
 	~ViewportUI();
 
-	void Init() override;
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
 private:

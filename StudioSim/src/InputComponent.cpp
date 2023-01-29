@@ -1,322 +1,166 @@
 #include "InputComponent.h"
-#include "GameObject.h"
-#include "QuackCallbacks.h"
-#include "KeyboardClass.h"
-#include "MouseClass.h"
 
-
-InputComponent::InputComponent(Actor* Owner, int updateOrder, GLFWwindow* window) : Component(Owner, updateOrder)
+InputComponent::InputComponent(Actor* owningActor, const int updateOrder) : Component{ owningActor, updateOrder }
 {
-	m_Window = window;
-	glfwSetKeyCallback(m_Window, QuackEngine::key_callback); 
-	glfwSetMouseButtonCallback(m_Window, QuackEngine::mouse_button_callback);
-	KeyboardClass::Init();
+
 }
 
-void InputComponent::Update(float deltaTime)
+void InputComponent::Update(const float deltaTime)
 {
 	Component::Update(deltaTime);
-	//KeyEvent key = KeyboardClass::ReadKey();
-
-	//if (key.IsHeld())
-	//{
-	//	switch (key.GetKeyCode())
-	//	{
-	//	case 'W':
-	//		cout << "I pressed" << endl;
-	//		break;
-	//	}
-	//}
-
-	//
-
-	//if (!MouseClass::IsEventBufferEmpty())
-	//{
-	//	MouseEvent e = MouseClass::ReadEvent();
-
-	//	if (e.GetType() == MouseEvent::EventType::L_CLICK)
-	//	{
-	//	}
-	//	if (e.GetType() == MouseEvent::EventType::R_CLICK)
-	//	{
-
-	//	}
-	//	if (e.GetType() == MouseEvent::EventType::MOVE)
-	//	{
-
-	//	}
-	//}
 	ProcessInput();
-	
 }
 
-InputComponent::~InputComponent()
+const bool InputComponent::GetKeyDown(const char key) const
 {
+	bool bkeyHeld = false;
+	const char upperCaseKey = toupper(key);
+
+	if (KeyboardClass::IsKeyPressed(upperCaseKey))
+	{
+		KeyboardClass::OnKeyPressed(upperCaseKey);
+		if (keyEvent.GetKeyCode() == upperCaseKey)
+		{
+			bkeyHeld = true;
+		}
+	}
+
+	return bkeyHeld;
 }
 
-bool InputComponent::GetButtonDown(ButtonNames buttonNames)
+const bool InputComponent::GetKeyUp(const char key) const
 {
-	return false;
+	bool bkeyUp = false;
+	const char upperCaseKey = toupper(key);
+
+	if (keyEvent.IsReleased())
+	{
+		if (keyEvent.GetKeyCode() == upperCaseKey)
+		{
+			bkeyUp = true;
+		}
+	}
+
+	return bkeyUp;
 }
 
-bool InputComponent::GetButton(ButtonNames buttonNames)
+const bool InputComponent::GetKeyPressed(const char key) const
 {
-	return false;
+	bool bkeyPressed = false;
+	const char upperCaseKey = toupper(key);
+
+	if (keyEvent.IsPressed())
+	{
+		if (keyEvent.GetKeyCode() == upperCaseKey)
+		{
+			bkeyPressed = true;
+		}
+	}
+
+	return bkeyPressed;
 }
 
-int InputComponent::GetAxisRaw(ButtonNames buttonNames)
+const bool InputComponent::AnyKeyDown() const
 {
-	
-	
-	if (key.IsHeld())
+	bool banyKeyHeld = false;
+
+	if (keyEvent.IsHeld())
 	{
-		if ((buttonNames == EVertical && key.GetKeyCode() == 'W') )//|| (buttonNames ==EVertical && key.GetKeyCode() == *glfwGetKeyName(GLFW_KEY_UP, 0)))
+		if (keyEvent.GetKeyCode() != NULL)
 		{
-			
-			return 1;
-			
-		}
-		else if((buttonNames == EVertical && key.GetKeyCode() == 'S'))// || (buttonNames == EVertical && key.GetKeyCode() == *glfwGetKeyName(GLFW_KEY_DOWN, 0)))
-		{
-			return -1;
-		}
-		else if ((buttonNames == EHorizontal&& key.GetKeyCode() == 'D') )//|| (buttonNames == EHorizontal && key.GetKeyCode() == *glfwGetKeyName(GLFW_KEY_RIGHT, 0)))
-		{
-			
-			return 1;
-			
-		}
-		else if((buttonNames == EHorizontal && key.GetKeyCode() == 'A'))//|| (buttonNames == EHorizontal && key.GetKeyCode() == *glfwGetKeyName(GLFW_KEY_LEFT , 0)))
-		{
-			
-			return -1;
-		}
-		else
-		{
-			
-			return 0;
+			banyKeyHeld = true;
 		}
 	}
-	else
-	{
-		
-		return 0;
-	}
-	
+
+	return banyKeyHeld;
 }
 
-bool InputComponent::GetKey(char keyButton)
+const bool InputComponent::AnyKeyPressed() const
 {
-	keyButton = toupper(keyButton);
-	
-	
-	if (KeyboardClass::IsKeyPressed(keyButton))
-	{
-		KeyboardClass::OnKeyPressed(keyButton);
-		if (key.GetKeyCode() == keyButton)
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
+	bool banyKeyPressed = false;
 
-	}
-	else
+	if (keyEvent.IsPressed())
 	{
-		return false;
+		if (keyEvent.GetKeyCode() != NULL)
+		{
+			banyKeyPressed = true;
+		}
 	}
+
+	return banyKeyPressed;
 }
 
-bool InputComponent::GetKeyDown(char keyButton)
+const bool InputComponent::GetMouseButtonDown(const int mouseClick)
 {
-	keyButton = toupper(keyButton);
+	bool bmouseButtonHeld = false;
 
-	if (key.IsPressed())
-	{
-		if (key.GetKeyCode() == keyButton)
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool InputComponent::GetKeyUp(char keyButton)
-{
-	keyButton = toupper(keyButton);
-
-	if (key.IsReleased())
-	{
-		if (key.GetKeyCode() == keyButton)
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool InputComponent::GetMouseButton(int mouseClick)
-{
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-
-		if (e.GetType() == MouseEvent::EventType::L_HELD && mouseClick == 0)
+		if (mouseEvent.GetType() == MouseEvent::EventType::L_HELD && mouseClick == 0)
 		{
-			return true;
-			
+			bmouseButtonHeld = true;
 		}
-		else if (e.GetType() == MouseEvent::EventType::R_HELD && mouseClick == 1)
+		else if (mouseEvent.GetType() == MouseEvent::EventType::R_HELD && mouseClick == 1)
 		{
-			return true;
+			bmouseButtonHeld = true;
 		}
-		else if (e.GetType() == MouseEvent::EventType::SCROLL_HELD && mouseClick == 2)
+		else if (mouseEvent.GetType() == MouseEvent::EventType::SCROLL_HELD && mouseClick == 2)
 		{
-			return true;
-		}
-		//if (e.GetType() == MouseEvent::EventType::MOVE)
-		//{
-
-		//}
-		else
-		{
-			return false;
+			bmouseButtonHeld = true;
 		}
 	}
-	else
-	{
-		return false;
-	}
+
+	return bmouseButtonHeld;
 }
 
-bool InputComponent::GetMouseButtonDown(int mouseClick)
+const bool InputComponent::GetMouseButtonUp(const int mouseClick)
 {
+	bool bmouseButtonUp = false;
+
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-
-		if (e.GetType() == MouseEvent::EventType::L_CLICK && mouseClick == 0)
+		if (mouseEvent.GetType() == MouseEvent::EventType::L_RELEASE && mouseClick == 0)
 		{
-			return true;
-
+			bmouseButtonUp = true;
 		}
-		else if (e.GetType() == MouseEvent::EventType::R_CLICK && mouseClick == 1)
+		else if (mouseEvent.GetType() == MouseEvent::EventType::R_RELEASE && mouseClick == 1)
 		{
-			return true;
+			bmouseButtonUp = true;
 		}
-		else if (e.GetType() == MouseEvent::EventType::SCROLL_CLICK && mouseClick == 2)
+		else if (mouseEvent.GetType() == MouseEvent::EventType::SCROLL_RELEASE && mouseClick == 2)
 		{
-			return true;
-		}
-		//if (e.GetType() == MouseEvent::EventType::MOVE)
-		//{
-
-		//}
-		else
-		{
-			return false;
+			bmouseButtonUp = true;
 		}
 	}
-	else
-	{
-		return false;
-	}
+
+	return bmouseButtonUp;
 }
 
-bool InputComponent::GetMouseButtonUp(int mouseClick)
+const bool InputComponent::GetMouseButtonPressed(const int mouseClick)
 {
+	bool bmouseButtonPressed = false;
+
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-
-		if (e.GetType() == MouseEvent::EventType::L_RELEASE && mouseClick == 0)
+		if (mouseEvent.GetType() == MouseEvent::EventType::L_CLICK && mouseClick == 0)
 		{
-			return true;
-
+			bmouseButtonPressed = true;
 		}
-		else if (e.GetType() == MouseEvent::EventType::R_RELEASE && mouseClick == 1)
+		else if (mouseEvent.GetType() == MouseEvent::EventType::R_CLICK && mouseClick == 1)
 		{
-			return true;
+			bmouseButtonPressed = true;
 		}
-		else if (e.GetType() == MouseEvent::EventType::SCROLL_RELEASE && mouseClick == 2)
+		else if (mouseEvent.GetType() == MouseEvent::EventType::SCROLL_CLICK && mouseClick == 2)
 		{
-			return true;
-		}
-		//if (e.GetType() == MouseEvent::EventType::MOVE)
-		//{
-
-		//}
-		else
-		{
-			return false;
+			bmouseButtonPressed = true;
 		}
 	}
-	else
-	{
-		return false;
-	}
-}
 
-bool InputComponent::AnyKey()
-{
-	
-	if (key.IsHeld())
-	{
-		if (key.GetKeyCode() != NULL)
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool InputComponent::AnyKeyDown()
-{
-	
-	if (key.IsPressed())
-	{
-		if (key.GetKeyCode() != NULL)
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-
-	}
-	else
-	{
-		return false;
-	}
+	return bmouseButtonPressed;
 }
 
 void InputComponent::ProcessInput()
 {
-	key = KeyboardClass::ReadKey();
-	e = MouseClass::ReadEvent();
-	
-	if (key.IsPressed())
-	{
-		cout << key.GetKeyCode() << endl;
-	}
+	keyEvent = KeyboardClass::ReadKey();
+	mouseEvent = MouseClass::ReadEvent();
 }
-

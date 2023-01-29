@@ -7,12 +7,17 @@
 #include "QuackDataTypes.h"
 #include "Shader.h"
 #include "Transform.h"
-#include "component.h"
-#include "InputComponent.h"
-#include "ParticlePhysics.h"
 #include "QuackPhysics.h"
+#include "QuackOperations.h"
 
-struct GameObjectData
+enum class GameObjectType
+{
+	OBJECT,
+	ACTOR,
+	CHARACTER
+};
+
+struct VertexData
 {
 	std::vector<float> vertices;
 	std::vector<float> colors;
@@ -22,25 +27,33 @@ struct GameObjectData
 class GameObject
 {
 public:
-	GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
-	~GameObject();
+	GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
+	virtual ~GameObject();
 
+	// Rendering
 	virtual void Draw(Shader* mainShader);
-	virtual void Update(float deltaTime);
+
+	// Update
+	virtual void Update(const float deltaTime);
 
 	// Position
 	virtual void SetPosition(const Vector3 newPosition);
 	virtual void AdjustPosition(const Vector3 adjustPosition);
 	inline const Vector3 GetPosition() const { if (m_transform) return m_transform->GetPosition(); }
+	inline const Vector3 GetPreviousPosition() const { if (m_transform) return m_transform->GetPreviousPosition(); }
+	inline TransformData GetTransformData() { return m_transformData; }
+	inline Transform* GetTransform() { return m_transform; }
 
 	// Rotation
+	virtual Vector3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
 	virtual void SetRotation(const Vector3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
 	virtual void AdjustRotation(const Vector3 adjustRotation) { if (m_transform) m_transform->AdjustRotation(adjustRotation); }
 	virtual void SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation) { if (m_transform) m_transform->SetRotationAroundPivot(pivotPosition, newRotation); }
 
 	// Scale
-	virtual void SetScale(const Vector3 newScale) { if (m_transform) m_transform->SetScale(newScale); }
-	virtual void AdjustScale(const Vector3 adjustScale) { if (m_transform) m_transform->AdjustScale(adjustScale); }
+	virtual Vector3 GetScale() const { if (m_transform) return m_transform->GetScale(); }
+	virtual void SetScale(const Vector3 newScale);
+	virtual void AdjustScale(const Vector3 adjustScale);
 
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
@@ -53,47 +66,41 @@ public:
 	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
 	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
 	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
-	const int const GetGameObjectCollisionIndex(GameObject* gameObject);
 	const bool const GetIsCollidingGameObject(GameObject* gameObject);
-	virtual void AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides);
+	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
 
 	// Other
 	inline const std::string const GetName() { return m_name; }
 
+	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
-	inline GameObjectData* GetGameObjectData() { return m_data; }
+	inline VertexData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
+	inline TextureData GetTextureData() { return m_textureData; }
+
+	// Name + type
 	inline std::string GetName() const { return m_name; }
+	inline GameObjectType GetType() const { return m_type; }
 
 	void UpdateVertexArray();
-	void UpdateObjectData(GameObjectData* newData);
-
-	void AddComponent(Component* comp);
-	void RemoveComponent(Component* comp);
-
-	Component* GetComponent(int Order) {
-		for (Component* comp : m_Components)
-		{
-			if (comp->GetComponentFromUpdateOrder(Order) != nullptr)
-			{
-				return comp->GetComponentFromUpdateOrder(Order);
-			}
-		}
-		return nullptr;
-	}
-
+	void UpdateObjectData(VertexData* newData);
 protected:
-
-	vector<Component*> m_Components;
+	// Name + type
 	std::string m_name = "";
+	GameObjectType m_type;
 
+	// Texture
 	Texture* m_texture = nullptr;
-	VertexArray* m_va = nullptr;
-	GameObjectData* m_data = nullptr;
-	Transform* m_transform = nullptr;
+	TextureData m_textureData;
 
-	/* Collision */
+	// Object
+	VertexArray* m_va = nullptr;
+	VertexData* m_data = nullptr;
+	Transform* m_transform = nullptr;
+	TransformData m_transformData;
+
+	// Collision
 	CollisionData m_collisionData = CollisionData();
 	std::vector<GameObject*> m_collidingObjects;
 };

@@ -75,8 +75,14 @@ void MouseClass::OnScrollClick(int x, int y)
 
 void MouseClass::OnScrollRelease(int x, int y)
 {
-	s_IsLeftClick = true;
+	s_IsScrollClick = false;
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::SCROLL_RELEASE, x, y));
+}
+
+void MouseClass::OnScrollHeld(int x, int y)
+{
+	s_IsScrollClick = true;
+	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::SCROLL_HELD, x, y));
 }
 
 void MouseClass::OnScrollUp(int x, int y)

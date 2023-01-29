@@ -1,31 +1,18 @@
-#include "component.h"
-#include "GameObject.h"
+#include "Component.h"
 
-//Component::Component(GameObject* owner, int updateOrder )
-//{
-//}
+Component::Component(Actor* owningActor, const int updateOrder)
+	: m_owningActor(owningActor), m_updateOrder(updateOrder)
+{
+
+}
 
 Component::~Component()
 {
+
 }
 
-
-Component::Component(Actor* owner, int updateOrder)
+void Component::Update(const float deltaTime)
 {
-	m_Owner = owner;
-	m_UpdateOrder = updateOrder;
+
 }
 
-void Component::Update(float deltaTime)
-{
-	
-}
-
-Component* Component::GetComponentFromUpdateOrder(int updateOrder)
-{
-	if (updateOrder == m_UpdateOrder)
-	{
-		return this;
-	}
-	return nullptr;
-}

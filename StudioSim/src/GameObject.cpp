@@ -1,10 +1,12 @@
 #include "GameObject.h"
 #include "Animate.h"
+#include "Quack.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data)
+	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data), m_textureData(textureData), m_transformData(transformData) 
 {
+	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
 }
@@ -17,52 +19,34 @@ GameObject::~GameObject()
 	delete m_va;
 	m_va = nullptr;
 
-	if (m_texture) delete m_texture;
-	if (m_va) delete m_va;
-	if (m_data) delete m_data;
+	delete m_data;
+	m_data = nullptr;
+
+	delete m_transform;
+	m_transform = nullptr;
 }
 
 void GameObject::Draw(Shader* mainShader)
 {
-	//Vector3 screenPosition = m_transform->GetPosition();
-	//screenPosition.x /= 1280;
-	//screenPosition.y /= 960;
-
-	//glm::mat4 testMatrix = glm::mat4(1.0f);
-
-	//Vector3 rotation = m_transform->GetRotation();
-
-	//testMatrix = glm::scale(testMatrix, m_transform->GetScale());
-
-	//// x
-	//testMatrix = glm::rotate(testMatrix, glm::radians(rotation.x), Vector3(1.0f, 0.0f, 0.0f));
-	//// y
-	//testMatrix = glm::rotate(testMatrix, glm::radians(rotation.y), Vector3(0.0f, 1.0f, 0.0f));
-	//// z
-	//testMatrix = glm::rotate(testMatrix, glm::radians(rotation.z), Vector3(0.0f, 0.0f, 1.0f));
-
-	//testMatrix = glm::translate(testMatrix, screenPosition);
-
+	Vector3 screenPosition = m_transform->GetPosition();
 
 	mainShader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
 
 	// draw square
 	m_texture->Bind();
 	m_va->Bind();
+
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	
 	m_texture->UnBind();
 	m_va->Unbind();
 }
 
-void GameObject::Update(float deltaTime)
+void GameObject::Update(const float deltaTime)
 {
-	for (Component* comp : m_Components)
-	{
-		comp->Update(deltaTime);
-	}
+
 }
-	
+
 void GameObject::SetPosition(const Vector3 newPosition)
 {
 	m_transform->SetPosition(newPosition);
@@ -76,37 +60,23 @@ void GameObject::AdjustPosition(const Vector3 adjustPosition)
 	SetCollisionCenter(newPosition);
 }
 
-void GameObject::UpdateObjectData(GameObjectData* newData)
+void GameObject::SetScale(const Vector3 newScale)
+{
+	m_transform->SetScale(newScale);
+	SetCollisionBoxSize(newScale);
+}
+
+void GameObject::AdjustScale(const Vector3 adjustScale)
+{
+	m_transform->AdjustScale(adjustScale);
+	const Vector3 newScale = m_transform->GetScale();
+	SetCollisionBoxSize(newScale);
+}
+
+void GameObject::UpdateObjectData(VertexData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();
-}
-
-void GameObject::AddComponent(Component* comp)
-{
-	m_Components.push_back(comp);
-}
-
-void GameObject::RemoveComponent(Component* comp)
-{
-}
-
-int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
-{
-	int i = 0;
-	int indexToReturn = -1;
-
-	for (GameObject* collidingGameObject : m_collidingObjects)
-	{
-		if (gameObject == collidingGameObject)
-		{
-			indexToReturn = i;
-		}
-
-		i++;
-	}
-
-	return indexToReturn;
 }
 
 bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
@@ -125,7 +95,7 @@ bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 	return bFound;
 }
 
-void GameObject::AddCollision(GameObject* collidingObject, const std::map <CollisionSide, bool>& collidingSides)
+void GameObject::AddCollision(GameObject* collidingObject)
 {
 	//std::cout << "START COLLISION!" << std::endl;
 	if (collidingObject)
@@ -139,7 +109,7 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 	//std::cout << "END COLLISION!" << std::endl;
 	if (gameObject)
 	{
-		const int gameObjectIndex = GetGameObjectCollisionIndex(gameObject);
+		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObject, m_collidingObjects);
 		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
 	}
 }

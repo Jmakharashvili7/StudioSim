@@ -12,11 +12,7 @@ namespace QuackEngine {
 		{
 		case GLFW_PRESS:
 			KeyboardClass::OnKeyPressed(key);
-			//KeyboardClass::IsKeyPressed(key);
 			break;
-		//case GLFW_PRESS:
-		//	KeyboardClass::OnKeyHeld(key);
-		//	break;
 		case GLFW_RELEASE:
 			KeyboardClass::OnKeyReleased(key);
 			break;
@@ -50,26 +46,13 @@ namespace QuackEngine {
 			{
 				MouseClass::OnLeftClick(posX, posY);
 			}
-			else if (action == GLFW_RELEASE)
+			else if (action != GLFW_RELEASE)
 			{
 				MouseClass::OnLeftRelease(posX, posY);
 			}
 			else if (action == GLFW_REPEAT)
 			{
-				MouseClass::OnLeftRelease(posX, posY);
-			}
-		}
-		if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-		{
-			double posX, posY;
-			glfwGetCursorPos(window, &posX, &posY);
-			if (action == GLFW_PRESS)
-			{
-				MouseClass::OnScrollClick(posX, posY);
-			}
-			else if (action == GLFW_RELEASE)
-			{
-				MouseClass::OnScrollRelease(posX, posY);
+				MouseClass::OnLeftHeld(posX, posY);
 			}
 		}
 	}

@@ -7,6 +7,7 @@ public:
 	{
 		NONE,
 		PRESS,
+		HELD,
 		RELEASE,
 		HELD,
 		INVALID
