@@ -168,6 +168,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="QuackEye.cpp" />
     <ClCompile Include="src\ContentBrowser.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
     <ClCompile Include="src\QuackOperations.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QuackEye.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
     <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />

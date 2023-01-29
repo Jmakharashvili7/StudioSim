@@ -158,6 +158,7 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\QuackOperations.cpp" />
     <ClCompile Include="src\Character.cpp" />
+    <ClCompile Include="QuackEye.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -298,6 +299,7 @@
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />
+    <ClInclude Include="QuackEye.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">
