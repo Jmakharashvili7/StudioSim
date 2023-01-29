@@ -45,15 +45,18 @@ void WorldOutlinerUI::Render()
 			{
 				//Opening this drop down will show all the components attached to the game object
 				//if it is an actor or a child of actor
-				
-				//for now if just creates a tree node if the game object is the duck
-				//this will be changed when I find a way to check the class
-				if (object->GetName() == "duck")
+				if (Actor* actorObject = dynamic_cast<Actor*>(object))
 				{
-					Actor* duck = (Actor*)object;
-					for (Component* components : duck->GetComoponents())
+					for (Component* components : actorObject->GetComoponents())
 					{
-						ImGui::Text("Component Name here");
+						if (actorObject->GetComoponents().size() > 0)
+						{
+							ImGui::Text(typeid(*components).name());
+						}
+						else
+						{
+							ImGui::Text("No Components Attached To Object");
+						}
 					}
 
 					ImGui::TreePop();
