@@ -48,6 +48,13 @@ public:
 
 	inline void SetPlayRate(float inRate) { m_playRate = inRate; }
 	inline int GetRowToPlay() { return m_rowToPlay; }
+
+	inline int GetRows() { return m_rows; }
+	inline void SetRows(int rows) { m_rows = rows; }
+
+	inline int GetColumns() { return m_columns; }
+	inline void SetColumns(int columns) { m_columns = columns; }
+
 	
 
 private:

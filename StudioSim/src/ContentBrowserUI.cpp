@@ -11,8 +11,8 @@ ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)
 	m_ThumbnailPadding = 24.0f;
 	m_ThumbnailSize = 128.0f;
 
-	m_FolderThumbnail = new Texture(TextureData("engine res/icons/boss up.jpg"));
-	m_FileThumbnail = new Texture(TextureData("engine res/icons/big boi.jpg"));
+	m_FolderThumbnail = new Texture(TextureData("engine res/icons/duck folder icon.png"));
+	m_FileThumbnail = new Texture(TextureData("engine res/icons/rubber-duck.jpg"));
 
 	m_ButtonHighlighted = false;
 }
