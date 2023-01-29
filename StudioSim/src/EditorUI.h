@@ -13,7 +13,6 @@ public:
 
 	inline void RemoveDisplayedGameObject() { m_object = nullptr; }
 	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
-
 private:
 	GameObject* m_object;
 };

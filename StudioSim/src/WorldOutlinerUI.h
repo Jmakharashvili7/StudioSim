@@ -17,8 +17,10 @@ public:
 
 	inline void SetCurrentScene(Scene* scene) { m_CurrentScene = scene; }
 	inline void SetEditorUI(EditorUI* editor) { m_EditorUI = editor; }
+
 private:
 	Scene* m_CurrentScene;
 	EditorUI* m_EditorUI;
+
 
 };

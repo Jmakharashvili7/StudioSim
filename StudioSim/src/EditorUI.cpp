@@ -18,6 +18,9 @@ void EditorUI::Render()
 	ImGui::Begin("Settings", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 	if (m_object)
 	{
+		//sets the push width of ImGui items 
+		//to stop text being cut off when making window smaller
+		//although if the window gets too small it will cut off anyway
 		float itemWidth = ImGui::GetContentRegionAvail().x * 0.5f;
 		Texture* texture = m_object->GetTexture();
 	
@@ -27,6 +30,7 @@ void EditorUI::Render()
 		ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::PopItemWidth();
 
+		//Set up for displaying objects transform information
 		if (ImGui::TreeNode("Transform"))
 		{
 			ImGui::PushItemWidth(itemWidth);
@@ -51,16 +55,22 @@ void EditorUI::Render()
 			ImGui::Separator();
 		}
 		
+		//Will only display the follwing information if object 
+		//is an actor or subclass of an actor
 		if (Actor* actorObject = dynamic_cast<Actor*>(m_object))
 		{
+			//Set up to display physics data
 			if (ImGui::TreeNode("Physics"))
 			{
+				//Slider to adjust the mass of the actor
+				//Ctrl click to use keyboard input to enter a value manually
 				ImGui::PushItemWidth(itemWidth);
 				float mass = actorObject->GetPhysicsData().mass;
 				ImGui::SliderFloat("Object Mass", &mass, 1.0f, 100.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 				actorObject->SetMass(mass);
 				ImGui::PopItemWidth();
 
+				//Check box to toggle simulation of gravity on and off
 				ImGui::PushItemWidth(itemWidth);
 				bool simGravity = actorObject->GetSimulatingGravity();
 				ImGui::Checkbox("Simulate Gravity", &simGravity);
@@ -71,6 +81,8 @@ void EditorUI::Render()
 				ImGui::Separator();
 			}
 
+			//Set up to display animation data
+			//will only show data if the animator on the actor is not a null pointer
 			if (ImGui::TreeNode("Animation"))
 			{
 				if (actorObject->GetAnimator())
@@ -94,6 +106,7 @@ void EditorUI::Render()
 				}
 				else
 				{
+					//Message if animator is a null pointer
 					ImGui::PushItemWidth(itemWidth);
 					ImGui::Text("No animator on this object");
 					ImGui::PopItemWidth();
