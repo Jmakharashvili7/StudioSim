@@ -9,6 +9,7 @@
 #include "Transform.h"
 #include "component.h"
 #include "InputComponent.h"
+#include "ParticlePhysics.h"
 #include "QuackPhysics.h"
 
 struct GameObjectData

@@ -132,6 +132,11 @@
     <ClCompile Include="src\InputComponent.cpp">
       <Filter>source files</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="src\ParticlePhysics.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -252,6 +257,11 @@
     </ClInclude>
     <ClInclude Include="src\InputComponent.h">
       <Filter>Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="src\ParticlePhysics.h">
+      <Filter>QuackEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

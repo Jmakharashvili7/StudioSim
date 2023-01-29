@@ -12,6 +12,7 @@ Actor::Actor(std::string name, GameObjectData* data, const TransformData& transf
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
 	}
 	m_Input = new InputComponent(this, 2, Quack::GetWindow()->GetGLFWWindow());
+	m_Physics = new ParticlePhysics(this, 3, m_transform);
 }
 
 Actor::~Actor()
@@ -43,6 +44,7 @@ void Actor::Update(float deltaTime)
 	  
 	GameObject::Update(deltaTime);
 	m_Input->Update(deltaTime);
+	m_Physics->Update(deltaTime);
 }
 	
 void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)

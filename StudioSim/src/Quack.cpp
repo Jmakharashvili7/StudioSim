@@ -333,7 +333,7 @@ void Quack::PhysicsUpdate()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 	m_collisionManager->Update(deltaTime);
-	m_physicsManager->Update(deltaTime);
+	//m_physicsManager->Update(deltaTime);
 }
 
 void Quack::ImGUIInit()

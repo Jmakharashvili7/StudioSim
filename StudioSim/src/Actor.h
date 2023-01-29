@@ -65,5 +65,8 @@ private:
 	Vector3 m_currentImpulseForce = Vector3::Zero;
 
 	InputComponent* m_Input;
+
+	ParticlePhysics* m_Physics;
+	
 };
 
