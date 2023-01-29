@@ -15,7 +15,7 @@ public:
 	inline int GetWidth() const { return m_width; }
 	inline int GetHeight() const { return m_height; }
 
-	void ChangeCurrentTexture(const std::string& path);
+	
 
 private:
 	unsigned int m_rendererID;

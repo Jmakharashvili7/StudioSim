@@ -1,6 +1,9 @@
 #include "EditorUI.h"
 #include "Actor.h"
 #include "Animate.h";
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 EditorUI::EditorUI(std::string name, GameObject* gameObject) : 
 	UIWindow(name),
@@ -28,6 +31,17 @@ void EditorUI::Render()
 
 		ImGui::PushItemWidth(itemWidth);
 		ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
+
+		std::string menuTitle = "Current Texture: ";
+		menuTitle += fs::path(m_object->GetTextureData().texturePath).filename().string();
+
+
+		if (ImGui::BeginMenu(menuTitle.c_str()))
+		{
+			GenerateTextureMenu();
+			ImGui::EndMenu();
+		}		
+
 		ImGui::PopItemWidth();
 
 		//Set up for displaying objects transform information
@@ -123,4 +137,17 @@ void EditorUI::Render()
 
 void EditorUI::HandleInput(KeyEvent key)
 {
+}
+
+void EditorUI::GenerateTextureMenu()
+{
+	ImGui::MenuItem("Available Textures", NULL, false, false);
+
+	for (fs::directory_entry texture : fs::directory_iterator("res/textures"))
+	{
+		if (ImGui::MenuItem(texture.path().filename().string().c_str()))
+		{
+			m_object->SetNewTexture(texture.path().string());
+		}
+	}
 }

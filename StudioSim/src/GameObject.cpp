@@ -79,6 +79,11 @@ void GameObject::UpdateObjectData(VertexData* newData)
 	UpdateVertexArray();
 }
 
+void GameObject::SetNewTexture(std::string newPath)
+{
+	m_texture = new Texture(TextureData(newPath, GL_RGBA, GL_RGBA));
+}
+
 bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 {
 	bool bFound = false;

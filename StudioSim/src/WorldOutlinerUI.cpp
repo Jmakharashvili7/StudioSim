@@ -73,6 +73,7 @@ void WorldOutlinerUI::Render()
 					ImGui::TreePop();
 				}
 			}
+			
 		}
 
 		ImGui::TreePop();
