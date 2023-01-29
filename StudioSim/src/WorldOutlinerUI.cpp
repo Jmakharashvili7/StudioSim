@@ -36,7 +36,10 @@ void WorldOutlinerUI::Render()
 
 			//Changes the game object in the settings window
 			//based off the object the user clicked on in the list of objects
-			UpdateEditorDisplayObject(object);
+			if (ImGui::IsItemClicked())
+			{
+				m_EditorUI->SetDisplayedGameObject(object);
+			}
 			
 
 			if (dropdownOpen)
@@ -81,13 +84,5 @@ void WorldOutlinerUI::Render()
 
 void WorldOutlinerUI::HandleInput(KeyEvent key)
 {
-}
-
-void WorldOutlinerUI::UpdateEditorDisplayObject(GameObject* newObject)
-{
-	if (ImGui::IsItemClicked())
-	{
-		m_EditorUI->SetDisplayedGameObject(newObject);
-	}
 }
 
