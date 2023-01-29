@@ -147,11 +147,21 @@ FmodInit::~FmodInit()
 void FmodInit::Update()
 {
 	
+	for (int i = 0; i < CHANNELCOUNT; i++)
+	{
+		bool isPlaying = false;
+		pChannels[i]->isPlaying(&isPlaying);
+		if (!isPlaying)
+		{
+			delete pChannels[i];
+		}
 
-	
+	}
 	pSystem->update();
 	
 }
+//https://www.youtube.com/watch?v=jY3tPM1oNyU
+//https://www.youtube.com/watch?v=M8Bd7uHH4Yg
 
 FmodInit* pFmod;
 
