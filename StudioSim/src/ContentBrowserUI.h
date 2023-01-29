@@ -25,5 +25,7 @@ private:
 	Texture* m_FolderThumbnail;
 	Texture* m_FileThumbnail;
 
+	std::map<std::string, Texture*> m_PreviewThumbnails;
+
 	bool m_ButtonHighlighted;
 };

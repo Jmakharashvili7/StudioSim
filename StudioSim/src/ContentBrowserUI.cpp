@@ -82,13 +82,26 @@ void ContentBrowserUI::Render()
 		//for files
 		if (directory.is_regular_file())
 		{
+			
+			std::string extension = directoryPath.extension().string();
 			std::string file= directoryPath.filename().string();
+
+			//setup for file content as image for png and jpg files
+			/*if (extension == ".png" || extension == ".jpg")
+			{
+				ImGui::ImageButton((ImTextureID)m_ImageThumbnail->GetRendererID(), ImVec2(m_ThumbnailSize, m_ThumbnailSize), ImVec2(0, 1), ImVec2(1, 0));
+
+			}
+			else
+			{
+				ImGui::ImageButton((ImTextureID)m_FileThumbnail->GetRendererID(), ImVec2(m_ThumbnailSize, m_ThumbnailSize), ImVec2(0, 1), ImVec2(1, 0));
+			}*/
 
 			ImGui::ImageButton((ImTextureID)m_FileThumbnail->GetRendererID(), ImVec2(m_ThumbnailSize, m_ThumbnailSize), ImVec2(0, 1), ImVec2(1, 0));
 
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 			{
-				std::cout << " I'M SEXY AND I KNOW IT" << std::endl;
+				//Open file here
 			}
 
 			ImGui::Text(file.c_str());
