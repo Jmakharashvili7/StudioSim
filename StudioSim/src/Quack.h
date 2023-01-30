@@ -44,8 +44,6 @@ public:
 	static void HandleLights();
 	static void DrawHUD();
 
-	static float ScreenConvX(float coord);
-	static float ScreenConvY(float coord);
 
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
@@ -155,4 +153,6 @@ private:
 	static float viewStart_y;
 	static float viewEnd_x;
 	static float viewEnd_y;
+
+	static bool HUDactive;
 };

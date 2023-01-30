@@ -107,6 +107,8 @@ float Quack::viewStart_y;
 float Quack::viewEnd_x;
 float Quack::viewEnd_y;
 
+bool Quack::HUDactive = true;
+
 #pragma endregion DeclareMembers
 
 void Quack::InitObjects()
@@ -285,6 +287,11 @@ void Quack::HandleInput()
 		case 'O': // JUMP UP
 		{
 			m_duck->Jump();
+			break;
+		}
+		case 'M':// TOGGLE HUD
+		{
+			HUDactive = !HUDactive;
 			break;
 		}
 		}
@@ -595,7 +602,10 @@ void Quack::RenderUpdate()
 	Renderer::DrawDebugLines();
 	m_primitiveShader->Unbind();
 	//Draws HUD on top of 3D render
-	DrawHUD();
+	if (HUDactive == true)
+	{
+		DrawHUD();
+	}
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */
@@ -631,42 +641,26 @@ void Quack::DrawHUD()
 	glDisable(GL_CULL_FACE);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
-	//get the camera viewProjection matrix, and inverse it
-	glm::mat4 auxCamera = m_mainCamera->GetViewProjectionMatrix();
-	glm::mat4 invCamera = glm::inverse(auxCamera);
-
-	//new position of the duck based on the mouse's position normalised based on 
-	//the viewport
-	float newposition_x = (viewStart_x / (port_x / 2) - 1),
-		newposition_y = -(viewStart_y / (port_y / 2) - 1);
-
-	////Blood meter
-	//glBegin(GL_QUADS);
-	//glColor3f(1.0f, 0.0f, 0.0);
-	//glVertex2f(0.0, 150.0);
-	//glVertex2f(100.0, 150.0);
-	//glVertex2f(100.0, 500.0);
-	//glVertex2f(0.0, 500.0);
-	////Coins?
-	//glColor3f(0.0f, 0.0f, 1.0);
-	//glVertex2f(0.0, 0.0);
-	//glVertex2f(200.0, 0.0);
-	//glVertex2f(200.0, 100.0);
-	//glVertex2f(0.0, 100.0);
-	////Health bar
-	//glColor3f(1.0f, 1.0f, 0.0);
-	//glVertex2f(0.0, m_uiMain->GetViewport()->GetSize().y - 100);
-	//glVertex2f(400.0, m_uiMain->GetViewport()->GetSize().y - 100);
-	//glVertex2f(400.0, m_uiMain->GetViewport()->GetSize().y);
-	//glVertex2f(0.0, m_uiMain->GetViewport()->GetSize().y);
+	glBegin(GL_QUADS);
 
 	//Blood meter
-	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.0f, 0.0);
-	glVertex2f(ScreenConvX(0.0), ScreenConvY(150.0));
-	glVertex2f(100.0, 150.0);
-	glVertex2f(100.0, 500.0);
-	glVertex2f(0.0, 500.0);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex2f(port_x - 400.0, port_y - 100);
+	glVertex2f(port_x, port_y - 100);
+	glVertex2f(port_x, port_y);
+	glVertex2f(port_x - 400, port_y);
+	//Coins?
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex2f(0.0, 0.0);
+	glVertex2f(200.0, 0.0);
+	glVertex2f(200.0, 100.0);
+	glVertex2f(0.0, 100.0);
+	//Health bar
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glVertex2f(0.0, port_y - 100);
+	glVertex2f(400.0, port_y - 100);
+	glVertex2f(400.0, port_y);
+	glVertex2f(0.0, port_y);
 
 	glEnd();
 }
@@ -753,15 +747,3 @@ void Quack::ShutDown()
 	glfwDestroyWindow(m_window->GetGLFWWindow());
 	glfwTerminate();
 };
-
-float Quack::ScreenConvX(float coord)
-{
-	float newposition = (coord / (m_uiMain->GetViewport()->GetSize().x / 2) - 1);
-	return newposition;
-}
-
-float Quack::ScreenConvY(float coord)
-{
-	float newposition = -(coord / (m_uiMain->GetViewport()->GetSize().x / 2) - 1);
-	return newposition;
-}
