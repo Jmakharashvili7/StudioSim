@@ -47,7 +47,6 @@ private:
 	std::string m_name;
 
 	std::vector<GameObject*> m_gameObjects;
-	std::vector<Actor*> m_gameActors;
 	Grid<PathNode> m_grid;
 
 	// windows
@@ -78,7 +77,6 @@ private:
 	Shader* m_primitiveShader;
 	OrthographicCamera* m_mainCamera;
 ;
-	PhysicsManager* m_physicsManager;
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;

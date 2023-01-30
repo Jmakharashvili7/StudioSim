@@ -137,7 +137,7 @@ Texture* Quack::GetTexture(std::string textureName)
 
 void Quack::HandleInput()
 {
-
+	
 }
 
 void Quack::Update()

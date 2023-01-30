@@ -21,7 +21,6 @@
 #include "Log.h"
 #include "KeyEvent.h"
 #include "CustomMaths.h"
-#include "Structs.h"
 
 using namespace std;
 

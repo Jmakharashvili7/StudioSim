@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Actor.h"
 #include "Scene.h"
-#include "PhysicsManager.h"
+#include "CollisionManager.h"
 
 using json = nlohmann::json;
 
@@ -44,11 +44,8 @@ namespace nlohmann
 			data->texCoords = j["texCoords"].get<std::vector<float>>();
 
 			// Load Transform Data
-			//f(j["position"].get<std::vector<float>>(), transformData.position);
 			transformData.position = j["position"].get<Vector3>();
-			//f(j["rotation"].get<std::vector<float>>(), transformData.rotation);
 			transformData.rotation = j["rotation"].get<Vector3>();
-			//f(j["scale"].get<std::vector<float>>(), transformData.scale);
 			transformData.scale = j["scale"].get<Vector3>();
 
 			// Load Collision Data
@@ -73,6 +70,7 @@ namespace nlohmann
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
 				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
@@ -122,6 +120,7 @@ namespace nlohmann
 				PhysicsData physicsData = actor->GetPhysicsData();
 				j["mass"] = physicsData.mass;
 				j["bsimulateGravity"] = physicsData.bsimulateGravity;
+				j["gravityMultiplier"] = physicsData.gravityMultiplier;
 
 				// Store Animation Data
 				AnimationData animationData = actor->GetAnimationData();
@@ -197,7 +196,7 @@ namespace QuackEngine {
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, PhysicsManager* physicsManager, CollisionManager* collisionManager)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 
@@ -224,11 +223,6 @@ namespace QuackEngine {
 				if (obj->GetCollisionType() != CollisionType::NONE)
 				{
 					collisionManager->AddGameObject(obj);
-				}
-
-				if (obj->GetType() == GameObjectType::ACTOR || obj->GetType() == GameObjectType::CHARACTER) // check if game object an actor or character
-				{ 
-					physicsManager->AddGameActor(static_cast<Actor*>(obj));
 				}
 			}
 			

@@ -168,11 +168,12 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ContentBrowser.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
-    <ClCompile Include="src\QuackOperations.cpp" />
+    <ClCompile Include="src\Observer.cpp" />
+    <ClCompile Include="src\PhysicsComponent.cpp" />
     <ClCompile Include="src\Character.cpp" />
-    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\CustomMaths.cpp" />
     <ClCompile Include="src\EditorUI.cpp" />
     <ClCompile Include="src\Grid.cpp" />
@@ -181,7 +182,6 @@
     <ClCompile Include="src\PathNode.cpp" />
     <ClCompile Include="src\PerspectiveCamera.cpp" />
     <ClCompile Include="src\CollisionManager.cpp" />
-    <ClCompile Include="src\PhysicsManager.cpp" />
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\Animate.cpp" />
@@ -216,11 +216,12 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
-    <ClInclude Include="src\QuackOperations.h" />
+    <ClInclude Include="src\Observer.h" />
+    <ClInclude Include="src\PhysicsComponent.h" />
     <ClInclude Include="src\Character.h" />
     <ClInclude Include="src\InputComponent.h" />
-    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\CustomMaths.h" />
     <ClInclude Include="src\EditorUI.h" />
     <ClInclude Include="src\Grid.h" />
@@ -229,11 +230,11 @@
     <ClInclude Include="src\PathNode.h" />
     <ClInclude Include="src\PerspectiveCamera.h" />
     <ClInclude Include="src\CollisionManager.h" />
-    <ClInclude Include="src\PhysicsManager.h" />
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
+    <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\WorldOutlinerUI.h" />
   </ItemGroup>
   <ItemGroup>

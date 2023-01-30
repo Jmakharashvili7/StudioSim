@@ -8,7 +8,6 @@
 #include "Shader.h"
 #include "Transform.h"
 #include "QuackPhysics.h"
-#include "QuackOperations.h"
 
 enum class GameObjectType
 {
