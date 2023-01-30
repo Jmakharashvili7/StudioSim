@@ -77,3 +77,5 @@ ipch/
 *.vsidx
 
 *.user
+*.vcxproj
+*.filters
