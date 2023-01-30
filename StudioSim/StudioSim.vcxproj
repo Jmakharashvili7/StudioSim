@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -168,11 +168,15 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ParticleDrag.cpp" />
+    <ClCompile Include="ParticleGravity.cpp" />
+    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ContentBrowser.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
+    <ClCompile Include="src\ParticleForceRegistry.cpp" />
+    <ClCompile Include="src\ParticlePhysicsComponent.cpp" />
     <ClCompile Include="src\QuackOperations.cpp" />
     <ClCompile Include="src\Character.cpp" />
-    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\CustomMaths.cpp" />
     <ClCompile Include="src\EditorUI.cpp" />
     <ClCompile Include="src\Grid.cpp" />
@@ -216,11 +220,16 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ParticleDrag.h" />
+    <ClInclude Include="ParticleGravity.h" />
+    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
+    <ClInclude Include="src\ParticleForceGenerator.h" />
+    <ClInclude Include="src\ParticleForceRegistry.h" />
+    <ClInclude Include="src\ParticlePhysicsComponent.h" />
     <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />
     <ClInclude Include="src\InputComponent.h" />
-    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\CustomMaths.h" />
     <ClInclude Include="src\EditorUI.h" />
     <ClInclude Include="src\Grid.h" />

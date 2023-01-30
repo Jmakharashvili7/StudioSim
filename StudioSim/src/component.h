@@ -1,22 +1,23 @@
 #pragma once
-#include "BasicIncludes.h"
+#include "QuackDataTypes.h"
+#include "Actor.h"
+#include "MouseEvent.h"
+#include "KeyboardClass.h"
+#include "MouseClass.h"
+
 class Component
 {
 public:
-	Component(class Actor* owner, int updateOrder = 100);
-	virtual ~Component();
+	Component(Actor* owningActor, const int updateOrder);
+	~Component();
 
-	virtual void Update(float deltaTime);
+	virtual void Update(const float deltaTime);
 
-	Component* GetComponentFromUpdateOrder(int updateOrder);
+	inline Actor* GetOwningActor() { return m_owningActor; }
+	inline const int GetUpdateOrder() const { return m_updateOrder; }
 
-	int GetUpdateOrder() const { return m_UpdateOrder; }
 protected:
-	// Owning actor
-	class Actor* m_Owner;
-	// Update order of component
-	int m_UpdateOrder;
-
-
+	Actor* m_owningActor = nullptr;
+	int m_updateOrder = -1;
 };
 

@@ -9,7 +9,6 @@ public:
 		PRESS,
 		HELD,
 		RELEASE,
-		HELD,
 		INVALID
 	};
 
