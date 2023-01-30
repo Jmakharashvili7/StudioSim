@@ -85,6 +85,8 @@ public:
 
 	void UpdateVertexArray();
 	void UpdateObjectData(VertexData* newData);
+
+	void SetNewTexture(std::string newPath);
 protected:
 	// Name + type
 	std::string m_name = "";

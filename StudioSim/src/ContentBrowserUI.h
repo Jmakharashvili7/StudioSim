@@ -1,5 +1,6 @@
 #pragma once
 #include "UIWindow.h"
+#include "Texture.h"
 
 
 class ContentBrowserUI : public UIWindow
@@ -15,4 +16,16 @@ public:
 private:
 	std::string m_ContentRoot = "res";
 	std::string m_CurrentDirectory;
+
+	ImGuiIO& m_IO = ImGui::GetIO();
+
+	float m_ThumbnailPadding;
+	float m_ThumbnailSize;
+
+	Texture* m_FolderThumbnail;
+	Texture* m_FileThumbnail;
+
+	std::map<std::string, Texture*> m_PreviewThumbnails;
+
+	bool m_ButtonHighlighted;
 };

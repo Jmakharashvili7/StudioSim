@@ -11,7 +11,7 @@ struct TextureData
 		internalFormat(GL_RGB), imageFormat(GL_RGB) {};
 
 	TextureData() 
-		: texturePath(""), internalFormat(0), imageFormat(0) {};
+		: texturePath(""), internalFormat(GL_RGBA16), imageFormat(GL_RGB) {};
 
 	std::string texturePath;
 	GLint internalFormat;

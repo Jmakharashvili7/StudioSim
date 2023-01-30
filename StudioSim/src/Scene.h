@@ -30,6 +30,8 @@ public:
 
 	inline OrthographicCamera* GetCamera() { return m_mainCamera; }
 	void CloseScene();
+
+	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 private:
 	void SetupShaders();
 	void HandleLights();
@@ -41,6 +43,7 @@ private:
 
 	GameObject* LoadGameObject(std::string path);
 	bool StoreGameObject(GameObject* gameObject, int index);
+
 
 
 private:

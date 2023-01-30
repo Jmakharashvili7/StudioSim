@@ -279,6 +279,8 @@
     <None Include="res\textures\test sheet.png~" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />
+    <Image Include="engine res\icons\Radvisual-Holographic-Folder.256.png" />
     <Image Include="res\textures\blue.png" />
     <Image Include="res\textures\duck.png" />
     <Image Include="res\textures\test sheet.jpg" />

@@ -22,6 +22,8 @@ public:
 	virtual inline const bool GetSimulatingGravity() const { return m_physicsData.bsimulateGravity; }
 	virtual inline const float GetMass() const { return m_physicsData.mass; }
 	inline PhysicsData GetPhysicsData() { return m_physicsData; }
+	inline void SetMass(float newMass) { m_physicsData.mass = newMass; }
+	inline void SetSimulateGravity(bool gravityStatus) { m_physicsData.bsimulateGravity = gravityStatus; }
 
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }
@@ -38,8 +40,13 @@ public:
 	virtual void ClearComponents();
 	virtual void ReorderComponents(); //TODO
 
+	inline virtual std::vector<Component*> GetComoponents() { return m_components; }
+
 	// Input
 	virtual inline InputComponent* const GetInputComponent() { return m_inputComponent; }
+
+	inline bool GetAnimationStatus() { return m_banimated; }
+	inline void SetAnimationStatus(bool animated) { m_banimated = animated; }
 
 protected:
 	// Animation

@@ -318,6 +318,8 @@
     <Image Include="res\textures\twist2.png">
       <Filter>resources</Filter>
     </Image>
+    <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />
+    <Image Include="engine res\icons\Radvisual-Holographic-Folder.256.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini">
