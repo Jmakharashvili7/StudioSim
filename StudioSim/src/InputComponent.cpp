@@ -64,7 +64,7 @@ const bool InputComponent::AnyKeyDown() const
 {
 	bool banyKeyHeld = false;
 
-	if (keyEvent.IsHeld())
+	if (!KeyboardClass::KeyBufferIsEmpty())
 	{
 		if (keyEvent.GetKeyCode() != NULL)
 		{

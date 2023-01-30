@@ -146,7 +146,6 @@
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Component.cpp" />
-    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\InputComponent.cpp" />
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
     <ClCompile Include="src\ContentBrowser.cpp">
@@ -158,6 +157,23 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\QuackOperations.cpp" />
     <ClCompile Include="src\Character.cpp" />
+    <ClCompile Include="src\ParticlePhysicsComponent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleForceRegistry.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleGravity.cpp" />
+    <ClCompile Include="ParticleDrag.cpp" />
+    <ClCompile Include="src\Observer.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExampleSingleton.cpp">
+      <Filter>DesignPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -287,7 +303,6 @@
     </ClInclude>
     <ClInclude Include="src\KeyboardClass.h" />
     <ClInclude Include="src\Component.h" />
-    <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\InputComponent.h" />
     <ClInclude Include="src\WorldOutlinerUI.h">
       <Filter>UI</Filter>
@@ -298,6 +313,29 @@
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />
+    <ClInclude Include="src\ParticlePhysicsComponent.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleForceGenerator.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Component.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleForceRegistry.h">
+      <Filter>QuackEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleGravity.h" />
+    <ClInclude Include="ParticleDrag.h" />
+    <ClInclude Include="src\Observer.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ExampleSingleton.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Singleton.h">
+      <Filter>DesignPatterns</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">
@@ -366,6 +404,9 @@
     </Filter>
     <Filter Include="Inputs">
       <UniqueIdentifier>{f407e532-d370-4c50-9fe0-011698f8e8b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DesignPatterns">
+      <UniqueIdentifier>{c490d521-a2d9-41b6-8fd5-d4f92b90de42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

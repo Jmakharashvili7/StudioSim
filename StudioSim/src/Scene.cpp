@@ -185,8 +185,10 @@ void Scene::HandleInput()
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 	const float movementAmount = 5.0f;
 
+
 	// jabas engine manager get can also be used here 
 	//Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
+	//duck->GetComponent<InputComponent>();
 	//if (duck)
 	//{
 	//	if (InputComponent* inputComponent = duck->GetInputComponent())
