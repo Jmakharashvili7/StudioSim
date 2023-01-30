@@ -15,6 +15,9 @@
 #include "UILayer.h"
 #include "Scene.h"
 #include "WorldOutlinerUI.h"
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -81,6 +84,19 @@ int Quack::InitEngine()
 	m_mainScene = Scene("MainScene", m_uiMain, m_window);
 	m_uiMain->InitWindows(); // should always be after init objects
 	return 0;
+}
+
+void Quack::GenerateTextureList()
+{
+	for (fs::directory_entry file : fs::directory_iterator("res/textures"))
+	{
+		fs::path imagePath = file.path();
+
+		Texture* texture = new Texture(TextureData(imagePath.string()));
+
+		m_textures[imagePath.filename().string()] = texture;
+	}
+
 }
 
 void Quack::HandleInput()
