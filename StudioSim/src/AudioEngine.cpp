@@ -7,7 +7,6 @@ FmodInit::FmodInit()
 	pSystem = nullptr;
 	pDspFader = nullptr;
 	pDspPan = nullptr;
-	pTestGroup = nullptr;
 	pMasterGroup = nullptr;
 	pReverb = nullptr;
 
@@ -146,22 +145,20 @@ FmodInit::~FmodInit()
 
 void FmodInit::Update()
 {
-	
-	for (int i = 0; i < CHANNELCOUNT; i++)
+	std::vector<ChannelMap::iterator> channelsStopped;
+
+	for (auto it = m_ChannelMap.begin(), itEnd = m_ChannelMap.end(); it != itEnd; ++it)
 	{
 		bool isPlaying = false;
-		pChannels[i]->isPlaying(&isPlaying);
-		if (!isPlaying)
-		{
-			delete pChannels[i];
-		}
-
+		it->second->isPlaying(&isPlaying);
+		if (!isPlaying) channelsStopped.push_back(it);
+	}
+	for (auto& it : channelsStopped)
+	{
+		m_ChannelMap.erase(it);
 	}
 	pSystem->update();
-	
 }
-//https://www.youtube.com/watch?v=jY3tPM1oNyU
-//https://www.youtube.com/watch?v=M8Bd7uHH4Yg
 
 FmodInit* pFmod;
 
@@ -173,29 +170,36 @@ void AudioEngine::Init()
 
 	//pFmod->pDspFader->setActive(true);
 
-	CreateSound("res/Sounds/a.mp3", true, true, false, nullptr, &pFmod->pSounds[0]);
-	CreateSound("res/Sounds/ohh.mp3", false, true, false, nullptr, &pFmod->pSounds[1]);
-	
-	pFmod->pSystem->createChannelGroup("Test", &pFmod->pTestGroup);
+	//CreateSound("res/Sounds/a.mp3", true, true, false, nullptr, &pFmod->pSounds[0]);
+	//CreateSound("res/Sounds/ohh.mp3", false, true, false, nullptr, &pFmod->pSounds[1]);
+	//
+	//pFmod->pSystem->createChannelGroup("Test", &pFmod->pTestGroup);
 
+	//MasterChannelManager();
+	//Set3DMinMax(0, 5.0f * DISTANCE, 5000.0f * DISTANCE);
+	//
+	//Play(pFmod->pSounds[0], nullptr, true, &pFmod->pChannels[0]); 
+	//SetChannelGroup(0, pFmod->pTestGroup);
+	//Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
+	//AddDsp(0, 0, pFmod->pDspFader);
+	//Pause(0, false);
+	//FadeIn(0, 10.0f);
+	////FadeOut(0, 10.0f);
+	//SetVolume(0, 10.0f);
+	//SetPitch(0,1.0f);
+	//MuteChannel(0,false);
+
+	CreateSound("res/Sounds/a.mp3", true, false, false);
+	CreateChannelGroup("Soundtrack", &pFmod->pSoundtracks);
 	MasterChannelManager();
-	Set3DMinMax(0, 5.0f * DISTANCE, 5000.0f * DISTANCE);
-	
-	Play(pFmod->pSounds[0], nullptr, true, &pFmod->pChannels[0]); 
-	SetChannelGroup(0, pFmod->pTestGroup);
+	Set3DMinMax("res/Sounds/a.mp3", 5.0f * DISTANCE, 5000.0f * DISTANCE);
+	PlaySound("res/Sounds/a.mp3", Vec3{ 0.0f, 0.0f, 100.0f }, 1.0f);
+	SetChannelGroup(0, pFmod->pSoundtracks);
 	Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
-	AddDsp(0, 0, pFmod->pDspFader);
-	Pause(0, false);
-	FadeIn(0, 10.0f);
-	//FadeOut(0, 10.0f);
-	SetVolume(0, 10.0f);
-	SetPitch(0,1.0f);
-	MuteChannel(0,false);
 
 
 
 }
-
 
 void AudioEngine::Update()
 {
@@ -207,31 +211,71 @@ void AudioEngine::Shutdown()
 	delete pFmod;
 }
 
-void AudioEngine::CreateSound(const std::string& pathToSound, 
-	bool isLoop, bool is3D, bool isStream, 
-	FMOD_CREATESOUNDEXINFO* soundInfo, FMOD::Sound** sound)
+void AudioEngine::CreateSound(const std::string& pathToSound,
+	bool is3D, bool isLoop, bool isStream)
 {
-	FMOD_RESULT result;
-	FMOD_MODE defaultMode = FMOD_DEFAULT;
-	defaultMode |= isLoop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
-	defaultMode |= is3D ? FMOD_3D : FMOD_2D;
-	defaultMode |= isStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+	auto found = pFmod->m_SoundMap.find(pathToSound);
 
-	result = pFmod->pSystem->createSound(
-		pathToSound.c_str(),
-		defaultMode,
-		soundInfo,
-		sound
-		);
+	//avoiding double loading
+	if (found != pFmod->m_SoundMap.end()) return;
 
+	//Creating mode
+	FMOD_MODE dMode = FMOD_DEFAULT;
+	dMode |= is3D ? FMOD_3D : FMOD_2D;
+	dMode |= isLoop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+	dMode |= isStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
-	if (result != FMOD_OK)
+	//Creating the sound and pushing it to the map
+	FMOD::Sound* sound = nullptr;
+	pFmod->pSystem->createSound(pathToSound.c_str(),
+		dMode,nullptr,	&sound);
+
+	if (sound) pFmod->m_SoundMap[pathToSound] = sound;
+
+}
+
+void AudioEngine::EraseSound(const std::string& pathToSound)
+{
+	//Avoiding double loading
+	auto found = pFmod->m_SoundMap.find(pathToSound);
+	if (found == pFmod->m_SoundMap.end()) return;
+
+	//Unloading the sound 
+	found->second->release();
+	pFmod->m_SoundMap.erase(found);
+}
+
+int AudioEngine::PlaySound(const std::string& pathToSound,
+	const Vec3& pos, float volume)
+{
+	//Setting the channel ID for the map
+	int currentChannelID = pFmod->m_NextChannelID++;
+	
+	//Avoinding double loading
+	auto found = pFmod->m_SoundMap.find(pathToSound);
+	if (found == pFmod->m_SoundMap.end())
 	{
-		printf("Error creating sound:  (%d) %s ", result, FMOD_ErrorString(result));
-		exit(-1);
+		CreateSound(pathToSound);
+		found = pFmod->m_SoundMap.find(pathToSound);
+		if (found == pFmod->m_SoundMap.end()) return currentChannelID;
 
 	}
 
+	//Creating channel and passing it to the map
+	FMOD::Channel* channel = nullptr;
+	pFmod->pSystem->playSound(found->second,
+		nullptr, true, &channel);
+
+	if (channel)
+	{
+		FMOD_VECTOR position = VectorToFmodVec(pos);
+		channel->set3DAttributes(&position, nullptr);
+		channel->setVolume(ChangingDBToVolume(volume));
+		channel->setPaused(false);
+		pFmod->m_ChannelMap[currentChannelID] = channel;
+	}
+
+	return currentChannelID;
 }
 
 void AudioEngine::CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** channelGroup)
@@ -248,6 +292,16 @@ void AudioEngine::CreateChannelGroup(const char* groupName, FMOD::ChannelGroup**
 	}
 }
 
+void AudioEngine::SetVolume(int channelID, float volume)
+{
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//Avoiding double loading
+	if (found == pFmod->m_ChannelMap.end()) return;
+
+	found->second->setVolume(ChangingDBToVolume(volume));
+}
+
 void AudioEngine::MasterChannelManager()
 {
 	FMOD_RESULT result;
@@ -261,22 +315,10 @@ void AudioEngine::MasterChannelManager()
 	}
 
 	//Setting other groups to be child of master group
-	result = pFmod->pMasterGroup->addGroup(pFmod->pTestGroup);
+	result = pFmod->pMasterGroup->addGroup(pFmod->pSoundtracks);
 	if (result != FMOD_OK)
 	{
 		printf("Error adding channel to master group:  (%d) %s ", result, FMOD_ErrorString(result));
-		exit(-1);
-	}
-
-}
-
-void AudioEngine::SetVolume(int channelID, float volumeDB)
-{
-	FMOD_RESULT result;
-	result = pFmod->pChannels[channelID]->setVolume(ChangingDBToVolume(volumeDB));
-	if (result != FMOD_OK)
-	{
-		printf("Error setting up volume:  (%d) %s ", result, FMOD_ErrorString(result));
 		exit(-1);
 	}
 
@@ -293,10 +335,17 @@ void AudioEngine::SetMasterChannelVolume(float volumeDB)
 	}
 }
 
+
 void AudioEngine::SetPitch(int channelID, float pitch)
 {
 	FMOD_RESULT result;
-	result = pFmod->pChannels[channelID]->setPitch(pitch);
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading
+	if (found == pFmod->m_ChannelMap.end()) return;
+
+
+	result = found->second->setPitch(pitch);
 	if (result != FMOD_OK)
 	{
 		printf("Error setting up pitch:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -319,17 +368,22 @@ void AudioEngine::MuteChannel(int channelID, bool mute)
 {
 	FMOD_RESULT result;
 
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading
+	if (found == pFmod->m_ChannelMap.end()) return;
+
 	if (mute == true)
 	{
 		bool mut = true;
-		result = pFmod->pChannels[channelID]->getMute(&mut);
+		result = found->second->getMute(&mut);
 		if (result != FMOD_OK)
 		{
 			printf("Error getting mute:  (%d) %s ", result, FMOD_ErrorString(result));
 			exit(-1);
 		}
 
-		result = pFmod->pChannels[channelID]->setMute(!mut);
+		result = found->second->setMute(!mut);
 		if (result != FMOD_OK)
 		{
 			printf("Error setting up mute :  (%d) %s ", result, FMOD_ErrorString(result));
@@ -364,35 +418,49 @@ void AudioEngine::MuteMasterChannel(bool mute)
 
 void  AudioEngine::FadeIn(int channelID, float fadeTime)
 {
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading 
+	if (found == pFmod->m_ChannelMap.end()) return;
+
 	int rate = 0;
 	unsigned long long dspClock;
 
-	pFmod->pChannels[channelID]->getSystemObject(&pFmod->pSystem);
+	found->second->getSystemObject(&pFmod->pSystem);
 	pFmod->pSystem->getSoftwareFormat(&rate, 0, 0);
-	pFmod->pChannels[channelID]->getDSPClock(0, &dspClock);
-	pFmod->pChannels[channelID]->addFadePoint(dspClock, 0.0f);
-	pFmod->pChannels[channelID]->addFadePoint(dspClock + (rate * fadeTime), 1.0f);
+	found->second->getDSPClock(0, &dspClock);
+	found->second->addFadePoint(dspClock, 0.0f);
+	found->second->addFadePoint(dspClock + (rate * fadeTime), 1.0f);
 
 }
 
 void AudioEngine::FadeOut(int channelID, float fadeTime)
 {
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//Avoiding double loading
+	if (found == pFmod->m_ChannelMap.end()) return;
+
 	int rate = 0;
 	unsigned long long dspClock;
-	pFmod->pChannels[channelID]->getSystemObject(&pFmod->pSystem);
+	found->second->getSystemObject(&pFmod->pSystem);
 	pFmod->pSystem->getSoftwareFormat(&rate, 0, 0);
-	pFmod->pChannels[channelID]->getDSPClock(0, &dspClock);
-	pFmod->pChannels[channelID]->addFadePoint(dspClock, 1.0f);
-	pFmod->pChannels[channelID]->addFadePoint(dspClock + (rate * fadeTime), 0.0f);
-	pFmod->pChannels[channelID]->setDelay(0, dspClock + (rate * fadeTime), true);
+	found->second->getDSPClock(0, &dspClock);
+	found->second->addFadePoint(dspClock, 1.0f);
+	found->second->addFadePoint(dspClock + (rate * fadeTime), 0.0f);
+	found->second->setDelay(0, dspClock + (rate * fadeTime), true);
 
 
 }
 
-void AudioEngine::Set3DMinMax(int soundID, float min, float max)
+void AudioEngine::Set3DMinMax(const std::string& pathToSound, float min, float max)
 {
 	FMOD_RESULT result;
-	result = pFmod->pSounds[soundID]->set3DMinMaxDistance(min, max);
+	auto found = pFmod->m_SoundMap.find(pathToSound);
+
+	if (found == pFmod->m_SoundMap.end()) return;
+
+	result = found->second->set3DMinMaxDistance(min, max);
 	if (result != FMOD_OK)
 	{
 		printf("Error setting 3D min max:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -403,7 +471,13 @@ void AudioEngine::Set3DMinMax(int soundID, float min, float max)
 void AudioEngine::Set3DAttributes(int channelID, const FMOD_VECTOR* pos, const FMOD_VECTOR* vel)
 {
 	FMOD_RESULT result;
-	result = pFmod->pChannels[channelID]->set3DAttributes(&pFmod->m_Pos, &pFmod->m_Vel);
+
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading 
+	if (found == pFmod->m_ChannelMap.end()) return;
+
+	result = found->second->set3DAttributes(&pFmod->m_Pos, &pFmod->m_Vel);
 	if (result != FMOD_OK)
 	{
 		printf("Error setting 3D attributes:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -414,7 +488,13 @@ void AudioEngine::Set3DAttributes(int channelID, const FMOD_VECTOR* pos, const F
 void AudioEngine::AddDsp(int channelID, int index, FMOD::DSP* dsp)
 {
 	FMOD_RESULT result;
-	result = pFmod->pChannels[channelID]->addDSP(index, dsp);
+
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading 
+	if (found == pFmod->m_ChannelMap.end()) return;
+
+	result = found->second->addDSP(index, dsp);
 	if (result != FMOD_OK)
 	{
 		printf("Error adding dsp:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -425,7 +505,13 @@ void AudioEngine::AddDsp(int channelID, int index, FMOD::DSP* dsp)
 void AudioEngine::SetChannelGroup(int channelID, FMOD::ChannelGroup* channelGroup)
 {
 	FMOD_RESULT result;
-	result = pFmod->pChannels[channelID]->setChannelGroup(channelGroup);
+
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading 
+	if (found == pFmod->m_ChannelMap.end()) return;
+
+	result = found->second->setChannelGroup(channelGroup);
 	if (result != FMOD_OK)
 	{
 		printf("Error setting channel group:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -438,9 +524,16 @@ void AudioEngine::SetChannelGroup(int channelID, FMOD::ChannelGroup* channelGrou
 void AudioEngine::Pause(int channelID, bool pause)
 {
 	FMOD_RESULT result;
+
+	auto found = pFmod->m_ChannelMap.find(channelID);
+
+	//avoiding double loading 
+	if (found == pFmod->m_ChannelMap.end()) return;
+
+
 	if (pause == false)
 	{
-		result = pFmod->pChannels[channelID]->setPaused(false);
+		result = found->second->setPaused(false);
 		if (result != FMOD_OK)
 		{
 			printf("Error unpausing:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -449,7 +542,7 @@ void AudioEngine::Pause(int channelID, bool pause)
 	}
 	if (pause == true)
 	{
-		result = pFmod->pChannels[channelID]->setPaused(true);
+		result = found->second->setPaused(true);
 		if (result != FMOD_OK)
 		{
 			printf("Error pausing:  (%d) %s ", result, FMOD_ErrorString(result));
@@ -458,44 +551,23 @@ void AudioEngine::Pause(int channelID, bool pause)
 	}
 }
 
-bool AudioEngine::IsPlaying(int channelID)
-{
-	if (pFmod->pChannels[channelID]->isPlaying(&pFmod->m_IsPlaying))
-	{
-		return true;
-	}
-
-}
-
-
-void AudioEngine::UpdateTest()
-{
-	switch (m_State)
-	{
-	case AudioState::INITIALIZE:
-	case AudioState::DEVIRTUALIZE:
-	case AudioState::TOPLAY:
-	{
-		break;
-	}
-	default:
-		break;
-	}
-}
-
-void AudioEngine::Play(FMOD::Sound* sound, FMOD::ChannelGroup* channelGroup, bool isPaused, FMOD::Channel** channel)
-{
-	FMOD_RESULT result;
-
-	result = pFmod->pSystem->playSound(sound, channelGroup, isPaused, channel);
-
-	if (result != FMOD_OK)
-	{
-		printf("Error adding channel to master group:  (%d) %s ", result, FMOD_ErrorString(result));
-		exit(-1);
-	}
-
-}
+//bool AudioEngine::IsPlaying(int channelID)
+//{
+//	auto found = pFmod->m_ChannelMap.find(channelID);
+//
+//	//avoiding double loading 
+//	if (found == pFmod->m_ChannelMap.end()) return;
+//
+//
+//	if (found->second->isPlaying(&pFmod->m_IsPlaying))
+//	{
+//		return true;
+//	}
+//	
+//		return false;
+//	
+//
+//}
 
 FMOD_VECTOR  AudioEngine::VectorToFmodVec(const Vec3& soundPo) 
 { 
