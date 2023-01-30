@@ -1,8 +1,12 @@
 #pragma once
 #include "Singleton.h"
-class ExampleSingleton : Singleton<ExampleSingleton>
+
+
+class ExampleSingleton : public Singleton<ExampleSingleton>
 {
 
-
+	ExampleSingleton();
+public:
+	void Test();
 };
 
