@@ -216,7 +216,6 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
     <ClInclude Include="src\Observer.h" />

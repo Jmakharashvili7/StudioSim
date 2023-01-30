@@ -74,6 +74,7 @@ namespace nlohmann
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
 				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
@@ -120,6 +121,7 @@ namespace nlohmann
 				PhysicsData physicsData = actor->GetPhysicsData();
 				j["mass"] = physicsData.mass;
 				j["bsimulateGravity"] = physicsData.bsimulateGravity;
+				j["gravityMultiplier"] = physicsData.gravityMultiplier;
 
 				AnimationData animationData = actor->GetAnimationData();
 				j["banimated"] = animationData.banimated;
