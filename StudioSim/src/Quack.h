@@ -42,6 +42,7 @@ public:
 	static OrthographicCamera* GetOrthoCam() { return m_mainScene.GetCamera(); }
 
 	static void GenerateTextureList();
+
 private:
 	Quack();
 	~Quack();

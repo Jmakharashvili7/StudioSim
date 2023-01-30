@@ -38,6 +38,8 @@ UILayer* Quack::m_uiMain;
 Scene Quack::m_mainScene;
 
 OrthographicCamera* Quack::m_mainCamera;
+
+std::map<std::string, Texture*> Quack::m_textures;
 #pragma endregion DeclareMembers
 
 int Quack::InitEngine()
