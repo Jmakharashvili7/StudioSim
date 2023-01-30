@@ -42,6 +42,10 @@ public:
 	static void RenderUpdate();
 	static void PhysicsUpdate();
 	static void HandleLights();
+	static void DrawHUD();
+
+	static float ScreenConvX(float coord);
+	static float ScreenConvY(float coord);
 
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }

@@ -309,11 +309,6 @@ void Quack::HandleInput()
 			//Only counting the click within viewport boundary
 			if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
 			{
-				Vector2 mousePos;
-
-				mousePos.x = ImGui::GetMousePos().x;
-				mousePos.y = ImGui::GetMousePos().y;
-
 				//get the camera viewProjection matrix, and inverse it
 				glm::mat4 auxCamera = m_mainCamera->GetViewProjectionMatrix();
 				glm::mat4 invCamera = glm::inverse(auxCamera);
@@ -411,7 +406,6 @@ void Quack::HandleInput()
 				{
 					finalPosition_x = integer_x + floater_x;
 				}
-				//if(integer_x==0)
 
 				//calculate the final position Y
 				if (integer_y > 0)
@@ -600,7 +594,8 @@ void Quack::RenderUpdate()
 	m_primitiveShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	Renderer::DrawDebugLines();
 	m_primitiveShader->Unbind();
-
+	//Draws HUD on top of 3D render
+	DrawHUD();
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */
@@ -619,6 +614,61 @@ void Quack::PhysicsUpdate()
 void Quack::ImGUIInit()
 {
 
+}
+
+void Quack::DrawHUD()
+{
+	//Size of viewport
+	double port_x = m_uiMain->GetViewport()->GetSize().x;
+	double port_y = m_uiMain->GetViewport()->GetSize().y;
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0.0, port_x, port_y, 0.0, -1.0, 10.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glDisable(GL_CULL_FACE);
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	//get the camera viewProjection matrix, and inverse it
+	glm::mat4 auxCamera = m_mainCamera->GetViewProjectionMatrix();
+	glm::mat4 invCamera = glm::inverse(auxCamera);
+
+	//new position of the duck based on the mouse's position normalised based on 
+	//the viewport
+	float newposition_x = (viewStart_x / (port_x / 2) - 1),
+		newposition_y = -(viewStart_y / (port_y / 2) - 1);
+
+	////Blood meter
+	//glBegin(GL_QUADS);
+	//glColor3f(1.0f, 0.0f, 0.0);
+	//glVertex2f(0.0, 150.0);
+	//glVertex2f(100.0, 150.0);
+	//glVertex2f(100.0, 500.0);
+	//glVertex2f(0.0, 500.0);
+	////Coins?
+	//glColor3f(0.0f, 0.0f, 1.0);
+	//glVertex2f(0.0, 0.0);
+	//glVertex2f(200.0, 0.0);
+	//glVertex2f(200.0, 100.0);
+	//glVertex2f(0.0, 100.0);
+	////Health bar
+	//glColor3f(1.0f, 1.0f, 0.0);
+	//glVertex2f(0.0, m_uiMain->GetViewport()->GetSize().y - 100);
+	//glVertex2f(400.0, m_uiMain->GetViewport()->GetSize().y - 100);
+	//glVertex2f(400.0, m_uiMain->GetViewport()->GetSize().y);
+	//glVertex2f(0.0, m_uiMain->GetViewport()->GetSize().y);
+
+	//Blood meter
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 0.0f, 0.0);
+	glVertex2f(ScreenConvX(0.0), ScreenConvY(150.0));
+	glVertex2f(100.0, 150.0);
+	glVertex2f(100.0, 500.0);
+	glVertex2f(0.0, 500.0);
+
+	glEnd();
 }
 
 GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
@@ -704,4 +754,14 @@ void Quack::ShutDown()
 	glfwTerminate();
 };
 
+float Quack::ScreenConvX(float coord)
+{
+	float newposition = (coord / (m_uiMain->GetViewport()->GetSize().x / 2) - 1);
+	return newposition;
+}
 
+float Quack::ScreenConvY(float coord)
+{
+	float newposition = -(coord / (m_uiMain->GetViewport()->GetSize().x / 2) - 1);
+	return newposition;
+}
