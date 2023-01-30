@@ -90,25 +90,25 @@ namespace nlohmann
 			j["name"] = gameObject->GetName();
 			j["objectType"] = (int)gameObject->GetType();
 
-			// Load Object Data
+			// Store Object Data
 			j["vertices"] = gameObject->GetGameObjectData()->vertices;
 			j["colors"] = gameObject->GetGameObjectData()->colors;
 			j["texCoords"] = gameObject->GetGameObjectData()->texCoords;
 
-			// Load Transform Data
+			// Store Transform Data
 			Transform* transformData = gameObject->GetTransform();
 			j["position"] = transformData->GetPosition();
 			j["rotation"] = transformData->GetRotation();
 			j["scale"] = transformData->GetScale();
 
-			// Load Collision Data
+			// Store Collision Data
 			CollisionData collisionData = gameObject->GetCollisionData();
 			j["collisionType"] = (int)collisionData.collisionType;
 			j["centerPosition"] = collisionData.centerPosition;
 			j["size"] = collisionData.size;
 			j["radius"] = collisionData.radius;
 
-			// Load Texture Data
+			// Store Texture Data
 			TextureData textureData = gameObject->GetTextureData();
 			j["texturePath"] = textureData.texturePath;
 			j["internalFormat"] = textureData.internalFormat;
