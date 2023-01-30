@@ -25,7 +25,7 @@ Actor::~Actor()
 	delete m_animator;
 	m_animator = nullptr;
 
-	for (Component* component : m_components)
+	for (auto component : m_components)
 	{
 		delete component;
 		component = nullptr;
@@ -46,7 +46,7 @@ void Actor::Update(const float deltaTime)
 {
 	GameObject::Update(deltaTime);
 
-	for (Component* component : m_components)
+	for (auto component : m_components)
 	{
 		component->Update(deltaTime);
 	}

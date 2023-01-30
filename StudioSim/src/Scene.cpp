@@ -187,8 +187,8 @@ void Scene::HandleInput()
 
 
 	// jabas engine manager get can also be used here 
-	Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
-	duck->GetComponent<InputComponent>();
+	//Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
+	//duck->GetComponent<InputComponent>();
 	//if (duck)
 	//{
 	//	if (InputComponent* inputComponent = duck->GetInputComponent())

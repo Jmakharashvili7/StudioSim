@@ -3,6 +3,7 @@
 #include "Grid.h"
 #include "PathNode.h"
 #include "GameTime.h"
+#include "ParticleForceRegistry.h"
 
 class GameObject;
 class Actor;
@@ -85,6 +86,7 @@ private:
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
+	ParticleForceRegistry* m_ForceGenerator;
 
 	// idk if we need this
 	////Frame related variables

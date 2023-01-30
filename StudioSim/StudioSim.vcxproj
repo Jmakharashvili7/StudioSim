@@ -173,6 +173,8 @@
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ContentBrowser.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
+    <ClCompile Include="src\ExampleSingleton.cpp" />
+    <ClCompile Include="src\Observer.cpp" />
     <ClCompile Include="src\ParticleForceRegistry.cpp" />
     <ClCompile Include="src\ParticlePhysicsComponent.cpp" />
     <ClCompile Include="src\QuackOperations.cpp" />
@@ -224,6 +226,8 @@
     <ClInclude Include="ParticleGravity.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
+    <ClInclude Include="src\ExampleSingleton.h" />
+    <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\ParticleForceGenerator.h" />
     <ClInclude Include="src\ParticleForceRegistry.h" />
     <ClInclude Include="src\ParticlePhysicsComponent.h" />
@@ -243,6 +247,7 @@
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
+    <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\WorldOutlinerUI.h" />
   </ItemGroup>
   <ItemGroup>

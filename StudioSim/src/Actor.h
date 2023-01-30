@@ -38,6 +38,18 @@ public:
 	virtual void ClearComponents();
 	virtual void ReorderComponents(); //TODO
 
+	template <typename T>
+	T* GetComponent() {
+		for (Component* c : m_components)
+		{
+			if (dynamic_cast<T*>(c))
+			{
+				return (T*)c;
+			}
+		}
+		return nullptr;
+	}
+
 	inline virtual std::vector<Component*> GetComoponents() { return m_components; }
 
 	// Input
