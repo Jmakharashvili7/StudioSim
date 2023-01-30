@@ -1,35 +1,36 @@
 #pragma once
 #define MAXOBSERVERS 26
+#include "Actor.h"
 
-enum Event
-{
-	EventEntityDied
-};
+//enum Event
+//{
+//	EventEntityDied
+//};
 
-class Observer
-{
-public: 
-	Observer();// only here because of test singleton
-	virtual ~Observer();
-	virtual void onNotify(const class GameObject& go, Event event) = 0;
-};
+//class Observer
+//{
+//public: 
+//	Observer();// only here because of test singleton
+//	virtual ~Observer();
+//	virtual void onNotify(const class GameObject& go, Event event) = 0;
+//};
+//
+//class Subject
+//{
+//public:
+//	void
+//
+//private:
+//	Observer* m_Observers[MAXOBSERVERS];
+//	int m_NumOfObservers;
+//
+//};
 
-class Subject
-{
-public:
-	void
-
-private:
-	Observer* m_Observers[MAXOBSERVERS];
-	int m_NumOfObservers;
-
-};
-
-template<typename T>
+//template<typename T>
 class Event
 {
 public:
-    using Callback = std::function<void(T)>;
+    using Callback = std::function<void()>;
     using CallbackId = size_t;
 
     Event() : m_callbackIdCounter(0) {}
@@ -45,11 +46,15 @@ public:
         m_callbacks.erase(id);
     }
 
-    void Invoke(T eventArgs)
+    void Invoke()
     {
+        if (m_callbackIdCounter == 0)
+        {
+            return;
+        }
         for (auto& [id, callback] : m_callbacks)
         {
-            callback(eventArgs);
+            callback();
         }
     }
 
@@ -58,12 +63,15 @@ private:
     CallbackId m_callbackIdCounter;
 };
 
-class EventManager
+class EventManager : public Singleton<EventManager>
 {
+    EventManager(){}
 public:
-    EventManager();
-    ~EventManager();
+    
+    Event CoinCollected;
+    void OnCoinCollected() {
 
-
+        CoinCollected.Invoke();
+    }
 
 };
