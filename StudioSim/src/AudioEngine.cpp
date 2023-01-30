@@ -201,7 +201,7 @@ void AudioEngine::Init()
 
 }
 
-void AudioEngine::Update()
+void AudioEngine::Update(float deltaTime)
 {
 	pFmod->Update();
 }

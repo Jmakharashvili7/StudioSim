@@ -134,17 +134,30 @@ class AudioEngine
 public:
 
 	void  Init();
-	void  Update();
-	void  UpdateTest();
+	void  Update(float deltaTime);
 	void  Shutdown();
+
+	struct SoundInfo
+	{
+		std::string soundName;
+		float volume;
+		float minDistance;
+		float maxdistance;
+		bool is3D;
+		bool isLoop;
+		bool isStreaming;
+	};
 	
 	//functions using map
 	void CreateSound(const std::string& pathToSound,
 		bool is3D = true, bool isLoop = false, bool isStream = false);
 	void EraseSound(const std::string& pathToSound);
+
 	int  PlaySound(const std::string& pathToSound,
 		const Vec3& pos, float volume);
-	
+	int  RegisterSound(const SoundInfo& soundInfo, bool load = true);
+
+	void  UnregisterSound(int soundID); //https://www.youtube.com/watch?v=M8Bd7uHH4Yg&t=1652s //https://www.youtube.com/watch?v=jY3tPM1oNyU&t=267s
 	void  SetVolume(int channelID, float volumeDB);
 	void  SetMasterChannelVolume(float volumeDB);
 	void  SetPitch(int channelID, float pitch);
