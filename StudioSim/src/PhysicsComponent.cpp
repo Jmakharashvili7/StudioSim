@@ -19,6 +19,7 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::Update(float deltaTime)
 {
+
 	if (m_InverseMass <= 0.0f || m_bOnGround || !m_bSimulateGravity) return;
 
 	m_owningActor->AdjustPosition(m_Velocity * deltaTime);
@@ -46,6 +47,11 @@ void PhysicsComponent::ClearAccumulator()
 
 void PhysicsComponent::AddForce(const Vector3& force)
 {
+	cout << m_Force.x << "  " << m_Force.y << "  " << m_Force.z << endl;
+	if (m_bOnGround)
+	{
+		m_bOnGround = !m_bOnGround;
+	}
 	m_Force += force;
 }
 
@@ -57,12 +63,16 @@ void PhysicsComponent::SetOnGround(const bool bOnGround)
 	{
 		ResetForces();
 	}
+	else
+	{
+		UpdateAccelerationByGravity();
+	}
 }
 
 void PhysicsComponent::SetSimulateGravity(const bool bSimulateGravity)
 {
 	m_bSimulateGravity = bSimulateGravity;
-
+	
 	if (!bSimulateGravity)
 	{
 		ResetForces();
@@ -75,6 +85,6 @@ void PhysicsComponent::SetSimulateGravity(const bool bSimulateGravity)
 
 void PhysicsComponent::ResetForces()
 {
-	SetAcceleration(Vector3(0, 0, 0));
+	//SetAcceleration(Vector3(0, 0, 0));
 	SetVelocity(Vector3(0, 0, 0));
 }

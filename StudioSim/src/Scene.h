@@ -44,6 +44,7 @@ private:
 	GameObject* LoadGameObject(std::string path);
 	bool StoreGameObject(GameObject* gameObject, int index);
 
+	void printshitt() noexcept;
 
 
 private:

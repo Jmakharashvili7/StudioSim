@@ -12,6 +12,7 @@
 #include "Window.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
+#include "Observer.h"
 
 Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_uiMain(uiLayer),
@@ -30,6 +31,8 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
 	EngineManager::SetGameObjects(m_gameObjects);
 	SetupShaders();
+	EventManager::Instance()->CoinCollected.Subscribe([this]() {this->printshitt(); });
+	//EventManager::Instance()->CoinCollected.Subscribe([this]() {this->printshitt(); });
 }
 
 void Scene::SetupShaders()
@@ -177,6 +180,11 @@ void Scene::PhysicsUpdate()
 	m_collisionManager->Update(deltaTime);
 }
 
+void Scene::printshitt() noexcept
+{
+	cout << "event works" << endl;
+}
+
 void Scene::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
@@ -189,17 +197,28 @@ void Scene::HandleInput()
 	{
 		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
 		{
+			// MOVE LEFT
+			if (inputComponent->GetKeyDown('a'))
+			{
+				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+			}
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
 				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
 			}
 	
-			// MOVE LEFT
-			if (inputComponent->GetKeyDown('a'))
+	
+			if (inputComponent->GetKeyPressed('w'))
 			{
-				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
-			}	
+				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 100, 0));
+				if (duck->GetComponent<PhysicsComponent>())
+				{
+					EventManager::Instance()->OnCoinCollected();
+					
+				}
+				
+			}
 		}
 	}
 }

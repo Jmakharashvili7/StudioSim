@@ -26,7 +26,20 @@ public:
 	static inline void DisableAutoRepeatKeys() { s_AutoRepeatKeys = false; }
 	static inline void EnableAutoRepeatChars() { s_AutoRepeatChars = true; }
 	static inline void DisableAutoRepeatChars() { s_AutoRepeatChars = false; }
-	static inline void ClearKeyBuffer() { s_KeyBuffer.empty(); s_CharBuffer.empty(); }
+	static inline void ClearKeyBuffer() {
+		clear(s_KeyBuffer);
+		clear(s_CharBuffer);
+	}
+	static inline void clear(std::queue<KeyEvent>& q)
+	{
+		std::queue<KeyEvent> empty;
+		std::swap(q, empty);
+	}
+	static inline void clear(std::queue<unsigned char>& q)
+	{
+		std::queue<unsigned char> empty;
+		std::swap(q, empty);
+	}
 	static inline bool IsKeyAutoRepeat() { return s_AutoRepeatKeys; }
 	static inline bool IsCharsAutoRepeat() { return s_AutoRepeatChars; }
 };

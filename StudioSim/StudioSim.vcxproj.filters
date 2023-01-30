@@ -162,6 +162,7 @@
     <ClCompile Include="src\Observer.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="src\Singleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
