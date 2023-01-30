@@ -30,19 +30,21 @@ void EditorUI::Render()
 		ImGui::Text(m_object->GetName().c_str());
 
 		ImGui::PushItemWidth(itemWidth);
-		ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
+		if (m_object->GetTexture())
+		{
+			ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
+		}
 
 		std::string menuTitle = "Current Texture: ";
 		menuTitle += m_object->GetTextureName();
-
-		ImGui::Separator();
-
 
 		if (ImGui::BeginMenu(menuTitle.c_str()))
 		{
 			GenerateTextureMenu();
 			ImGui::EndMenu();
 		}		
+
+		ImGui::Separator();
 
 		ImGui::PopItemWidth();
 
@@ -149,7 +151,7 @@ void EditorUI::GenerateTextureMenu()
 	{
 		if (ImGui::MenuItem(texture.path().filename().string().c_str()))
 		{
-			m_object->SetNewTexture(texture.path().string());
+			m_object->SetNewTexture(texture.path().filename().string().c_str());
 		}
 	}
 }

@@ -57,7 +57,7 @@ namespace nlohmann
 			collisionData.radius = j["radius"].get<float>();
 			collisionData.size = j["size"].get<Vector3>();
 
-			// Load textureData
+			
 			std::string textureName = j["textureName"].get<std::string>();
 			GameObjectType type = (GameObjectType)j["objectType"];
 
@@ -78,6 +78,8 @@ namespace nlohmann
 				animationData.banimated = j["banimated"].get<bool>();
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
+
+				std::cout << textureName << std::endl;
 
 				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
 			}

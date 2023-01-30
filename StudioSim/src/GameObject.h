@@ -78,6 +78,7 @@ public:
 	inline VertexData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
 	inline std::string GetTextureName() { return m_textureName; }
+	inline void SetTextureName(std::string textureName) { m_textureName = textureName; }
 
 	// Name + type
 	inline std::string GetName() const { return m_name; }

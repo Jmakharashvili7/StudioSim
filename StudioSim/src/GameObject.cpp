@@ -10,7 +10,7 @@ GameObject::GameObject(std::string name, VertexData* data, const TransformData& 
 	m_va = new VertexArray();
 	UpdateVertexArray();
 
-	Texture* temp = Quack::GetTexture(m_textureName);
+	m_texture = Quack::GetTexture(textureName);
 	
 }
 
@@ -82,9 +82,18 @@ void GameObject::UpdateObjectData(VertexData* newData)
 	UpdateVertexArray();
 }
 
-void GameObject::SetNewTexture(std::string newPath)
+void GameObject::SetNewTexture(std::string fileName)
 {
-	m_texture = new Texture(TextureData(newPath, GL_RGBA, GL_RGBA));
+	if (Quack::GetTexture(fileName))
+	{
+		m_texture = Quack::GetTexture(fileName);
+
+		m_textureName = fileName;
+	}
+	else
+	{
+		QE_LOG("Texture Does Not Exist");
+	}	
 }
 
 bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)

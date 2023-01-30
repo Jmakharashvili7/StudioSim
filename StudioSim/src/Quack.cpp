@@ -82,9 +82,11 @@ int Quack::InitEngine()
 	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
 	/// 
 	m_uiMain->OnAttach();
+	GenerateTextureList();
 
 	m_mainScene = Scene("MainScene", m_uiMain, m_window);
 	m_uiMain->InitWindows(); // should always be after init objects
+
 	return 0;
 }
 
@@ -92,13 +94,16 @@ void Quack::GenerateTextureList()
 {
 	for (fs::directory_entry file : fs::directory_iterator("res/textures"))
 	{
-		fs::path imagePath = file.path();
+		std::string imagePath = file.path().string();
 
-		Texture* texture = new Texture(TextureData(imagePath.string()));
+		std::string imageName = file.path().filename().string();	
 
-		m_textures[imagePath.filename().string()] = texture;
+		QE_LOG(imageName);
+
+		Texture* texture = new Texture(TextureData(imagePath));
+
+		m_textures[imageName] = texture;
 	}
-
 }
 
 /// <summary>
@@ -109,15 +114,25 @@ void Quack::GenerateTextureList()
 /// <returns></returns>
 Texture* Quack::GetTexture(std::string textureName)
 {
-	auto index = m_textures.find(textureName);
+	//auto index = m_textures.find(textureName);
 
-	if (index == m_textures.end())
+	//if (index == m_textures.end())
+	//{
+	//	QE_LOG(textureName + " Not found");
+	//	return nullptr;
+	//}
+	//else // texture found
+	//	return index->second;
+
+	Texture* objectTexture = m_textures[textureName];
+
+	if (!objectTexture)
 	{
-		QE_LOG(textureName + "Not found");
+		QE_LOG(textureName + " Not found");
 		return nullptr;
 	}
-	else // texture found
-		return index->second;
+
+	return objectTexture;
 }
 
 void Quack::HandleInput()
