@@ -24,6 +24,10 @@ const bool InputComponent::GetKeyDown(const char key) const
 			bkeyHeld = true;
 		}
 	}
+	else
+	{
+		KeyboardClass::ClearKeyBuffer();
+	}
 
 	return bkeyHeld;
 }

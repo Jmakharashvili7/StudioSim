@@ -3,11 +3,11 @@
 #include <limits>
 #include <assert.h>
 
-class ParticlePhysicsComponent : public Component
+class PhysicsComponent : public Component
 {
 public:
-	ParticlePhysicsComponent(Actor* owner, int updateOrder);
-	~ParticlePhysicsComponent();
+	PhysicsComponent(Actor* owner, int updateOrder, const float mass, const bool bSimulateGravity);
+	~PhysicsComponent();
 
 	void SetMass(const float mass) { assert(mass != 0); m_InverseMass = 1 / mass; }
 	void SetInverseMass(const float inverseMass) { m_InverseMass = inverseMass; }
@@ -53,13 +53,13 @@ public:
 
 	void AddForce(const Vector3& force);
 
-	
+	void SetOnGround(const bool bOnGround);
+
+	void SetSimulateGravity(const bool bSimulateGravity);
+
+	void ResetForces();
 
 protected:
-	/// <summary>
-	/// Holds the linear position of the particle in world space
-	/// </summary>
-	Vector3 m_Position;
 
 	/// <summary>
 	///  Holds the linear velocity of the particle in world space
@@ -89,7 +89,7 @@ protected:
 
 	float m_GravitationalValue = 9.807f;
 
-	Transform* m_Transform;
-private:
+	bool m_bOnGround = false;
 
+	bool m_bSimulateGravity = true;
 };

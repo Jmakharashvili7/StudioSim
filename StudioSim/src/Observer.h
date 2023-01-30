@@ -63,7 +63,7 @@ private:
     CallbackId m_callbackIdCounter;
 };
 
-class EventManager : public Singleton<EventManager>
+class EventManager// : public Singleton<EventManager>
 {
     EventManager(){}
 public:

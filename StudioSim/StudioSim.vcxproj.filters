@@ -103,9 +103,6 @@
     <ClCompile Include="src\MouseEvent.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PhysicsManager.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Quack.cpp">
       <Filter>source files</Filter>
     </ClCompile>
@@ -155,23 +152,14 @@
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\QuackOperations.cpp" />
     <ClCompile Include="src\Character.cpp" />
-    <ClCompile Include="src\ParticlePhysicsComponent.cpp">
+    <ClCompile Include="src\PhysicsComponent.cpp">
       <Filter>source files</Filter>
     </ClCompile>
     <ClCompile Include="src\Component.cpp">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleForceRegistry.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleGravity.cpp" />
-    <ClCompile Include="ParticleDrag.cpp" />
     <ClCompile Include="src\Observer.cpp">
-      <Filter>DesignPatterns</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ExampleSingleton.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
   </ItemGroup>
@@ -214,9 +202,6 @@
     </ClInclude>
     <ClInclude Include="src\LayerStack.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PhysicsManager.h">
-      <Filter>QuackEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\IndexBuffer.h">
       <Filter>Rendering</Filter>
@@ -311,31 +296,20 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\QuackOperations.h" />
     <ClInclude Include="src\Character.h" />
-    <ClInclude Include="src\ParticlePhysicsComponent.h">
-      <Filter>QuackEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticleForceGenerator.h">
+    <ClInclude Include="src\PhysicsComponent.h">
       <Filter>QuackEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\Component.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticleForceRegistry.h">
-      <Filter>QuackEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleGravity.h" />
-    <ClInclude Include="ParticleDrag.h" />
     <ClInclude Include="src\Observer.h">
-      <Filter>DesignPatterns</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ExampleSingleton.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
+    <ClInclude Include="InputComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">

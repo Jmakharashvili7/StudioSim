@@ -2,6 +2,7 @@
 #include "Animate.h"
 #include "Quack.h"
 #include "InputComponent.h"
+#include "PhysicsComponent.h"
 
 Actor::Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
 	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData), m_animationData(animationData)
@@ -18,6 +19,10 @@ Actor::Actor(std::string name, VertexData* data, const TransformData& transformD
 	// Input init
 	m_inputComponent = new InputComponent(this, 0);
 	AddComponent(m_inputComponent);
+
+	// Physics init
+	m_physicsComponent = new PhysicsComponent(this, 1, physicsData.mass, physicsData.bsimulateGravity);
+	AddComponent(m_physicsComponent);
 }
 
 Actor::~Actor()
@@ -52,6 +57,16 @@ void Actor::Update(const float deltaTime)
 	}
 }
 
+void Actor::SetSimulateGravity(bool gravityStatus)
+{
+	m_physicsData.bsimulateGravity = gravityStatus;
+
+	if (m_physicsComponent)
+	{
+		m_physicsComponent->SetSimulateGravity(gravityStatus);
+	}
+}
+
 void Actor::AddCollision(GameObject* collidingObject)
 {
 	// Debug
@@ -75,16 +90,6 @@ void Actor::AddCollision(GameObject* collidingObject)
 
 	if (collidingObject->GetName() == "ground")
 	{
-		/*Vector3 duckLeft = GetPosition() - GetScale() / Vector3(2.0f);
-		Vector3 duckRight = GetPosition() + GetScale() / Vector3(2.0f);
-		Vector3 floorLeft = collidingObject->GetPosition() - collidingObject->GetScale() / Vector3(2.0f);
-		Vector3 floorRight = collidingObject->GetPosition() + collidingObject->GetScale() / Vector3(2.0f);
-
-		std::cout << "DUCK CENTRE: " << GetPosition().x << "  DUCK LEFT: " << duckLeft.x << "  DUCK RIGHT: " << duckRight.x << std::endl;
-		std::cout << "FLOOR CENTRE:  " << collidingObject->GetPosition().x << "  FLOOR LEFT: " << floorLeft.x << "  FLOOR RIGHT: " << floorRight.x << std::endl;*/
-
-
-		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
 		SetCollidingWithGround(true);
 	}
 
@@ -99,6 +104,16 @@ void Actor::RemoveCollision(GameObject* gameObject)
 	}
 
 	GameObject::RemoveCollision(gameObject);
+}
+
+void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
+{
+	m_bcollidingWithGround = bcollidingWithGround;
+
+	if (m_physicsComponent)
+	{
+		m_physicsComponent->SetOnGround(bcollidingWithGround);
+	}
 }
 
 void Actor::AddComponent(Component* component)
