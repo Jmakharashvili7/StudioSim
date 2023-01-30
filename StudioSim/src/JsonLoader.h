@@ -45,11 +45,8 @@ namespace nlohmann
 			data->texCoords = j["texCoords"].get<std::vector<float>>();
 
 			// Load Transform Data
-			//f(j["position"].get<std::vector<float>>(), transformData.position);
 			transformData.position = j["position"].get<Vector3>();
-			//f(j["rotation"].get<std::vector<float>>(), transformData.rotation);
 			transformData.rotation = j["rotation"].get<Vector3>();
-			//f(j["scale"].get<std::vector<float>>(), transformData.scale);
 			transformData.scale = j["scale"].get<Vector3>();
 
 			// Load Collision Data
