@@ -17,7 +17,6 @@ EditorUI::~EditorUI()
 
 void EditorUI::Render()
 {
-	ImGui::ShowDemoWindow();
 	ImGui::Begin("Settings", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 	if (m_object)
 	{
