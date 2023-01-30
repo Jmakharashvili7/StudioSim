@@ -20,14 +20,15 @@ struct TextureData
 
 struct PhysicsData
 {
-	PhysicsData(const bool inSimulateGravity, const float inMass)
-		: bsimulateGravity(inSimulateGravity), mass(inMass) {};
+	PhysicsData(const bool inSimulateGravity, const float inMass, const float inGravityMultiplier)
+		: bsimulateGravity(inSimulateGravity), mass(inMass), gravityMultiplier(inGravityMultiplier) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f) {};
+		: bsimulateGravity(false), mass(0.0f), gravityMultiplier(1.0f) {};
 
 	bool bsimulateGravity;
 	float mass;
+	float gravityMultiplier;
 };
 
 struct MovementData

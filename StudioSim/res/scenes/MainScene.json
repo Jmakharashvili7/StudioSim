@@ -3,8 +3,8 @@
         "banimated": false,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": 1.0620090961456299,
-            "y": -0.7562671899795532,
+            "x": -0.5762502551078796,
+            "y": -0.8265811800956726,
             "z": 0.0
         },
         "collisionType": 0,
@@ -29,14 +29,15 @@
             1.0
         ],
         "columns": 0,
+        "gravityMultiplier": 1.0,
         "imageFormat": 6408,
         "internalFormat": 6408,
         "mass": 1.0,
         "name": "duck",
         "objectType": 1,
         "position": {
-            "x": 1.0620090961456299,
-            "y": -0.7562671899795532,
+            "x": -0.5762502551078796,
+            "y": -0.8265811800956726,
             "z": 0.0
         },
         "radius": 0.0,
@@ -70,7 +71,7 @@
             0.0,
             0.0
         ],
-        "texturePath": "res/textures/duck2.png",
+        "textureName": "duck2.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -119,8 +120,6 @@
             1.0,
             1.0
         ],
-        "imageFormat": 6407,
-        "internalFormat": 6407,
         "name": "ground",
         "objectType": 0,
         "position": {
@@ -158,7 +157,7 @@
             0.0,
             0.0
         ],
-        "texturePath": "res/textures/concretefloor.png",
+        "textureName": "concretefloor.jpg",
         "vertices": [
             -0.5,
             -0.5,
