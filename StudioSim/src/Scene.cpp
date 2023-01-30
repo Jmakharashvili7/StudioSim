@@ -3,7 +3,6 @@
 #include "Actor.h"
 #include "Shader.h"
 #include "OrthographicCamera.h"
-#include "PhysicsManager.h"
 #include "CollisionManager.h"
 #include "EngineManager.h"
 #include "JsonLoader.h"
@@ -12,7 +11,7 @@
 #include "UILayer.h"
 #include "Window.h"
 #include "InputComponent.h"
-#include "QuackOperations.h"
+#include "PhysicsComponent.h"
 
 Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_uiMain(uiLayer),
@@ -22,10 +21,9 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_mainCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
 	m_mainCamera->SetPosition(glm::vec3(0.0f));
 
-	m_physicsManager = new PhysicsManager();
 	m_collisionManager = new CollisionManager();
 
-	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_physicsManager, m_collisionManager);
+	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_collisionManager);
 	m_gameTimer.Start();
 
 	// Update engine manager
@@ -176,7 +174,6 @@ void Scene::Render()
 void Scene::PhysicsUpdate()
 {
 	float deltaTime = m_gameTimer.GetDeltaTime();
-	m_physicsManager->Update(deltaTime);
 	m_collisionManager->Update(deltaTime);
 }
 
@@ -185,25 +182,26 @@ void Scene::HandleInput()
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 	const float movementAmount = 5.0f;
 
-	// jabas engine manager get can also be used here 
-	//Actor* duck = m_gameActors[QuackOperations::GetActorIndex("duck", m_gameActors)];
-	//if (duck)
-	//{
-	//	if (InputComponent* inputComponent = duck->GetInputComponent())
-	//	{
-	//		// MOVE RIGHT
-	//		if (inputComponent->GetKeyDown('d'))
-	//		{
-	//			duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
-	//		}
-	//
-	//		// MOVE LEFT
-	//		if (inputComponent->GetKeyDown('a'))
-	//		{
-	//			duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
-	//		}
-	//	}
-	//}
+
+	//jabas engine manager get can also be used here 
+	Actor* duck = dynamic_cast<Actor*>(EngineManager::GetGameObject("duck"));
+	if (duck)
+	{
+		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
+		{
+			// MOVE RIGHT
+			if (inputComponent->GetKeyDown('d'))
+			{
+				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+			}
+	
+			// MOVE LEFT
+			if (inputComponent->GetKeyDown('a'))
+			{
+				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+			}	
+		}
+	}
 }
 
 void Scene::CloseScene()

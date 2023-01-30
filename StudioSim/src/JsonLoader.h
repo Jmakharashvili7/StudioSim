@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Actor.h"
 #include "Scene.h"
-#include "PhysicsManager.h"
+#include "CollisionManager.h"
 
 using json = nlohmann::json;
 
@@ -194,7 +194,7 @@ namespace QuackEngine {
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, PhysicsManager* physicsManager, CollisionManager* collisionManager)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 
@@ -221,11 +221,6 @@ namespace QuackEngine {
 				if (obj->GetCollisionType() != CollisionType::NONE)
 				{
 					collisionManager->AddGameObject(obj);
-				}
-
-				if (obj->GetType() == GameObjectType::ACTOR || obj->GetType() == GameObjectType::CHARACTER) // check if game object an actor or character
-				{ 
-					physicsManager->AddGameActor(static_cast<Actor*>(obj));
 				}
 			}
 			

@@ -1,4 +1,8 @@
 #include "KeyboardClass.h"
+#include <iostream>
+using namespace std;
+#include <GLFW/glfw3.h>
+
 
 bool KeyboardClass::s_AutoRepeatKeys;
 bool KeyboardClass::s_AutoRepeatChars;
@@ -10,6 +14,7 @@ void KeyboardClass::Init()
 {
 	s_AutoRepeatChars = true;
 	s_AutoRepeatKeys = true;
+	
 }
 
 KeyEvent KeyboardClass::ReadKey()
@@ -48,6 +53,8 @@ void KeyboardClass::OnKeyPressed(const unsigned char key)
 {
 	s_KeyStates[key] = true;
 	s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::PRESS, key));
+
+	
 }
 
 void KeyboardClass::OnKeyHeld(const unsigned char key)
@@ -57,6 +64,7 @@ void KeyboardClass::OnKeyHeld(const unsigned char key)
 		s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
 	}
 }
+
 
 void KeyboardClass::OnKeyReleased(const unsigned char key)
 {

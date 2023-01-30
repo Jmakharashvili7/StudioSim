@@ -24,6 +24,10 @@ const bool InputComponent::GetKeyDown(const char key) const
 			bkeyHeld = true;
 		}
 	}
+	else
+	{
+		KeyboardClass::ClearKeyBuffer();
+	}
 
 	return bkeyHeld;
 }
@@ -64,7 +68,7 @@ const bool InputComponent::AnyKeyDown() const
 {
 	bool banyKeyHeld = false;
 
-	if (keyEvent.IsHeld())
+	if (!KeyboardClass::KeyBufferIsEmpty())
 	{
 		if (keyEvent.GetKeyCode() != NULL)
 		{

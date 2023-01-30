@@ -384,6 +384,22 @@ public:
 		z /= length;
 	}
 
+	void Clear() {
+		x = y = z = 0.0f;
+	}
+	
+	// Normalize this vector
+	Vector3 Normalized() 
+	{
+		float length = Length();
+		
+		x /= length;
+		y /= length;
+		z /= length;
+		return Vector3(x, y, z);
+	}
+
+
 	// Normalize the provided vector
 	static Vector3 Normalize(const Vector3& vec)
 	{

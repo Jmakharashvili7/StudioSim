@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Animate.h"
 #include "Quack.h"
+#include "EngineManager.h"
 
 GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
@@ -114,7 +115,7 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 	//std::cout << "END COLLISION!" << std::endl;
 	if (gameObject)
 	{
-		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObject, m_collidingObjects);
+		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObject, m_collidingObjects);
 		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
 	}
 }

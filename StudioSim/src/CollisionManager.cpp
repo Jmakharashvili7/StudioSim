@@ -1,4 +1,5 @@
 #include "CollisionManager.h"
+#include "EngineManager.h"
 
 CollisionManager::CollisionManager()
 {
@@ -30,11 +31,6 @@ void CollisionManager::Update(const float deltaTime)
 				{
 					BoundingBox owningBox = BoundingBox(gameObject->GetCollisionCenter(), gameObject->GetCollisionBoxSize());
 					BoundingBox otherBox = BoundingBox(otherGameObject->GetCollisionCenter(), otherGameObject->GetCollisionBoxSize());
-					/*if (Actor* actor = dynamic_cast<Actor*>(gameObject))
-					{
-						std::cout << "Duck Boi		" << (owningBox.center - owningBox.size / Vector3(2.0f, 2.0f, 2.0f)).y << std::endl;
-						std::cout << "Ground Boi		" << (otherBox.center + otherBox.size / Vector3(2.0f, 2.0f, 2.0f)).y << std::endl;
-					}*/
 					bColliding = CollisionHelper::BoxToBox(owningBox, otherBox);
 				}
 				// sphere to sphere
@@ -72,20 +68,11 @@ void CollisionManager::Update(const float deltaTime)
 	}
 }
 
-//Vector3 CollisionManager::RepositionGameObject(GameObject* a, GameObject* b)
-//{
-//	//Vector3 pen = Vector3(a->GetPosition() - a->GetPreviousPosition());
-//	//Vector3 outPosition = Vector3(a->GetPosition() - pen);
-//
-//	//Vector3 outPosition = Vector3(a->GetPosition().x, (b->GetCollisionCenter().y + b->GetCollisionBoxSize().y / 2.0f) - (a->GetCollisionCenter().y - a->GetCollisionBoxSize().y / 2.0f), 0.0f);
-//	return Vector3();
-//}
-
 void CollisionManager::RemoveGameObject(GameObject* gameObjectToRemove)
 {
 	if (gameObjectToRemove)
 	{
-		const int gameObjectIndex = QuackOperations::GetGameObjectIndex(gameObjectToRemove, m_gameObjects);
+		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObjectToRemove, m_gameObjects);
 		m_gameObjects.erase(m_gameObjects.begin() + gameObjectIndex);
 	}
 }

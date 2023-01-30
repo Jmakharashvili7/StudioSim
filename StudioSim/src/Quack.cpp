@@ -85,7 +85,7 @@ int Quack::InitEngine()
 
 void Quack::HandleInput()
 {
-
+	
 }
 
 void Quack::Update()
