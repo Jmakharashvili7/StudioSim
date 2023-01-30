@@ -101,6 +101,25 @@ void Quack::GenerateTextureList()
 
 }
 
+/// <summary>
+/// Takes in name of the texure and if the specified texture exists returns a pointer to it.
+/// If the texture does not exist it returns a nullptr and prints out an error.
+/// </summary>
+/// <param name="textureName"> The name of the texture </param>
+/// <returns></returns>
+Texture* Quack::GetTexture(std::string textureName)
+{
+	auto index = m_textures.find(textureName);
+
+	if (index == m_textures.end())
+	{
+		QE_LOG(textureName + "Not found");
+		return nullptr;
+	}
+	else // texture found
+		return index->second;
+}
+
 void Quack::HandleInput()
 {
 

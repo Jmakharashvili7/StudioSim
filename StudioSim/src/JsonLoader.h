@@ -34,7 +34,6 @@ namespace nlohmann
 			VertexData* data = new VertexData();
 			TransformData transformData;
 			CollisionData collisionData;
-			TextureData textureData;
 
 			// Load name
 			std::string name = j["name"].get<std::string>();
@@ -59,16 +58,13 @@ namespace nlohmann
 			collisionData.size = j["size"].get<Vector3>();
 
 			// Load textureData
-			textureData.texturePath = j["texturePath"].get<std::string>();
-			textureData.imageFormat = j["imageFormat"].get<GLint>();
-			textureData.internalFormat = j["internalFormat"].get<GLint>();
-
+			std::string textureName = j["textureName"].get<std::string>();
 			GameObjectType type = (GameObjectType)j["objectType"];
 
 			switch (type)
 			{
 			case GameObjectType::OBJECT:
-				return new GameObject(name, data, transformData, collisionData, textureData);
+				return new GameObject(name, data, transformData, collisionData, textureName);
 
 			case GameObjectType::ACTOR:
 				PhysicsData physicsData;
@@ -83,7 +79,7 @@ namespace nlohmann
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
 
-				return new Actor(name, data, transformData, collisionData, textureData, physicsData, animationData);
+				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
 			}
 		}
 
@@ -93,37 +89,39 @@ namespace nlohmann
 			j["name"] = gameObject->GetName();
 			j["objectType"] = (int)gameObject->GetType();
 
-			// Load Object Data
+			// Store Object Data
 			j["vertices"] = gameObject->GetGameObjectData()->vertices;
 			j["colors"] = gameObject->GetGameObjectData()->colors;
 			j["texCoords"] = gameObject->GetGameObjectData()->texCoords;
 
-			// Load Transform Data
+			// Store Transform Data
 			Transform* transformData = gameObject->GetTransform();
 			j["position"] = transformData->GetPosition();
 			j["rotation"] = transformData->GetRotation();
 			j["scale"] = transformData->GetScale();
 
-			// Load Collision Data
+			// Store Collision Data
 			CollisionData collisionData = gameObject->GetCollisionData();
 			j["collisionType"] = (int)collisionData.collisionType;
 			j["centerPosition"] = collisionData.centerPosition;
 			j["size"] = collisionData.size;
 			j["radius"] = collisionData.radius;
 
-			// Load Texture Data
-			TextureData textureData = gameObject->GetTextureData();
-			j["texturePath"] = textureData.texturePath;
-			j["internalFormat"] = textureData.internalFormat;
-			j["imageFormat"] = textureData.imageFormat;
+			// Store Texture Data
+			std::string textureName = gameObject->GetTextureName();
+			j["textureName"] = gameObject->GetTextureName();
 
+			// Check if the game object is an actor
 			if (gameObject->GetType() == GameObjectType::ACTOR)
 			{
 				Actor* actor = dynamic_cast<Actor*>(gameObject);
+
+				// Store Physics Data
 				PhysicsData physicsData = actor->GetPhysicsData();
 				j["mass"] = physicsData.mass;
 				j["bsimulateGravity"] = physicsData.bsimulateGravity;
 
+				// Store Animation Data
 				AnimationData animationData = actor->GetAnimationData();
 				j["banimated"] = animationData.banimated;
 				j["columns"] = animationData.columns;

@@ -2,13 +2,16 @@
 #include "Animate.h"
 #include "Quack.h"
 
-GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data), m_textureData(textureData), m_transformData(transformData) 
+	m_collisionData(collisionData), m_data(data), m_transformData(transformData), m_textureName(textureName)
 {
 	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
+
+	Texture* temp = Quack::GetTexture(m_textureName);
+	
 }
 
 GameObject::~GameObject()

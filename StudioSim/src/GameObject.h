@@ -27,7 +27,7 @@ struct VertexData
 class GameObject
 {
 public:
-	GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData);
+	GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName);
 	virtual ~GameObject();
 
 	// Rendering
@@ -77,7 +77,7 @@ public:
 	inline VertexArray* GetVertexArray() { return m_va;  };
 	inline VertexData* GetGameObjectData() { return m_data; }
 	inline Texture* GetTexture() const { return m_texture; }
-	inline TextureData GetTextureData() { return m_textureData; }
+	inline std::string GetTextureName() { return m_textureName; }
 
 	// Name + type
 	inline std::string GetName() const { return m_name; }
@@ -94,7 +94,7 @@ protected:
 
 	// Texture
 	Texture* m_texture = nullptr;
-	TextureData m_textureData;
+	std::string m_textureName;
 
 	// Object
 	VertexArray* m_va = nullptr;

@@ -9,7 +9,7 @@ class Component;
 class Actor : public GameObject
 {
 public:
-	Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const AnimationData& animationData);
 	virtual ~Actor();
 
 	// Rendering

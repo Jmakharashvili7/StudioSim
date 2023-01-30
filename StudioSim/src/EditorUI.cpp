@@ -33,7 +33,7 @@ void EditorUI::Render()
 		ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
 
 		std::string menuTitle = "Current Texture: ";
-		menuTitle += fs::path(m_object->GetTextureData().texturePath).filename().string();
+		menuTitle += m_object->GetTextureName();
 
 		ImGui::Separator();
 

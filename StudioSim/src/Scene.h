@@ -43,9 +43,6 @@ private:
 
 	GameObject* LoadGameObject(std::string path);
 	bool StoreGameObject(GameObject* gameObject, int index);
-
-
-
 private:
 	std::string m_name;
 
