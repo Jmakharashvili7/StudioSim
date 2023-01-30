@@ -76,3 +76,4 @@ ipch/
 *.db-wal
 *.vsidx
 
+*.user
