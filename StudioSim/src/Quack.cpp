@@ -174,10 +174,10 @@ void Quack::RenderUpdate()
 	
 	m_mainScene.Render();
 
-	if (HUDactive == true)
-	{
-		DrawHUD();
-	}
+	//if (HUDactive == true)
+	//{
+	//	DrawHUD();
+	//}
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */

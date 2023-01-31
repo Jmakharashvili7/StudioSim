@@ -12,6 +12,7 @@ class PhysicsManager;
 class CollisionManager;
 class UILayer;
 class Window;
+class HUD;
 
 struct SceneInfo
 {
@@ -80,6 +81,8 @@ private:
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
+
+	HUD* m_HUD;
 
 	// idk if we need this
 	////Frame related variables

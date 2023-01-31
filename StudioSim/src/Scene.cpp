@@ -14,6 +14,7 @@
 #include "Window.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
+#include "HUD.h"
 
 Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_uiMain(uiLayer),
@@ -27,6 +28,8 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 
 	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_collisionManager);
 	m_gameTimer.Start();
+
+	m_HUD = new HUD();
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
@@ -171,6 +174,8 @@ void Scene::Render()
 	m_primitiveShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
 	Renderer::DrawDebugLines();
 	m_primitiveShader->Unbind();
+
+	m_HUD->Draw();
 }
 
 void Scene::PhysicsUpdate()
