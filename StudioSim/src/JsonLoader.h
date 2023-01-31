@@ -4,6 +4,7 @@
 #include "Actor.h"
 #include "Scene.h"
 #include "CollisionManager.h"
+#include "Character.h"
 
 using json = nlohmann::json;
 
@@ -34,6 +35,10 @@ namespace nlohmann
 			VertexData* data = new VertexData();
 			TransformData transformData;
 			CollisionData collisionData;
+			PhysicsData physicsData;
+			AnimationData animationData;
+			MovementData movementData;
+			EntityData entityData;
 
 			// Load name
 			std::string name = j["name"].get<std::string>();
@@ -64,8 +69,6 @@ namespace nlohmann
 				return new GameObject(name, data, transformData, collisionData, textureName);
 
 			case GameObjectType::ACTOR:
-				PhysicsData physicsData;
-				AnimationData animationData;
 
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
@@ -77,9 +80,26 @@ namespace nlohmann
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
 
-				std::cout << textureName << std::endl;
-
 				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
+			case GameObjectType::CHARACTER:
+
+				// Load PhysicsData
+				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
+				physicsData.mass = j["mass"].get<float>();
+
+				// Load AnimationData
+				animationData.banimated = j["banimated"].get<bool>();
+				animationData.columns = j["columns"].get<int>();
+				animationData.rows = j["rows"].get<int>();
+
+				// Load movement data
+				movementData.jumpHeight = j["jumpHeight"].get<float>();
+				movementData.movementSpeed = j["movementSpeed"].get<float>();
+
+				// load entity data
+				entityData.health = j["health"].get<float>();
+
+				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
 			}
 		}
 
@@ -109,10 +129,9 @@ namespace nlohmann
 
 			// Store Texture Data
 			std::string textureName = gameObject->GetTextureName();
-			j["textureName"] = gameObject->GetTextureName();
+			j["textureName"] = textureName;
 
-			// Check if the game object is an actor
-			if (gameObject->GetType() == GameObjectType::ACTOR)
+			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER)
 			{
 				Actor* actor = dynamic_cast<Actor*>(gameObject);
 
@@ -127,6 +146,17 @@ namespace nlohmann
 				j["banimated"] = animationData.banimated;
 				j["columns"] = animationData.columns;
 				j["rows"] = animationData.rows;
+
+				if (gameObject->GetType() == GameObjectType::CHARACTER)
+				{
+					Character* character = dynamic_cast<Character*>(actor);
+					MovementData movementData = character->GetMovementData();
+					j["jumpHeight"] = movementData.jumpHeight;
+					j["movementSpeed"] = movementData.movementSpeed;
+					
+					EntityData entityData = character->GetEntityData();
+					j["health"] = entityData.health;
+				}
 			}
 		}
 	};
