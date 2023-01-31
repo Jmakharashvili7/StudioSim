@@ -4,6 +4,7 @@
 #include "Actor.h"
 #include "Scene.h"
 #include "CollisionManager.h"
+#include "Character.h"
 
 using json = nlohmann::json;
 
@@ -81,6 +82,30 @@ namespace nlohmann
 				animationData.rows = j["rows"].get<int>();
 
 				return new Actor(name, data, transformData, collisionData, textureData, physicsData, animationData);
+			case GameObjectType::CHARACTER:
+				// Character data
+				MovementData movementData;
+				EntityData entityData;
+				PhysicsData physicsData;
+				AnimationData animationData;
+
+				// Load PhysicsData
+				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
+				physicsData.mass = j["mass"].get<float>();
+
+				// Load AnimationData
+				animationData.banimated = j["banimated"].get<bool>();
+				animationData.columns = j["columns"].get<int>();
+				animationData.rows = j["rows"].get<int>();
+
+				// Load movement data
+				movementData.jumpHeight = j["jumpHeight"].get<float>();
+				movementData.movementSpeed = j["movementSpeed"].get<float>();
+
+				// load entity data
+				entityData.health = j["health"].get<float>();
+
+				return new Character(name, data, transformData, collisionData, textureData, physicsData, movementData, entityData, animationData);
 			}
 		}
 
@@ -114,7 +139,7 @@ namespace nlohmann
 			j["internalFormat"] = textureData.internalFormat;
 			j["imageFormat"] = textureData.imageFormat;
 
-			if (gameObject->GetType() == GameObjectType::ACTOR)
+			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER)
 			{
 				Actor* actor = dynamic_cast<Actor*>(gameObject);
 				PhysicsData physicsData = actor->GetPhysicsData();
@@ -125,6 +150,17 @@ namespace nlohmann
 				j["banimated"] = animationData.banimated;
 				j["columns"] = animationData.columns;
 				j["rows"] = animationData.rows;
+
+				if (gameObject->GetType() == GameObjectType::CHARACTER)
+				{
+					Character* character = dynamic_cast<Character*>(actor);
+					MovementData movementData = character->GetMovementData();
+					j["jumpHeight"] = movementData.jumpHeight;
+					j["movementSpeed"] = movementData.movementSpeed;
+					
+					EntityData entityData = character->GetEntityData();
+					j["health"] = entityData.health;
+				}
 			}
 		}
 	};
