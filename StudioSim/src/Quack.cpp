@@ -114,9 +114,7 @@ void Quack::GenerateTextureList()
 	{
 		std::string imagePath = file.path().string();
 
-		std::string imageName = file.path().filename().string();	
-
-		QE_LOG(imageName);
+		std::string imageName = file.path().filename().string();
 
 		Texture* texture = new Texture(TextureData(imagePath));
 

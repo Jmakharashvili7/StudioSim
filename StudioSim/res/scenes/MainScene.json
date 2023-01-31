@@ -4,8 +4,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": -1.0,
-            "y": -0.8956031799316406,
+            "x": 2.5,
+            "y": -0.7819591760635376,
             "z": 0.0
         },
         "collisionType": 0,
@@ -38,8 +38,8 @@
         "name": "duck",
         "objectType": 2,
         "position": {
-            "x": -1.0,
-            "y": -0.8956031799316406,
+            "x": 2.5,
+            "y": -0.7819591760635376,
             "z": 0.0
         },
         "radius": 0.0,

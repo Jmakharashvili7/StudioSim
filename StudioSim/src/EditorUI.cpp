@@ -79,6 +79,22 @@ void EditorUI::Render()
 			ImGui::Separator();
 		}
 
+		if (ImGui::TreeNode("Collision"))
+		{
+			ImGui::PushItemWidth(itemWidth);
+			std::string collisionTitle = "Current Type: ";
+			collisionTitle += GetCollisionTypeName(m_object->GetCollisionType());
+			if (ImGui::BeginMenu(collisionTitle.c_str()))
+			{
+				GenerateCollisionMenu();
+				ImGui::EndMenu();
+			}
+			ImGui::PopItemWidth();
+
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+
 		//Will only display the follwing information if object 
 		//is an actor or subclass of an actor
 		if (Actor* actorObject = dynamic_cast<Actor*>(m_object))
@@ -385,6 +401,39 @@ void EditorUI::HandleInput(KeyEvent key)
 			}
 #pragma endregion
 		}
+	}
+}
+
+std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
+{
+	switch (collisionType)
+	{
+	case CollisionType::BOX:
+		return "BOX";
+	case CollisionType::SPHERE:
+		return "SPHERE";
+	case CollisionType::NONE:
+		return "NONE";
+	default:
+		return "";
+	}
+}
+
+void EditorUI::GenerateCollisionMenu()
+{
+	ImGui::MenuItem("Collision Types", NULL, false, false);
+
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::BOX);
+	}
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::SPHERE).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::SPHERE);
+	}
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::NONE).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::NONE);
 	}
 }
 
