@@ -1,6 +1,7 @@
 #include "EditorUI.h"
 #include "Actor.h"
 #include "Animate.h";
+#include "PhysicsComponent.h"
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -29,19 +30,21 @@ void EditorUI::Render()
 		ImGui::Text(m_object->GetName().c_str());
 
 		ImGui::PushItemWidth(itemWidth);
-		ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
+		if (m_object->GetTexture())
+		{
+			ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
+		}
 
 		std::string menuTitle = "Current Texture: ";
-		menuTitle += fs::path(m_object->GetTextureData().texturePath).filename().string();
-
-		ImGui::Separator();
-
+		menuTitle += m_object->GetTextureName();
 
 		if (ImGui::BeginMenu(menuTitle.c_str()))
 		{
 			GenerateTextureMenu();
 			ImGui::EndMenu();
 		}		
+
+		ImGui::Separator();
 
 		ImGui::PopItemWidth();
 
@@ -74,26 +77,41 @@ void EditorUI::Render()
 		//is an actor or subclass of an actor
 		if (Actor* actorObject = dynamic_cast<Actor*>(m_object))
 		{
-			//Set up to display physics data
-			if (ImGui::TreeNode("Physics"))
+			if (PhysicsComponent* actorPhysics = actorObject->GetComponent<PhysicsComponent>())
 			{
-				//Slider to adjust the mass of the actor
-				//Ctrl click to use keyboard input to enter a value manually
-				ImGui::PushItemWidth(itemWidth);
-				float mass = actorObject->GetPhysicsData().mass;
-				ImGui::SliderFloat("Object Mass", &mass, 1.0f, 100.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-				actorObject->SetMass(mass);
-				ImGui::PopItemWidth();
+				//Set up to display physics data
+				if (ImGui::TreeNode("Physics"))
+				{
+					//Slider to adjust the mass of the actor
+					//Ctrl click to use keyboard input to enter a value manually
+					ImGui::PushItemWidth(itemWidth);
+					float mass = actorObject->GetPhysicsData().mass;
+					ImGui::SliderFloat("Mass", &mass, 1.0f, 100.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+					actorObject->SetMass(mass);
+					ImGui::PopItemWidth();
 
-				//Check box to toggle simulation of gravity on and off
-				ImGui::PushItemWidth(itemWidth);
-				bool simGravity = actorObject->GetSimulatingGravity();
-				ImGui::Checkbox("Simulate Gravity", &simGravity);
-				actorObject->SetSimulateGravity(simGravity);
-				ImGui::PopItemWidth();
+					//Slider to adjust the gravity multiplier of the actor
+					//Ctrl click to use keyboard input to enter a value manually
+					ImGui::PushItemWidth(itemWidth);
+					float gravityMultiplier = actorObject->GetPhysicsData().gravityMultiplier;
+					ImGui::SliderFloat("Gravity Multiplier", &gravityMultiplier, 1.0f, 10.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+					actorObject->SetGravityMultiplier(gravityMultiplier);
+					ImGui::PopItemWidth();
 
-				ImGui::TreePop();
-				ImGui::Separator();
+					//Check box to toggle simulation of gravity on and off
+					ImGui::PushItemWidth(itemWidth);
+					bool simGravity = actorObject->GetSimulatingGravity();
+					ImGui::Checkbox("Simulate Gravity", &simGravity);
+					
+					if (simGravity != actorObject->GetSimulatingGravity())
+					{
+						actorObject->SetSimulateGravity(simGravity);
+					}
+					ImGui::PopItemWidth();
+
+					ImGui::TreePop();
+					ImGui::Separator();
+				}
 			}
 
 			//Set up to display animation data
@@ -148,7 +166,7 @@ void EditorUI::GenerateTextureMenu()
 	{
 		if (ImGui::MenuItem(texture.path().filename().string().c_str()))
 		{
-			m_object->SetNewTexture(texture.path().string());
+			m_object->SetNewTexture(texture.path().filename().string().c_str());
 		}
 	}
 }

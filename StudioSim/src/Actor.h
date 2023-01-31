@@ -10,7 +10,7 @@ class PhysicsComponent;
 class Actor : public GameObject
 {
 public:
-	Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData);
+	Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const AnimationData& animationData);
 	virtual ~Actor();
 
 	// Rendering
@@ -23,8 +23,9 @@ public:
 	virtual inline const bool GetSimulatingGravity() const { return m_physicsData.bsimulateGravity; }
 	virtual inline const float GetMass() const { return m_physicsData.mass; }
 	inline PhysicsData GetPhysicsData() { return m_physicsData; }
-	inline void SetMass(float newMass) { m_physicsData.mass = newMass; }
+	void SetMass(float newMass);
 	void SetSimulateGravity(bool gravityStatus);
+	void SetGravityMultiplier(const float gravityMultiplier);
 
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }

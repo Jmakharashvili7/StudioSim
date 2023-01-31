@@ -35,7 +35,6 @@ namespace nlohmann
 			VertexData* data = new VertexData();
 			TransformData transformData;
 			CollisionData collisionData;
-			TextureData textureData;
 
 			// Load name
 			std::string name = j["name"].get<std::string>();
@@ -56,17 +55,14 @@ namespace nlohmann
 			collisionData.radius = j["radius"].get<float>();
 			collisionData.size = j["size"].get<Vector3>();
 
-			// Load textureData
-			textureData.texturePath = j["texturePath"].get<std::string>();
-			textureData.imageFormat = j["imageFormat"].get<GLint>();
-			textureData.internalFormat = j["internalFormat"].get<GLint>();
-
+			
+			std::string textureName = j["textureName"].get<std::string>();
 			GameObjectType type = (GameObjectType)j["objectType"];
 
 			switch (type)
 			{
 			case GameObjectType::OBJECT:
-				return new GameObject(name, data, transformData, collisionData, textureData);
+				return new GameObject(name, data, transformData, collisionData, textureName);
 
 			case GameObjectType::ACTOR:
 				PhysicsData physicsData;
@@ -75,6 +71,7 @@ namespace nlohmann
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
 				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
@@ -142,10 +139,14 @@ namespace nlohmann
 			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER)
 			{
 				Actor* actor = dynamic_cast<Actor*>(gameObject);
+
+				// Store Physics Data
 				PhysicsData physicsData = actor->GetPhysicsData();
 				j["mass"] = physicsData.mass;
 				j["bsimulateGravity"] = physicsData.bsimulateGravity;
+				j["gravityMultiplier"] = physicsData.gravityMultiplier;
 
+				// Store Animation Data
 				AnimationData animationData = actor->GetAnimationData();
 				j["banimated"] = animationData.banimated;
 				j["columns"] = animationData.columns;

@@ -9,6 +9,7 @@ void InputComponent::Update(const float deltaTime)
 {
 	Component::Update(deltaTime);
 	ProcessInput();
+	KeyboardClass::ClearKeyBuffer();
 }
 
 const bool InputComponent::GetKeyDown(const char key) const
@@ -24,11 +25,7 @@ const bool InputComponent::GetKeyDown(const char key) const
 			bkeyHeld = true;
 		}
 	}
-	else
-	{
-		KeyboardClass::ClearKeyBuffer();
-	}
-
+	
 	return bkeyHeld;
 }
 

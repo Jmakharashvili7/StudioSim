@@ -2,8 +2,8 @@
 #include "Quack.h"
 
 Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
-	const TextureData& textureData, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
-	: Actor {name, data, transformData, collisionData, textureData, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
+	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
+	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
 {
 
 }
