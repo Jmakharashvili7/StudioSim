@@ -1,7 +1,5 @@
 #pragma once
 #include "Component.h"
-#include <limits>
-#include <assert.h>
 
 class PhysicsComponent : public Component
 {

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "EditorUI.h"
 #include "Actor.h"
 #include "Animate.h";
@@ -5,7 +7,6 @@
 #include "Quack.h"
 #include "UILayer.h"
 #include "ViewportUI.h"
-#include <filesystem>
 
 namespace fs = std::filesystem;
 
