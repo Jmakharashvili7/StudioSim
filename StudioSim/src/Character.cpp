@@ -5,7 +5,7 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
 	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
 {
-
+	m_type = GameObjectType::CHARACTER;
 }
 
 Character::~Character()
