@@ -4,7 +4,7 @@
         "bsimulateGravity": true,
         "centerPosition": {
             "x": -1.0,
-            "y": -80.56747436523438,
+            "y": -0.8956031799316406,
             "z": 0.0
         },
         "collisionType": 0,
@@ -38,7 +38,7 @@
         "objectType": 2,
         "position": {
             "x": -1.0,
-            "y": -80.56747436523438,
+            "y": -0.8956031799316406,
             "z": 0.0
         },
         "radius": 0.0,
@@ -96,8 +96,8 @@
     },
     "GameObject1": {
         "centerPosition": {
-            "x": -1.0,
-            "y": 1.0,
+            "x": 1.0,
+            "y": -1.5,
             "z": 0.0
         },
         "collisionType": 0,
@@ -124,8 +124,8 @@
         "name": "ground",
         "objectType": 0,
         "position": {
-            "x": -1.0,
-            "y": 1.0,
+            "x": 1.0,
+            "y": -1.5,
             "z": 0.0
         },
         "radius": 0.0,
