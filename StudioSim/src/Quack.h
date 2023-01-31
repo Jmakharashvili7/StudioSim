@@ -36,7 +36,7 @@ public:
 	static void SetOrthoCamera(OrthographicCamera* camera) { m_mainCamera = camera; }
 
 	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
-	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
+	static FrameBuffer* GetFrameBuffer() { return m_mainScene.GetFrameBuffer(); }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
 	static OrthographicCamera* GetOrthoCam() { return m_mainScene.GetCamera(); }
@@ -70,7 +70,6 @@ private:
 	static Shader* m_primitiveShader;
 	static Shader* m_textureShader;
 
-	static FrameBuffer* m_frameBuffer;
 	static OrthographicCamera* m_mainCamera;
 
 	static std::map<std::string, Texture*> m_textures;

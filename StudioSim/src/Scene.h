@@ -24,7 +24,7 @@ class Scene
 {
 public:
 	Scene() {}
-	Scene(const std::string& path, UILayer* uiLayer, Window* window);
+	Scene(const std::string& path, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer);
 	~Scene() {}
 	
 	void RenderScene();

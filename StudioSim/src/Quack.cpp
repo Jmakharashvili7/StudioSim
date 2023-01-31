@@ -38,7 +38,6 @@ UILayer* Quack::m_uiMain;
 
 Scene Quack::m_mainScene;
 
-FrameBuffer* Quack::m_frameBuffer;
 OrthographicCamera* Quack::m_mainCamera;
 
 std::map<std::string, Texture*> Quack::m_textures;
@@ -74,11 +73,16 @@ int Quack::InitEngine()
 	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
 
+	FrameBufferSpecificiation fbs;
+	fbs.width = m_window->GetWidth();
+	fbs.height = m_window->GetHeight();
+	FrameBuffer* frameBuffer = new FrameBuffer(fbs);
+
+
 	///
 	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
 	/// 
 	m_uiMain->OnAttach();
-	GenerateTextureList();
 
 	m_primitiveShader = new Shader("res/shaders/Primitive.shader");
 	m_textureShader = new Shader("res/shaders/basic.shader");
@@ -90,15 +94,12 @@ int Quack::InitEngine()
 	m_textureShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
 	m_textureShader->Unbind();
 
-	FrameBufferSpecificiation fbs;
-	fbs.width = m_window->GetWidth();
-	fbs.height = m_window->GetHeight();
-	m_frameBuffer = new FrameBuffer(fbs);
+	GenerateTextureList();
 
 	// Must be after shaders
 	Renderer::Init();
+	m_mainScene = Scene("MainScene", m_uiMain, m_window, frameBuffer);
 
-	m_mainScene = Scene("MainScene", m_uiMain, m_window);
 	m_uiMain->InitWindows(); // should always be after init objects
 
 	return 0;

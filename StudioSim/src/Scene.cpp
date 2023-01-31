@@ -13,10 +13,11 @@
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 
-Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
+Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer) :
 	m_uiMain(uiLayer),
 	m_window(window),
-	m_name(name)
+	m_name(name),
+	m_frameBuffer(frameBuffer)
 {
 	// Setup camera
 	m_activeCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
@@ -28,11 +29,6 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	// Load scen einfo
 	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_collisionManager);
 	m_gameTimer.Start();
-
-	FrameBufferSpecificiation fbs;
-	fbs.width = window->GetWidth();
-	fbs.height = window->GetHeight();
-	m_frameBuffer = new FrameBuffer(fbs);
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
