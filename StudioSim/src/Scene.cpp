@@ -188,6 +188,12 @@ void Scene::HandleInput()
 	{
 		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
 		{
+			// MOVE LEFT
+			if (inputComponent->GetKeyPressed(' '))
+			{
+				duck->Jump();
+			}
+
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
@@ -198,18 +204,6 @@ void Scene::HandleInput()
 			if (inputComponent->GetKeyDown('a'))
 			{
 				duck->AdjustPosition(Vector3((-duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-			}
-
-			// MOVE LEFT
-			if (inputComponent->GetKeyPressed(' '))
-			{
-				duck->Jump();
-			}
-
-			// MOVE LEFT
-			if (inputComponent->GetKeyPressed('w'))
-			{
-				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 500, 0));
 			}
 		}
 	}

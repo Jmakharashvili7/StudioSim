@@ -23,7 +23,7 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::Update(float deltaTime)
 {
-	if (m_InverseMass <= 0.0f || m_bOnGround || !m_bSimulateGravity) return;
+	if (m_InverseMass <= 0.0f || !m_bSimulateGravity) return;
 
 	m_owningActor->AdjustPosition(m_Velocity * deltaTime);
 	
