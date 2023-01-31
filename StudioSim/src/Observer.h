@@ -42,11 +42,11 @@ private:
 
 class EventManager : public Singleton<EventManager>
 {
-    EventManager() {}
-    static EventManager* m_Instance;
+    //EventManager() {}
+    //static EventManager* m_Instance;
 
 public:
-    static EventManager* Instance() { return m_Instance = (m_Instance == nullptr) ? new EventManager() : m_Instance; }
+    //static EventManager* Instance() { return m_Instance = (m_Instance == nullptr) ? new EventManager() : m_Instance; }
     Event CoinCollected;
     void OnCoinCollected() {
 

@@ -41,6 +41,8 @@ private:
 	void Update();
 	void PhysicsUpdate();
 
+	void printshitt() noexcept;
+
 	GameObject* LoadGameObject(std::string path);
 	bool StoreGameObject(GameObject* gameObject, int index);
 private:

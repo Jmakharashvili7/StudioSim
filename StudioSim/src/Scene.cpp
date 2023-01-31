@@ -33,7 +33,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
 	EngineManager::SetGameObjects(m_gameObjects);
 	SetupShaders();
-	EventManager::Instance()->CoinCollected.Subscribe([this]() {this->printshitt(); });
+	EventManager::Instance().CoinCollected.Subscribe([this]() {this->printshitt(); });
 	//EventManager::Instance()->CoinCollected.Subscribe([this]() {this->printshitt(); });
 }
 
@@ -214,7 +214,7 @@ void Scene::HandleInput()
 				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 100, 0));
 				if (duck->GetComponent<PhysicsComponent>())
 				{
-					EventManager::Instance()->OnCoinCollected();
+					EventManager::Instance().OnCoinCollected();
 					
 				}
 				

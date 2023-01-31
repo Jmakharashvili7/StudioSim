@@ -168,8 +168,10 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\AIComponent.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Observer.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\PhysicsComponent.cpp" />
@@ -204,7 +206,6 @@
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Log.cpp" />
-    <ClCompile Include="src\Singleton.cpp" />
     <ClCompile Include="src\stb_image\stb_image.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
@@ -217,8 +218,11 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AIComponent.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
+    <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\ObjectIncludes.h" />
     <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PhysicsComponent.h" />
@@ -236,6 +240,7 @@
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
+    <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\WorldOutlinerUI.h" />
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,7 @@ template<typename T>
 typename T& Singleton<T>::Instance() {
     if (Singleton::instance_ == 0) {
         Singleton::instance_ = CreateInstance();
-        ScheduleForDestruction(Singleton::Destroy);
+        //ScheduleForDestruction(Singleton::Destroy);
     }
     return *(Singleton::instance_);
 }
