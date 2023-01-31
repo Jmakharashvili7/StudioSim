@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "Animate.h";
 #include "PhysicsComponent.h"
+#include "EngineManager.h"
 
 namespace fs = std::filesystem;
 
@@ -217,6 +218,28 @@ void EditorUI::Render()
 				if (characterObject->GetMaxHealth() != maxHealth)
 				{
 					characterObject->SetMaxHealth(maxHealth, true);
+				}
+				ImGui::PopItemWidth();
+
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+
+			if (ImGui::TreeNode("Input"))
+			{
+				ImGui::PushItemWidth(itemWidth);
+				bool consumingInput = EngineManager::GetCharacterConsumingInput(characterObject);
+				ImGui::Checkbox("Consume Input", &consumingInput);
+				if (EngineManager::GetCharacterConsumingInput(characterObject) != consumingInput)
+				{
+					if (consumingInput)
+					{
+						EngineManager::SetInputCharacter(characterObject);
+					}
+					else
+					{
+						EngineManager::SetInputCharacter(nullptr);
+					}
 				}
 				ImGui::PopItemWidth();
 

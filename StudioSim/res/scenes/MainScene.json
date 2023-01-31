@@ -1,10 +1,11 @@
 {
     "GameObject0": {
         "banimated": false,
+        "bconsumeInput": true,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": 0.0,
-            "y": -0.8315972089767456,
+            "x": 1.987512230873108,
+            "y": -0.7752233743667603,
             "z": 0.0
         },
         "collisionType": 0,
@@ -30,15 +31,15 @@
         ],
         "columns": 0,
         "gravityMultiplier": 2.0,
-        "jumpHeight": 527.0269775390625,
+        "jumpHeight": 500.0,
         "mass": 1.0,
         "maxHealth": 100.0,
         "movementSpeed": 5.0,
         "name": "duck",
         "objectType": 2,
         "position": {
-            "x": 0.0,
-            "y": -0.8315972089767456,
+            "x": 1.987512230873108,
+            "y": -0.7752233743667603,
             "z": 0.0
         },
         "radius": 0.0,

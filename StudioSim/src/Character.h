@@ -4,7 +4,7 @@
 class Character : public Actor
 {
 public:
-	Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string &textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData);
+	Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, const bool bconsumeInput = false);
 	virtual ~Character();
 
 	// Update
@@ -43,6 +43,10 @@ public:
 	// Entity
 	inline EntityData GetEntityData() { return m_entityData; }
 
+	// Input
+	virtual inline const bool GetConsumingInput() const { return m_bconsumingInput; }
+	virtual inline void SetConsumingInput(const bool bnewConsumingInput) { m_bconsumingInput = bnewConsumingInput; }
+
 protected:
 	// Movement
 	MovementData m_movementData = MovementData();
@@ -52,5 +56,8 @@ protected:
 	// Entity
 	EntityData m_entityData = EntityData();
 	float m_currentHealth = 0.0f;
+
+	// Input
+	bool m_bconsumingInput = false;
 };
 
