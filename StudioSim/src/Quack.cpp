@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Quack.h"
 #include "Shader.h"
 #include "Texture.h"

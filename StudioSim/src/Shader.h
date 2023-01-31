@@ -1,7 +1,4 @@
 #pragma once
-
-#include <string>
-#include <unordered_map>
 #include "BasicIncludes.h"
 
 enum ShaderType

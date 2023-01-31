@@ -1,7 +1,4 @@
 #pragma once
-#include <math.h>
-#include <memory.h>
-#include <limits>
 #include "BasicIncludes.h"
 
 namespace CustomMaths
