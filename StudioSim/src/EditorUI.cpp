@@ -25,27 +25,37 @@ void EditorUI::Render()
 		//to stop text being cut off when making window smaller
 		//although if the window gets too small it will cut off anyway
 		float itemWidth = ImGui::GetContentRegionAvail().x * 0.5f;
-		Texture* texture = m_object->GetTexture();
-	
-		ImGui::Text(m_object->GetName().c_str());
 
+		if (ImGui::TreeNode("Name"))
+		{
+			ImGui::PushItemWidth(itemWidth);
+			std::string stringName = m_object->GetName();
+			static char charName[128] = "_____";
+			strcpy_s(charName, stringName.c_str());
+			ImGui::InputText("", charName, IM_ARRAYSIZE(charName));
+			m_object->SetName(std::string(charName));
+			ImGui::PopItemWidth();
+
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+
+		Texture* texture = m_object->GetTexture();
+		//ImGui::Text(m_object->GetName().c_str());
 		ImGui::PushItemWidth(itemWidth);
 		if (m_object->GetTexture())
 		{
 			ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
 		}
-
 		std::string menuTitle = "Current Texture: ";
 		menuTitle += m_object->GetTextureName();
-
 		if (ImGui::BeginMenu(menuTitle.c_str()))
 		{
 			GenerateTextureMenu();
 			ImGui::EndMenu();
-		}		
+		}	
 
 		ImGui::Separator();
-
 		ImGui::PopItemWidth();
 
 		//Set up for displaying objects transform information
@@ -67,6 +77,22 @@ void EditorUI::Render()
 			Vector3 scale = m_object->GetScale();
 			ImGui::DragFloat3("Scale", &scale.x);
 			m_object->SetScale(scale);
+			ImGui::PopItemWidth();
+
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+
+		if (ImGui::TreeNode("Collision"))
+		{
+			ImGui::PushItemWidth(itemWidth);
+			std::string collisionTitle = "Current Type: ";
+			collisionTitle += GetCollisionTypeName(m_object->GetCollisionType());
+			if (ImGui::BeginMenu(collisionTitle.c_str()))
+			{
+				GenerateCollisionMenu();
+				ImGui::EndMenu();
+			}
 			ImGui::PopItemWidth();
 
 			ImGui::TreePop();
@@ -156,6 +182,39 @@ void EditorUI::Render()
 
 void EditorUI::HandleInput(KeyEvent key)
 {
+}
+
+std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
+{
+	switch (collisionType)
+	{
+		case CollisionType::BOX:
+			return "BOX";
+		case CollisionType::SPHERE:
+			return "SPHERE";
+		case CollisionType::NONE:
+			return "NONE";
+		default:
+			return "";
+	}
+}
+
+void EditorUI::GenerateCollisionMenu()
+{
+	ImGui::MenuItem("Collision Types", NULL, false, false);
+
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::BOX);
+	}
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::SPHERE).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::SPHERE);
+	}
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::NONE).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::NONE);
+	}
 }
 
 void EditorUI::GenerateTextureMenu()

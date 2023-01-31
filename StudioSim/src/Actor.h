@@ -36,6 +36,7 @@ public:
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
+	virtual void SetCollisionType(const CollisionType newCollisionType) override;
 	virtual void SetCollidingWithGround(const bool bcollidingWithGround);
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
 

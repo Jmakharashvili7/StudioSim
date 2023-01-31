@@ -126,6 +126,16 @@ void Actor::RemoveCollision(GameObject* gameObject)
 	GameObject::RemoveCollision(gameObject);
 }
 
+void Actor::SetCollisionType(const CollisionType newCollisionType)
+{
+	GameObject::SetCollisionType(newCollisionType);
+
+	if (newCollisionType == CollisionType::NONE)
+	{
+		SetCollidingWithGround(false);
+	}
+}
+
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
 {
 	m_bcollidingWithGround = bcollidingWithGround;
