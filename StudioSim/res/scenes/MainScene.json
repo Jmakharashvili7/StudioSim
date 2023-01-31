@@ -4,10 +4,10 @@
         "bsimulateGravity": true,
         "centerPosition": {
             "x": 0.0,
-            "y": -0.751898467540741,
+            "y": -111.67414855957031,
             "z": 0.0
         },
-        "collisionType": 0,
+        "collisionType": 2,
         "colors": [
             1.0,
             1.0,
@@ -35,7 +35,7 @@
         "objectType": 1,
         "position": {
             "x": 0.0,
-            "y": -0.751898467540741,
+            "y": -111.67414855957031,
             "z": 0.0
         },
         "radius": 0.0,

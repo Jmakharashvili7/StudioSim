@@ -29,3 +29,4 @@
 #include <limits>
 #include <assert.h>
 #include <unordered_map>
+#include <stdexcept>
