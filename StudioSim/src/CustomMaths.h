@@ -271,7 +271,7 @@ public:
 		z = inVal;
 	}
 
-	explicit Vector3(float inX, float inY, float inZ)
+	Vector3(float inX, float inY, float inZ)
 		:x(inX)
 		, y(inY)
 		, z(inZ)

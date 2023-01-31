@@ -37,7 +37,6 @@ public:
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
-	virtual void SetCollisionType(const CollisionType newCollisionType) override;
 	virtual void SetCollidingWithGround(const bool bcollidingWithGround);
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
 
@@ -58,7 +57,7 @@ public:
 		return nullptr;
 	}
 
-	inline virtual std::vector<Component*> GetComponents() { return m_components; }
+	inline virtual std::vector<Component*> GetComoponents() { return m_components; }
 
 protected:
 	// Animation

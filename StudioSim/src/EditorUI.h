@@ -2,6 +2,8 @@
 #include "UIWindow.h"
 #include "GameObject.h"
 
+class ViewportUI;
+
 class EditorUI : public UIWindow
 {
 public:
@@ -14,10 +16,11 @@ public:
 	inline void RemoveDisplayedGameObject() { m_object = nullptr; }
 	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
 
-	std::string GetCollisionTypeName(const CollisionType collisionType);
-	void GenerateCollisionMenu();
-
 	void GenerateTextureMenu();
+
+	vector<Vector3> ConvertClickToScreen();
+	Vector3 SnapOnGrid(vector<Vector3> values);
 private:
 	GameObject* m_object;
+	ViewportUI* m_Viewport;
 };

@@ -13,8 +13,7 @@ enum class GameObjectType
 {
 	OBJECT,
 	ACTOR,
-	CHARACTER,
-	ENEMY
+	CHARACTER
 };
 
 struct VertexData
@@ -57,7 +56,7 @@ public:
 
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
-	virtual void SetCollisionType(const CollisionType newCollisionType);
+	inline void SetCollisionType(const CollisionType newCollisionType) { m_collisionData.collisionType = newCollisionType; }
 	inline void SetCollisionCenter(const Vector3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
 	inline void SetCollisionBoxSize(const Vector3 newSize) { m_collisionData.size = newSize; }
 	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
@@ -72,7 +71,6 @@ public:
 
 	// Other
 	inline const std::string const GetName() { return m_name; }
-	inline void SetName(const std::string newName) { m_name = newName; }
 
 	// Object
 	inline VertexArray* GetVertexArray() { return m_va;  };
@@ -84,7 +82,6 @@ public:
 	// Name + type
 	inline std::string GetName() const { return m_name; }
 	inline GameObjectType GetType() const { return m_type; }
-	inline void SetType(GameObjectType newType) { m_type = newType; }
 
 	void UpdateVertexArray();
 	void UpdateObjectData(VertexData* newData);
