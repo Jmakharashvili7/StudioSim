@@ -3,12 +3,19 @@
 #include "Character.h"
 #include "Quack.h"
 #include "PhysicsComponent.h"
+#include "EngineManager.h"
 
 Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
-	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
-	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
+	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, const bool bconsumeInput)
+	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData), m_bconsumingInput(bconsumeInput)
 {
 	m_type = GameObjectType::CHARACTER;
+
+	// Input init
+	if (m_bconsumingInput)
+	{
+		EngineManager::SetInputCharacter(this);
+	}
 
 	// Health init
 	ResetCurrentHealth();

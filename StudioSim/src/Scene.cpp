@@ -183,7 +183,7 @@ void Scene::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	Character* duck = dynamic_cast<Character*>(EngineManager::GetGameObject(0));
+	Character* duck = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
 	if (duck)
 	{
 		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
