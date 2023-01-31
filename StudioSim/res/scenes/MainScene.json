@@ -30,8 +30,6 @@
         ],
         "columns": 0,
         "gravityMultiplier": 1.0,
-        "imageFormat": 6408,
-        "internalFormat": 6408,
         "mass": 1.0,
         "name": "duck",
         "objectType": 1,

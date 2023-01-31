@@ -35,6 +35,10 @@ namespace nlohmann
 			VertexData* data = new VertexData();
 			TransformData transformData;
 			CollisionData collisionData;
+			PhysicsData physicsData;
+			AnimationData animationData;
+			MovementData movementData;
+			EntityData entityData;
 
 			// Load name
 			std::string name = j["name"].get<std::string>();
@@ -65,8 +69,6 @@ namespace nlohmann
 				return new GameObject(name, data, transformData, collisionData, textureName);
 
 			case GameObjectType::ACTOR:
-				PhysicsData physicsData;
-				AnimationData animationData;
 
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
@@ -78,13 +80,8 @@ namespace nlohmann
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
 
-				return new Actor(name, data, transformData, collisionData, textureData, physicsData, animationData);
+				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
 			case GameObjectType::CHARACTER:
-				// Character data
-				MovementData movementData;
-				EntityData entityData;
-				PhysicsData physicsData;
-				AnimationData animationData;
 
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
@@ -102,7 +99,7 @@ namespace nlohmann
 				// load entity data
 				entityData.health = j["health"].get<float>();
 
-				return new Character(name, data, transformData, collisionData, textureData, physicsData, movementData, entityData, animationData);
+				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
 			}
 		}
 
@@ -131,10 +128,8 @@ namespace nlohmann
 			j["radius"] = collisionData.radius;
 
 			// Store Texture Data
-			TextureData textureData = gameObject->GetTextureData();
-			j["texturePath"] = textureData.texturePath;
-			j["internalFormat"] = textureData.internalFormat;
-			j["imageFormat"] = textureData.imageFormat;
+			std::string textureName = gameObject->GetTextureName();
+			j["textureName"] = textureName;
 
 			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER)
 			{
