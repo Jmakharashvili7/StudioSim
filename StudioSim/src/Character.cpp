@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Character.h"
 #include "Quack.h"
 #include "PhysicsComponent.h"

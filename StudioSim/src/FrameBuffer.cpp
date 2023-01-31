@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "FrameBuffer.h"
 
 FrameBuffer::FrameBuffer(FrameBufferSpecificiation fbs) : m_fbs(fbs)

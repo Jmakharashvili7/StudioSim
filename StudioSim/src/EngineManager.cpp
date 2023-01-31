@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "EngineManager.h"
 
 GameTimer* EngineManager::m_gameTimer;

@@ -1,7 +1,8 @@
+#include "pch.h"
+
 #include "KeyboardClass.h"
-#include <iostream>
+
 using namespace std;
-#include <GLFW/glfw3.h>
 
 
 bool KeyboardClass::s_AutoRepeatKeys;

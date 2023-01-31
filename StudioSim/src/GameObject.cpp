@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "GameObject.h"
 #include "Animate.h"
 #include "Quack.h"

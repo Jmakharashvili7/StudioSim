@@ -1,8 +1,7 @@
+#include "pch.h"
+
 #include "ContentBrowserUI.h"
 #include "Quack.h"
-#include <filesystem>
-#include <string>
-
 namespace fs = std::filesystem;
 
 ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)

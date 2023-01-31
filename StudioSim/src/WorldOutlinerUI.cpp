@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "WorldOutlinerUI.h"
 #include "Component.h"
 

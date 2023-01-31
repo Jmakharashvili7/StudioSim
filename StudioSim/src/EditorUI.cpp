@@ -1,8 +1,9 @@
+#include "pch.h"
+
 #include "EditorUI.h"
 #include "Character.h"
 #include "Animate.h";
 #include "PhysicsComponent.h"
-#include <filesystem>
 
 namespace fs = std::filesystem;
 
