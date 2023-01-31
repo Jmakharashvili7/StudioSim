@@ -51,12 +51,12 @@ void Actor::Draw(Shader* mainShader)
 
 void Actor::Update(const float deltaTime)
 {
-	GameObject::Update(deltaTime);
-
 	for (auto component : m_components)
 	{
 		component->Update(deltaTime);
 	}
+
+	GameObject::Update(deltaTime);
 }
 
 void Actor::SetMass(float newMass)
@@ -126,6 +126,16 @@ void Actor::RemoveCollision(GameObject* gameObject)
 	}
 
 	GameObject::RemoveCollision(gameObject);
+}
+
+void Actor::SetCollisionType(const CollisionType newCollisionType)
+{
+	GameObject::SetCollisionType(newCollisionType);
+
+	if (newCollisionType == CollisionType::NONE)
+	{
+		SetCollidingWithGround(false);
+	}
 }
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)

@@ -20,6 +20,11 @@ Character::~Character()
 
 }
 
+void Character::Update(const float deltaTime)
+{
+	Actor::Update(deltaTime);
+}
+
 void Character::AddCollision(GameObject* collidingObject)
 {
 	if (collidingObject->GetName() == "ground")
@@ -68,7 +73,7 @@ void Character::CheckShouldDie()
 
 void Character::TakeDamage(const float amount)
 {
-	std::cout << "Ouch" << std::endl;
+	std::cout << "Ouch - " + m_name << std::endl;
 	AdjustHealth(amount);
 }
 
@@ -79,6 +84,5 @@ void Character::Kill()
 
 void Character::Die()
 {
-	std::cout << "Im dead" << std::endl;
-	// tell scene im dead
+	std::cout << "Im dead - " + m_name << std::endl;
 }

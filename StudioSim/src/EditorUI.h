@@ -14,6 +14,9 @@ public:
 	inline void RemoveDisplayedGameObject() { m_object = nullptr; }
 	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
 
+	std::string GetCollisionTypeName(const CollisionType collisionType);
+	void GenerateCollisionMenu();
+
 	void GenerateTextureMenu();
 private:
 	GameObject* m_object;
