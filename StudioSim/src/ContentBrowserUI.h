@@ -19,8 +19,8 @@ private:
 
 	ImGuiIO& m_IO = ImGui::GetIO();
 
-	float m_ThumbnailPadding;
-	float m_ThumbnailSize;
+	int m_ThumbnailPadding;
+	int m_ThumbnailSize;
 
 	Texture* m_FolderThumbnail;
 	Texture* m_FileThumbnail;

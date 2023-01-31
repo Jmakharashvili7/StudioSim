@@ -1,5 +1,6 @@
 #include "WorldOutlinerUI.h"
-#include "Component.h"
+#include "ObjectIncludes.h"
+
 
 WorldOutlinerUI::WorldOutlinerUI(std::string name) : UIWindow(name)
 {
@@ -18,7 +19,7 @@ WorldOutlinerUI::~WorldOutlinerUI()
 
 void WorldOutlinerUI::Render()
 {
-	
+	ImGui::ShowDemoWindow();
 	ImGui::Begin("World Outliner");
 
 	//Creates initial node
