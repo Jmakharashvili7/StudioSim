@@ -3,8 +3,8 @@
         "banimated": false,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": -0.5762502551078796,
-            "y": -0.8265811800956726,
+            "x": 0.0,
+            "y": -0.751898467540741,
             "z": 0.0
         },
         "collisionType": 0,
@@ -34,8 +34,8 @@
         "name": "duck",
         "objectType": 1,
         "position": {
-            "x": -0.5762502551078796,
-            "y": -0.8265811800956726,
+            "x": 0.0,
+            "y": -0.751898467540741,
             "z": 0.0
         },
         "radius": 0.0,
@@ -69,7 +69,7 @@
             0.0,
             0.0
         ],
-        "textureName": "duck2.png",
+        "textureName": "duck3.png",
         "vertices": [
             -0.5,
             -0.5,
