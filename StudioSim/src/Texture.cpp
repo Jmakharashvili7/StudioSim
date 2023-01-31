@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Texture.h"
 #include "stb_image/stb_image.h"
 
@@ -17,7 +19,25 @@ Texture::Texture(const TextureData& textureData) :
 	m_localBuffer = stbi_load(textureData.texturePath.c_str(), &m_width, &m_height, &m_BPP, 0);
 	if (m_localBuffer)
 	{
-		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, textureData.internalFormat, m_width, m_height, 0, textureData.imageFormat, GL_UNSIGNED_BYTE, m_localBuffer));
+		GLenum imageFormat;
+
+		if (m_BPP == 1)
+		{
+			imageFormat = GL_RED;
+		}
+		else if (m_BPP == 3)
+		{
+			imageFormat = GL_RGB;
+		}
+		else if (m_BPP == 4)
+		{
+			imageFormat = GL_RGBA;
+		}
+		else
+		{
+			QE_LOG("Invalid image type");
+		}
+		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, imageFormat, m_width, m_height, 0, imageFormat, GL_UNSIGNED_BYTE, m_localBuffer));
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -43,3 +63,5 @@ void Texture::UnBind() const
 {
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
+
+

@@ -1,22 +1,23 @@
+#include "pch.h"
+
 #include "ViewportUI.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "Quack.h"
 #include "OrthographicCamera.h"
+#include "MouseClass.h"
 
 ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : UIWindow(name), m_frameBuffer(frameBuffer)
 {
-	
+	startViewportX = 0;
+	startViewportY = 0;
 }
 
 ViewportUI::~ViewportUI()
 {
+
 }
-
-float ViewportUI::startViewportX;
-float ViewportUI::startViewportY;
-
 
 void ViewportUI::Render()
 {
@@ -28,7 +29,7 @@ void ViewportUI::Render()
 	ImVec2 viewportPos = ImGui::GetWindowPos();
 	if (m_position != *((glm::vec2*)&viewportPos))
 	{
-		m_position = {viewportPos.x, viewportPos.y };
+		m_position = { viewportPos.x, viewportPos.y };
 	}
 
 	// Check if the size of the window changed
@@ -41,7 +42,7 @@ void ViewportUI::Render()
 
 		float aspect = m_size.x / m_size.y;
 
-		if(Quack::GetOrthoCam())
+		if (Quack::GetOrthoCam())
 		{
 			Quack::GetOrthoCam()->RecalculateProjection(-5.0f * aspect, 5.0f * aspect, -5.0f, 5.0f);
 		}
@@ -50,9 +51,6 @@ void ViewportUI::Render()
 
 	startViewportX = ImGui::GetCursorScreenPos().x;
 	startViewportY = ImGui::GetCursorScreenPos().y;
-
-	//std::cout << startViewportX << ", " << startViewportY << std::endl;
-
 	m_isFocused = ImGui::IsWindowFocused();
 	ImGui::Image((void*)m_frameBuffer->GetID(), ImVec2(m_size.x, m_size.y), ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "OrthographicCamera.h"
 #include "glm\ext\matrix_clip_space.hpp"
 

@@ -19,10 +19,13 @@ public:
 	enum class EventType
 	{
 		L_CLICK,
+		L_HELD,
 		L_RELEASE,
 		R_CLICK,
+		R_HELD,
 		R_RELEASE,
 		SCROLL_CLICK,
+		SCROLL_HELD,
 		SCROLL_RELEASE,
 		SCROLL_UP,
 		SCROLL_DOWN,

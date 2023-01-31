@@ -1,14 +1,22 @@
+#include "pch.h"
+
 #include "Transform.h"
 
-Transform::Transform(const Vector3 inPosition, const Vector3 inRotation, const Vector3 inScale)
-	: m_position(inPosition), m_rotation(inRotation), m_scale(inScale)
+Transform::Transform(const Vector3 inPosition, const Vector3 inRotation, const Vector3 inScale ) 
 {
+	m_position = inPosition;
+	m_rotation = inRotation; 
+	m_scale = inScale;  
 	UpdateTransformMatrix();
 }
 
-Transform::Transform()
+Transform::Transform() 
 {
 
+	m_position = Vector3::Zero;
+	m_rotation = Vector3::Zero;
+	m_scale = Vector3::Zero;
+	UpdateTransformMatrix();
 }
 
 Transform::~Transform()

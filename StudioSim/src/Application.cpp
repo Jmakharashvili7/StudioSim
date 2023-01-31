@@ -1,5 +1,6 @@
 // StudioSim.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include "pch.h"
 
 #include <BasicIncludes.h>
 #include "Quack.h"
@@ -12,7 +13,6 @@ int main(void)
     while (Quack::s_running)
     {
         Quack::Update();
-        Quack::PhysicsUpdate();
         Quack::RenderUpdate();
     }
     Quack::ShutDown();

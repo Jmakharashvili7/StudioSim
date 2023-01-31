@@ -1,4 +1,9 @@
+#include "pch.h"
+
 #include "KeyboardClass.h"
+
+using namespace std;
+
 
 bool KeyboardClass::s_AutoRepeatKeys;
 bool KeyboardClass::s_AutoRepeatChars;
@@ -10,6 +15,7 @@ void KeyboardClass::Init()
 {
 	s_AutoRepeatChars = true;
 	s_AutoRepeatKeys = true;
+	
 }
 
 KeyEvent KeyboardClass::ReadKey()
@@ -48,7 +54,18 @@ void KeyboardClass::OnKeyPressed(const unsigned char key)
 {
 	s_KeyStates[key] = true;
 	s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::PRESS, key));
+
+	
 }
+
+void KeyboardClass::OnKeyHeld(const unsigned char key)
+{
+	if (s_KeyBuffer.front().IsPressed())
+	{
+		s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
+	}
+}
+
 
 void KeyboardClass::OnKeyReleased(const unsigned char key)
 {
@@ -59,4 +76,22 @@ void KeyboardClass::OnKeyReleased(const unsigned char key)
 void KeyboardClass::OnCharInput(const unsigned char key)
 {
 	s_CharBuffer.push(key);
+}
+
+void KeyboardClass::ClearKeyBuffer()
+{
+	Clear(s_KeyBuffer);
+	Clear(s_CharBuffer);
+}
+
+void KeyboardClass::Clear(std::queue<KeyEvent>& queue)
+{
+	std::queue<KeyEvent> empty;
+	std::swap(queue, empty);
+}
+
+void KeyboardClass::Clear(std::queue<unsigned char>& queue)
+{
+	std::queue<unsigned char> empty;
+	std::swap(queue, empty);
 }

@@ -1,12 +1,20 @@
+#include "pch.h"
+
 #include "GameObject.h"
 #include "Animate.h"
+#include "Quack.h"
+#include "EngineManager.h"
 
-GameObject::GameObject(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data)
+	m_collisionData(collisionData), m_data(data), m_transformData(transformData), m_textureName(textureName)
 {
+	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
+
+	m_texture = Quack::GetTexture(textureName);
+	
 }
 
 GameObject::~GameObject()
@@ -17,9 +25,11 @@ GameObject::~GameObject()
 	delete m_va;
 	m_va = nullptr;
 
-	if (m_texture) delete m_texture;
-	if (m_va) delete m_va;
-	if (m_data) delete m_data;
+	delete m_data;
+	m_data = nullptr;
+
+	delete m_transform;
+	m_transform = nullptr;
 }
 
 void GameObject::Draw(Shader* mainShader)
@@ -38,6 +48,11 @@ void GameObject::Draw(Shader* mainShader)
 	m_va->Unbind();
 }
 
+void GameObject::Update(const float deltaTime)
+{
+
+}
+
 void GameObject::SetPosition(const Vector3 newPosition)
 {
 	m_transform->SetPosition(newPosition);
@@ -51,28 +66,37 @@ void GameObject::AdjustPosition(const Vector3 adjustPosition)
 	SetCollisionCenter(newPosition);
 }
 
-void GameObject::UpdateObjectData(GameObjectData* newData)
+void GameObject::SetScale(const Vector3 newScale)
+{
+	m_transform->SetScale(newScale);
+	SetCollisionBoxSize(newScale);
+}
+
+void GameObject::AdjustScale(const Vector3 adjustScale)
+{
+	m_transform->AdjustScale(adjustScale);
+	const Vector3 newScale = m_transform->GetScale();
+	SetCollisionBoxSize(newScale);
+}
+
+void GameObject::UpdateObjectData(VertexData* newData)
 {
 	m_data = newData;
 	UpdateVertexArray();
 }
 
-int const GameObject::GetGameObjectCollisionIndex(GameObject* gameObject)
+void GameObject::SetNewTexture(std::string fileName)
 {
-	int i = 0;
-	int indexToReturn = -1;
-
-	for (GameObject* collidingGameObject : m_collidingObjects)
+	if (Quack::GetTexture(fileName))
 	{
-		if (gameObject == collidingGameObject)
-		{
-			indexToReturn = i;
-		}
+		m_texture = Quack::GetTexture(fileName);
 
-		i++;
+		m_textureName = fileName;
 	}
-
-	return indexToReturn;
+	else
+	{
+		QE_LOG("Texture Does Not Exist");
+	}	
 }
 
 bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
@@ -91,7 +115,7 @@ bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 	return bFound;
 }
 
-void GameObject::AddCollision(GameObject* collidingObject, const std::map <CollisionSide, bool>& collidingSides)
+void GameObject::AddCollision(GameObject* collidingObject)
 {
 	//std::cout << "START COLLISION!" << std::endl;
 	if (collidingObject)
@@ -105,7 +129,7 @@ void GameObject::RemoveCollision(GameObject* gameObject)
 	//std::cout << "END COLLISION!" << std::endl;
 	if (gameObject)
 	{
-		const int gameObjectIndex = GetGameObjectCollisionIndex(gameObject);
+		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObject, m_collidingObjects);
 		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
 	}
 }

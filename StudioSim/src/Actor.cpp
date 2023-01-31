@@ -1,29 +1,41 @@
+#include "pch.h"
+
 #include "Actor.h"
 #include "Animate.h"
 #include "Quack.h"
+#include "InputComponent.h"
+#include "PhysicsComponent.h"
 
-Actor::Actor(std::string name, GameObjectData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
-	: GameObject{ name, data, transformData, collisionData, textureData }, m_physicsData(physicsData)
+Actor::Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const AnimationData& animationData)
+	: GameObject{ name, data, transformData, collisionData, textureName }, m_physicsData(physicsData), m_animationData(animationData)
 {
+	m_type = GameObjectType::ACTOR;
+
 	//Animation init
 	m_banimated = animationData.banimated;
 	if (m_banimated)
 	{
 		m_animator = new Animate(this, animationData.rows, animationData.columns);
 	}
+
+	// Input init
+	m_inputComponent = new InputComponent(this, 0);
+	AddComponent(m_inputComponent);
+
+	// Physics init
+	m_physicsComponent = new PhysicsComponent(this, 1, physicsData.mass, physicsData.bsimulateGravity, physicsData.gravityMultiplier);
+	AddComponent(m_physicsComponent);
 }
 
 Actor::~Actor()
 {
+	delete m_animator;
+	m_animator = nullptr;
 
-}
-
-void Actor::Jump()
-{
-	if (m_physicsData.bsimulateGravity && !m_bjumping)
+	for (auto component : m_components)
 	{
-		m_bjumping = true;
-		m_currentJumpForce = m_physicsData.jumpHeight;
+		delete component;
+		component = nullptr;
 	}
 }
 
@@ -37,65 +49,106 @@ void Actor::Draw(Shader* mainShader)
 	GameObject::Draw(mainShader);
 }
 
-void Actor::AddCollision(GameObject* collidingObject, const std::map<CollisionSide, bool>& collidingSides)
+void Actor::Update(const float deltaTime)
+{
+	GameObject::Update(deltaTime);
+
+	for (auto component : m_components)
+	{
+		component->Update(deltaTime);
+	}
+}
+
+void Actor::SetMass(float newMass)
+{
+	m_physicsData.mass = newMass;
+
+	if (m_physicsComponent)
+	{
+		m_physicsComponent->SetMass(newMass);
+	}
+}
+
+void Actor::SetSimulateGravity(bool gravityStatus)
+{
+	m_physicsData.bsimulateGravity = gravityStatus;
+
+	if (m_physicsComponent)
+	{
+		m_physicsComponent->SetSimulateGravity(gravityStatus);
+	}
+}
+
+void Actor::SetGravityMultiplier(const float gravityMultiplier)
+{
+	m_physicsData.gravityMultiplier = gravityMultiplier;
+
+	if (m_physicsComponent)
+	{
+		m_physicsComponent->SetGravityValue(gravityMultiplier);
+	}
+}
+
+void Actor::AddCollision(GameObject* collidingObject)
 {
 	// Debug
-	/*for (auto side : collidingSides)
+	
+	/*if (GetPosition().y < collidingObject->GetPosition().y)
 	{
-		switch (side.first)
-		{
-		case CollisionSide::LEFT:
-			std::cout << "LEFT COLLISION:  " << side.second << std::endl;
-			break;
-		case CollisionSide::RIGHT:
-			std::cout << "RIGHT COLLISION:  " << side.second << std::endl;
-			break;
-		case CollisionSide::TOP:
-			std::cout << "TOP COLLISION:  " << side.second << std::endl;
-			break;
-		case CollisionSide::BOTTOM:
-			std::cout << "BOTTOM COLLISION:  " << side.second << std::endl;
-			break;
-		default:
-			std::cout << "NO COLLISION" << std::endl;
-			break;
-		}
+		std::cout << "BOTTOM HIT" << std::endl;
 	}
-
-	std::cout << " " << std::endl;*/
+	else
+	{
+		std::cout << "BOTTOM HIT" << std::endl;
+	}
+	if (GetPosition().x < collidingObject->GetPosition().x)
+	{
+		std::cout << "Right HIT" << std::endl;
+	}
+	else
+	{
+		std::cout << "Bottom HIT" << std::endl;
+	}*/
 
 	if (collidingObject->GetName() == "ground")
 	{
-		//std::cout << "HIT GROUND" << std::endl;
-		//SetPosition(CollisionManager::RepositionGameObject(this, collidingObject));
 		SetCollidingWithGround(true);
 	}
 
-	GameObject::AddCollision(collidingObject, collidingSides);
+	GameObject::AddCollision(collidingObject);
 }
 
 void Actor::RemoveCollision(GameObject* gameObject)
 {
 	if (gameObject->GetName() == "ground")
 	{
-		//std::cout << "END GROUND" << std::endl;
 		SetCollidingWithGround(false);
 	}
 
 	GameObject::RemoveCollision(gameObject);
 }
 
-bool const Actor::GetCollidingWithGround()
+void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
 {
-	return m_bcollidingWithGround;
+	m_bcollidingWithGround = bcollidingWithGround;
+
+	if (m_physicsComponent)
+	{
+		m_physicsComponent->SetOnGround(bcollidingWithGround);
+	}
 }
 
-void Actor::AddImpulseForce(Vector3 force)
+void Actor::AddComponent(Component* component)
 {
-	if (m_physicsData.bsimulateGravity && !m_bimpulseActive)
-	{
-		m_bimpulseActive = true;
-		m_currentImpulseForce = force;
-		m_testImpulseForceMag = force;
-	}
+	m_components.push_back(component);
+}
+
+void Actor::ClearComponents()
+{
+	m_components.clear();
+}
+
+void Actor::ReorderComponents()
+{
+	return;
 }

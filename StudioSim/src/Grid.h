@@ -43,9 +43,9 @@ public:
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     Renderer::DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), white);
-                    QE_LOG("Line done");
+                    //QE_LOG("Line done");
                     Renderer::DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), white);
-                    QE_LOG("Line done");
+                    //QE_LOG("Line done");
                 }
             }
             
@@ -108,7 +108,7 @@ public:
     {
         glm::vec3 temp = glm::vec3(x, y, 0) * m_tileSize + m_originPos;
         std::string output = std::to_string(temp.x) + "," + std::to_string(temp.y) + "," + std::to_string(temp.z);
-        QE_LOG(output);
+        //QE_LOG(output);
         return temp;
     }
 
@@ -137,7 +137,7 @@ public:
         }
         else
         {
-            QE_LOG("x or y out of bounds");
+            //QE_LOG("x or y out of bounds");
             return default(TGridObject);
         }
     }

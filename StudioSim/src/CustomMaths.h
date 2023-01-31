@@ -1,7 +1,5 @@
 #pragma once
-#include <math.h>
-#include <memory.h>
-#include <limits>
+#include "BasicIncludes.h"
 
 namespace CustomMaths
 {
@@ -259,7 +257,21 @@ public:
 		, z(0.0f)
 	{}
 
-	explicit Vector3(float inX, float inY, float inZ)
+	Vector3(int inVal)
+	{
+		x = inVal;
+		y = inVal;
+		z = inVal;
+	}
+
+	Vector3(float inVal)
+	{
+		x = inVal;
+		y = inVal;
+		z = inVal;
+	}
+
+	Vector3(float inX, float inY, float inZ)
 		:x(inX)
 		, y(inY)
 		, z(inZ)
@@ -277,6 +289,12 @@ public:
 		x = inX;
 		y = inY;
 		z = inZ;
+	}
+
+	glm::vec3 GetglmVec3()
+	{
+		glm::vec3 temp =  { this->x, this->y, this->z };
+		return temp;
 	}
 
 	// Vector addition (a + b)
@@ -362,6 +380,22 @@ public:
 		y /= length;
 		z /= length;
 	}
+
+	void Clear() {
+		x = y = z = 0.0f;
+	}
+	
+	// Normalize this vector
+	Vector3 Normalized() 
+	{
+		float length = Length();
+		
+		x /= length;
+		y /= length;
+		z /= length;
+		return Vector3(x, y, z);
+	}
+
 
 	// Normalize the provided vector
 	static Vector3 Normalize(const Vector3& vec)

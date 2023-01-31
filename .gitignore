@@ -76,3 +76,8 @@ ipch/
 *.db-wal
 *.vsidx
 
+*.user
+*.vcxproj
+*.filters
+*.bin
+*.recipe

@@ -11,7 +11,7 @@ struct TextureData
 		internalFormat(GL_RGB), imageFormat(GL_RGB) {};
 
 	TextureData() 
-		: texturePath(""), internalFormat(0), imageFormat(0) {};
+		: texturePath(""), internalFormat(GL_RGBA16), imageFormat(GL_RGB) {};
 
 	std::string texturePath;
 	GLint internalFormat;
@@ -20,15 +20,36 @@ struct TextureData
 
 struct PhysicsData
 {
-	PhysicsData(const bool inSimulateGravity, const float inMass, const float inJumpHeight)
-		: bsimulateGravity(inSimulateGravity), mass(inMass), jumpHeight(inJumpHeight) {};
+	PhysicsData(const bool inSimulateGravity, const float inMass, const float inGravityMultiplier)
+		: bsimulateGravity(inSimulateGravity), mass(inMass), gravityMultiplier(inGravityMultiplier) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f), jumpHeight(0.0f) {};
+		: bsimulateGravity(false), mass(0.0f), gravityMultiplier(1.0f) {};
 
 	bool bsimulateGravity;
 	float mass;
+	float gravityMultiplier;
+};
+
+struct MovementData
+{
+	MovementData(const float inMovementSpeed, const float inJumpHeight)
+		: movementSpeed(inMovementSpeed), jumpHeight(inJumpHeight) {};
+
+	MovementData()
+		: movementSpeed(0.0f), jumpHeight(0.0f) {};
+
+	float movementSpeed;
 	float jumpHeight;
+};
+
+struct EntityData
+{
+	EntityData(const float inMaxHealth) : maxHealth(inMaxHealth) {};
+
+	EntityData() : maxHealth(0.0f) {};
+
+	float maxHealth;
 };
 
 struct AnimationData
@@ -78,6 +99,19 @@ struct CollisionData
 	Vector3 centerPosition;
 	Vector3 size;
 	float radius;
+};
+
+enum class KeyType
+{
+	A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+	NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, NUM_7, NUM_8, NUM_9,
+	ENTER, SPACE, BACKSPACE, LFSHIFT, RSHIFT
+};
+
+enum class AxisType
+{
+	HORIZONTAL,
+	VERTICAL
 };
 
 

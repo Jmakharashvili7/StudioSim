@@ -1,13 +1,192 @@
 #pragma once
 #include "BasicIncludes.h"
 #include "GameObject.h"
+#include "Actor.h"
+#include "Scene.h"
+#include "CollisionManager.h"
+#include "Enemy.h"
+
+using json = nlohmann::json;
+
+namespace nlohmann
+{
+	template<>
+	struct adl_serializer<Vector3>
+	{
+		static Vector3 from_json(const json& j)
+		{
+			Vector3 temp = Vector3(j["x"].get<float>(), j["y"].get<float>(), j["z"].get<float>());
+			return temp;
+		}
+
+		static void to_json(json& j, Vector3 vec)
+		{
+			j["x"] = vec.x;
+			j["y"] = vec.y;
+			j["z"] = vec.z;
+		}
+	};
+
+	template<>
+	struct adl_serializer<GameObject*>
+	{
+		static GameObject* from_json(const json& j)
+		{
+			VertexData* data = new VertexData();
+			TransformData transformData;
+			CollisionData collisionData;
+			PhysicsData physicsData;
+			AnimationData animationData;
+			MovementData movementData;
+			EntityData entityData;
+
+			// Load name
+			std::string name = j["name"].get<std::string>();
+
+			// Load Game Object Data
+			data->vertices = j["vertices"].get<std::vector<float>>();
+			data->colors = j["colors"].get<std::vector<float>>();
+			data->texCoords = j["texCoords"].get<std::vector<float>>();
+
+			// Load Transform Data
+			transformData.position = j["position"].get<Vector3>();
+			transformData.rotation = j["rotation"].get<Vector3>();
+			transformData.scale = j["scale"].get<Vector3>();
+
+			// Load Collision Data
+			collisionData.centerPosition = j["centerPosition"].get<Vector3>();
+			collisionData.collisionType = (CollisionType)j["collisionType"].get<int>();
+			collisionData.radius = j["radius"].get<float>();
+			collisionData.size = j["size"].get<Vector3>();
+
+			
+			std::string textureName = j["textureName"].get<std::string>();
+			GameObjectType type = (GameObjectType)j["objectType"];
+
+			switch (type)
+			{
+			case GameObjectType::OBJECT:
+				return new GameObject(name, data, transformData, collisionData, textureName);
+
+			case GameObjectType::ACTOR:
+
+				// Load PhysicsData
+				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
+				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
+
+				// Load AnimationData
+				animationData.banimated = j["banimated"].get<bool>();
+				animationData.columns = j["columns"].get<int>();
+				animationData.rows = j["rows"].get<int>();
+
+				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
+			case GameObjectType::CHARACTER:
+
+				// Load PhysicsData
+				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
+				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
+
+				// Load AnimationData
+				animationData.banimated = j["banimated"].get<bool>();
+				animationData.columns = j["columns"].get<int>();
+				animationData.rows = j["rows"].get<int>();
+
+				// Load movement data
+				movementData.jumpHeight = j["jumpHeight"].get<float>();
+				movementData.movementSpeed = j["movementSpeed"].get<float>();
+
+				// load entity data
+				entityData.maxHealth = j["maxHealth"].get<float>();
+
+				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
+			case GameObjectType::ENEMY:
+
+				// Load PhysicsData
+				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
+				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
+
+				// Load AnimationData
+				animationData.banimated = j["banimated"].get<bool>();
+				animationData.columns = j["columns"].get<int>();
+				animationData.rows = j["rows"].get<int>();
+
+				// Load movement data
+				movementData.jumpHeight = j["jumpHeight"].get<float>();
+				movementData.movementSpeed = j["movementSpeed"].get<float>();
+
+				// load entity data
+				entityData.maxHealth = j["maxHealth"].get<float>();
+
+				return new Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
+			}
+		}
+
+		static void to_json(json& j, GameObject* gameObject)
+		{
+			// Store Name
+			j["name"] = gameObject->GetName();
+			j["objectType"] = (int)gameObject->GetType();
+
+			// Store Object Data
+			j["vertices"] = gameObject->GetGameObjectData()->vertices;
+			j["colors"] = gameObject->GetGameObjectData()->colors;
+			j["texCoords"] = gameObject->GetGameObjectData()->texCoords;
+
+			// Store Transform Data
+			Transform* transformData = gameObject->GetTransform();
+			j["position"] = transformData->GetPosition();
+			j["rotation"] = transformData->GetRotation();
+			j["scale"] = transformData->GetScale();
+
+			// Store Collision Data
+			CollisionData collisionData = gameObject->GetCollisionData();
+			j["collisionType"] = (int)collisionData.collisionType;
+			j["centerPosition"] = collisionData.centerPosition;
+			j["size"] = collisionData.size;
+			j["radius"] = collisionData.radius;
+
+			// Store Texture Data
+			std::string textureName = gameObject->GetTextureName();
+			j["textureName"] = textureName;
+
+			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER)
+			{
+				Actor* actor = dynamic_cast<Actor*>(gameObject);
+
+				// Store Physics Data
+				PhysicsData physicsData = actor->GetPhysicsData();
+				j["mass"] = physicsData.mass;
+				j["bsimulateGravity"] = physicsData.bsimulateGravity;
+				j["gravityMultiplier"] = physicsData.gravityMultiplier;
+
+				// Store Animation Data
+				AnimationData animationData = actor->GetAnimationData();
+				j["banimated"] = animationData.banimated;
+				j["columns"] = animationData.columns;
+				j["rows"] = animationData.rows;
+
+				if (gameObject->GetType() == GameObjectType::CHARACTER || gameObject->GetType() == GameObjectType::ENEMY)
+				{
+					Character* character = dynamic_cast<Character*>(actor);
+					MovementData movementData = character->GetMovementData();
+					j["jumpHeight"] = movementData.jumpHeight;
+					j["movementSpeed"] = movementData.movementSpeed;
+					
+					EntityData entityData = character->GetEntityData();
+					j["maxHealth"] = entityData.maxHealth;
+				}
+			}
+		}
+	};
+}
 
 namespace QuackEngine {
 	namespace JsonLoader {
 
-		using json = nlohmann::json;
-
-		static GameObjectData* LoadObject2D(const std::string& path)
+		static VertexData* LoadObjectData2D(const std::string& path)
 		{
 			std::ifstream file(path);
 
@@ -15,13 +194,13 @@ namespace QuackEngine {
 			if (!file)
 			{
 				QE_LOG(path + " does not exist!");
-				return new GameObjectData();
+				return new VertexData();
 			}
 
 			json j = json::parse(file);
 
 			// load the json values	
-			GameObjectData* data = new GameObjectData();
+			VertexData* data = new VertexData();
 			data->vertices = j["vertices"].get<std::vector<float>>();
 			data->colors = j["colors"].get<std::vector<float>>();
 			data->texCoords = j["texCoords"].get<std::vector<float>>();
@@ -29,7 +208,7 @@ namespace QuackEngine {
 			return data;
 		}
 
-		static bool StoreGameObject(const std::string& filename, const GameObjectData& data)
+		static bool StoreGameObjectData2D(const std::string& filename, const VertexData& data)
 		{
 			json j;
 			j["vertices"] = data.vertices;
@@ -38,7 +217,81 @@ namespace QuackEngine {
 
 			std::ofstream o(filename + ".json");
 			o << std::setw(4) << j << std::endl;
-			return false;
+			return true;
+		}
+
+		static bool StoreGameObject2D(std::string filename, GameObject* gameObject)
+		{
+			json j;
+
+			j[gameObject->GetName()] = gameObject;
+
+			std::ofstream o(filename);
+			o << std::setw(4) << j << std::endl;
+			return true;
+		}
+
+		static GameObject* LoadGameObject2D(std::string path, std::string name)
+		{
+			std::ifstream file(path);
+
+			// check if the file was found
+			if (!file)
+			{
+				QE_LOG(path + " does not exist!");
+				return nullptr;
+			}
+
+			json j = json::parse(file);
+
+			return j[name].get<GameObject*>();
+		}
+
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager)
+		{
+			std::string path = "res/scenes/" + sceneName + ".json";
+
+			std::ifstream file(path);
+				
+			// check if the file was found
+			if (!file)
+			{
+				QE_LOG(path + " does not exist!");
+				return SceneInfo({0});
+			}
+
+			json j = json::parse(file);
+
+			SceneInfo sceneInfo;
+			sceneInfo.objectCount = j["ObjectCount"].get<int>();
+			sceneInfo.sceneName = sceneName;
+
+			for (int i = 0; i < sceneInfo.objectCount; i++)
+			{
+				GameObject* obj = j["GameObject" + std::to_string(i)].get<GameObject*>();
+				gameObjects.push_back(obj);
+
+				if (obj->GetCollisionType() != CollisionType::NONE)
+				{
+					collisionManager->AddGameObject(obj);
+				}
+			}
+			
+			return sceneInfo;
+		}
+
+		static void StoreScene(SceneInfo sceneInfo, std::vector<GameObject*>& gameObjects)
+		{
+			json j;
+
+			j["ObjectCount"] = gameObjects.size();
+
+			for (uint32_t i = 0; i < gameObjects.size(); i++)
+				j["GameObject" + std::to_string(i)] = gameObjects[i];
+
+			std::string path = "res/scenes/" + sceneInfo.sceneName + ".json";
+			std::ofstream o(path);
+			o << std::setw(4) << j << std::endl;
 		}
 	}
 }

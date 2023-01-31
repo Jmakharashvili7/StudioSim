@@ -1,6 +1,5 @@
 #pragma once
 #include "BasicIncludes.h"
-#include <stdexcept>
 
 struct VertexBufferElement
 {

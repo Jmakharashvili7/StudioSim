@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "GameTime.h"
 #include <windows.h>
 
@@ -107,5 +109,9 @@ void GameTimer::Tick()
 	if(m_DeltaTime < 0.0)
 	{
 		m_DeltaTime = 0.0;
+	}
+	if (m_DeltaTime > 0.1)
+	{
+		m_DeltaTime = 0.0f;
 	}
 }

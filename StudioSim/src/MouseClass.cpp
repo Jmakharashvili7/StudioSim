@@ -1,8 +1,9 @@
+#include "pch.h"
+
 #include "MouseClass.h"
 
 #include <directxmath.h>
 #include <d3d11_1.h>
-#include <string>
 
 using namespace DirectX;
 
@@ -41,6 +42,12 @@ void MouseClass::OnLeftRelease(int x, int y)
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::L_RELEASE, x, y));
 }
 
+void MouseClass::OnLeftHeld(int x, int y)
+{
+	s_IsLeftClick = true;
+	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::L_HELD, x, y));
+}
+
 void MouseClass::OnRightClick(int x, int y)
 {
 	s_IsRightClick = true;
@@ -54,6 +61,12 @@ void MouseClass::OnRightRelease(int x, int y)
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::R_RELEASE, x, y));
 }
 
+void MouseClass::OnRightHeld(int x, int y)
+{
+	s_IsRightClick = true;
+	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::R_HELD, x, y));
+}
+
 void MouseClass::OnScrollClick(int x, int y)
 {
 	s_IsScrollClick = true;
@@ -63,8 +76,14 @@ void MouseClass::OnScrollClick(int x, int y)
 
 void MouseClass::OnScrollRelease(int x, int y)
 {
-	s_IsLeftClick = true;
+	s_IsScrollClick = false;
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::SCROLL_RELEASE, x, y));
+}
+
+void MouseClass::OnScrollHeld(int x, int y)
+{
+	s_IsScrollClick = true;
+	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::SCROLL_HELD, x, y));
 }
 
 void MouseClass::OnScrollUp(int x, int y)
