@@ -14,7 +14,7 @@ public:
 	virtual ~Actor();
 
 	// Rendering
-	virtual void Draw(Shader* mainShader) override;
+	virtual void Draw(OrthographicCamera* camera) override;
 
 	// Update
 	virtual void Update(const float deltaTime) override;

@@ -5,7 +5,7 @@
 #include "Quack.h"
 #include "OrthographicCamera.h"
 
-ViewportUI::ViewportUI(std::string name, FrameBuffer* frameBuffer) : UIWindow(name), m_frameBuffer(frameBuffer)
+ViewportUI::ViewportUI(std::string name) : UIWindow(name)
 {
 
 }
@@ -34,7 +34,7 @@ void ViewportUI::Render()
 	if (m_size != *((glm::vec2*)&viewportSize))
 	{
 		m_size = { viewportSize.x, viewportSize.y };
-		m_frameBuffer->Resize(m_size.x, m_size.y);
+		Quack::GetFrameBuffer()->Resize(m_size.x, m_size.y);
 
 		float aspect = m_size.x / m_size.y;
 
@@ -46,7 +46,7 @@ void ViewportUI::Render()
 	}
 
 	m_isFocused = ImGui::IsWindowFocused();
-	ImGui::Image((void*)m_frameBuffer->GetID(), ImVec2(m_size.x, m_size.y), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image((void*)Quack::GetFrameBuffer()->GetID(), ImVec2(m_size.x, m_size.y), ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 }
 

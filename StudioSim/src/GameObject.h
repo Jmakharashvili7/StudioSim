@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Transform.h"
 #include "QuackPhysics.h"
+#include "OrthographicCamera.h"
 
 enum class GameObjectType
 {
@@ -27,11 +28,12 @@ struct VertexData
 class GameObject
 {
 public:
+	GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, Shader* shader);
 	GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName);
 	virtual ~GameObject();
 
 	// Rendering
-	virtual void Draw(Shader* mainShader);
+	virtual void Draw(OrthographicCamera* camera);
 
 	// Update
 	virtual void Update(const float deltaTime);
@@ -94,6 +96,9 @@ protected:
 	// Name + type
 	std::string m_name = "";
 	GameObjectType m_type;
+	
+	// Shader
+	Shader* m_shader;
 
 	// Texture
 	Texture* m_texture = nullptr;

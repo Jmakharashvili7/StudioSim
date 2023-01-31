@@ -3,6 +3,7 @@
 #include "Grid.h"
 #include "PathNode.h"
 #include "GameTime.h"
+#include "FrameBuffer.h"
 
 class GameObject;
 class Actor;
@@ -25,24 +26,23 @@ public:
 	Scene() {}
 	Scene(const std::string& path, UILayer* uiLayer, Window* window);
 	~Scene() {}
+	
+	void RenderScene();
 
-	void Render();
-
-	inline OrthographicCamera* GetCamera() { return m_mainCamera; }
+	inline OrthographicCamera* GetCamera() { return m_activeCamera; }
 	void CloseScene();
 
 	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
+
+	inline FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 private:
-	void SetupShaders();
 	void HandleLights();
 
 	void HandleInput();
 
+	void Render();
 	void Update();
 	void PhysicsUpdate();
-
-	GameObject* LoadGameObject(std::string path);
-	bool StoreGameObject(GameObject* gameObject, int index);
 private:
 	std::string m_name;
 
@@ -72,21 +72,12 @@ private:
 	glm::vec4 m_spotSpecular;
 	glm::vec4 m_lightAmbient;
 
-	Shader* m_mainShader;
-	Shader* m_3dShader;
-	Shader* m_primitiveShader;
-	OrthographicCamera* m_mainCamera;
+	OrthographicCamera* m_activeCamera;
 ;
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
-
-	// idk if we need this
-	////Frame related variables
-	//static double m_currentTime;
-	//static double m_lastTime;
-	//static double m_deltaTime;
-	//static double m_frameTime;
-	//static double m_frameDelay;
+	
+	FrameBuffer* m_frameBuffer;
 };
 

@@ -3,15 +3,36 @@
 #include "Quack.h"
 #include "EngineManager.h"
 
-GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName)
-	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), m_data(data), m_transformData(transformData), m_textureName(textureName)
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, Shader* shader) : 
+	m_name(name), 
+	m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
+	m_collisionData(collisionData), 
+	m_data(data), 
+	m_transformData(transformData), 
+	m_textureName(textureName), 
+	m_shader(shader)
 {
 	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
 
 	m_texture = Quack::GetTexture(textureName);
+}
+
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName) : 
+	m_name(name),
+	m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
+	m_collisionData(collisionData),
+	m_data(data),
+	m_transformData(transformData),
+	m_textureName(textureName)
+{
+	m_type = GameObjectType::OBJECT;
+	m_va = new VertexArray();
+	UpdateVertexArray();
+
+	m_texture = Quack::GetTexture(textureName);
+	m_shader = Quack::GetTextureShader();
 }
 
 GameObject::~GameObject()
@@ -29,18 +50,20 @@ GameObject::~GameObject()
 	m_transform = nullptr;
 }
 
-void GameObject::Draw(Shader* mainShader)
+void GameObject::Draw(OrthographicCamera* camera)
 {
 	Vector3 screenPosition = m_transform->GetPosition();
-
-	mainShader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
-
+	
 	// draw square
+	m_shader->Bind();
 	m_texture->Bind();
 	m_va->Bind();
 
+	m_shader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
+	m_shader->SetUniform4x4("u_viewProjection", camera->GetProjectionMatrix());
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	
+	m_shader->Unbind();
 	m_texture->UnBind();
 	m_va->Unbind();
 }

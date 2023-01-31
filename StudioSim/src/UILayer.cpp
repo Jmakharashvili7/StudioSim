@@ -3,9 +3,9 @@
 #include "Window.h"
 #include "EngineManager.h"
 
-UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 0.0f, 1.0f)
+UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 1.0f, 1.0f)
 {
-
+	
 }
 
 UILayer::~UILayer()
@@ -26,7 +26,7 @@ void UILayer::OnAttach()
 
 void UILayer::InitWindows()
 {
-	m_viewportUI = new ViewportUI("Viewport", Quack::GetFrameBuffer());
+	m_viewportUI = new ViewportUI("Viewport");
 	m_editorUI = new EditorUI("Settings", EngineManager::GetGameObject(0));
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_worldOutliner->SetEditorUI(m_editorUI);

@@ -5,12 +5,10 @@
 class ViewportUI : public UIWindow
 {
 public:
-	ViewportUI(std::string name, FrameBuffer* frameBuffer);
+	ViewportUI(std::string name);
 	~ViewportUI();
 
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
-private:
-	FrameBuffer* m_frameBuffer;
 };
 

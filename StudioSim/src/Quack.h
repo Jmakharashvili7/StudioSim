@@ -43,6 +43,10 @@ public:
 
 	static void GenerateTextureList();
 	static Texture* GetTexture(std::string textureName);
+
+	// Default shader for objects without custom shader
+	static inline Shader* GetPrimitiveShader() { return m_primitiveShader; }
+	static inline Shader* GetTextureShader() { return m_textureShader; }
 private:
 	Quack();
 	~Quack();
@@ -57,14 +61,16 @@ private:
 	static LayerStack* m_layerStack;
 	static UILayer* m_uiMain;
 
-	static FrameBuffer* m_frameBuffer;
-
 	static GameTimer m_gameTimer;
 	static Scene m_mainScene;
 
 	static int m_frameCounter;
 	static int m_currentFrameRate;
 
+	static Shader* m_primitiveShader;
+	static Shader* m_textureShader;
+
+	static FrameBuffer* m_frameBuffer;
 	static OrthographicCamera* m_mainCamera;
 
 	static std::map<std::string, Texture*> m_textures;

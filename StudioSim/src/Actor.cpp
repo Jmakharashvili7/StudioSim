@@ -37,14 +37,14 @@ Actor::~Actor()
 	}
 }
 
-void Actor::Draw(Shader* mainShader)
+void Actor::Draw(OrthographicCamera* camera)
 {
 	if (m_animator)
 	{
 		m_animator->UpdateTextCoord(Quack::GetDeltaTime());
 	}
 
-	GameObject::Draw(mainShader);
+	GameObject::Draw(camera);
 }
 
 void Actor::Update(const float deltaTime)

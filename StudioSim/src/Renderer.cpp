@@ -1,6 +1,13 @@
 #include "Renderer.h"
+#include "Quack.h"
 
 std::vector<VertexArray*> Renderer::m_objects;
+Shader* Renderer::m_shader;
+
+void Renderer::Init()
+{
+	m_shader = Quack::GetPrimitiveShader();
+}
 
 void Renderer::DrawLine(glm::vec3 p0, glm::vec3 p1, glm::vec3 color)
 {
@@ -25,12 +32,15 @@ void Renderer::DrawLine(glm::vec3 p0, glm::vec3 p1, glm::vec3 color)
 	m_objects.push_back(va);
 }
 
-void Renderer::DrawDebugLines()
+void Renderer::DrawDebugLines(OrthographicCamera* camera)
 {
+	m_shader->Bind();
+	m_shader->SetUniform4x4("u_viewProjection", camera->GetViewProjectionMatrix());
 	for (VertexArray* line : m_objects)
 	{
 		line->Bind();
 		glDrawArrays(GL_LINES, 0, 2);
 		line->Unbind();
 	}
+	m_shader->Unbind();
 }

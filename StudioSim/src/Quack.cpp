@@ -28,15 +28,17 @@ GameTimer Quack::m_gameTimer;
 
 LayerStack* Quack::m_layerStack;
 
+Shader* Quack::m_primitiveShader;
+Shader* Quack::m_textureShader;
+
 int Quack::m_frameCounter;
 int Quack::m_currentFrameRate;
-
-FrameBuffer* Quack::m_frameBuffer;
 
 UILayer* Quack::m_uiMain;
 
 Scene Quack::m_mainScene;
 
+FrameBuffer* Quack::m_frameBuffer;
 OrthographicCamera* Quack::m_mainCamera;
 
 std::map<std::string, Texture*> Quack::m_textures;
@@ -72,17 +74,29 @@ int Quack::InitEngine()
 	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
 
+	///
+	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
+	/// 
+	m_uiMain->OnAttach();
+	GenerateTextureList();
+
+	m_primitiveShader = new Shader("res/shaders/Primitive.shader");
+	m_textureShader = new Shader("res/shaders/basic.shader");
+	m_textureShader->Bind();
+	m_textureShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
+
+	//Ambient light
+	m_textureShader->SetUniform4f("u_light.position", 0.0f, 0.0f, 0.0f, -2.0f);
+	m_textureShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
+	m_textureShader->Unbind();
 
 	FrameBufferSpecificiation fbs;
 	fbs.width = m_window->GetWidth();
 	fbs.height = m_window->GetHeight();
 	m_frameBuffer = new FrameBuffer(fbs);
 
-	///
-	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
-	/// 
-	m_uiMain->OnAttach();
-	GenerateTextureList();
+	// Must be after shaders
+	Renderer::Init();
 
 	m_mainScene = Scene("MainScene", m_uiMain, m_window);
 	m_uiMain->InitWindows(); // should always be after init objects
@@ -119,7 +133,7 @@ Texture* Quack::GetTexture(std::string textureName)
 	//if (index == m_textures.end())
 	//{
 	//	QE_LOG(textureName + " Not found");
-	//	return nullptr;
+	//	return nullptr;	
 	//}
 	//else // texture found
 	//	return index->second;
@@ -163,65 +177,10 @@ void Quack::RenderUpdate()
 		if (layer) layer->OnUpdate();
 	}
 
-	m_frameBuffer->Bind();
-	/* Render here */
-	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	m_mainScene.Render();
-
-	/* Swap front and back buffers */
-	glfwSwapBuffers(m_window->GetGLFWWindow());
-	/* Poll for and process events */
-	glfwPollEvents();
-
-	m_frameBuffer->Unbind();
+	//m_frameBuffer->Bind();
+	m_mainScene.RenderScene();
+	//m_frameBuffer->Unbind();
 }
-
-//GameObject* Quack::CreateNewGameObject(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
-//{
-//	GameObject* createdGameObject = nullptr;
-//	createdGameObject = QuackEngine::JsonLoader::LoadGameObject2D("res/ObjectData/floor.json");
-//
-//	if (createdGameObject)
-//	{
-//		m_gameObjects.push_back(createdGameObject);
-//
-//		if (collisionData.collisionType != CollisionType::NONE)
-//		{
-//			// Update collision managers game object array
-//			m_collisionManager->AddGameObject(createdGameObject);
-//		}
-//	}
-//
-//	return createdGameObject;
-//}
-//
-//Actor* Quack::CreateNewActor(std::string name, GameObjectData* objectData, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData, const PhysicsData& physicsData, const AnimationData& animationData)
-//{
-//	Actor* createdActor = nullptr;
-//	createdActor = QuackEngine::JsonLoader::LoadActor2D("res/ObjectData/duck.json");
-//
-//	if (createdActor)
-//	{
-//		m_gameObjects.push_back(createdActor);
-//		m_gameActors.push_back(createdActor);
-//
-//		if (collisionData.collisionType != CollisionType::NONE)
-//		{
-//			// Update collision managers game object array
-//			m_collisionManager->AddGameObject(createdActor);
-//		}
-//
-//		if (physicsData.bsimulateGravity)
-//		{
-//			// Update physics managers actor object array
-//			m_physicsManager->AddGameActor(createdActor);
-//		}
-//	}
-//
-//	return createdActor;
-//}
 
 void Quack::ShutDown()
 {
