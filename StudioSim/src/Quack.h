@@ -40,6 +40,9 @@ public:
 	static UILayer* GetUILayer() { return m_uiMain; }
 
 	static OrthographicCamera* GetOrthoCam() { return m_mainScene.GetCamera(); }
+
+	static void GenerateTextureList();
+	static Texture* GetTexture(std::string textureName);
 private:
 	Quack();
 	~Quack();
@@ -63,4 +66,6 @@ private:
 	static int m_currentFrameRate;
 
 	static OrthographicCamera* m_mainCamera;
+
+	static std::map<std::string, Texture*> m_textures;
 };

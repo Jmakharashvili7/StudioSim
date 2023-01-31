@@ -1,7 +1,8 @@
+#include "pch.h"
+
 #include "KeyboardClass.h"
-#include <iostream>
+
 using namespace std;
-#include <GLFW/glfw3.h>
 
 
 bool KeyboardClass::s_AutoRepeatKeys;
@@ -75,4 +76,22 @@ void KeyboardClass::OnKeyReleased(const unsigned char key)
 void KeyboardClass::OnCharInput(const unsigned char key)
 {
 	s_CharBuffer.push(key);
+}
+
+void KeyboardClass::ClearKeyBuffer()
+{
+	Clear(s_KeyBuffer);
+	Clear(s_CharBuffer);
+}
+
+void KeyboardClass::Clear(std::queue<KeyEvent>& queue)
+{
+	std::queue<KeyEvent> empty;
+	std::swap(queue, empty);
+}
+
+void KeyboardClass::Clear(std::queue<unsigned char>& queue)
+{
+	std::queue<unsigned char> empty;
+	std::swap(queue, empty);
 }

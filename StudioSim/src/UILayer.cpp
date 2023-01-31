@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "UILayer.h"
 #include "Quack.h"
 #include "Window.h"
@@ -107,6 +109,7 @@ void UILayer::EnableDocking()
 
 	m_viewportUI->Render();
 	m_editorUI->Render();
+	m_editorUI->HandleInput(KeyEvent::KeyEvent());
 	m_worldOutliner->Render();
 	m_contentBrowser->Render();
 

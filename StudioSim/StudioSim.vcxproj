@@ -169,9 +169,9 @@
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Component.cpp" />
-    <ClCompile Include="src\ContentBrowser.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
     <ClCompile Include="src\Observer.cpp" />
+    <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\PhysicsComponent.cpp" />
     <ClCompile Include="src\Character.cpp" />
     <ClCompile Include="src\CustomMaths.cpp" />
@@ -217,10 +217,10 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
     <ClInclude Include="src\Observer.h" />
+    <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PhysicsComponent.h" />
     <ClInclude Include="src\Character.h" />
     <ClInclude Include="src\InputComponent.h" />
@@ -236,7 +236,6 @@
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
-    <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\WorldOutlinerUI.h" />
   </ItemGroup>
   <ItemGroup>

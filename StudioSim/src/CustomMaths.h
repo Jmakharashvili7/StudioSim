@@ -1,7 +1,4 @@
 #pragma once
-#include <math.h>
-#include <memory.h>
-#include <limits>
 #include "BasicIncludes.h"
 
 namespace CustomMaths
@@ -274,7 +271,7 @@ public:
 		z = inVal;
 	}
 
-	explicit Vector3(float inX, float inY, float inZ)
+	Vector3(float inX, float inY, float inZ)
 		:x(inX)
 		, y(inY)
 		, z(inZ)

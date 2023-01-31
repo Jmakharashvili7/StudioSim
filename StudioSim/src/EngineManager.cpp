@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "EngineManager.h"
 
 GameTimer* EngineManager::m_gameTimer;
@@ -12,6 +14,11 @@ GameObject* EngineManager::GetGameObject(std::string name)
 			return gameObject;
 		}
 	}
+}
+
+GameObject* EngineManager::GetGameObject(const int index)
+{
+	return m_gameObjects[index];
 }
 
 int EngineManager::GetGameObjectIndex(std::string name)
