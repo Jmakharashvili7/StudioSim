@@ -41,6 +41,8 @@ public:
 	// Entity
 	inline EntityData GetEntityData() { return m_entityData; }
 
+	virtual void Update(const float deltaTime) override;
+
 protected:
 	// Movement
 	MovementData m_movementData = MovementData();

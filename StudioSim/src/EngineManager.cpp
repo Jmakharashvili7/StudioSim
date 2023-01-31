@@ -16,6 +16,11 @@ GameObject* EngineManager::GetGameObject(std::string name)
 	}
 }
 
+GameObject* EngineManager::GetGameObject(const int index)
+{
+	return m_gameObjects[index];
+}
+
 int EngineManager::GetGameObjectIndex(std::string name)
 {
 	int i = 0;

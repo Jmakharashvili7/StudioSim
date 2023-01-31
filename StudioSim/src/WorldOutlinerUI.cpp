@@ -21,7 +21,7 @@ WorldOutlinerUI::~WorldOutlinerUI()
 
 void WorldOutlinerUI::Render()
 {
-	ImGui::ShowDemoWindow();
+
 	ImGui::Begin("World Outliner");
 
 	//Creates initial node

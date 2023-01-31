@@ -3,8 +3,8 @@
         "banimated": false,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": 0.0,
-            "y": -0.8315972089767456,
+            "x": -1.0,
+            "y": -80.56747436523438,
             "z": 0.0
         },
         "collisionType": 0,
@@ -37,8 +37,8 @@
         "name": "duck",
         "objectType": 2,
         "position": {
-            "x": 0.0,
-            "y": -0.8315972089767456,
+            "x": -1.0,
+            "y": -80.56747436523438,
             "z": 0.0
         },
         "radius": 0.0,
@@ -96,8 +96,8 @@
     },
     "GameObject1": {
         "centerPosition": {
-            "x": 1.0,
-            "y": -1.5,
+            "x": -1.0,
+            "y": 1.0,
             "z": 0.0
         },
         "collisionType": 0,
@@ -124,8 +124,8 @@
         "name": "ground",
         "objectType": 0,
         "position": {
-            "x": 1.0,
-            "y": -1.5,
+            "x": -1.0,
+            "y": 1.0,
             "z": 0.0
         },
         "radius": 0.0,
