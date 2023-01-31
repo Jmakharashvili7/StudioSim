@@ -2,6 +2,8 @@
 #include "UIWindow.h"
 #include "GameObject.h"
 
+class ViewportUI;
+
 class EditorUI : public UIWindow
 {
 public:
@@ -15,6 +17,10 @@ public:
 	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
 
 	void GenerateTextureMenu();
+
+	vector<Vector3> ConvertClickToScreen();
+	Vector3 SnapOnGrid(vector<Vector3> values);
 private:
 	GameObject* m_object;
+	ViewportUI* m_Viewport;
 };
