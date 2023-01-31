@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include "Scene.h"
 #include "CollisionManager.h"
-#include "Character.h"
+#include "Enemy.h"
 
 using json = nlohmann::json;
 
@@ -86,6 +86,7 @@ namespace nlohmann
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
 				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
@@ -100,6 +101,26 @@ namespace nlohmann
 				entityData.health = j["health"].get<float>();
 
 				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
+			case GameObjectType::ENEMY:
+
+				// Load PhysicsData
+				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
+				physicsData.mass = j["mass"].get<float>();
+				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
+
+				// Load AnimationData
+				animationData.banimated = j["banimated"].get<bool>();
+				animationData.columns = j["columns"].get<int>();
+				animationData.rows = j["rows"].get<int>();
+
+				// Load movement data
+				movementData.jumpHeight = j["jumpHeight"].get<float>();
+				movementData.movementSpeed = j["movementSpeed"].get<float>();
+
+				// load entity data
+				entityData.health = j["health"].get<float>();
+
+				return new Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
 			}
 		}
 
@@ -147,7 +168,7 @@ namespace nlohmann
 				j["columns"] = animationData.columns;
 				j["rows"] = animationData.rows;
 
-				if (gameObject->GetType() == GameObjectType::CHARACTER)
+				if (gameObject->GetType() == GameObjectType::CHARACTER || gameObject->GetType() == GameObjectType::ENEMY)
 				{
 					Character* character = dynamic_cast<Character*>(actor);
 					MovementData movementData = character->GetMovementData();
