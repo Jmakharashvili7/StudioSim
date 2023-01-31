@@ -9,7 +9,6 @@
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Component.cpp" />
-    <ClCompile Include="src\ContentBrowser.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
     <ClCompile Include="src\Observer.cpp" />
     <ClCompile Include="src\PhysicsComponent.cpp" />
@@ -56,9 +55,11 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
     <ClCompile Include="src\UIWindow.cpp" />
     <ClCompile Include="src\ViewportUI.cpp" />
+    <ClCompile Include="src\AIComponent.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
     <ClInclude Include="src\Observer.h" />
@@ -110,6 +111,9 @@
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\UIWindow.h" />
     <ClInclude Include="src\ViewportUI.h" />
+    <ClInclude Include="src\AIComponent.h" />
+    <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />
