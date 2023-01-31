@@ -98,7 +98,7 @@ namespace nlohmann
 				movementData.movementSpeed = j["movementSpeed"].get<float>();
 
 				// load entity data
-				entityData.health = j["health"].get<float>();
+				entityData.maxHealth = j["maxHealth"].get<float>();
 
 				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
 			case GameObjectType::ENEMY:
@@ -118,7 +118,7 @@ namespace nlohmann
 				movementData.movementSpeed = j["movementSpeed"].get<float>();
 
 				// load entity data
-				entityData.health = j["health"].get<float>();
+				entityData.maxHealth = j["maxHealth"].get<float>();
 
 				return new Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
 			}
@@ -176,7 +176,7 @@ namespace nlohmann
 					j["movementSpeed"] = movementData.movementSpeed;
 					
 					EntityData entityData = character->GetEntityData();
-					j["health"] = entityData.health;
+					j["maxHealth"] = entityData.maxHealth;
 				}
 			}
 		}

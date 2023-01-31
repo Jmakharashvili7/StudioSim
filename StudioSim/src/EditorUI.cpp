@@ -1,5 +1,5 @@
 #include "EditorUI.h"
-#include "Actor.h"
+#include "Character.h"
 #include "Animate.h";
 #include "PhysicsComponent.h"
 #include <filesystem>
@@ -41,7 +41,6 @@ void EditorUI::Render()
 		}
 
 		Texture* texture = m_object->GetTexture();
-		//ImGui::Text(m_object->GetName().c_str());
 		ImGui::PushItemWidth(itemWidth);
 		if (m_object->GetTexture())
 		{
@@ -113,7 +112,10 @@ void EditorUI::Render()
 					ImGui::PushItemWidth(itemWidth);
 					float mass = actorObject->GetPhysicsData().mass;
 					ImGui::SliderFloat("Mass", &mass, 1.0f, 100.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-					actorObject->SetMass(mass);
+					if (actorObject->GetMass() != mass)
+					{
+						actorObject->SetMass(mass);
+					}
 					ImGui::PopItemWidth();
 
 					//Slider to adjust the gravity multiplier of the actor
@@ -121,15 +123,17 @@ void EditorUI::Render()
 					ImGui::PushItemWidth(itemWidth);
 					float gravityMultiplier = actorObject->GetPhysicsData().gravityMultiplier;
 					ImGui::SliderFloat("Gravity Multiplier", &gravityMultiplier, 1.0f, 10.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-					actorObject->SetGravityMultiplier(gravityMultiplier);
+					if (actorObject->GetGravityMultiplier() != gravityMultiplier)
+					{
+						actorObject->SetGravityMultiplier(gravityMultiplier);
+					}
 					ImGui::PopItemWidth();
 
 					//Check box to toggle simulation of gravity on and off
 					ImGui::PushItemWidth(itemWidth);
 					bool simGravity = actorObject->GetSimulatingGravity();
 					ImGui::Checkbox("Simulate Gravity", &simGravity);
-					
-					if (simGravity != actorObject->GetSimulatingGravity())
+					if (actorObject->GetSimulatingGravity() != simGravity)
 					{
 						actorObject->SetSimulateGravity(simGravity);
 					}
@@ -170,6 +174,50 @@ void EditorUI::Render()
 					ImGui::Text("No animator on this object");
 					ImGui::PopItemWidth();
 				}
+
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+		}
+
+		//Will only display the follwing information if object 
+		//is a character or subclass of a character
+		if (Character* characterObject = dynamic_cast<Character*>(m_object))
+		{
+			if (ImGui::TreeNode("Movement"))
+			{
+				ImGui::PushItemWidth(itemWidth);
+				float jumpHeight = characterObject->GetJumpHeight();
+				ImGui::SliderFloat("Jump Height", &jumpHeight, 0.0f, 1000.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+				if (characterObject->GetJumpHeight() != jumpHeight)
+				{
+					characterObject->SetJumpHeight(jumpHeight);
+				}
+				ImGui::PopItemWidth();
+
+				ImGui::PushItemWidth(itemWidth);
+				float movementSpeed = characterObject->GetMovementSpeed();
+				ImGui::SliderFloat("Movement Speed", &movementSpeed, 1.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+				if (characterObject->GetMovementSpeed() != movementSpeed)
+				{
+					characterObject->SetMovementSpeed(movementSpeed);
+				}
+				ImGui::PopItemWidth();
+
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+
+			if (ImGui::TreeNode("Health"))
+			{
+				ImGui::PushItemWidth(itemWidth);
+				float maxHealth = characterObject->GetMaxHealth();
+				ImGui::SliderFloat("Max Health", &maxHealth, 1.0f, 500.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+				if (characterObject->GetMaxHealth() != maxHealth)
+				{
+					characterObject->SetMaxHealth(maxHealth, true);
+				}
+				ImGui::PopItemWidth();
 
 				ImGui::TreePop();
 				ImGui::Separator();

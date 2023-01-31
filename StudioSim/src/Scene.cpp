@@ -180,9 +180,8 @@ void Scene::PhysicsUpdate()
 void Scene::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
-	const float movementAmount = 5.0f;
 
-	Actor* duck = dynamic_cast<Actor*>(EngineManager::GetGameObject(0));
+	Character* duck = dynamic_cast<Character*>(EngineManager::GetGameObject(0));
 	if (duck)
 	{
 		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
@@ -190,13 +189,25 @@ void Scene::HandleInput()
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+				duck->AdjustPosition(Vector3((duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 	
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
-				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+				duck->AdjustPosition(Vector3((-duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+			}
+
+			// MOVE LEFT
+			if (inputComponent->GetKeyPressed(' '))
+			{
+				duck->Jump();
+			}
+
+			// MOVE LEFT
+			if (inputComponent->GetKeyPressed('w'))
+			{
+				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 500, 0));
 			}
 		}
 	}
