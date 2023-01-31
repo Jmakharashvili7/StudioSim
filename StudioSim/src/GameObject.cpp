@@ -18,8 +18,7 @@ GameObject::GameObject(std::string name, VertexData* data, const TransformData& 
 	m_va = new VertexArray();
 	UpdateVertexArray();
 
-	m_texture = Quack::GetTexture(textureName);
-	
+	m_texture = Quack::GetTexture(textureName);	
 }
 
 GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName) : 
@@ -140,7 +139,6 @@ bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
 
 void GameObject::AddCollision(GameObject* collidingObject)
 {
-	//std::cout << "START COLLISION!" << std::endl;
 	if (collidingObject)
 	{
 		m_collidingObjects.push_back(collidingObject);
@@ -149,7 +147,6 @@ void GameObject::AddCollision(GameObject* collidingObject)
 
 void GameObject::RemoveCollision(GameObject* gameObject)
 {
-	//std::cout << "END COLLISION!" << std::endl;
 	if (gameObject)
 	{
 		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObject, m_collidingObjects);

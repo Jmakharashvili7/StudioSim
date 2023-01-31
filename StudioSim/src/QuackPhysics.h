@@ -32,11 +32,13 @@ namespace QuackEngine {
 			center.z = 0;
 			radius = 0;
 		}
+
 		BoundingSphere(Vector3 position, float radius)
 		{
 			center = position;
 			this->radius = radius;
 		}
+
 		Vector3 center;
 		float radius;
 	};

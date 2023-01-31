@@ -13,6 +13,8 @@ public:
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
 
+	void SetInMenu(bool inMenu) { m_InMenu = inMenu; }
+
 	inline void RemoveDisplayedGameObject() { m_object = nullptr; }
 	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
 
@@ -21,9 +23,9 @@ public:
 
 	void GenerateTextureMenu();
 
-	vector<Vector3> ConvertClickToScreen();
-	Vector3 SnapOnGrid(vector<Vector3> values);
 private:
 	GameObject* m_object;
 	ViewportUI* m_Viewport;
+
+	bool m_InMenu : 1;
 };
