@@ -4,11 +4,11 @@
         "bconsumeInput": true,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": 1.5,
-            "y": -0.7098406553268433,
+            "x": 3.0,
+            "y": -0.7030870914459229,
             "z": 0.0
         },
-        "collisionType": 1,
+        "collisionType": 0,
         "colors": [
             1.0,
             1.0,
@@ -38,11 +38,11 @@
         "name": "duck",
         "objectType": 2,
         "position": {
-            "x": 1.5,
-            "y": -0.7098406553268433,
+            "x": 3.0,
+            "y": -0.7030870914459229,
             "z": 0.0
         },
-        "radius": 0.5,
+        "radius": 1.0,
         "rotation": {
             "x": 0.0,
             "y": 0.0,

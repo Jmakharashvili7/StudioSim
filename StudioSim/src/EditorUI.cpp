@@ -16,6 +16,8 @@ EditorUI::EditorUI(std::string name, GameObject* gameObject) :
 	m_object(gameObject)
 {
 	m_Viewport = Quack::GetUILayer()->GetViewport();
+
+	m_ItemWidth = 0.0f;
 }
 
 EditorUI::~EditorUI()
@@ -30,12 +32,12 @@ void EditorUI::Render()
 		//sets the push width of ImGui items 
 		//to stop text being cut off when making window smaller
 		//although if the window gets too small it will cut off anyway
-		float itemWidth = ImGui::GetContentRegionAvail().x * 0.5f;
+		m_ItemWidth = ImGui::GetContentRegionAvail().x * 0.5f;
 		Texture* texture = m_object->GetTexture();
 
 		ImGui::Text(m_object->GetName().c_str());
 
-		ImGui::PushItemWidth(itemWidth);
+		ImGui::PushItemWidth(m_ItemWidth);
 		if (m_object->GetTexture())
 		{
 			ImGui::Image((void*)m_object->GetTexture()->GetRendererID(), ImVec2(100, 100), ImVec2(0, 1), ImVec2(1, 0));
@@ -57,19 +59,19 @@ void EditorUI::Render()
 		//Set up for displaying objects transform information
 		if (ImGui::TreeNode("Transform"))
 		{
-			ImGui::PushItemWidth(itemWidth);
+			ImGui::PushItemWidth(m_ItemWidth);
 			Vector3 pos = m_object->GetPosition();
 			ImGui::DragFloat3("Position", &pos.x);
 			m_object->SetPosition(pos);
 			ImGui::PopItemWidth();
 
-			ImGui::PushItemWidth(itemWidth);
+			ImGui::PushItemWidth(m_ItemWidth);
 			Vector3 rot = m_object->GetRotation();
 			ImGui::DragFloat("Rotation", &rot.z);
 			m_object->SetRotation(rot);
 			ImGui::PopItemWidth();
 
-			ImGui::PushItemWidth(itemWidth);
+			ImGui::PushItemWidth(m_ItemWidth);
 			Vector3 scale = m_object->GetScale();
 			ImGui::DragFloat3("Scale", &scale.x);
 			m_object->SetScale(scale);
@@ -81,15 +83,28 @@ void EditorUI::Render()
 
 		if (ImGui::TreeNode("Collision"))
 		{
-			ImGui::PushItemWidth(itemWidth);
+			ImGui::PushItemWidth(m_ItemWidth);
 			std::string collisionTitle = "Current Type: ";
 			collisionTitle += GetCollisionTypeName(m_object->GetCollisionType());
 			if (ImGui::BeginMenu(collisionTitle.c_str()))
 			{
 				GenerateCollisionMenu();
+
 				ImGui::EndMenu();
 			}
 			ImGui::PopItemWidth();
+
+			if (m_object->GetCollisionType() == CollisionType::SPHERE)
+			{
+				ImGui::PushItemWidth(m_ItemWidth);
+				float sphereRadius = m_object->GetCollisionSphereRadius();
+				ImGui::SliderFloat("Sphere Radius", &sphereRadius, 1.0f, 30.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+				if (m_object->GetCollisionSphereRadius() != sphereRadius)
+				{
+					m_object->SetCollisionSphereRadius(sphereRadius);
+				}
+				ImGui::PopItemWidth();
+			}
 
 			ImGui::TreePop();
 			ImGui::Separator();
@@ -106,9 +121,9 @@ void EditorUI::Render()
 				{
 					//Slider to adjust the mass of the actor
 					//Ctrl click to use keyboard input to enter a value manually
-					ImGui::PushItemWidth(itemWidth);
+					ImGui::PushItemWidth(m_ItemWidth);
 					float mass = actorObject->GetPhysicsData().mass;
-					ImGui::SliderFloat("Mass", &mass, 1.0f, 100.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+					ImGui::SliderFloat("Mass", &mass, 1.0f, 30.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 					if (actorObject->GetMass() != mass)
 					{
 						actorObject->SetMass(mass);
@@ -117,7 +132,7 @@ void EditorUI::Render()
 
 					//Slider to adjust the gravity multiplier of the actor
 					//Ctrl click to use keyboard input to enter a value manually
-					ImGui::PushItemWidth(itemWidth);
+					ImGui::PushItemWidth(m_ItemWidth);
 					float gravityMultiplier = actorObject->GetPhysicsData().gravityMultiplier;
 					ImGui::SliderFloat("Gravity Multiplier", &gravityMultiplier, 1.0f, 10.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 					if (actorObject->GetGravityMultiplier() != gravityMultiplier)
@@ -127,7 +142,7 @@ void EditorUI::Render()
 					ImGui::PopItemWidth();
 
 					//Check box to toggle simulation of gravity on and off
-					ImGui::PushItemWidth(itemWidth);
+					ImGui::PushItemWidth(m_ItemWidth);
 					bool simGravity = actorObject->GetSimulatingGravity();
 					ImGui::Checkbox("Simulate Gravity", &simGravity);
 					if (actorObject->GetSimulatingGravity() != simGravity)
@@ -147,7 +162,7 @@ void EditorUI::Render()
 			{
 				if (actorObject->GetAnimator())
 				{
-					ImGui::PushItemWidth(itemWidth);
+					ImGui::PushItemWidth(m_ItemWidth);
 					bool animated = actorObject->GetAnimationStatus();
 					ImGui::Checkbox("Animated", &animated);
 					actorObject->SetAnimationStatus(animated);
@@ -167,7 +182,7 @@ void EditorUI::Render()
 				else
 				{
 					//Message if animator is a null pointer
-					ImGui::PushItemWidth(itemWidth);
+					ImGui::PushItemWidth(m_ItemWidth);
 					ImGui::Text("No animator on this object");
 					ImGui::PopItemWidth();
 				}
@@ -183,7 +198,7 @@ void EditorUI::Render()
 		{
 			if (ImGui::TreeNode("Movement"))
 			{
-				ImGui::PushItemWidth(itemWidth);
+				ImGui::PushItemWidth(m_ItemWidth);
 				float jumpHeight = characterObject->GetJumpHeight();
 				ImGui::SliderFloat("Jump Height", &jumpHeight, 0.0f, 1000.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 				if (characterObject->GetJumpHeight() != jumpHeight)
@@ -192,7 +207,7 @@ void EditorUI::Render()
 				}
 				ImGui::PopItemWidth();
 
-				ImGui::PushItemWidth(itemWidth);
+				ImGui::PushItemWidth(m_ItemWidth);
 				float movementSpeed = characterObject->GetMovementSpeed();
 				ImGui::SliderFloat("Movement Speed", &movementSpeed, 1.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 				if (characterObject->GetMovementSpeed() != movementSpeed)
@@ -207,7 +222,7 @@ void EditorUI::Render()
 
 			if (ImGui::TreeNode("Health"))
 			{
-				ImGui::PushItemWidth(itemWidth);
+				ImGui::PushItemWidth(m_ItemWidth);
 				float maxHealth = characterObject->GetMaxHealth();
 				ImGui::SliderFloat("Max Health", &maxHealth, 1.0f, 500.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 				if (characterObject->GetMaxHealth() != maxHealth)
@@ -222,7 +237,7 @@ void EditorUI::Render()
 
 			if (ImGui::TreeNode("Input"))
 			{
-				ImGui::PushItemWidth(itemWidth);
+				ImGui::PushItemWidth(m_ItemWidth);
 				bool consumingInput = EngineManager::GetCharacterConsumingInput(characterObject);
 				ImGui::Checkbox("Consume Input", &consumingInput);
 				if (EngineManager::GetCharacterConsumingInput(characterObject) != consumingInput)

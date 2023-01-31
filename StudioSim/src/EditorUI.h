@@ -27,5 +27,7 @@ private:
 	GameObject* m_object;
 	ViewportUI* m_Viewport;
 
+	float m_ItemWidth;
+
 	bool m_InMenu : 1;
 };
