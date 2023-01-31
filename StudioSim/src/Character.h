@@ -7,9 +7,7 @@ public:
 	Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string &textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData);
 	virtual ~Character();
 
-	// Update
-	virtual void Update(const float deltaTime) override;
-
+public:
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject) override;
 	virtual void RemoveCollision(GameObject* gameObject) override;

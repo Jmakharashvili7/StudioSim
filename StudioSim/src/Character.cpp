@@ -5,17 +5,12 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
 	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
 {
-	m_type = GameObjectType::CHARACTER;
+
 }
 
 Character::~Character()
 {
 
-}
-
-void Character::Update(const float deltaTime)
-{
-	Actor::Update(deltaTime);
 }
 
 void Character::AddCollision(GameObject* collidingObject)
@@ -66,7 +61,7 @@ void Character::CheckShouldDie()
 
 void Character::TakeDamage(const float amount)
 {
-	std::cout << "Ouch - " + m_name << std::endl;
+	std::cout << "Ouch" << std::endl;
 	AdjustHealth(amount);
 }
 
@@ -77,5 +72,6 @@ void Character::Kill()
 
 void Character::Die()
 {
-	std::cout << "Im dead - " + m_name << std::endl;
+	std::cout << "Im dead" << std::endl;
+	// tell scene im dead
 }

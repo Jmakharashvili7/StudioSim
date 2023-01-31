@@ -78,5 +78,6 @@ ipch/
 
 *.user
 *.vcxproj
+*.filters
 *.bin
 *.recipe

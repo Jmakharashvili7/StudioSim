@@ -182,7 +182,9 @@ void Scene::HandleInput()
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 	const float movementAmount = 5.0f;
 
-	Actor* duck = dynamic_cast<Actor*>(EngineManager::GetGameObject(0));
+
+	//jabas engine manager get can also be used here 
+	Actor* duck = dynamic_cast<Actor*>(EngineManager::GetGameObject("duck"));
 	if (duck)
 	{
 		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
@@ -198,6 +200,11 @@ void Scene::HandleInput()
 			{
 				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
 			}
+			// MOVE LEFT
+			if (inputComponent->GetKeyPressed('w'))
+			{
+				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 500, 0));
+			}	
 		}
 	}
 }

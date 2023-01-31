@@ -10,7 +10,6 @@ public:
 	static std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 	static void SetGameObjects(std::vector<GameObject*> gameObjects) { m_gameObjects = gameObjects; }
 	static GameObject* GetGameObject(std::string name);
-	static GameObject* GetGameObject(const int index);
 	static int GetGameObjectIndex(std::string name);
 
 	static int GetGameObjectIndex(GameObject* gameObject, std::vector<GameObject*> gameObjectArray);

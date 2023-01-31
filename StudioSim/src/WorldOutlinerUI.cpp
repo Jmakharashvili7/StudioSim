@@ -49,9 +49,9 @@ void WorldOutlinerUI::Render()
 				//if it is an actor or a child of actor
 				if (Actor* actorObject = dynamic_cast<Actor*>(object))
 				{
-					for (Component* components : actorObject->GetComponents())
+					for (Component* components : actorObject->GetComoponents())
 					{
-						if (actorObject->GetComponents().size() > 0)
+						if (actorObject->GetComoponents().size() > 0)
 						{
 							//ImGui::Text(typeid(*components).name());
 
