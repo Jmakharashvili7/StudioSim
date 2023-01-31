@@ -200,11 +200,6 @@ void Scene::HandleInput()
 			{
 				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
 			}
-			// MOVE LEFT
-			if (inputComponent->GetKeyPressed('w'))
-			{
-				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 500, 0));
-			}	
 		}
 	}
 }

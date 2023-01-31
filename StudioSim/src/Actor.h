@@ -56,7 +56,7 @@ public:
 		return nullptr;
 	}
 
-	inline virtual std::vector<Component*> GetComoponents() { return m_components; }
+	inline virtual std::vector<Component*> GetComponents() { return m_components; }
 
 protected:
 	// Animation
