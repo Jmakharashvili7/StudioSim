@@ -72,12 +72,13 @@ int Quack::InitEngine()
 	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
 	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
+	
 
+	// According to laws beyond my comprehensions frame buffers must be made exactly here
 	FrameBufferSpecificiation fbs;
 	fbs.width = m_window->GetWidth();
 	fbs.height = m_window->GetHeight();
 	FrameBuffer* frameBuffer = new FrameBuffer(fbs);
-
 
 	///
 	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
@@ -178,9 +179,7 @@ void Quack::RenderUpdate()
 		if (layer) layer->OnUpdate();
 	}
 
-	//m_frameBuffer->Bind();
 	m_mainScene.RenderScene();
-	//m_frameBuffer->Unbind();
 }
 
 void Quack::ShutDown()

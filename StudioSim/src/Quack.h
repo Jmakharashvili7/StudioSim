@@ -32,9 +32,6 @@ public:
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
 
-	static OrthographicCamera* GetOrthoCamera() { return m_mainCamera; }
-	static void SetOrthoCamera(OrthographicCamera* camera) { m_mainCamera = camera; }
-
 	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
 	static FrameBuffer* GetFrameBuffer() { return m_mainScene.GetFrameBuffer(); }
 	static UILayer* GetUILayer() { return m_uiMain; }
