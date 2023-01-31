@@ -183,27 +183,27 @@ void Scene::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	Character* duck = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
-	if (duck)
+	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
+	if (inputCharacter)
 	{
-		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
+		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{
-			// MOVE LEFT
+			// JUMP
 			if (inputComponent->GetKeyPressed(' '))
 			{
-				duck->Jump();
+				inputCharacter->Jump();
 			}
 
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				duck->AdjustPosition(Vector3((duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 	
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
-				duck->AdjustPosition(Vector3((-duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 		}
 	}
