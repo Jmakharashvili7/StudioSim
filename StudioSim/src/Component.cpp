@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Component.h"
 
 Component::Component(Actor* owningActor, const int updateOrder)

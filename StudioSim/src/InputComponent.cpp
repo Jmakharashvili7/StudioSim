@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "InputComponent.h"
 
 InputComponent::InputComponent(Actor* owningActor, const int updateOrder) : Component{ owningActor, updateOrder }

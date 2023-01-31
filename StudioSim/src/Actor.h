@@ -26,6 +26,7 @@ public:
 	void SetMass(float newMass);
 	void SetSimulateGravity(bool gravityStatus);
 	void SetGravityMultiplier(const float gravityMultiplier);
+	virtual inline const float GetGravityMultiplier() const { return m_physicsData.gravityMultiplier; }
 
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }
@@ -36,7 +37,6 @@ public:
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
-	virtual void SetCollisionType(const CollisionType newCollisionType) override;
 	virtual void SetCollidingWithGround(const bool bcollidingWithGround);
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
 
@@ -57,7 +57,7 @@ public:
 		return nullptr;
 	}
 
-	inline virtual std::vector<Component*> GetComponents() { return m_components; }
+	inline virtual std::vector<Component*> GetComoponents() { return m_components; }
 
 protected:
 	// Animation

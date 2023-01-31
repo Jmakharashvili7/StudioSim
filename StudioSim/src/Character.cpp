@@ -1,11 +1,24 @@
+#include "pch.h"
+
 #include "Character.h"
 #include "Quack.h"
+#include "PhysicsComponent.h"
+#include "EngineManager.h"
 
 Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
-	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData)
-	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData)
+	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, const bool bconsumeInput)
+	: Actor {name, data, transformData, collisionData, textureName, physicsData, animationData}, m_movementData(movementData), m_entityData(entityData), m_bconsumingInput(bconsumeInput)
 {
 	m_type = GameObjectType::CHARACTER;
+
+	// Input init
+	if (m_bconsumingInput)
+	{
+		EngineManager::SetInputCharacter(this);
+	}
+
+	// Health init
+	ResetCurrentHealth();
 }
 
 Character::~Character()
@@ -40,39 +53,53 @@ void Character::Jump()
 	if (m_physicsData.bsimulateGravity && !m_bjumping)
 	{
 		m_bjumping = true;
-		m_currentJumpForce = m_movementData.jumpHeight;
+
+		if (m_physicsComponent)
+		{
+			m_physicsComponent->AddForce(Vector3(0.0f, m_movementData.jumpHeight, 0.0f));
+		}
 	}
 }
 
-void Character::SetHealth(const float inHealth)
+void Character::SetCurrentHealth(const float inHealth)
 {
-	m_entityData.health = inHealth;
+	m_currentHealth = inHealth;
 	CheckShouldDie();
 }
 
-void Character::AdjustHealth(const float adjustAmount)
+void Character::AdjustCurrentHealth(const float adjustAmount)
 {
-	m_entityData.health += adjustAmount;
+	m_currentHealth += adjustAmount;
 	CheckShouldDie();
 }
 
 void Character::CheckShouldDie()
 {
-	if (GetHealth() <= 0.0f)
+	if (GetCurrentHealth() <= 0.0f)
 	{
 		Die();
+	}
+}
+
+void Character::SetMaxHealth(const float newMaxHealth, const bool bUpdateHealth)
+{
+	m_entityData.maxHealth = newMaxHealth;
+
+	if (bUpdateHealth)
+	{
+		SetCurrentHealth(newMaxHealth);
 	}
 }
 
 void Character::TakeDamage(const float amount)
 {
 	std::cout << "Ouch - " + m_name << std::endl;
-	AdjustHealth(amount);
+	AdjustCurrentHealth(amount);
 }
 
 void Character::Kill()
 {
-	SetHealth(0.0f);
+	SetCurrentHealth(0.0f);
 }
 
 void Character::Die()

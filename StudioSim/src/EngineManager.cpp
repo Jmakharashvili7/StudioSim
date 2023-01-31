@@ -1,7 +1,10 @@
+#include "pch.h"
+
 #include "EngineManager.h"
 
 GameTimer* EngineManager::m_gameTimer;
 std::vector<GameObject*> EngineManager::m_gameObjects;
+Character* EngineManager::m_inputCharacter;
 
 GameObject* EngineManager::GetGameObject(std::string name)
 {
@@ -49,4 +52,30 @@ int EngineManager::GetGameObjectIndex(GameObject* gameObject, std::vector<GameOb
 	}
 
 	return indexToReturn;
+}
+
+void EngineManager::SetInputCharacter(Character* newInputCharacter)
+{
+	m_inputCharacter = newInputCharacter;
+
+	for (GameObject* loopedGameObject : m_gameObjects)
+	{
+		Character* characterObject = dynamic_cast<Character*>(loopedGameObject);
+		if (characterObject)
+		{
+			if (characterObject == newInputCharacter)
+			{
+				characterObject->SetConsumingInput(true);
+			}
+			else
+			{
+				characterObject->SetConsumingInput(false);
+			}
+		}
+	}
+}
+
+const bool EngineManager::GetCharacterConsumingInput(Character* inputCharacter)
+{
+	return m_inputCharacter == inputCharacter;
 }

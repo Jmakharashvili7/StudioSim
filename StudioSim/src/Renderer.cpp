@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Renderer.h"
 #include "Quack.h"
 

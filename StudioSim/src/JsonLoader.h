@@ -39,6 +39,7 @@ namespace nlohmann
 			AnimationData animationData;
 			MovementData movementData;
 			EntityData entityData;
+			bool bconsumeInput = false;
 
 			// Load name
 			std::string name = j["name"].get<std::string>();
@@ -98,9 +99,12 @@ namespace nlohmann
 				movementData.movementSpeed = j["movementSpeed"].get<float>();
 
 				// load entity data
-				entityData.health = j["health"].get<float>();
+				entityData.maxHealth = j["maxHealth"].get<float>();
 
-				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
+				// load input data
+				bconsumeInput = j["bconsumeInput"].get<bool>();
+
+				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData, bconsumeInput);
 			case GameObjectType::ENEMY:
 
 				// Load PhysicsData
@@ -118,7 +122,7 @@ namespace nlohmann
 				movementData.movementSpeed = j["movementSpeed"].get<float>();
 
 				// load entity data
-				entityData.health = j["health"].get<float>();
+				entityData.maxHealth = j["maxHealth"].get<float>();
 
 				return new Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
 			}
@@ -176,7 +180,10 @@ namespace nlohmann
 					j["movementSpeed"] = movementData.movementSpeed;
 					
 					EntityData entityData = character->GetEntityData();
-					j["health"] = entityData.health;
+					j["maxHealth"] = entityData.maxHealth;
+
+					const bool bconsumingInput = character->GetConsumingInput();
+					j["bconsumeInput"] = bconsumingInput;
 				}
 			}
 		}

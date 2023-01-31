@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "GameObject.h"
 #include "Animate.h"
 #include "Quack.h"
@@ -17,6 +19,7 @@ GameObject::GameObject(std::string name, VertexData* data, const TransformData& 
 	UpdateVertexArray();
 
 	m_texture = Quack::GetTexture(textureName);
+	
 }
 
 GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName) : 
@@ -97,16 +100,6 @@ void GameObject::AdjustScale(const Vector3 adjustScale)
 	m_transform->AdjustScale(adjustScale);
 	const Vector3 newScale = m_transform->GetScale();
 	SetCollisionBoxSize(newScale);
-}
-
-void GameObject::SetCollisionType(const CollisionType newCollisionType)
-{
-	m_collisionData.collisionType = newCollisionType;
-
-	if (newCollisionType == CollisionType::NONE)
-	{
-		m_collidingObjects.clear();
-	}
 }
 
 void GameObject::UpdateObjectData(VertexData* newData)

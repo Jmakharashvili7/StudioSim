@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Scene.h"
 #include "GameObject.h"
 #include "Actor.h"
@@ -170,23 +172,28 @@ void Scene::PhysicsUpdate()
 void Scene::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
-	const float movementAmount = 5.0f;
 
-	Actor* duck = dynamic_cast<Actor*>(EngineManager::GetGameObject(0));
-	if (duck)
+	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
+	if (inputCharacter)
 	{
-		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
+		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{
+			// JUMP
+			if (inputComponent->GetKeyPressed(' '))
+			{
+				inputCharacter->Jump();
+			}
+
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 	
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
-				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 		}
 	}
