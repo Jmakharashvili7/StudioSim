@@ -4,7 +4,7 @@
         "bconsumeInput": true,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": -1.139402985572815,
+            "x": 1.5346269607543945,
             "y": -0.6893121004104614,
             "z": 0.0
         },
@@ -35,10 +35,10 @@
         "mass": 1.0,
         "maxHealth": 100.0,
         "movementSpeed": 5.0,
-        "name": "Mr Ducky",
+        "name": "Its ya boi Duck",
         "objectType": 2,
         "position": {
-            "x": -1.139402985572815,
+            "x": 1.5346269607543945,
             "y": -0.6893121004104614,
             "z": 0.0
         },
