@@ -160,6 +160,7 @@ void Quack::HandleInput()
 	if (!KeyboardClass::KeyBufferIsEmpty())
 	{
 		key = KeyboardClass::ReadKey();
+
 	}
 
 	//Mouse Input
