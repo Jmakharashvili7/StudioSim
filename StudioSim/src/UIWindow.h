@@ -25,6 +25,6 @@ protected:
 	std::string m_name;
 	glm::vec2 m_position;
 	glm::vec2 m_size;
-	bool m_isFocused;
+	bool m_isFocused : 1;
 };
 

@@ -27,15 +27,44 @@ EditorUI::~EditorUI()
 void EditorUI::Render()
 {
 	ImGui::Begin("Settings", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+
+
 	if (m_object)
 	{
 		//sets the push width of ImGui items 
 		//to stop text being cut off when making window smaller
 		//although if the window gets too small it will cut off anyway
 		m_ItemWidth = ImGui::GetContentRegionAvail().x * 0.5f;
-		Texture* texture = m_object->GetTexture();
 
-		ImGui::Text(m_object->GetName().c_str());
+		std::string objectClass = "Object Type: " + (std::string)typeid(*m_object).name();
+		ImGui::PushItemWidth(m_ItemWidth);
+		ImGui::Text(objectClass.c_str());
+		ImGui::PopItemWidth();
+
+		ImGui::Separator();
+		
+		if (ImGui::TreeNode("Object Name"))
+		{
+			std::string stringName = m_object->GetName();
+			std::string textItem = "Current Name: " + stringName;
+			
+			ImGui::PushItemWidth(m_ItemWidth);
+			ImGui::Text(textItem.c_str());
+			ImGui::PopItemWidth();
+
+			ImGui::PushItemWidth(m_ItemWidth);
+			static char charName[128] = "_____";
+			strcpy_s(charName, stringName.c_str());
+			ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
+			m_object->SetName(std::string(charName));
+			Quack::GetCurrentScene()->ToggleStopInput(ImGui::IsItemActive());
+			ImGui::PopItemWidth();
+
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+
+		Texture* texture = m_object->GetTexture();
 
 		ImGui::PushItemWidth(m_ItemWidth);
 		if (m_object->GetTexture())
@@ -445,6 +474,7 @@ void EditorUI::GenerateCollisionMenu()
 {
 	ImGui::MenuItem("Collision Types", NULL, false, false);
 
+	m_isFocused = true;
 	SetInMenu(true);
 
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))

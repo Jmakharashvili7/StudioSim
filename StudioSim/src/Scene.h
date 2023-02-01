@@ -35,6 +35,9 @@ public:
 	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 
 	inline FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
+
+	inline bool GetStopInput() { return m_StopInput; }
+	inline void ToggleStopInput(bool toggle) { m_StopInput = toggle; }
 private:
 	void HandleLights();
 
@@ -79,5 +82,7 @@ private:
 	GameTimer m_gameTimer;
 	
 	FrameBuffer* m_frameBuffer;
+
+	bool m_StopInput : 1;
 };
 

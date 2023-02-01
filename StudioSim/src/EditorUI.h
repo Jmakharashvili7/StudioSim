@@ -13,7 +13,8 @@ public:
 	void Render() override;
 	void HandleInput(KeyEvent key) override;
 
-	void SetInMenu(bool inMenu) { m_InMenu = inMenu; }
+	inline void SetInMenu(bool inMenu) { m_InMenu = inMenu; }
+	inline void SetInTextBox(bool typing) { m_Typing = typing; }
 
 	inline void RemoveDisplayedGameObject() { m_object = nullptr; }
 	inline void SetDisplayedGameObject(GameObject* object) { m_object = object; }
@@ -30,4 +31,5 @@ private:
 	float m_ItemWidth;
 
 	bool m_InMenu : 1;
+	bool m_Typing : 1;
 };

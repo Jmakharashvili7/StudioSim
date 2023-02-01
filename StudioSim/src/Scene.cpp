@@ -52,6 +52,8 @@ void Scene::RenderScene()
 	glfwPollEvents();
 
 	m_frameBuffer->Unbind();
+
+	m_StopInput = false;
 }
 
 void Scene::HandleLights()
@@ -174,7 +176,8 @@ void Scene::HandleInput()
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
 	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
-	if (inputCharacter)
+
+	if (inputCharacter && !m_StopInput)
 	{
 		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{

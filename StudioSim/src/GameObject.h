@@ -84,6 +84,7 @@ public:
 
 	// Name + type
 	inline std::string GetName() const { return m_name; }
+	inline void SetName(std::string newName) { m_name = newName; }
 	inline GameObjectType GetType() const { return m_type; }
 
 	void UpdateVertexArray();

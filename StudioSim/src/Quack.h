@@ -44,6 +44,8 @@ public:
 	// Default shader for objects without custom shader
 	static inline Shader* GetPrimitiveShader() { return m_primitiveShader; }
 	static inline Shader* GetTextureShader() { return m_textureShader; }
+
+	static Scene* GetCurrentScene() { return &m_mainScene; }
 private:
 	Quack();
 	~Quack();
