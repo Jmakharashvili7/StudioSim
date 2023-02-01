@@ -7,8 +7,6 @@
 #include "Quack.h"
 #include "OrthographicCamera.h"
 #include "MouseClass.h"
-#include "KeyboardClass.h"
-
 
 ViewportUI::ViewportUI(std::string name) : UIWindow(name)
 {
@@ -60,43 +58,6 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleInput(KeyEvent key, MouseEvent e)
 {
-	if (!KeyboardClass::KeyBufferIsEmpty())
-	{
-		switch (key.GetKeyCode())
-		{
-		case GLFW_KEY_LEFT:
-			QE_LOG("MOVE CAMERA LEFT");
-			break;
-		case GLFW_KEY_RIGHT:
-			QE_LOG("MOVE CAMERA RIGHT");
-			break;
-		case GLFW_KEY_UP:
-			QE_LOG("MOVE CAMERA UP");
-			break;
-		case GLFW_KEY_DOWN:
-			QE_LOG("MOVE CAMERA DOWN");
-			break;
-		default:
-			break;
-		}
-	}
-
-	if (!MouseClass::IsEventBufferEmpty())
-	{
-		switch (e.GetType())
-		{
-		case MouseEvent::EventType::SCROLL_DOWN:
-			QE_LOG("Zoom Out");
-			break;
-		case MouseEvent::EventType::SCROLL_UP:
-			QE_LOG("Zoom In");
-			break;
-
-		default:
-			QE_LOG("MOUSE SCROLLING");
-			break;
-		}
-	}
 
 }
 
