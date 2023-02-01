@@ -109,9 +109,11 @@ void UILayer::EnableDocking()
 
 	m_viewportUI->Render();
 	m_editorUI->Render();
-	m_editorUI->HandleInput(KeyEvent::KeyEvent());
+	//m_editorUI->HandleInput(KeyEvent::KeyEvent());
 	m_worldOutliner->Render();
-	m_worldOutliner->HandleInput(KeyEvent::KeyEvent());
+
+	//m_worldOutliner->HandleInput(KeyEvent::KeyEvent());
+
 	m_contentBrowser->Render();
 
 	ImGui::PopStyleVar();

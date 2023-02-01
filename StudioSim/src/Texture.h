@@ -13,9 +13,7 @@ public:
 
 	inline unsigned int GetRendererID() const { return m_rendererID; }
 	inline int GetWidth() const { return m_width; }
-	inline int GetHeight() const { return m_height; }
-
-	
+	inline int GetHeight() const { return m_height; }	
 
 private:
 	unsigned int m_rendererID;

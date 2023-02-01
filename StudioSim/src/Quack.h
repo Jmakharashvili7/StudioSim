@@ -46,9 +46,6 @@ public:
 	static inline Shader* GetTextureShader() { return m_textureShader; }
 
 	static Scene* GetCurrentScene() { return &m_mainScene; }
-
-	static MouseEvent* GetMouseEvent() { return m_mouseEvent; }
-
 private:
 	Quack();
 	~Quack();
@@ -75,6 +72,4 @@ private:
 	static OrthographicCamera* m_mainCamera;
 
 	static std::map<std::string, Texture*> m_textures;
-
-	static MouseEvent* m_mouseEvent;
 };

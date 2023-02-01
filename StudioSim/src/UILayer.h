@@ -32,6 +32,8 @@ public:
 	inline EditorUI* GetEditorUI() { return m_editorUI; }
 	inline WorldOutlinerUI* GetWorldOutliner() { return m_worldOutliner; }
 
+	inline std::vector<UIWindow*> GetAllWindows() { return m_windowList; }
+
 private:
 	void EnableDocking();
 private:
@@ -41,5 +43,7 @@ private:
 	EditorUI* m_editorUI;
 	WorldOutlinerUI* m_worldOutliner;
 	ContentBrowserUI* m_contentBrowser;
+
+	std::vector<UIWindow*> m_windowList;
 };
 

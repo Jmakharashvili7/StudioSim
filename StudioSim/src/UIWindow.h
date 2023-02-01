@@ -1,5 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
+#include "MouseEvent.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -12,6 +13,7 @@ public:
 
 	virtual void Render() {}
 	virtual void HandleInput(KeyEvent key) {}
+	virtual void HandleMouseInput(MouseEvent e) {}
 
 	inline void SetPosition(glm::vec2 pos) { m_position = pos; }
 	inline glm::vec2 GetPosition() { return m_position; }

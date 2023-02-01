@@ -8,6 +8,8 @@ WorldOutlinerUI::WorldOutlinerUI(std::string name) : UIWindow(name)
 {
 	m_CurrentScene = nullptr;
 	m_EditorUI = nullptr;
+
+	m_isHovered = false;
 }
 
 WorldOutlinerUI::~WorldOutlinerUI()
@@ -101,5 +103,13 @@ void WorldOutlinerUI::HandleInput(KeyEvent key)
 		}
 	}
 	
+}
+
+void WorldOutlinerUI::HandleMouseInput(MouseEvent e)
+{
+	if (e.GetType() == MouseEvent::EventType::R_CLICK && m_isHovered)
+	{
+		QE_LOG("RIGHT CLICKED");
+	}
 }
 

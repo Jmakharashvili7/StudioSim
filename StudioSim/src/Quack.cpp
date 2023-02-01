@@ -17,7 +17,6 @@
 #include "UILayer.h"
 #include "Scene.h"
 #include "WorldOutlinerUI.h"
-#include <filesystem>
 
 namespace fs = std::filesystem;
 
@@ -43,8 +42,6 @@ Scene Quack::m_mainScene;
 OrthographicCamera* Quack::m_mainCamera;
 
 std::map<std::string, Texture*> Quack::m_textures;
-
-MouseEvent* Quack::m_mouseEvent;
 
 #pragma endregion DeclareMembers
 
@@ -157,11 +154,13 @@ Texture* Quack::GetTexture(std::string textureName)
 void Quack::HandleInput()
 {
 
+	//Mouse Input
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-		m_mouseEvent = &MouseClass::ReadEvent();
+		MouseEvent e = MouseClass::ReadEvent();
 
-		for()
+		m_uiMain->GetEditorUI()->HandleMouseInput(e);
+		m_uiMain->GetWorldOutliner()->HandleMouseInput(e);
 	}
 	
 }
