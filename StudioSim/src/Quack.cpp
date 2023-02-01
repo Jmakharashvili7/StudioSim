@@ -74,6 +74,7 @@ int Quack::InitEngine()
 	glfwSetWindowSizeCallback(m_window->GetGLFWWindow(), QuackEngine::window_size_callback);
 	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
+	glfwSetScrollCallback(m_window->GetGLFWWindow(), scroll_callback);
 	
 
 	// According to laws beyond my comprehensions frame buffers must be made exactly here

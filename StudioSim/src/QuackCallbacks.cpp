@@ -76,4 +76,15 @@ namespace QuackEngine {
 	{
 		Quack::s_running = false;
 	}
+
+	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+	{
+		QE_LOG(xoffset);
+		QE_LOG(yoffset);
+
+		if (yoffset > 0)
+			MouseClass::OnScrollUp(xoffset, yoffset);
+		else if (yoffset < 0)
+			MouseClass::OnScrollDown(xoffset, yoffset);
+	}
 }
