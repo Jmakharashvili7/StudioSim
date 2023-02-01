@@ -11,7 +11,8 @@ public:
 	~EditorUI();
 
 	void Render() override;
-	virtual void HandleInput(KeyEvent key, MouseEvent e) override;
+	void HandleInput(KeyEvent key) override;
+	void HandleMouseInput(MouseEvent e) override;
 
 	inline void SetInMenu(bool inMenu) { m_InMenu = inMenu; }
 	inline void SetInTextBox(bool typing) { m_Typing = typing; }

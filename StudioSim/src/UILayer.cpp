@@ -29,17 +29,10 @@ void UILayer::OnAttach()
 void UILayer::InitWindows()
 {
 	m_viewportUI = new ViewportUI("Viewport");
-	m_windowList.push_back(m_viewportUI);
-
 	m_editorUI = new EditorUI("Settings", EngineManager::GetGameObject(0));
-	m_windowList.push_back(m_editorUI);
-
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_worldOutliner->SetEditorUI(m_editorUI);
-	m_windowList.push_back(m_worldOutliner);
-
 	m_contentBrowser = new ContentBrowserUI("Content Browser");
-	m_windowList.push_back(m_contentBrowser);
 	
 }
 

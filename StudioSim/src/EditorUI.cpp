@@ -292,7 +292,12 @@ void EditorUI::Render()
 	ImGui::End();
 }
 
-void EditorUI::HandleInput(KeyEvent key, MouseEvent e)
+void EditorUI::HandleInput(KeyEvent key)
+{
+
+}
+
+void EditorUI::HandleMouseInput(MouseEvent e)
 {
 	if (e.GetType() == MouseEvent::EventType::L_CLICK && Quack::GetUILayer()->GetViewport()->GetIsFocused())
 	{
