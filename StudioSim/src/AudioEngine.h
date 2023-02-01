@@ -134,7 +134,7 @@ class AudioEngine
 public:
 
 	void  Init();
-	void  Update(float deltaTime);
+	void  Update();
 	void  Shutdown();
 
 	struct SoundInfo
@@ -157,7 +157,7 @@ public:
 		const Vec3& pos, float volume);
 	int  RegisterSound(const SoundInfo& soundInfo, bool load = true);
 
-	void  UnregisterSound(int soundID); //https://www.youtube.com/watch?v=M8Bd7uHH4Yg&t=1652s //https://www.youtube.com/watch?v=jY3tPM1oNyU&t=267s
+	void  UnregisterSound(int soundID); 
 	void  SetVolume(int channelID, float volumeDB);
 	void  SetMasterChannelVolume(float volumeDB);
 	void  SetPitch(int channelID, float pitch);
@@ -173,7 +173,7 @@ public:
 
 	void  Pause(int channelID, bool pause);
 	void  FadeIn(int channelID, float fadeTime);
-	void  FadeOut(int channelID, float fadeTime);
+	void  FadeOut(const std::string& pathToSound, int channelID, float fadeTime);
 	
 	void  CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** channelGroup);
 	void  MasterChannelManager();

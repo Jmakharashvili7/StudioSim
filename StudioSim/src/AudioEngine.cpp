@@ -14,6 +14,7 @@ FmodInit::FmodInit()
 
 	m_SoundVolume = 1.0f;
 	m_SoundtrackVolume = 2.0f;
+	m_NextChannelID = 0;
 	m_Pitch = 1.0f;
 	m_MasterVolume = 1.0f;
 	m_MinDistance = 10.0f;
@@ -196,12 +197,14 @@ void AudioEngine::Init()
 	PlaySound("res/Sounds/a.mp3", Vec3{ 0.0f, 0.0f, 100.0f }, 1.0f);
 	SetChannelGroup(0, pFmod->pSoundtracks);
 	Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
+	AddDsp(0, 0, pFmod->pDspFader);
+	FadeOut("res/Sounds/a.mp3", 0, 50.0f);
 
 
 
 }
 
-void AudioEngine::Update(float deltaTime)
+void AudioEngine::Update()
 {
 	pFmod->Update();
 }
@@ -434,21 +437,27 @@ void  AudioEngine::FadeIn(int channelID, float fadeTime)
 
 }
 
-void AudioEngine::FadeOut(int channelID, float fadeTime)
+void AudioEngine::FadeOut(const std::string& pathToSound, int channelID, float fadeTime)
 {
 	auto found = pFmod->m_ChannelMap.find(channelID);
+	auto foundSound = pFmod->m_SoundMap.find(pathToSound);
 
 	//Avoiding double loading
 	if (found == pFmod->m_ChannelMap.end()) return;
 
+	if (foundSound == pFmod->m_SoundMap.end()) return;
+
 	int rate = 0;
 	unsigned long long dspClock;
+	unsigned int lenght;
+	int bits;
 	found->second->getSystemObject(&pFmod->pSystem);
 	pFmod->pSystem->getSoftwareFormat(&rate, 0, 0);
 	found->second->getDSPClock(0, &dspClock);
-	found->second->addFadePoint(dspClock, 1.0f);
-	found->second->addFadePoint(dspClock + (rate * fadeTime), 0.0f);
-	found->second->setDelay(0, dspClock + (rate * fadeTime), true);
+	found->second->addFadePoint(dspClock , 1.0f);
+	foundSound->second->getFormat(NULL, NULL, NULL, &bits);
+	foundSound->second->getLength(&lenght, FMOD_TIMEUNIT_MS);
+	found->second->addFadePoint((dspClock + lenght) /  bits  *  rate , 0.0f);
 
 
 }
