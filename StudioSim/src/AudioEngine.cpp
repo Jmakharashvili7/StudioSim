@@ -457,7 +457,7 @@ void AudioEngine::FadeOut(const std::string& pathToSound, int channelID, float f
 	found->second->addFadePoint(dspClock , 1.0f);
 	foundSound->second->getFormat(NULL, NULL, NULL, &bits);
 	foundSound->second->getLength(&lenght, FMOD_TIMEUNIT_MS);
-	found->second->addFadePoint((dspClock + lenght) /  bits  *  rate , 0.0f);
+	found->second->addFadePoint((dspClock + (lenght /  bits))  *  rate , 0.0f);
 
 
 }
