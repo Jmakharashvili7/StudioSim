@@ -25,6 +25,9 @@ public:
 
 	void GenerateTextureMenu();
 
+	vector<Vector3> ConvertClickToScreen(Vector2 viewStart, Vector2 port);
+	void SnapOnGrid(vector<Vector3> values);
+
 private:
 	GameObject* m_object;
 	ViewportUI* m_Viewport;

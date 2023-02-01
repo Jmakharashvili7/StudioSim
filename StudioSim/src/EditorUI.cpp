@@ -43,12 +43,12 @@ void EditorUI::Render()
 		ImGui::PopItemWidth();
 
 		ImGui::Separator();
-		
+
 		if (ImGui::TreeNode("Object Name"))
 		{
 			std::string stringName = m_object->GetName();
 			std::string textItem = "Current Name: " + stringName;
-			
+
 			ImGui::PushItemWidth(m_ItemWidth);
 			ImGui::Text(textItem.c_str());
 			ImGui::PopItemWidth();
@@ -450,6 +450,151 @@ void EditorUI::HandleMouseInput(MouseEvent e)
 	}
 }
 
+
+
+
+vector<Vector3> EditorUI::ConvertClickToScreen(Vector2 viewStart, Vector2 port)
+{
+	vector<Vector3> values;
+
+	//get the camera viewProjection matrix, and inverse it
+	glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
+	glm::mat4 invCamera = glm::inverse(auxCamera);
+
+	//new position of the duck based on the mouse's position normalised based on 
+	//the viewport
+	Vector2 newPosition;
+	newPosition.x = (viewStart.x / (port.x / 2) - 1);
+	newPosition.y = -(viewStart.y / (port.y / 2) - 1);
+
+	Vector3 ndc = Vector3(newPosition.x, newPosition.y, 0);
+
+	//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
+	ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
+	ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
+	ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
+
+	Vector3 integers;
+	//get the int part of the number
+	integers.x = (int)ndc.x;
+	integers.y = (int)ndc.y;
+	integers.z = (int)ndc.z;
+	values.push_back(integers);
+
+	//get the decimals of the number
+	Vector3 floats;
+	floats.x = ndc.x - integers.x;
+	floats.y = ndc.y - integers.y;
+	floats.z = ndc.z - integers.z;
+	values.push_back(floats);
+
+	return values;
+}
+
+void EditorUI::SnapOnGrid(vector<Vector3> values)
+{
+	if (values[1].x >= 0)
+	{
+		if (values[1].x >= 0.25 && values[1].x <= 0.75)
+			values[1].x = 0.5;
+		else if (values[1].x < 0.25)
+			values[1].x = 0.0f;
+		else if (values[1].x > 0.75)
+			values[1].x = 1.0f;
+	}
+	else
+	{
+		if (values[1].x <= -0.25 && values[1].x >= -0.75)
+			values[1].x = -0.5;
+		else if (values[1].x > -0.25)
+			values[1].x = 0.0f;
+		else if (values[1].x < -0.75)
+			values[1].x = -1.0f;
+	}
+	if (values[1].y >= 0)
+	{
+		if (values[1].y >= 0.25 && values[1].y <= 0.75)
+			values[1].y = 0.5;
+		else if (values[1].y < 0.25)
+			values[1].y = 0.0f;
+		else if (values[1].y > 0.75)
+			values[1].y = 1.0f;
+	}
+	else
+	{
+		if (values[1].y <= -0.25 && values[1].y >= -0.75)
+			values[1].y = -0.5;
+		else if (values[1].y > -0.25)
+			values[1].y = 0.0f;
+		else if (values[1].y < -0.75)
+			values[1].y = -1.0f;
+	}
+	if (values[1].z > 0)
+	{
+		if (values[1].z >= 0.25 && values[1].z <= 0.75)
+			values[1].z = -0.5;
+		else if (values[1].z < 0.25)
+			values[1].z = 0.0f;
+		else if (values[1].z > 0.75)
+			values[1].z = -1.0f;
+	}
+	else
+	{
+		if (values[1].z <= -0.25 && values[1].z >= -0.75)
+			values[1].z = 0.5;
+		else if (values[1].z > -0.25)
+			values[1].z = 0.0f;
+		else if (values[1].z < -0.75)
+			values[1].z = -1.0f;
+	}
+	Vector3 finalPosition;
+
+	//calculate the final position X
+	if (values[0].x > 0)
+	{
+		finalPosition.x = values[0].x + values[1].x;
+	}
+	else if (values[0].x == 0)
+	{
+		finalPosition.x = values[1].x;
+	}
+	else
+	{
+		finalPosition.x = values[0].x + values[1].x;
+	}
+
+	//calculate the final position Y
+	if (values[0].y > 0)
+	{
+		finalPosition.y = values[0].y + values[1].y;
+	}
+	else if (values[0].y == 0)
+	{
+		finalPosition.y = values[1].y;
+	}
+	else
+	{
+		finalPosition.y = values[0].y + values[1].y;
+	}
+	//calculate the final position Z
+	if (values[0].z > 0)
+	{
+		finalPosition.z = values[0].z + values[1].z;
+	}
+	else if (values[0].z == 0)
+	{
+		finalPosition.z = values[1].z;
+	}
+	else
+	{
+		finalPosition.z = values[0].z + values[1].z;
+	}
+
+	m_object->SetPosition(finalPosition);
+
+}
+
+
 std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
 {
 	switch (collisionType)
@@ -464,6 +609,7 @@ std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
 		return "";
 	}
 }
+
 
 void EditorUI::GenerateCollisionMenu()
 {
