@@ -294,22 +294,25 @@ void EditorUI::Render()
 
 void EditorUI::HandleInput(KeyEvent key, MouseEvent e)
 {
-	if (e.GetType() == MouseEvent::EventType::L_CLICK && Quack::GetUILayer()->GetViewport()->GetIsFocused())
+	if(!MouseClass::IsEventBufferEmpty())
 	{
-		Vector2 port;
-		//Size of viewport
-		port.x = m_Viewport->GetSize().x;
-		port.y = m_Viewport->GetSize().y;
-
-		//Current mouse position within viewport scale
-		Vector2 viewStart;
-		viewStart.x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
-		viewStart.y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
-
-		//Only counting the click within viewport boundary
-		if ((viewStart.x >= 0 && viewStart.y >= 0) && (viewStart.x <= port.x && viewStart.y <= port.y))
+		if (e.GetType() == MouseEvent::EventType::L_CLICK && Quack::GetUILayer()->GetViewport()->GetIsFocused())
 		{
-			SnapOnGrid(ConvertClickToScreen(viewStart, port));
+			Vector2 port;
+			//Size of viewport
+			port.x = m_Viewport->GetSize().x;
+			port.y = m_Viewport->GetSize().y;
+
+			//Current mouse position within viewport scale
+			Vector2 viewStart;
+			viewStart.x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
+			viewStart.y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
+
+			//Only counting the click within viewport boundary
+			if ((viewStart.x >= 0 && viewStart.y >= 0) && (viewStart.x <= port.x && viewStart.y <= port.y))
+			{
+				SnapOnGrid(ConvertClickToScreen(viewStart, port));
+			}
 		}
 	}
 }
