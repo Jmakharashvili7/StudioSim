@@ -28,6 +28,7 @@ void EditorUI::Render()
 {
 	ImGui::Begin("Settings", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 
+	ImGui::ShowDemoWindow();
 
 	if (m_object)
 	{
@@ -293,165 +294,152 @@ void EditorUI::Render()
 
 void EditorUI::HandleInput(KeyEvent key)
 {
-	
-	if (!MouseClass::IsEventBufferEmpty())
+	if (Quack::GetMouseEvent()->GetType() == MouseEvent::EventType::L_CLICK && Quack::GetUILayer()->GetViewport()->GetIsFocused())
 	{
+		//Size of viewport
+		double port_x = m_Viewport->GetSize().x;
+		double port_y = m_Viewport->GetSize().y;
+		//Size of whole window
 
-		MouseEvent e = MouseClass::ReadEvent();
+		#pragma region Converts Click To Screen Position
+		////Current mouse position within viewport scale
+					float viewStart_x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
+					float viewStart_y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
+					//Only counting the click within viewport boundary
+					if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
+					{
+						//get the camera viewProjection matrix, and inverse it
+						glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
+						glm::mat4 invCamera = glm::inverse(auxCamera);
 
-		//Only move object in viewport if not in a menu
-		if(!m_InMenu)
-		{
+						//new position of the duck based on the mouse's position normalised based on 
+						//the viewport
+						float newposition_x = (viewStart_x / (port_x / 2) - 1),
+							newposition_y = -(viewStart_y / (port_y / 2) - 1);
 
-			if (e.GetType() == MouseEvent::EventType::L_CLICK)
-			{
+						Vector3 ndc = Vector3(newposition_x, newposition_y, 0);
 
-				//Size of viewport
-				double port_x = m_Viewport->GetSize().x;
-				double port_y = m_Viewport->GetSize().y;
-				//Size of whole window
+						//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
+						ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
+						ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
+						ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
 
-				#pragma region Converts Click To Screen Position
-				////Current mouse position within viewport scale
-							float viewStart_x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
-							float viewStart_y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
-							//Only counting the click within viewport boundary
-							if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
-							{
-								//get the camera viewProjection matrix, and inverse it
-								glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
-								glm::mat4 invCamera = glm::inverse(auxCamera);
+						//get the int part of the number
+						int integer_x = (int)ndc.x;
+						int integer_y = (int)ndc.y;
+						int integer_z = (int)ndc.z;
 
-								//new position of the duck based on the mouse's position normalised based on 
-								//the viewport
-								float newposition_x = (viewStart_x / (port_x / 2) - 1),
-									newposition_y = -(viewStart_y / (port_y / 2) - 1);
+						//get the decimals of the number
+						float floater_x = ndc.x - integer_x;
+						float floater_y = ndc.y - integer_y;
+						float floater_z = ndc.z - integer_z;
+	#pragma endregion
 
-								Vector3 ndc = Vector3(newposition_x, newposition_y, 0);
+		#pragma region Adjusting Position to Snap On Grid
 
-								//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
-								ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
-								ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
-								ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
+						//check if the number is closer to 0 or to 0.5
+						if (floater_x >= 0)
+						{
+							if (floater_x >= 0.25 && floater_x <= 0.75)
+								floater_x = 0.5;
+							else if (floater_x < 0.25)
+								floater_x = 0.0f;
+							else if (floater_x > 0.75)
+								floater_x = 1.0f;
+						}
+						else
+						{
+							if (floater_x <= -0.25 && floater_x >= -0.75)
+								floater_x = -0.5;
+							else if (floater_x > -0.25)
+								floater_x = 0.0f;
+							else if (floater_x < -0.75)
+								floater_x = -1.0f;
+						}
+						if (floater_y >= 0)
+						{
+							if (floater_y >= 0.25 && floater_y <= 0.75)
+								floater_y = 0.5;
+							else if (floater_y < 0.25)
+								floater_y = 0.0f;
+							else if (floater_y > 0.75)
+								floater_y = 1.0f;
+						}
+						else
+						{
+							if (floater_y <= -0.25 && floater_y >= -0.75)
+								floater_y = -0.5;
+							else if (floater_y > -0.25)
+								floater_y = 0.0f;
+							else if (floater_y < -0.75)
+								floater_y = -1.0f;
+						}
+						if (integer_z > 0)
+						{
+							if (floater_z >= 0.25 && floater_z <= 0.75)
+								floater_z = -0.5;
+							else if (floater_z < 0.25)
+								floater_z = 0.0f;
+							else if (floater_z > 0.75)
+								floater_z = -1.0f;
+						}
+						else
+						{
+							if (floater_z <= -0.25 && floater_z >= -0.75)
+								floater_z = 0.5;
+							else if (floater_z > -0.25)
+								floater_z = 0.0f;
+							else if (floater_z < -0.75)
+								floater_z = -1.0f;
+						}
+						float finalPosition_x, finalPosition_y, finalPosition_z;
+						//calculate the final position X
+						if (integer_x > 0)
+						{
+							finalPosition_x = integer_x + floater_x;
+						}
+						else if (integer_x == 0)
+						{
+							finalPosition_x = floater_x;
+						}
+						else
+						{
+							finalPosition_x = integer_x + floater_x;
+						}
 
-								//get the int part of the number
-								int integer_x = (int)ndc.x;
-								int integer_y = (int)ndc.y;
-								int integer_z = (int)ndc.z;
+						//calculate the final position Y
+						if (integer_y > 0)
+						{
+							finalPosition_y = integer_y + floater_y;
+						}
+						else if (integer_y == 0)
+						{
+							finalPosition_y = floater_y;
+						}
+						else
+						{
+							finalPosition_y = integer_y + floater_y;
+						}
+						//calculate the final position Z
+						if (integer_z > 0)
+						{
+							finalPosition_z = integer_z + floater_z;
+						}
+						else if (integer_z == 0)
+						{
+							finalPosition_z = floater_z;
+						}
+						else
+						{
+							finalPosition_z = integer_z + floater_z;
+						}
 
-								//get the decimals of the number
-								float floater_x = ndc.x - integer_x;
-								float floater_y = ndc.y - integer_y;
-								float floater_z = ndc.z - integer_z;
-			#pragma endregion
+						Vector3 finalPosition = Vector3(finalPosition_x, finalPosition_y, finalPosition_z);
 
-				#pragma region Adjusting Position to Snap On Grid
+						m_object->SetPosition(finalPosition);
 
-								//check if the number is closer to 0 or to 0.5
-								if (floater_x >= 0)
-								{
-									if (floater_x >= 0.25 && floater_x <= 0.75)
-										floater_x = 0.5;
-									else if (floater_x < 0.25)
-										floater_x = 0.0f;
-									else if (floater_x > 0.75)
-										floater_x = 1.0f;
-								}
-								else
-								{
-									if (floater_x <= -0.25 && floater_x >= -0.75)
-										floater_x = -0.5;
-									else if (floater_x > -0.25)
-										floater_x = 0.0f;
-									else if (floater_x < -0.75)
-										floater_x = -1.0f;
-								}
-								if (floater_y >= 0)
-								{
-									if (floater_y >= 0.25 && floater_y <= 0.75)
-										floater_y = 0.5;
-									else if (floater_y < 0.25)
-										floater_y = 0.0f;
-									else if (floater_y > 0.75)
-										floater_y = 1.0f;
-								}
-								else
-								{
-									if (floater_y <= -0.25 && floater_y >= -0.75)
-										floater_y = -0.5;
-									else if (floater_y > -0.25)
-										floater_y = 0.0f;
-									else if (floater_y < -0.75)
-										floater_y = -1.0f;
-								}
-								if (integer_z > 0)
-								{
-									if (floater_z >= 0.25 && floater_z <= 0.75)
-										floater_z = -0.5;
-									else if (floater_z < 0.25)
-										floater_z = 0.0f;
-									else if (floater_z > 0.75)
-										floater_z = -1.0f;
-								}
-								else
-								{
-									if (floater_z <= -0.25 && floater_z >= -0.75)
-										floater_z = 0.5;
-									else if (floater_z > -0.25)
-										floater_z = 0.0f;
-									else if (floater_z < -0.75)
-										floater_z = -1.0f;
-								}
-								float finalPosition_x, finalPosition_y, finalPosition_z;
-								//calculate the final position X
-								if (integer_x > 0)
-								{
-									finalPosition_x = integer_x + floater_x;
-								}
-								else if (integer_x == 0)
-								{
-									finalPosition_x = floater_x;
-								}
-								else
-								{
-									finalPosition_x = integer_x + floater_x;
-								}
-
-								//calculate the final position Y
-								if (integer_y > 0)
-								{
-									finalPosition_y = integer_y + floater_y;
-								}
-								else if (integer_y == 0)
-								{
-									finalPosition_y = floater_y;
-								}
-								else
-								{
-									finalPosition_y = integer_y + floater_y;
-								}
-								//calculate the final position Z
-								if (integer_z > 0)
-								{
-									finalPosition_z = integer_z + floater_z;
-								}
-								else if (integer_z == 0)
-								{
-									finalPosition_z = floater_z;
-								}
-								else
-								{
-									finalPosition_z = integer_z + floater_z;
-								}
-
-								Vector3 finalPosition = Vector3(finalPosition_x, finalPosition_y, finalPosition_z);
-
-								m_object->SetPosition(finalPosition);
-
-							}
-			#pragma endregion
-			}
-		}
+					}
+	#pragma endregion
 	}
 }
 
@@ -474,23 +462,23 @@ void EditorUI::GenerateCollisionMenu()
 {
 	ImGui::MenuItem("Collision Types", NULL, false, false);
 
-	m_isFocused = true;
-	SetInMenu(true);
+	//m_isFocused = true;
+	//SetInMenu(true);
 
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))
 	{
 		m_object->SetCollisionType(CollisionType::BOX);
-		SetInMenu(false);
+		//SetInMenu(false);
 	}
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::SPHERE).c_str()))
 	{
 		m_object->SetCollisionType(CollisionType::SPHERE);
-		SetInMenu(false);
+		//SetInMenu(false);
 	}
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::NONE).c_str()))
 	{
 		m_object->SetCollisionType(CollisionType::NONE);
-		SetInMenu(false);
+		//SetInMenu(false);
 	}
 }
 

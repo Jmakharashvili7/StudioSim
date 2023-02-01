@@ -4,8 +4,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": true,
         "centerPosition": {
-            "x": -1.139402985572815,
-            "y": -0.6893121004104614,
+            "x": 3.5,
+            "y": -0.7041648626327515,
             "z": 0.0
         },
         "collisionType": 0,
@@ -38,8 +38,8 @@
         "name": "Mr Ducky",
         "objectType": 2,
         "position": {
-            "x": -1.139402985572815,
-            "y": -0.6893121004104614,
+            "x": 3.5,
+            "y": -0.7041648626327515,
             "z": 0.0
         },
         "radius": 1.0,

@@ -21,8 +21,10 @@ WorldOutlinerUI::~WorldOutlinerUI()
 
 void WorldOutlinerUI::Render()
 {
-
+	
 	ImGui::Begin("World Outliner");
+
+	m_isHovered = ImGui::IsWindowHovered();
 
 	//Creates initial node
 	//Opening this dropdown will show the game objects within the current scene
@@ -82,11 +84,22 @@ void WorldOutlinerUI::Render()
 		ImGui::TreePop();
 	}
 
-
 	ImGui::End();
 }
 
 void WorldOutlinerUI::HandleInput(KeyEvent key)
 {
+	
+	if (!MouseClass::IsEventBufferEmpty())
+	{
+		
+		MouseEvent e = MouseClass::ReadEvent();
+
+		if (e.GetType() == MouseEvent::EventType::R_CLICK)
+		{
+			QE_LOG("RIGHT CLICK");
+		}
+	}
+	
 }
 

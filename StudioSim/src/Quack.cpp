@@ -43,6 +43,9 @@ Scene Quack::m_mainScene;
 OrthographicCamera* Quack::m_mainCamera;
 
 std::map<std::string, Texture*> Quack::m_textures;
+
+MouseEvent* Quack::m_mouseEvent;
+
 #pragma endregion DeclareMembers
 
 int Quack::InitEngine()
@@ -153,6 +156,13 @@ Texture* Quack::GetTexture(std::string textureName)
 
 void Quack::HandleInput()
 {
+
+	if (!MouseClass::IsEventBufferEmpty())
+	{
+		m_mouseEvent = &MouseClass::ReadEvent();
+
+		for()
+	}
 	
 }
 
