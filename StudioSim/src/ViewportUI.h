@@ -9,7 +9,7 @@ public:
 	~ViewportUI();
 
 	void Render() override;
-	void HandleInput(KeyEvent key) override;
+	void HandleInput(KeyEvent key, MouseEvent e) override;
 
 	inline float GetStartX() { return startViewportX; }
 	inline float GetStartY() { return startViewportY; }

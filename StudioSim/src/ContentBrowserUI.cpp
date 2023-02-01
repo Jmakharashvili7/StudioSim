@@ -160,6 +160,8 @@ void ContentBrowserUI::Render()
 
 }
 
-void ContentBrowserUI::HandleInput(KeyEvent key)
+void ContentBrowserUI::HandleInput(KeyEvent key, MouseEvent e)
 {
 }
+
+

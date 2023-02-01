@@ -31,6 +31,7 @@ public:
 	inline ViewportUI* GetViewport() { return m_viewportUI; }
 	inline EditorUI* GetEditorUI() { return m_editorUI; }
 	inline WorldOutlinerUI* GetWorldOutliner() { return m_worldOutliner; }
+	inline ContentBrowserUI* GetContentBrowser() { return m_contentBrowser; }
 
 	inline std::vector<UIWindow*> GetAllWindows() { return m_windowList; }
 
