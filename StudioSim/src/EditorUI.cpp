@@ -42,12 +42,12 @@ void EditorUI::Render()
 		ImGui::PopItemWidth();
 
 		ImGui::Separator();
-		
+
 		if (ImGui::TreeNode("Object Name"))
 		{
 			std::string stringName = m_object->GetName();
 			std::string textItem = "Current Name: " + stringName;
-			
+
 			ImGui::PushItemWidth(m_ItemWidth);
 			ImGui::Text(textItem.c_str());
 			ImGui::PopItemWidth();
@@ -293,269 +293,81 @@ void EditorUI::Render()
 
 void EditorUI::HandleInput(KeyEvent key)
 {
-	
+
 	if (!MouseClass::IsEventBufferEmpty())
 	{
 
 		MouseEvent e = MouseClass::ReadEvent();
 
 		//Only move object in viewport if not in a menu
-		if(!m_InMenu)
+		if (!m_InMenu)
 		{
 
 			if (e.GetType() == MouseEvent::EventType::L_CLICK)
 			{
-
+				Vector2 port;
 				//Size of viewport
-				double port_x = m_Viewport->GetSize().x;
-				double port_y = m_Viewport->GetSize().y;
-				//Size of whole window
+				port.x = m_Viewport->GetSize().x;
+				port.y = m_Viewport->GetSize().y;
 
-				#pragma region Converts Click To Screen Position
-				////Current mouse position within viewport scale
-							float viewStart_x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
-							float viewStart_y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
-							//Only counting the click within viewport boundary
-							if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
-							{
-								//get the camera viewProjection matrix, and inverse it
-								glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
-								glm::mat4 invCamera = glm::inverse(auxCamera);
+				//Current mouse position within viewport scale
+				Vector2 viewStart;
+				viewStart.x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
+				viewStart.y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
 
-								//new position of the duck based on the mouse's position normalised based on 
-								//the viewport
-								float newposition_x = (viewStart_x / (port_x / 2) - 1),
-									newposition_y = -(viewStart_y / (port_y / 2) - 1);
+				//Only counting the click within viewport boundary
+				if ((viewStart.x >= 0 && viewStart.y >= 0) && (viewStart.x <= port.x && viewStart.y <= port.y))
+				{
+					SnapOnGrid(ConvertClickToScreen(viewStart, port));
+				}
 
-								Vector3 ndc = Vector3(newposition_x, newposition_y, 0);
-
-								//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
-								ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
-								ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
-								ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
-
-								//get the int part of the number
-								int integer_x = (int)ndc.x;
-								int integer_y = (int)ndc.y;
-								int integer_z = (int)ndc.z;
-
-								//get the decimals of the number
-								float floater_x = ndc.x - integer_x;
-								float floater_y = ndc.y - integer_y;
-								float floater_z = ndc.z - integer_z;
-			#pragma endregion
-
-				#pragma region Adjusting Position to Snap On Grid
-
-								//check if the number is closer to 0 or to 0.5
-								if (floater_x >= 0)
-								{
-									if (floater_x >= 0.25 && floater_x <= 0.75)
-										floater_x = 0.5;
-									else if (floater_x < 0.25)
-										floater_x = 0.0f;
-									else if (floater_x > 0.75)
-										floater_x = 1.0f;
-								}
-								else
-								{
-									if (floater_x <= -0.25 && floater_x >= -0.75)
-										floater_x = -0.5;
-									else if (floater_x > -0.25)
-										floater_x = 0.0f;
-									else if (floater_x < -0.75)
-										floater_x = -1.0f;
-								}
-								if (floater_y >= 0)
-								{
-									if (floater_y >= 0.25 && floater_y <= 0.75)
-										floater_y = 0.5;
-									else if (floater_y < 0.25)
-										floater_y = 0.0f;
-									else if (floater_y > 0.75)
-										floater_y = 1.0f;
-								}
-								else
-								{
-									if (floater_y <= -0.25 && floater_y >= -0.75)
-										floater_y = -0.5;
-									else if (floater_y > -0.25)
-										floater_y = 0.0f;
-									else if (floater_y < -0.75)
-										floater_y = -1.0f;
-								}
-								if (integer_z > 0)
-								{
-									if (floater_z >= 0.25 && floater_z <= 0.75)
-										floater_z = -0.5;
-									else if (floater_z < 0.25)
-										floater_z = 0.0f;
-									else if (floater_z > 0.75)
-										floater_z = -1.0f;
-								}
-								else
-								{
-									if (floater_z <= -0.25 && floater_z >= -0.75)
-										floater_z = 0.5;
-									else if (floater_z > -0.25)
-										floater_z = 0.0f;
-									else if (floater_z < -0.75)
-										floater_z = -1.0f;
-								}
-								float finalPosition_x, finalPosition_y, finalPosition_z;
-								//calculate the final position X
-								if (integer_x > 0)
-								{
-									finalPosition_x = integer_x + floater_x;
-								}
-								else if (integer_x == 0)
-								{
-									finalPosition_x = floater_x;
-								}
-								else
-								{
-									finalPosition_x = integer_x + floater_x;
-								}
-
-								//calculate the final position Y
-								if (integer_y > 0)
-								{
-									finalPosition_y = integer_y + floater_y;
-								}
-								else if (integer_y == 0)
-								{
-									finalPosition_y = floater_y;
-								}
-								else
-								{
-									finalPosition_y = integer_y + floater_y;
-								}
-								//calculate the final position Z
-								if (integer_z > 0)
-								{
-									finalPosition_z = integer_z + floater_z;
-								}
-								else if (integer_z == 0)
-								{
-									finalPosition_z = floater_z;
-								}
-								else
-								{
-									finalPosition_z = integer_z + floater_z;
-								}
-
-								Vector3 finalPosition = Vector3(finalPosition_x, finalPosition_y, finalPosition_z);
-
-								m_object->SetPosition(finalPosition);
-
-							}
-			#pragma endregion
 			}
 		}
 	}
 }
 
-std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
-{
-	switch (collisionType)
-	{
-	case CollisionType::BOX:
-		return "BOX";
-	case CollisionType::SPHERE:
-		return "SPHERE";
-	case CollisionType::NONE:
-		return "NONE";
-	default:
-		return "";
-	}
-}
 
-void EditorUI::GenerateCollisionMenu()
-{
-	ImGui::MenuItem("Collision Types", NULL, false, false);
 
-	m_isFocused = true;
-	SetInMenu(true);
 
-	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))
-	{
-		m_object->SetCollisionType(CollisionType::BOX);
-		SetInMenu(false);
-	}
-	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::SPHERE).c_str()))
-	{
-		m_object->SetCollisionType(CollisionType::SPHERE);
-		SetInMenu(false);
-	}
-	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::NONE).c_str()))
-	{
-		m_object->SetCollisionType(CollisionType::NONE);
-		SetInMenu(false);
-	}
-}
-
-void EditorUI::GenerateTextureMenu()
-{
-	ImGui::MenuItem("Available Textures", NULL, false, false);
-
-	for (fs::directory_entry texture : fs::directory_iterator("res/textures"))
-	{
-		if (ImGui::MenuItem(texture.path().filename().string().c_str()))
-		{
-			m_object->SetNewTexture(texture.path().filename().string().c_str());
-		}
-	}
-}
-
-vector<Vector3> EditorUI::ConvertClickToScreen()
+vector<Vector3> EditorUI::ConvertClickToScreen(Vector2 viewStart, Vector2 port)
 {
 	vector<Vector3> values;
 
-	//Size of viewport
-	double port_x = m_Viewport->GetSize().x;
-	double port_y = m_Viewport->GetSize().y;
+	//get the camera viewProjection matrix, and inverse it
+	glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
+	glm::mat4 invCamera = glm::inverse(auxCamera);
 
-	//Current mouse position within viewport scale
-	float viewStart_x = ImGui::GetMousePos().x - m_Viewport->GetStartX();
-	float viewStart_y = ImGui::GetMousePos().y - m_Viewport->GetStartY();
+	//new position of the duck based on the mouse's position normalised based on 
+	//the viewport
+	Vector2 newPosition;
+	newPosition.x = (viewStart.x / (port.x / 2) - 1);
+	newPosition.y = -(viewStart.y / (port.y / 2) - 1);
 
-	//Only counting the click within viewport boundary
-	if ((viewStart_x >= 0 && viewStart_y >= 0) && (viewStart_x <= port_x && viewStart_y <= port_y))
-	{
-		//get the camera viewProjection matrix, and inverse it
-		glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
-		glm::mat4 invCamera = glm::inverse(auxCamera);
+	Vector3 ndc = Vector3(newPosition.x, newPosition.y, 0);
 
-		//new position of the duck based on the mouse's position normalised based on 
-		//the viewport
-		float newposition_x = (viewStart_x / (port_x / 2) - 1),
-			newposition_y = -(viewStart_y / (port_y / 2) - 1);
+	//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
+	ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
+	ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
+	ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
 
-		Vector3 ndc = Vector3(newposition_x, newposition_y, 0);
+	Vector3 integers;
+	//get the int part of the number
+	integers.x = (int)ndc.x;
+	integers.y = (int)ndc.y;
+	integers.z = (int)ndc.z;
+	values.push_back(integers);
 
-		//Does the inverse of the camera, turning the screen's 2D coord into a world space 3D coord
-		ndc.x = invCamera[0].x * ndc.x + invCamera[1].x * ndc.y + invCamera[2].x * ndc.z;
-		ndc.y = invCamera[0].y * ndc.x + invCamera[1].y * ndc.y + invCamera[2].y * ndc.z;
-		ndc.z = invCamera[0].z * ndc.x + invCamera[1].z * ndc.y + invCamera[2].z * ndc.z;
+	//get the decimals of the number
+	Vector3 floats;
+	floats.x = ndc.x - integers.x;
+	floats.y = ndc.y - integers.y;
+	floats.z = ndc.z - integers.z;
+	values.push_back(floats);
 
-		//get the int part of the number
-		int integer_x = (int)ndc.x;
-		int integer_y = (int)ndc.y;
-		int integer_z = (int)ndc.z;
-		Vector3 ints = Vector3(integer_x, integer_y, integer_z);
-		values.push_back(ints);
-		//get the decimals of the number
-		float floater_x = ndc.x - integer_x;
-		float floater_y = ndc.y - integer_y;
-		float floater_z = ndc.z - integer_z;
-		Vector3 floats = Vector3(floater_x, floater_y, floater_z);
-		values.push_back(floats);
-
-		return values;
-	}
+	return values;
 }
 
-Vector3 EditorUI::SnapOnGrid(vector<Vector3> values)
+void EditorUI::SnapOnGrid(vector<Vector3> values)
 {
 	if (values[1].x >= 0)
 	{
@@ -611,51 +423,103 @@ Vector3 EditorUI::SnapOnGrid(vector<Vector3> values)
 		else if (values[1].z < -0.75)
 			values[1].z = -1.0f;
 	}
-	float finalPosition_x, finalPosition_y, finalPosition_z;
+	Vector3 finalPosition;
+
 	//calculate the final position X
 	if (values[0].x > 0)
 	{
-		finalPosition_x = values[0].x + values[1].x;
+		finalPosition.x = values[0].x + values[1].x;
 	}
 	else if (values[0].x == 0)
 	{
-		finalPosition_x = values[1].x;
+		finalPosition.x = values[1].x;
 	}
 	else
 	{
-		finalPosition_x = values[0].x + values[1].x;
+		finalPosition.x = values[0].x + values[1].x;
 	}
 
 	//calculate the final position Y
 	if (values[0].y > 0)
 	{
-		finalPosition_y = values[0].y + values[1].y;
+		finalPosition.y = values[0].y + values[1].y;
 	}
 	else if (values[0].y == 0)
 	{
-		finalPosition_y = values[1].y;
+		finalPosition.y = values[1].y;
 	}
 	else
 	{
-		finalPosition_y = values[0].y + values[1].y;
+		finalPosition.y = values[0].y + values[1].y;
 	}
 	//calculate the final position Z
 	if (values[0].z > 0)
 	{
-		finalPosition_z = values[0].z + values[1].z;
+		finalPosition.z = values[0].z + values[1].z;
 	}
 	else if (values[0].z == 0)
 	{
-		finalPosition_z = values[1].z;
+		finalPosition.z = values[1].z;
 	}
 	else
 	{
-		finalPosition_z = values[0].z + values[1].z;
+		finalPosition.z = values[0].z + values[1].z;
 	}
-
-	Vector3 finalPosition = Vector3(finalPosition_x, finalPosition_y, finalPosition_z);
 
 	m_object->SetPosition(finalPosition);
 
-	return Vector3();
+}
+
+
+std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
+{
+	switch (collisionType)
+	{
+	case CollisionType::BOX:
+		return "BOX";
+	case CollisionType::SPHERE:
+		return "SPHERE";
+	case CollisionType::NONE:
+		return "NONE";
+	default:
+		return "";
+	}
+}
+
+
+void EditorUI::GenerateCollisionMenu()
+{
+	ImGui::MenuItem("Collision Types", NULL, false, false);
+
+	m_isFocused = true;
+	SetInMenu(true);
+
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::BOX);
+		SetInMenu(false);
+	}
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::SPHERE).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::SPHERE);
+		SetInMenu(false);
+	}
+	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::NONE).c_str()))
+	{
+		m_object->SetCollisionType(CollisionType::NONE);
+		SetInMenu(false);
+	}
+}
+
+void EditorUI::GenerateTextureMenu()
+{
+	ImGui::MenuItem("Available Textures", NULL, false, false);
+
+	for (fs::directory_entry texture : fs::directory_iterator("res/textures"))
+	{
+		if (ImGui::MenuItem(texture.path().filename().string().c_str()))
+		{
+			m_object->SetNewTexture(texture.path().filename().string().c_str());
+		}
+	}
 }
