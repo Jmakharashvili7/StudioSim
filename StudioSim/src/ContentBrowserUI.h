@@ -11,7 +11,8 @@ public:
 	~ContentBrowserUI();
 
 	void Render() override;
-	void HandleInput(KeyEvent key) override;
+	void HandleKeyboardInput(KeyEvent key) override;
+	void HandleMouseInput(MouseEvent e) override;
 
 private:
 	std::string m_ContentRoot = "res";

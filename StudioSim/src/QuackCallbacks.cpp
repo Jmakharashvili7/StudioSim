@@ -79,8 +79,8 @@ namespace QuackEngine {
 
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		QE_LOG(xoffset);
-		QE_LOG(yoffset);
+		//QE_LOG(xoffset);
+		//QE_LOG(yoffset);
 
 		if (yoffset > 0)
 			MouseClass::OnScrollUp(xoffset, yoffset);

@@ -161,6 +161,7 @@ void Quack::HandleInput()
 		MouseEvent e = MouseClass::ReadEvent();
 
 		m_uiMain->GetEditorUI()->HandleMouseInput(e);
+		m_uiMain->GetViewport()->HandleMouseInput(e);
 		m_uiMain->GetWorldOutliner()->HandleMouseInput(e);
 	}
 	

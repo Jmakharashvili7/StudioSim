@@ -292,7 +292,7 @@ void EditorUI::Render()
 	ImGui::End();
 }
 
-void EditorUI::HandleInput(KeyEvent key)
+void EditorUI::HandleKeyboardInput(KeyEvent key)
 {
 
 }

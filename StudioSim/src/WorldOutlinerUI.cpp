@@ -89,27 +89,13 @@ void WorldOutlinerUI::Render()
 	ImGui::End();
 }
 
-void WorldOutlinerUI::HandleInput(KeyEvent key)
+void WorldOutlinerUI::HandleKeyboardInput(KeyEvent key)
 {
-	
-	if (!MouseClass::IsEventBufferEmpty())
-	{
-		
-		MouseEvent e = MouseClass::ReadEvent();
 
-		if (e.GetType() == MouseEvent::EventType::R_CLICK)
-		{
-			QE_LOG("RIGHT CLICK");
-		}
-	}
-	
 }
 
 void WorldOutlinerUI::HandleMouseInput(MouseEvent e)
 {
-	if (e.GetType() == MouseEvent::EventType::R_CLICK && m_isHovered)
-	{
-		QE_LOG("RIGHT CLICKED");
-	}
+
 }
 

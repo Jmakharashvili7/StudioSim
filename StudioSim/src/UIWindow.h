@@ -12,7 +12,7 @@ public:
 	~UIWindow() {}
 
 	virtual void Render() {}
-	virtual void HandleInput(KeyEvent key) {}
+	virtual void HandleKeyboardInput(KeyEvent key) {}
 	virtual void HandleMouseInput(MouseEvent e) {}
 
 	inline void SetPosition(glm::vec2 pos) { m_position = pos; }
