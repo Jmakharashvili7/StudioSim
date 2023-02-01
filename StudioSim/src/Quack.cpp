@@ -131,16 +131,6 @@ void Quack::GenerateTextureList()
 /// <returns></returns>
 Texture* Quack::GetTexture(std::string textureName)
 {
-	//auto index = m_textures.find(textureName);
-
-	//if (index == m_textures.end())
-	//{
-	//	QE_LOG(textureName + " Not found");
-	//	return nullptr;
-	//}
-	//else // texture found
-	//	return index->second;
-
 	Texture* objectTexture = m_textures[textureName];
 
 	if (!objectTexture)
@@ -154,6 +144,15 @@ Texture* Quack::GetTexture(std::string textureName)
 
 void Quack::HandleInput()
 {
+	/*if (!KeyboardClass::KeyBufferIsEmpty())
+	{
+		KeyEvent key = KeyboardClass::ReadKey();
+
+		if (key.GetKeyCode() != 0)
+		{
+			m_uiMain->GetViewport()->HandleKeyboardInput(key);
+		}
+	}*/
 
 	//Mouse Input
 	if (!MouseClass::IsEventBufferEmpty())
