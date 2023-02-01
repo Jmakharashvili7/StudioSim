@@ -34,4 +34,3 @@ protected:
 	bool m_isFocused : 1;
 	bool m_isHovered : 1;
 };
-

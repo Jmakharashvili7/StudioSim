@@ -32,7 +32,7 @@ void EditorUI::Render()
 
 	if (m_object)
 	{
-		//sets the push width of ImGui items 
+		//sets the push width of ImGui items
 		//to stop text being cut off when making window smaller
 		//although if the window gets too small it will cut off anyway
 		m_ItemWidth = ImGui::GetContentRegionAvail().x * 0.5f;
@@ -140,7 +140,7 @@ void EditorUI::Render()
 			ImGui::Separator();
 		}
 
-		//Will only display the follwing information if object 
+		//Will only display the follwing information if object
 		//is an actor or subclass of an actor
 		if (Actor* actorObject = dynamic_cast<Actor*>(m_object))
 		{
@@ -222,7 +222,7 @@ void EditorUI::Render()
 			}
 		}
 
-		//Will only display the follwing information if object 
+		//Will only display the follwing information if object
 		//is a character or subclass of a character
 		if (Character* characterObject = dynamic_cast<Character*>(m_object))
 		{
@@ -327,7 +327,7 @@ vector<Vector3> EditorUI::ConvertClickToScreen(Vector2 viewStart, Vector2 port)
 	glm::mat4 auxCamera = Quack::GetOrthoCam()->GetViewProjectionMatrix();
 	glm::mat4 invCamera = glm::inverse(auxCamera);
 
-	//new position of the duck based on the mouse's position normalised based on 
+	//new position of the duck based on the mouse's position normalised based on
 	//the viewport
 	Vector2 newPosition;
 	newPosition.x = (viewStart.x / (port.x / 2) - 1);

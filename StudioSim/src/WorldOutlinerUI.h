@@ -11,7 +11,7 @@ public:
 	WorldOutlinerUI(std::string name);
 	~WorldOutlinerUI();
 
-	
+
 	void Render() override;
 	void HandleKeyboardInput(KeyEvent key) override;
 	void HandleMouseInput(MouseEvent e) override;

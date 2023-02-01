@@ -167,5 +167,3 @@ void ContentBrowserUI::HandleKeyboardInput(KeyEvent key)
 void ContentBrowserUI::HandleMouseInput(MouseEvent e)
 {
 }
-
-

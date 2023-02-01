@@ -23,7 +23,7 @@ WorldOutlinerUI::~WorldOutlinerUI()
 
 void WorldOutlinerUI::Render()
 {
-	
+
 	ImGui::Begin("World Outliner");
 
 	m_isHovered = ImGui::IsWindowHovered();
@@ -32,7 +32,7 @@ void WorldOutlinerUI::Render()
 	//Opening this dropdown will show the game objects within the current scene
 	//This dropdown is set to be open by default as it is the root node
 	bool dropdown = ImGui::TreeNodeEx("Current Scene Game Objects", ImGuiTreeNodeFlags_DefaultOpen);
-	
+
 	if (dropdown)
 	{
 		//Loops through game objects in the current scene
@@ -47,7 +47,7 @@ void WorldOutlinerUI::Render()
 			{
 				m_EditorUI->SetDisplayedGameObject(object);
 			}
-			
+
 
 			if (dropdownOpen)
 			{
@@ -80,7 +80,7 @@ void WorldOutlinerUI::Render()
 					ImGui::TreePop();
 				}
 			}
-			
+
 		}
 
 		ImGui::TreePop();
@@ -97,5 +97,23 @@ void WorldOutlinerUI::HandleKeyboardInput(KeyEvent key)
 void WorldOutlinerUI::HandleMouseInput(MouseEvent e)
 {
 
+	if (!MouseClass::IsEventBufferEmpty())
+	{
+
+		MouseEvent e = MouseClass::ReadEvent();
+
+		if (e.GetType() == MouseEvent::EventType::R_CLICK)
+		{
+			QE_LOG("RIGHT CLICK");
+		}
+	}
+
 }
 
+void WorldOutlinerUI::HandleMouseInput(MouseEvent e)
+{
+	if (e.GetType() == MouseEvent::EventType::R_CLICK && m_isHovered)
+	{
+		QE_LOG("RIGHT CLICKED");
+	}
+}

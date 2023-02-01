@@ -19,4 +19,3 @@ private:
 	float startViewportX;
 	float startViewportY;
 };
-

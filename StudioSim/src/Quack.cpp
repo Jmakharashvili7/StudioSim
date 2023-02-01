@@ -75,7 +75,7 @@ int Quack::InitEngine()
 	glfwSetMouseButtonCallback(m_window->GetGLFWWindow(), QuackEngine::mouse_button_callback);
 	glfwSetCursorPosCallback(m_window->GetGLFWWindow(), QuackEngine::cursor_position_callback);
 	glfwSetScrollCallback(m_window->GetGLFWWindow(), scroll_callback);
-	
+
 
 	// According to laws beyond my comprehensions frame buffers must be made exactly here
 	FrameBufferSpecificiation fbs;
@@ -85,7 +85,7 @@ int Quack::InitEngine()
 
 	///
 	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
-	/// 
+	///
 	m_uiMain->OnAttach();
 
 	m_primitiveShader = new Shader("res/shaders/Primitive.shader");
@@ -136,7 +136,7 @@ Texture* Quack::GetTexture(std::string textureName)
 	//if (index == m_textures.end())
 	//{
 	//	QE_LOG(textureName + " Not found");
-	//	return nullptr;	
+	//	return nullptr;
 	//}
 	//else // texture found
 	//	return index->second;
@@ -164,7 +164,7 @@ void Quack::HandleInput()
 		m_uiMain->GetViewport()->HandleMouseInput(e);
 		m_uiMain->GetWorldOutliner()->HandleMouseInput(e);
 	}
-	
+
 }
 
 void Quack::Update()
@@ -184,7 +184,7 @@ void Quack::RenderUpdate()
 {
 	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	// Draw layers 
+	// Draw layers
 	for (Layer* layer : m_layerStack->GetLayers())
 	{
 		if (layer) layer->OnUpdate();
@@ -202,5 +202,3 @@ void Quack::ShutDown()
 	glfwDestroyWindow(m_window->GetGLFWWindow());
 	glfwTerminate();
 };
-
-
