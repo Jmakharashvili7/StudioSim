@@ -310,7 +310,6 @@
     <ClInclude Include="src\Singleton.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">
