@@ -53,4 +53,7 @@ public:
         CoinCollected.Invoke();
     }
 
+    Event PlayerDead;
+    void OnPlayerDead() { PlayerDead.Invoke(); }
+
 };
