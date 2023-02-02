@@ -210,8 +210,11 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Close"))
 			{
+				Actor* newActor = new Actor(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName,newObjectInfo.physicsData, newObjectInfo.animationData);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
+				Quack::GetCurrentScene()->AddGameObject(newActor);
+
 			}
 			ImGui::EndPopup();
 		}
@@ -229,8 +232,10 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Create"))
 			{
+				Character* newCharacter = new Character(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
+				Quack::GetCurrentScene()->AddGameObject(newCharacter);
 			}
 
 			if (ImGui::Button("Close"))
@@ -250,11 +255,15 @@ void UILayer::SetUpObjectCreator()
 		if (ImGui::BeginPopupModal("Create Enemy"))
 		{
 			BasePopupContent();
+			ActorContent();
+			CharacterContent();
 
 			if (ImGui::Button("Create"))
 			{
+				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
+				Quack::GetCurrentScene()->AddGameObject(newEnemy);
 			}
 
 			if (ImGui::Button("Close"))
