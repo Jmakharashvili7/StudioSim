@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
 
 UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 1.0f, 1.0f)
 {
-	
+	newObjectInfo = CreatClassInfo();
 }
 
 UILayer::~UILayer()
@@ -150,25 +150,33 @@ void UILayer::EnableDocking()
 
 void UILayer::SetUpObjectCreator()
 {
+	std::string objectName = " ";
+	std::string textureName = " ";
+	TransformData objectTransformData = TransformData();
+	CollisionData objectCollisionData = CollisionData();
+
 	if (ImGui::BeginMenu("Create New Object"))
 	{
+
 		if (ImGui::Button("Game Object"))
 		{
 			ImGui::OpenPopup("Create Game Object");
 		}
 
-		if (ImGui::BeginPopupModal("Create Game Object", NULL, ImGuiWindowFlags_MenuBar))
+		if (ImGui::BeginPopupModal("Create Game Object", NULL))
 		{
-			CreatePopupContent(Classes::GAMEOBJECT);
+			BasePopupContent();
 
 			if (ImGui::Button("Create"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 
 			if (ImGui::Button("Close"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 			ImGui::EndPopup();
 		}
@@ -178,18 +186,21 @@ void UILayer::SetUpObjectCreator()
 			ImGui::OpenPopup("Create Actor");
 		}
 
-		if (ImGui::BeginPopupModal("Create Actor", NULL, ImGuiWindowFlags_MenuBar))
+		if (ImGui::BeginPopupModal("Create Actor"))
 		{
-			CreatePopupContent(Classes::ACTOR);
+			BasePopupContent();
+			ActorContent();
 
 			if (ImGui::Button("Create"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 
 			if (ImGui::Button("Close"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 			ImGui::EndPopup();
 		}
@@ -199,18 +210,22 @@ void UILayer::SetUpObjectCreator()
 			ImGui::OpenPopup("Create Character");
 		}
 
-		if (ImGui::BeginPopupModal("Create Character", NULL, ImGuiWindowFlags_MenuBar))
+		if (ImGui::BeginPopupModal("Create Character"))
 		{
-			CreatePopupContent(Classes::CHARACTER);
+			BasePopupContent();
+			ActorContent();
+			CharacterContent();
 
 			if (ImGui::Button("Create"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 
 			if (ImGui::Button("Close"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 
 			ImGui::EndPopup();
@@ -221,18 +236,20 @@ void UILayer::SetUpObjectCreator()
 			ImGui::OpenPopup("Create Enemy");
 		}
 
-		if (ImGui::BeginPopupModal("Create Enemy", NULL, ImGuiWindowFlags_MenuBar))
+		if (ImGui::BeginPopupModal("Create Enemy"))
 		{
-			CreatePopupContent(Classes::ENEMY);
+			BasePopupContent();
 
 			if (ImGui::Button("Create"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 
 			if (ImGui::Button("Close"))
 			{
 				ImGui::CloseCurrentPopup();
+				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
 			ImGui::EndPopup();
 		}
@@ -244,207 +261,116 @@ void UILayer::SetUpObjectCreator()
 
 void UILayer::CreatePopupContent(Classes createClass)
 {
-	std::string name = " ";
 
-	if (ImGui::TreeNode("Object Name"))
+}
+
+void UILayer::BasePopupContent()
+{
+	Quack::GetOrthoCam()->SetCanZoom(false);
+	newObjectInfo.objectName = ObjectName();
+	newObjectInfo.transformData = ObjectTransformData();
+	newObjectInfo.collisionData = ObjectCollisionData(newObjectInfo.transformData);
+	ObjectTextureName();
+}
+
+void UILayer::ActorContent()
+{
+	bool hasPhysicsComponent = newObjectInfo.addPhysicsComponent;
+
+	ImGui::Checkbox("Add Physics Component", &hasPhysicsComponent);
+
+	if (newObjectInfo.addPhysicsComponent != hasPhysicsComponent)
 	{
-		static char charName[128] = "_____";
-		strcpy_s(charName, name.c_str());
-		ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
-		name = charName;
-
-		ImGui::TreePop();
-		ImGui::Separator();
+		newObjectInfo.addPhysicsComponent = hasPhysicsComponent;
 	}
 
-	TransformData transformData;
-
-	if (ImGui::TreeNode("Transform"))
+	if (newObjectInfo.addPhysicsComponent)
 	{
-		
-		Vector3 pos = Vector3(0.0f);
-		ImGui::DragFloat3("Position", &pos.x);
-		transformData.position = pos;
+		float currentMass = newObjectInfo.physicsData.mass;
 
-		
-		Vector3 rot = Vector3(0.0f);
-		ImGui::DragFloat("Rotation", &rot.z);
-		transformData.rotation = rot;
-
-		
-		Vector3 scale = Vector3(1.0f);
-		ImGui::DragFloat3("Scale", &scale.x);
-		transformData.scale = scale;
-
-		ImGui::TreePop();
-		ImGui::Separator();
-	}
-
-	CollisionData collisionData;
-
-	collisionData.centerPosition = transformData.position;
-	
-	if (ImGui::TreeNode("Collision"))
-	{
-		if (ImGui::BeginMenu("Collision Types"))
+		ImGui::SliderFloat("Mass", &currentMass, 1.0f, 30.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+		if (newObjectInfo.physicsData.mass != currentMass)
 		{
-
-			if (ImGui::MenuItem(CollisionName(CollisionType::BOX).c_str()))
-			{
-				collisionData.collisionType = CollisionType::BOX;
-
-			}
-			if (ImGui::MenuItem(CollisionName(CollisionType::SPHERE).c_str()))
-			{
-				collisionData.collisionType = CollisionType::SPHERE;
-				collisionData.radius = transformData.scale.x / 2;
-
-			}
-			if (ImGui::MenuItem(CollisionName(CollisionType::NONE).c_str()))
-			{
-				collisionData.collisionType = CollisionType::NONE;
-
-			}
-
-			ImGui::EndMenu();
+			newObjectInfo.physicsData.mass = currentMass;
 		}
-		ImGui::TreePop();
-		ImGui::Separator();
-	}
 
-	std::string textureName;
+		bool simulatingGravity = newObjectInfo.physicsData.bsimulateGravity;
 
-	if(ImGui::TreeNode("Available Textures", NULL, false, false));
-	{
-		for (fs::directory_entry texture : fs::directory_iterator("res/textures"))
+		ImGui::Checkbox("Simulate Gravity", &simulatingGravity);
+
+		if (newObjectInfo.physicsData.bsimulateGravity != simulatingGravity)
 		{
-			if (ImGui::MenuItem(texture.path().filename().string().c_str()))
+			newObjectInfo.physicsData.bsimulateGravity = simulatingGravity;
+		}
+
+		float currentGravMultiplier = newObjectInfo.physicsData.gravityMultiplier;
+
+		if (newObjectInfo.physicsData.bsimulateGravity)
+		{
+			ImGui::SliderFloat("Gravity Mulitplier", &currentGravMultiplier, 1.0f, 30.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+			if (newObjectInfo.physicsData.gravityMultiplier != currentGravMultiplier)
 			{
-				textureName = texture.path().filename().string();
-				ImGui::EndMenu();
+				newObjectInfo.physicsData.gravityMultiplier = currentGravMultiplier;
 			}
 		}
-		ImGui::TreePop();
 	}
 
 	ImGui::Separator();
 
-	if (createClass == Classes::ACTOR || createClass == Classes::CHARACTER)
+	bool hasAnimator = newObjectInfo.addAnimator;
+
+	ImGui::Checkbox("Add Animator", &hasAnimator);
+
+	if (newObjectInfo.addAnimator != hasAnimator)
 	{
-		bool addPhysicsComponent = false;
-		bool hasPhysicsCompoonent = false;
-
-		ImGui::Checkbox("Add Physics Component", &addPhysicsComponent);
-		if (hasPhysicsCompoonent != addPhysicsComponent)
-		{
-			hasPhysicsCompoonent = addPhysicsComponent;
-		}
-
-		if (hasPhysicsCompoonent)
-		{
-			PhysicsData physicsData;
-			float mass;
-
-			bool simulateGravity;
-			float gravMultiplier;
-
-			ImGui::SliderFloat("Mass", &mass, 1.0f, 30.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-			if (physicsData.mass != mass)
-			{
-				physicsData.mass = mass;
-			}
-
-			ImGui::Checkbox("Simulate Gravity", &simulateGravity);
-			if (physicsData.bsimulateGravity != simulateGravity)
-			{
-				physicsData.bsimulateGravity = simulateGravity;
-			}
-
-			if (physicsData.bsimulateGravity)
-			{
-				ImGui::SliderFloat("Mass", &gravMultiplier, 1.0f, 30.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-				if (physicsData.gravityMultiplier != gravMultiplier)
-				{
-					physicsData.gravityMultiplier = gravMultiplier;
-				}
-			}			
-
-			ImGui::Separator();
-		}
-
-		bool addAnimator = false;
-		bool hasAnimator = false;
-
-		ImGui::Checkbox("Add Animator", &addAnimator);
-		if (hasAnimator != addAnimator)
-		{
-			hasAnimator = addAnimator;
-		}
-
-		if (hasAnimator)
-		{
-			AnimationData animationData;
-
-			int numOfColumns = 0;
-			int numOfRows = 0;
-			bool animated = false;
-
-			ImGui::InputInt("Number of Rows", &numOfRows);
-			if (animationData.rows != numOfRows)
-			{
-				animationData.rows = numOfRows;
-			}
-
-			ImGui::InputInt("Number of Columns", &numOfColumns);
-			if (animationData.columns != numOfColumns)
-			{
-				animationData.columns = numOfColumns;
-			}
-
-			ImGui::Checkbox("Animated", &animated);
-			if (animationData.banimated != animated)
-			{
-				animationData.banimated = animated;
-			}
-
-			ImGui::Separator();
-		}
-
+		newObjectInfo.addAnimator = hasAnimator;
 	}
 
-	if (createClass == Classes::CHARACTER || createClass == Classes::ENEMY)
+	if (newObjectInfo.addAnimator)
 	{
-		MovementData movementData;
+		bool animated = newObjectInfo.animationData.banimated;
 
-		float jumpHeight = 1.0f;
-		float movementSpeed = 1.0f;
+		ImGui::InputInt("Number of Rows", &newObjectInfo.animationData.rows);
 
-		ImGui::SliderFloat("Jump Height", &jumpHeight, 0.0f, 1000.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-		if (movementData.jumpHeight != jumpHeight)
+		ImGui::InputInt("Number of Columns", &newObjectInfo.animationData.columns);
+
+		ImGui::Checkbox("Animated", &animated);
+		if (newObjectInfo.animationData.banimated != animated)
 		{
-			movementData.jumpHeight = jumpHeight;
+			newObjectInfo.animationData.banimated = animated;
 		}
-
-		ImGui::SliderFloat("Movement Speed", &movementSpeed, 1.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-		if (movementData.movementSpeed != movementSpeed)
-		{
-			movementData.movementSpeed = movementSpeed;
-		}
-
-		ImGui::Separator();
-
-		EntityData entityData;
-
-		float maxHealth = 10.0f;
-
-		ImGui::SliderFloat("Max Health", &maxHealth, 1.0f, 500.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-		if (entityData.maxHealth != maxHealth)
-		{
-			entityData.maxHealth = maxHealth;
-		}
-
-		ImGui::Separator();
 	}
+
+}
+
+void UILayer::CharacterContent()
+{
+	float currentJumpHeight = newObjectInfo.movementData.jumpHeight;
+	float currentMovementSpeed = newObjectInfo.movementData.movementSpeed;
+
+	ImGui::SliderFloat("Jump Height", &currentJumpHeight, 0.0f, 1000.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+	if (newObjectInfo.movementData.jumpHeight != currentJumpHeight)
+	{
+		newObjectInfo.movementData.jumpHeight = currentJumpHeight;
+	}
+
+	ImGui::SliderFloat("Movement Speed", &currentMovementSpeed, 1.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+	if (newObjectInfo.movementData.movementSpeed != currentMovementSpeed)
+	{
+		newObjectInfo.movementData.movementSpeed = currentMovementSpeed;
+	}
+
+	ImGui::Separator();
+
+	float currentMaxHealth = newObjectInfo.entityData.maxHealth;
+
+	ImGui::SliderFloat("Max Health", &currentMaxHealth, 1.0f, 500.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+	if (newObjectInfo.entityData.maxHealth != currentMaxHealth)
+	{
+		newObjectInfo.entityData.maxHealth = currentMaxHealth;
+	}
+
+
 }
 
 std::string UILayer::CollisionName(CollisionType type)
@@ -460,4 +386,132 @@ std::string UILayer::CollisionName(CollisionType type)
 	default:
 		return "";
 	}
+}
+
+std::string UILayer::ObjectName()
+{
+	std::string name = " ";
+
+	if (ImGui::TreeNode("Object Name"))
+	{
+		static char charName[128] = "_____";
+		strcpy_s(charName, name.c_str());
+		ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
+		name = charName;
+
+		ImGui::TreePop();
+	}
+
+	ImGui::Separator();
+
+	return name;
+}
+
+TransformData UILayer::ObjectTransformData()
+{
+	TransformData transformData;
+
+	if (ImGui::TreeNode("Transform"))
+	{
+
+		Vector3 pos = Vector3(0.0f);
+		ImGui::DragFloat3("Position", &pos.x);
+		transformData.position = pos;
+
+
+		Vector3 rot = Vector3(0.0f);
+		ImGui::DragFloat("Rotation", &rot.z);
+		transformData.rotation = rot;
+
+
+		Vector3 scale = Vector3(1.0f);
+		ImGui::DragFloat3("Scale", &scale.x);
+		transformData.scale = scale;
+
+		ImGui::TreePop();
+	}
+
+	ImGui::Separator();
+
+	return transformData;
+}
+
+CollisionData UILayer::ObjectCollisionData(TransformData data)
+{
+	CollisionData collisionData;
+
+	collisionData.centerPosition = data.position;
+
+	bool box = newObjectInfo.boxCollision;
+	bool sphere = newObjectInfo.sphereCollision;
+	bool noCollision = newObjectInfo.noCollision;
+
+	if (ImGui::TreeNode("Collision"))
+	{
+		ImGui::Checkbox("Box Collision", &box);
+		if (newObjectInfo.boxCollision != box)
+		{
+			newObjectInfo.boxCollision = box;
+
+			if (newObjectInfo.boxCollision)
+			{
+				newObjectInfo.collisionData.collisionType = CollisionType::BOX;
+				newObjectInfo.sphereCollision = false;
+				newObjectInfo.noCollision = false;
+			}
+		}
+
+		ImGui::Checkbox("Sphere Collision", &sphere);
+		if (newObjectInfo.sphereCollision != sphere)
+		{
+			newObjectInfo.sphereCollision = sphere;
+
+			if (newObjectInfo.sphereCollision)
+			{
+				newObjectInfo.collisionData.collisionType = CollisionType::SPHERE;
+				newObjectInfo.boxCollision = false;
+				newObjectInfo.noCollision = false;
+			}
+		}
+
+		ImGui::Checkbox("No Collision", &noCollision);
+		if (newObjectInfo.noCollision != noCollision)
+		{
+			newObjectInfo.noCollision = noCollision;
+
+			if (newObjectInfo.noCollision)
+			{
+				newObjectInfo.collisionData.collisionType = CollisionType::NONE;
+				newObjectInfo.boxCollision = false;
+				newObjectInfo.sphereCollision = false;
+			}
+		}
+
+		ImGui::TreePop();
+	}
+
+	ImGui::Separator();
+
+	return collisionData;
+}
+
+void UILayer::ObjectTextureName()
+{
+
+	ImGui::Image((void*)Quack::GetTexture(newObjectInfo.textureName)->GetRendererID(), ImVec2(128, 128), ImVec2(0, 1), ImVec2(1, 0));
+
+	if (ImGui::TreeNode("Available Textures"))
+	{
+		for (fs::directory_entry texture : fs::directory_iterator("res/textures"))
+		{
+			if (ImGui::Button(texture.path().filename().string().c_str()))
+			{
+				newObjectInfo.textureName = texture.path().filename().string();
+			}
+		}
+
+		ImGui::TreePop();
+	}
+
+	ImGui::Separator();
 }

@@ -6,6 +6,47 @@
 #include "WorldOutlinerUI.h"
 #include "ContentBrowserUI.h"
 
+struct CreatClassInfo
+{
+	std::string objectName;
+	std::string textureName;
+
+	TransformData transformData;
+	CollisionData collisionData;
+	bool boxCollision;
+	bool sphereCollision;
+	bool noCollision;
+
+	bool addPhysicsComponent : 1;
+	PhysicsData physicsData;
+
+	bool addAnimator : 1;
+	AnimationData animationData;
+
+	MovementData movementData;
+	EntityData entityData;
+
+
+	CreatClassInfo()
+	{
+		objectName = " ";
+		textureName = "blue.png";
+
+		transformData = TransformData();
+		collisionData = CollisionData();
+
+		addPhysicsComponent = false;
+		physicsData = PhysicsData();
+
+		addAnimator = false;
+		animationData = AnimationData();
+
+		movementData = MovementData();
+		entityData = EntityData();
+
+	}	
+};
+
 enum class Classes
 {
 	GAMEOBJECT,
@@ -46,7 +87,15 @@ private:
 	void EnableDocking();
 	void SetUpObjectCreator();
 	void CreatePopupContent(Classes createClass);
+	void BasePopupContent();
+	void ActorContent();
+	void CharacterContent();
 	std::string CollisionName(CollisionType type);
+
+	std::string ObjectName();
+	TransformData ObjectTransformData();
+	CollisionData ObjectCollisionData(TransformData data);
+	void ObjectTextureName();
 
 private:
 	float m_time;
@@ -57,5 +106,7 @@ private:
 	ContentBrowserUI* m_contentBrowser;
 
 	std::vector<UIWindow*> m_windowList;
+	
+	CreatClassInfo newObjectInfo;
 };
 

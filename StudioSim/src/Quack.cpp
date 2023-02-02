@@ -16,6 +16,7 @@
 #include "UIRenderer.h"
 #include "UILayer.h"
 #include "Scene.h"
+#include "InputComponent.h"
 #include "WorldOutlinerUI.h"
 
 namespace fs = std::filesystem;
@@ -144,15 +145,30 @@ Texture* Quack::GetTexture(std::string textureName)
 
 void Quack::HandleInput()
 {
-	/*if (!KeyboardClass::KeyBufferIsEmpty())
+	if (!KeyboardClass::KeyBufferIsEmpty())
 	{
 		KeyEvent key = KeyboardClass::ReadKey();
 
 		if (key.GetKeyCode() != 0)
 		{
-			m_uiMain->GetViewport()->HandleKeyboardInput(key);
+			//m_uiMain->GetViewport()->HandleKeyboardInput(key);
+
+			/*for (GameObject* object : m_mainScene.GetGameObjects())
+			{
+				Actor* actor = dynamic_cast<Actor*>(object);
+
+				if (!actor)
+				{
+					break;
+				}
+
+				if (InputComponent* input = actor->GetComponent<InputComponent>())
+				{
+					
+				}
+			}*/
 		}
-	}*/
+	}
 
 	//Mouse Input
 	if (!MouseClass::IsEventBufferEmpty())
