@@ -58,6 +58,7 @@
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\AIComponent.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\Pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
@@ -114,6 +115,7 @@
     <ClInclude Include="src\AIComponent.h" />
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\ObjectIncludes.h" />
+    <ClInclude Include="src\Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />

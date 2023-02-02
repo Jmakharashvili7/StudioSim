@@ -45,6 +45,8 @@ public:
 	static inline Shader* GetPrimitiveShader() { return m_primitiveShader; }
 	static inline Shader* GetTextureShader() { return m_textureShader; }
 
+	static inline Grid<PathNode> GetGrid() { return m_mainScene.GetGrid(); }
+
 	static Scene* GetCurrentScene() { return &m_mainScene; }
 private:
 	Quack();

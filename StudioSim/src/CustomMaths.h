@@ -30,6 +30,7 @@ namespace CustomMaths
 			return false;
 		}
 	}
+
 	//inline glm::vec3 Vector3ToVec3(Vector3 _oldVec) {
 	//	return glm::vec3(_oldVec.x, _oldVec.y, _oldVec.z);
 	//}
@@ -276,6 +277,15 @@ public:
 		, y(inY)
 		, z(inZ)
 	{}
+
+	static float Distance(Vector3 vec1, Vector3 vec2)
+	{
+		float distance = sqrt( pow((vec1.x - vec2.x), 2) +
+								  pow((vec1.y - vec2.y), 2) +
+			                      pow((vec1.z - vec2.z), 2));
+
+		return distance;
+	}
 
 	// Cast to a const float pointer
 	const float* GetAsFloatPtr() const

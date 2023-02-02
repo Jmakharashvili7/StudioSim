@@ -33,7 +33,8 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	m_gameTimer.Start();
 
 	// Update engine manager
-	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
+	m_grid = Grid<PathNode>(60, 60, 0.5, { -10,-10, 0 });
+	m_pathfinder = new Pathfinding(m_grid);
 	EngineManager::SetGameObjects(m_gameObjects);
 }
 
