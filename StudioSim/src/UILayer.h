@@ -5,9 +5,12 @@
 #include "EditorUI.h"
 #include "WorldOutlinerUI.h"
 #include "ContentBrowserUI.h"
+#include "JsonLoader.h"
 
 struct CreatClassInfo
 {
+	VertexData* vertexData;
+
 	std::string objectName;
 	std::string textureName;
 
@@ -44,7 +47,14 @@ struct CreatClassInfo
 		movementData = MovementData();
 		entityData = EntityData();
 
+		vertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
 	}	
+
+	~CreatClassInfo()
+	{
+		delete vertexData;
+		vertexData = nullptr;
+	}
 };
 
 enum class Classes
@@ -92,9 +102,9 @@ private:
 	void CharacterContent();
 	std::string CollisionName(CollisionType type);
 
-	std::string ObjectName();
-	TransformData ObjectTransformData();
-	CollisionData ObjectCollisionData(TransformData data);
+	void ObjectName();
+	void ObjectTransformData();
+	void ObjectCollisionData(TransformData data);
 	void ObjectTextureName();
 
 private:

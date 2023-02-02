@@ -169,6 +169,8 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Create"))
 			{
+				GameObject* newGameObject = new GameObject(newObjectInfo.objectName, newObjectInfo.vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName);
+				Quack::GetCurrentScene()->GetGameObjects().push_back(newGameObject);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
 			}
@@ -267,9 +269,9 @@ void UILayer::CreatePopupContent(Classes createClass)
 void UILayer::BasePopupContent()
 {
 	Quack::GetOrthoCam()->SetCanZoom(false);
-	newObjectInfo.objectName = ObjectName();
-	newObjectInfo.transformData = ObjectTransformData();
-	newObjectInfo.collisionData = ObjectCollisionData(newObjectInfo.transformData);
+	ObjectName();
+	ObjectTransformData();
+	ObjectCollisionData(newObjectInfo.transformData);
 	ObjectTextureName();
 }
 
@@ -388,9 +390,9 @@ std::string UILayer::CollisionName(CollisionType type)
 	}
 }
 
-std::string UILayer::ObjectName()
+void UILayer::ObjectName()
 {
-	std::string name = " ";
+	std::string name = newObjectInfo.objectName;
 
 	if (ImGui::TreeNode("Object Name"))
 	{
@@ -399,44 +401,56 @@ std::string UILayer::ObjectName()
 		ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
 		name = charName;
 
+		newObjectInfo.objectName = name;
+
 		ImGui::TreePop();
 	}
 
+
 	ImGui::Separator();
 
-	return name;
 }
 
-TransformData UILayer::ObjectTransformData()
+void UILayer::ObjectTransformData()
 {
-	TransformData transformData;
+	TransformData transformData = newObjectInfo.transformData;
 
 	if (ImGui::TreeNode("Transform"))
 	{
 
-		Vector3 pos = Vector3(0.0f);
+		Vector3 pos = newObjectInfo.transformData.position;
 		ImGui::DragFloat3("Position", &pos.x);
-		transformData.position = pos;
+
+		if (newObjectInfo.transformData.position.x != pos.x || newObjectInfo.transformData.position.y != pos.y || newObjectInfo.transformData.position.z != pos.z)
+		{
+			newObjectInfo.transformData.position = pos;
+		}
 
 
-		Vector3 rot = Vector3(0.0f);
+		Vector3 rot = newObjectInfo.transformData.rotation;
 		ImGui::DragFloat("Rotation", &rot.z);
-		transformData.rotation = rot;
+
+		if (newObjectInfo.transformData.rotation.x != rot.x || newObjectInfo.transformData.rotation.y != rot.y || newObjectInfo.transformData.rotation.z != rot.z)
+		{
+			newObjectInfo.transformData.rotation = rot;
+		}
 
 
-		Vector3 scale = Vector3(1.0f);
+		Vector3 scale = newObjectInfo.transformData.scale;
 		ImGui::DragFloat3("Scale", &scale.x);
-		transformData.scale = scale;
+
+		if (newObjectInfo.transformData.rotation.x != scale.x || newObjectInfo.transformData.rotation.y != scale.y || newObjectInfo.transformData.rotation.z != scale.z)
+		{
+			newObjectInfo.transformData.rotation = scale;
+		}
 
 		ImGui::TreePop();
 	}
 
 	ImGui::Separator();
-
-	return transformData;
 }
 
-CollisionData UILayer::ObjectCollisionData(TransformData data)
+void UILayer::ObjectCollisionData(TransformData data)
 {
 	CollisionData collisionData;
 
@@ -491,8 +505,6 @@ CollisionData UILayer::ObjectCollisionData(TransformData data)
 	}
 
 	ImGui::Separator();
-
-	return collisionData;
 }
 
 void UILayer::ObjectTextureName()
