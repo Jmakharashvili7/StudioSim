@@ -72,11 +72,11 @@ public:
 	/// <summary>
 	/// Holds the physics that are involved in the contact. The second of these can be NULL, for contacts with the walls, floors etc.
 	/// </summary>
-	PhysicsComponent* m_PhysicsComponent[2];
+	PhysicsComponent* m_PhysicsObject[2];
 
 	float restitution;
 
-	Vector3 contactNormal;
+	Vector3 m_contactNormal;
 
 protected:
 	void Resolve(float deltaTime);
@@ -84,5 +84,7 @@ protected:
 	float CalculateSeparateVelocity() const;
 
 private:
+
+	void ResolveVelocity(float deltaTime);
 
 };

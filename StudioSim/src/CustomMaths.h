@@ -426,6 +426,12 @@ public:
 	{
 		return Vector3(a + f * (b - a));
 	}
+	
+	// Lerp from A to B by f
+	static float Distance(const Vector2& a, const Vector2& b)
+	{
+		return sqrt(((a.y - b.y) * (a.y - b.y) + ((a.x * b.x) * (a.x * b.x))));
+	}
 
 	// Reflect V about (normalized) N
 	static Vector3 Reflect(const Vector3& v, const Vector3& n)
