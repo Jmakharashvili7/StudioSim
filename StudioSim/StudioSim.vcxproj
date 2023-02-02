@@ -247,7 +247,6 @@
     <Media Include="res\Sounds\dog.wav.wav" />
     <Media Include="res\Sounds\ohh.mp3" />
     <Media Include="res\Sounds\quackeve.wav" />
-    <Media Include="res\Sounds\QuackHentai.wav" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="StudioSim.rc" />

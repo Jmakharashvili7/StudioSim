@@ -190,15 +190,15 @@ void AudioEngine::Init()
 	//SetPitch(0,1.0f);
 	//MuteChannel(0,false);
 
-	CreateSound("res/Sounds/a.mp3", true, false, false);
+	CreateSound("res/Sounds/baba.wav", true, false, false);
 	CreateChannelGroup("Soundtrack", &pFmod->pSoundtracks);
 	MasterChannelManager();
-	Set3DMinMax("res/Sounds/a.mp3", 5.0f * DISTANCE, 5000.0f * DISTANCE);
-	PlaySound("res/Sounds/a.mp3", Vec3{ 0.0f, 0.0f, 100.0f }, 1.0f);
+	Set3DMinMax("res/Sounds/baba.wav", 5.0f * DISTANCE, 5000.0f * DISTANCE);
+	PlaySound("res/Sounds/baba.wav", Vec3{ 0.0f, 0.0f, 100.0f }, 1.0f);
 	SetChannelGroup(0, pFmod->pSoundtracks);
 	Set3DAttributes(0, &pFmod->m_Pos, &pFmod->m_Vel);
-	AddDsp(0, 0, pFmod->pDspFader);
-	FadeOut("res/Sounds/a.mp3", 0, 50.0f);
+	FadeOut("res/Sounds/baba.wav", 0, 10.0f);
+	//AddDsp(0, 0, pFmod->pDspFader);
 
 
 
@@ -439,6 +439,8 @@ void  AudioEngine::FadeIn(int channelID, float fadeTime)
 
 void AudioEngine::FadeOut(const std::string& pathToSound, int channelID, float fadeTime)
 {
+	FMOD_RESULT result;
+
 	auto found = pFmod->m_ChannelMap.find(channelID);
 	auto foundSound = pFmod->m_SoundMap.find(pathToSound);
 
@@ -448,16 +450,59 @@ void AudioEngine::FadeOut(const std::string& pathToSound, int channelID, float f
 	if (foundSound == pFmod->m_SoundMap.end()) return;
 
 	int rate = 0;
-	unsigned long long dspClock;
+
+	//Getting the sound lenght
 	unsigned int lenght;
-	int bits;
-	found->second->getSystemObject(&pFmod->pSystem);
-	pFmod->pSystem->getSoftwareFormat(&rate, 0, 0);
-	found->second->getDSPClock(0, &dspClock);
-	found->second->addFadePoint(dspClock , 1.0f);
-	foundSound->second->getFormat(NULL, NULL, NULL, &bits);
 	foundSound->second->getLength(&lenght, FMOD_TIMEUNIT_MS);
-	found->second->addFadePoint((dspClock + (lenght /  bits))  *  rate , 0.0f);
+
+	//Getting the sound format
+	FMOD_SOUND_TYPE soundType;
+	FMOD_SOUND_FORMAT soundFormat;
+	int soundChannels;
+	int soundBits;
+	foundSound->second->getFormat(&soundType, &soundFormat, &soundChannels, &soundBits);
+
+	//Getting the reference clock
+	unsigned long long dspClock;
+	unsigned long long parentClock;
+	found->second->getDSPClock(0, &parentClock);
+
+	//Getting software format
+	FMOD_SPEAKERMODE speakerMode;
+	int  sampleRate;
+	int  rawSpeakers;
+	pFmod->pSystem->getSoftwareFormat(&sampleRate, &speakerMode, &rawSpeakers);
+
+	/*if (sampleRate > 0 && soundBits > 0)
+	{
+		found->second->addFadePoint(parentClock, 0.0f);
+		found->second->addFadePoint(parentClock + (long)(sampleRate * fadeTime), 1.0f);
+	}*/
+
+	auto convertedLength = static_cast<int>(round( lenght * sampleRate / soundBits ));
+	
+	auto endOfAudio = (lenght * sampleRate) / soundBits;
+
+	int test = 100000;
+	int sec = sampleRate * (lenght / 1000);
+	found->second->addFadePoint(parentClock + (sec) - (sampleRate*fadeTime), 1.0f);
+	result = found->second->addFadePoint(parentClock + (sec) , 0.0f);
+
+
+	/*result = found->second->addFadePoint(parentClock + convertedLength - (sampleRate * 5), 1.0f);
+	if (result != FMOD_OK)
+	{
+		printf("Error addingFadePoint :  (%d) %s ", result, FMOD_ErrorString(result));
+		exit(-1);
+	}*/
+
+	//result = found->second->addFadePoint(parentClock + convertedLength, 0.0f);
+	//if (result != FMOD_OK)
+	//{
+	//	printf("Error addingFadePoint at the end :  (%d) %s ", result, FMOD_ErrorString(result));
+	//	exit(-1);
+	//}
+	//result = found->second->setDelay(0, lenght - (sampleRate * fadeTime), true);
 
 
 }
