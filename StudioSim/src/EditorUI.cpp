@@ -481,23 +481,20 @@ void EditorUI::GenerateCollisionMenu()
 {
 	ImGui::MenuItem("Collision Types", NULL, false, false);
 
-	//m_isFocused = true;
-	//SetInMenu(true);
-
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::BOX).c_str()))
 	{
 		m_object->SetCollisionType(CollisionType::BOX);
-		//SetInMenu(false);
+
 	}
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::SPHERE).c_str()))
 	{
 		m_object->SetCollisionType(CollisionType::SPHERE);
-		//SetInMenu(false);
+
 	}
 	if (ImGui::MenuItem(GetCollisionTypeName(CollisionType::NONE).c_str()))
 	{
 		m_object->SetCollisionType(CollisionType::NONE);
-		//SetInMenu(false);
+
 	}
 }
 

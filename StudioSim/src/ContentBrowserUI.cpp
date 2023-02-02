@@ -28,6 +28,7 @@ ContentBrowserUI::~ContentBrowserUI()
 
 void ContentBrowserUI::Render()
 {
+	ImGui::ShowDemoWindow();
 	std::vector<fs::directory_entry> entries;
 
 	//name of folder to use for content browser

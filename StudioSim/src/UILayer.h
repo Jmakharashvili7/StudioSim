@@ -6,6 +6,14 @@
 #include "WorldOutlinerUI.h"
 #include "ContentBrowserUI.h"
 
+enum class Classes
+{
+	GAMEOBJECT,
+	ACTOR,
+	CHARACTER,
+	ENEMY
+};
+
 // Basic setup of new window
 //1. Create a class for the window you want to implement and make it a child of UIWindow
 //2. In UILayer create a pointer to an instance of the class you created
@@ -36,6 +44,10 @@ public:
 
 private:
 	void EnableDocking();
+	void SetUpObjectCreator();
+	void CreatePopupContent(Classes createClass);
+	std::string CollisionName(CollisionType type);
+
 private:
 	float m_time;
 	glm::vec4 m_color;
