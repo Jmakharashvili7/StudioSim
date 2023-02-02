@@ -137,6 +137,24 @@ void Scene::Update()
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
+	if (m_gameObjectsToAdd.size() != 0)
+	{
+		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
+		{
+			m_gameObjects.push_back(gameObjectToAdd);
+		}
+		m_gameObjectsToAdd.clear();
+	}
+
+	if (m_gameObjectsToRemove.size() != 0)
+	{
+		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
+		{
+			m_gameObjects.erase(m_gameObjects.begin() + EngineManager::GetGameObjectIndex(gameObjectToRemove, m_gameObjects));
+		}
+		m_gameObjectsToRemove.clear();
+	}
+
 	// Update game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
@@ -187,6 +205,24 @@ void Scene::HandleInput()
 				inputCharacter->Jump();
 			}
 
+			// LIGHT ATTACK
+			if (inputComponent->GetKeyPressed('j'))
+			{
+				inputCharacter->LightAttack();
+			}
+
+			// HEAVY ATTACK
+			if (inputComponent->GetKeyPressed('l'))
+			{
+				inputCharacter->HeavyAttack();
+			}
+
+			// SPECIAL ATTACK
+			if (inputComponent->GetKeyPressed('k'))
+			{
+				inputCharacter->SpecialAttack();
+			}
+
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
@@ -205,4 +241,16 @@ void Scene::HandleInput()
 void Scene::CloseScene()
 {
 	QuackEngine::JsonLoader::StoreScene(m_sceneInfo, m_gameObjects);
+}
+
+void Scene::AddGameObject(GameObject* newGameObject)
+{
+	m_gameObjectsToAdd.push_back(newGameObject);
+	m_collisionManager->AddGameObject(newGameObject);
+}
+
+void Scene::RemoveGameObject(GameObject* gameObject)
+{
+	m_gameObjectsToRemove.push_back(gameObject);
+	m_collisionManager->RemoveGameObject(gameObject);
 }

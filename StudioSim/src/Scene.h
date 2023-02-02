@@ -33,6 +33,8 @@ public:
 	void CloseScene();
 
 	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
+	void AddGameObject(GameObject* newGameObject);
+	void RemoveGameObject(GameObject* gameObject);
 
 	inline FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 
@@ -84,5 +86,8 @@ private:
 	FrameBuffer* m_frameBuffer;
 
 	bool m_StopInput : 1;
+
+	std::vector<GameObject*> m_gameObjectsToAdd;
+	std::vector<GameObject*> m_gameObjectsToRemove;
 };
 
