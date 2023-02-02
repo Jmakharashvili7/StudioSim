@@ -18,6 +18,9 @@ public:
 	inline float GetZoom() { return m_Zoom; }
 	inline float GetZoomSpeed() { return m_ZoomSpeed; }
 
+	inline void SetCanZoom(bool canZoom) { m_CanZoom = canZoom; }
+	inline bool GetCanZoom() { return m_CanZoom; }
+
 	const glm::mat4& GetProjectionMatrix() const { return m_projectionMatrix; }
 	const glm::mat4& GetViewMatrix() const { return m_viewMatrix; }
 	const glm::mat4& GetViewProjectionMatrix() const { return m_viewProjectionMatrix; }
@@ -37,5 +40,7 @@ private:
 
 	float m_Zoom;
 	float m_ZoomSpeed;
+
+	bool m_CanZoom : 1;
 };
 

@@ -4,6 +4,7 @@
 #include "Quack.h"
 #include "PhysicsComponent.h"
 #include "EngineManager.h"
+#include "JsonLoader.h"
 
 Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
 	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, const bool bconsumeInput)
@@ -19,6 +20,11 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 
 	// Health init
 	ResetCurrentHealth();
+
+	// Combat init
+	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 5.0f, 0.1f, 0.01f, 0.25f, 0.01f)); // todo move
+	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
+	AddComponent(m_combatComponent);
 }
 
 Character::~Character()
@@ -31,12 +37,25 @@ void Character::Update(const float deltaTime)
 	Actor::Update(deltaTime);
 }
 
+void Character::AdjustPosition(const Vector3 adjustPosition)
+{
+	GameObject::AdjustPosition(adjustPosition);
+
+	if (adjustPosition.x > 0)
+	{
+		m_facingDirection = FacingDirection::RIGHT;
+	}
+	else if (adjustPosition.x < 0)
+	{
+		m_facingDirection = FacingDirection::LEFT;
+	}
+}
+
 void Character::AddCollision(GameObject* collidingObject)
 {
 	if (collidingObject->GetName() == "ground")
 	{
 		SetJumping(false); 
-		SetCurrentJumpForce(0.0f);
 		SetCollidingWithGround(true);
 	}
 
@@ -88,6 +107,40 @@ void Character::SetMaxHealth(const float newMaxHealth, const bool bUpdateHealth)
 	if (bUpdateHealth)
 	{
 		SetCurrentHealth(newMaxHealth);
+	}
+}
+
+void Character::SetCurrentWeaponData(const WeaponData& newWeaponData)
+{
+	m_currentWeaponData = newWeaponData;
+	
+	if (m_combatComponent)
+	{
+		m_combatComponent->SetCurrentWeaponData(newWeaponData);
+	}
+}
+
+void Character::LightAttack()
+{
+	if (m_combatComponent)
+	{
+		m_combatComponent->LightAttack();;
+	}
+}
+
+void Character::HeavyAttack()
+{
+	if (m_combatComponent)
+	{
+		m_combatComponent->HeavyAttack();;
+	}
+}
+
+void Character::SpecialAttack()
+{
+	if (m_combatComponent)
+	{
+		m_combatComponent->SpecialAttack();
 	}
 }
 

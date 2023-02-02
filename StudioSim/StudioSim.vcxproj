@@ -168,7 +168,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Pathfinding.cpp" />
+    <ClCompile Include="src\CombatComponent.cpp" />
     <ClCompile Include="src\AIComponent.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\ContentBrowserUI.cpp" />
@@ -219,7 +219,7 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Pathfinding.h" />
+    <ClInclude Include="src\CombatComponent.h" />
     <ClInclude Include="src\AIComponent.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
@@ -281,6 +281,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="res\ObjectData\duck.json" />
+    <None Include="res\ObjectData\floor.json" />
+    <None Include="res\ObjectData\Square.json" />
+    <None Include="res\scenes\MainScene.json" />
     <None Include="res\shaders\3Dbasic.shader" />
     <None Include="res\shaders\basic.shader" />
     <None Include="res\shaders\Primitive.shader" />

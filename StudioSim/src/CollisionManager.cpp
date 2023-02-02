@@ -103,7 +103,7 @@ void CollisionManager::RemoveGameObject(GameObject* gameObjectToRemove)
 {
 	if (gameObjectToRemove)
 	{
-		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObjectToRemove, m_gameObjects);
+		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObjectToRemove, m_gameObjects) - 1;
 		m_gameObjects.erase(m_gameObjects.begin() + gameObjectIndex);
 	}
 }

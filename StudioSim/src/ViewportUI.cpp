@@ -58,50 +58,35 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	switch (key.GetKeyCode())
-	{
-	case GLFW_KEY_LEFT:
-		QE_LOG("MOVE CAMERA LEFT");
-		break;
-
-	case GLFW_KEY_RIGHT:
-		QE_LOG("MOVE CAMERA RIGHT");
-		break;
-
-	case GLFW_KEY_UP:
-		QE_LOG("MOVE CAMERA UP");
-		break;
-
-	case GLFW_KEY_DOWN:
-		QE_LOG("MOVE CAMERA DOWN");
-		break;
-
-	default:
-		break;
-	}
+	
 }
 
 void ViewportUI::HandleMouseInput(MouseEvent e)
 {
 	if (Quack::GetOrthoCam())
 	{
-		float newZoom = Quack::GetOrthoCam()->GetZoom();
-		float aspect = m_size.x / m_size.y;
-
-		if (e.GetType() == MouseEvent::EventType::SCROLL_DOWN)
+		if (Quack::GetOrthoCam()->GetCanZoom())
 		{
-			newZoom += (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+			float newZoom = Quack::GetOrthoCam()->GetZoom();
+			float aspect = m_size.x / m_size.y;
+
+			if (e.GetType() == MouseEvent::EventType::SCROLL_DOWN)
+			{
+				newZoom += (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+			}
+
+			if (e.GetType() == MouseEvent::EventType::SCROLL_UP)
+			{
+				newZoom -= (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+			}
+
+			newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
+			Quack::GetOrthoCam()->SetZoom(newZoom);
+
+			Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
+			
 		}
 
-		if (e.GetType() == MouseEvent::EventType::SCROLL_UP)
-		{
-			newZoom -= (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
-		}
-
-		newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
-		Quack::GetOrthoCam()->SetZoom(newZoom);
-
-		Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
 	}
 
 }

@@ -58,7 +58,7 @@
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\AIComponent.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
-    <ClCompile Include="src\Pathfinding.cpp" />
+    <ClCompile Include="src\CombatComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
@@ -115,7 +115,7 @@
     <ClInclude Include="src\AIComponent.h" />
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\ObjectIncludes.h" />
-    <ClInclude Include="src\Pathfinding.h" />
+    <ClInclude Include="src\CombatComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />
@@ -133,6 +133,10 @@
     <None Include="res\shaders\basic.shader" />
     <None Include="res\shaders\Primitive.shader" />
     <None Include="res\textures\test sheet.png~" />
+    <None Include="res\ObjectData\Square.json" />
+    <None Include="res\ObjectData\duck.json" />
+    <None Include="res\ObjectData\floor.json" />
+    <None Include="res\scenes\MainScene.json" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">
