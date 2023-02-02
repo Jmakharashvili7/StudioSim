@@ -1,8 +1,7 @@
+#include "pch.h"
+
 #include "ContentBrowserUI.h"
 #include "Quack.h"
-#include <filesystem>
-#include <string>
-
 namespace fs = std::filesystem;
 
 ContentBrowserUI::ContentBrowserUI(std::string name) : UIWindow(name)
@@ -31,11 +30,12 @@ void ContentBrowserUI::Render()
 {
 	std::vector<fs::directory_entry> entries;
 
-
-
 	//name of folder to use for content browser
 	const std::string currentDir = m_CurrentDirectory;
 	ImGui::Begin("Content Browser");
+
+	ImGui::SliderInt("Thumbnail Size", &m_ThumbnailSize, 32, 512, NULL, ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SliderInt("Thumbnail Padding", &m_ThumbnailPadding, 24, 96, NULL, ImGuiSliderFlags_AlwaysClamp);
 
 
 	std::string current = "Current Path: " + m_CurrentDirectory;
@@ -154,6 +154,7 @@ void ContentBrowserUI::Render()
 		ImGui::PopID();
 
 	}
+
 
 	ImGui::End();
 

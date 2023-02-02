@@ -45,11 +45,11 @@ struct MovementData
 
 struct EntityData
 {
-	EntityData(const float inHealth) : health(inHealth) {};
+	EntityData(const float inMaxHealth) : maxHealth(inMaxHealth) {};
 
-	EntityData() : health(0.0f) {};
+	EntityData() : maxHealth(0.0f) {};
 
-	float health;
+	float maxHealth;
 };
 
 struct AnimationData

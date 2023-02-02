@@ -13,7 +13,8 @@ enum class GameObjectType
 {
 	OBJECT,
 	ACTOR,
-	CHARACTER
+	CHARACTER,
+	ENEMY
 };
 
 struct VertexData

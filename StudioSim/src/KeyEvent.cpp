@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "KeyEvent.h"
 
 KeyEvent::KeyEvent() : m_Type(NONE), m_Key(0u)

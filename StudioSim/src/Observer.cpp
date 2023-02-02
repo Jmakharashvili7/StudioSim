@@ -1,7 +1,9 @@
+#include "pch.h"
+
 #include "Observer.h"
 
 
-EventManager* EventManager::m_Instance = nullptr;
+//EventManager* EventManager::m_Instance = nullptr;
 
 
 

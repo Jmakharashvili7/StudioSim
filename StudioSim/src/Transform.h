@@ -1,5 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
+#include "CustomMaths.h"
 
 class Transform
 {

@@ -26,6 +26,7 @@ public:
 	void SetMass(float newMass);
 	void SetSimulateGravity(bool gravityStatus);
 	void SetGravityMultiplier(const float gravityMultiplier);
+	virtual inline const float GetGravityMultiplier() const { return m_physicsData.gravityMultiplier; }
 
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "PathNode.h"
 
 PathNode::PathNode(Grid<PathNode>* grid, int x, int y, bool walkable) : 

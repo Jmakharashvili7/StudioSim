@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "PhysicsComponent.h"
 
 PhysicsComponent::PhysicsComponent(Actor* owner, int updateOrder, const float mass, const bool bSimulateGravity, const float gravityMultiplier) : Component(owner, updateOrder), m_InverseMass(1 / mass)
@@ -21,8 +23,7 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::Update(float deltaTime)
 {
-
-	if (m_InverseMass <= 0.0f || m_bOnGround || !m_bSimulateGravity) return;
+	if (m_InverseMass <= 0.0f || !m_bSimulateGravity) return;
 
 	m_owningActor->AdjustPosition(m_Velocity * deltaTime);
 	
