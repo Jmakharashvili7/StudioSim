@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.h"
+#include "CombatComponent.h"
 
 class Character : public Actor
 {
@@ -9,6 +10,9 @@ public:
 
 	//Update
 	virtual void Update(const float deltaTime) override;
+
+	// Position
+	virtual void AdjustPosition(const Vector3 adjustPosition) override;
 	
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject) override;
@@ -20,13 +24,12 @@ public:
 	virtual inline const bool GetJumping() const { return m_bjumping; }
 	virtual inline const float GetJumpHeight() const { return m_movementData.jumpHeight; }
 	virtual inline void SetJumpHeight(const float newJumpHeight) { m_movementData.jumpHeight = newJumpHeight; }
-	virtual inline void SetCurrentJumpForce(const float inJumpForce) { m_currentJumpForce = inJumpForce; }
-	virtual inline const float GetCurrentJumpForce() const { return m_currentJumpForce; }
 
 	// Movement
 	virtual inline float GetMovementSpeed() const { return m_movementData.movementSpeed; }
 	virtual inline void SetMovementSpeed(const float newSpeed) { m_movementData.movementSpeed = newSpeed; }
 	inline MovementData GetMovementData() { return m_movementData; }
+	virtual const inline FacingDirection GetFacingDirection() const { return m_facingDirection; }
 
 	// Health
 	virtual void TakeDamage(const float amount);
@@ -47,17 +50,30 @@ public:
 	virtual inline const bool GetConsumingInput() const { return m_bconsumingInput; }
 	virtual inline void SetConsumingInput(const bool bnewConsumingInput) { m_bconsumingInput = bnewConsumingInput; }
 
+	// Combat
+	virtual inline const WeaponData GetCurrentWeaponData() const { return m_currentWeaponData; }
+	virtual void SetCurrentWeaponData(const WeaponData& newWeaponData);
+	void LightAttack();
+	void HeavyAttack();
+	void SpecialAttack();
+
 protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
-	float m_currentJumpForce = 0.0f;
-
+	FacingDirection m_facingDirection = FacingDirection::RIGHT;
+	
 	// Entity
 	EntityData m_entityData = EntityData();
 	float m_currentHealth = 0.0f;
 
 	// Input
 	bool m_bconsumingInput = false;
+
+	// Combat
+	WeaponData m_currentWeaponData = WeaponData();
+
+	// Components
+	CombatComponent* m_combatComponent = nullptr;
 };
 
