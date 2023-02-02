@@ -151,7 +151,7 @@ void Scene::Update()
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
 		{
-			m_gameObjects.erase(m_gameObjects.begin() + EngineManager::GetGameObjectIndex(gameObjectToRemove, m_gameObjects));
+			m_gameObjects.erase(m_gameObjects.begin() + EngineManager::GetGameObjectIndex(gameObjectToRemove));
 		}
 		m_gameObjectsToRemove.clear();
 	}
@@ -252,6 +252,8 @@ void Scene::AddGameObject(GameObject* newGameObject)
 
 void Scene::RemoveGameObject(GameObject* gameObject)
 {
-	m_gameObjectsToRemove.push_back(gameObject);
-	m_collisionManager->RemoveGameObject(gameObject);
+	/*m_gameObjectsToRemove.push_back(gameObject);
+	m_collisionManager->RemoveGameObject(gameObject);*/
+	auto index = std::find(m_gameObjects.begin(), m_gameObjects.end(), gameObject);
+	m_gameObjects.erase(index);
 }
