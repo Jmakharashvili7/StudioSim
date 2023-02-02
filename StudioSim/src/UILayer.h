@@ -9,7 +9,6 @@
 
 struct CreatClassInfo
 {
-	VertexData* vertexData;
 
 	std::string objectName;
 	std::string textureName;
@@ -46,15 +45,7 @@ struct CreatClassInfo
 
 		movementData = MovementData();
 		entityData = EntityData();
-
-		vertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
 	}	
-
-	~CreatClassInfo()
-	{
-		delete vertexData;
-		vertexData = nullptr;
-	}
 };
 
 enum class Classes
@@ -118,5 +109,7 @@ private:
 	std::vector<UIWindow*> m_windowList;
 	
 	CreatClassInfo newObjectInfo;
+
+	VertexData* vertexData;
 };
 

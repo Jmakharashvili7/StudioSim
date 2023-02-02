@@ -195,7 +195,7 @@ void Quack::RenderUpdate()
 
 void Quack::ShutDown()
 {
-	m_mainScene.CloseScene();
+	//m_mainScene.SaveScene();
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();

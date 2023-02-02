@@ -238,7 +238,7 @@ void Scene::HandleInput()
 	}
 }
 
-void Scene::CloseScene()
+void Scene::SaveScene()
 {
 	QuackEngine::JsonLoader::StoreScene(m_sceneInfo, m_gameObjects);
 }

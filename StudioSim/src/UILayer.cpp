@@ -15,6 +15,8 @@ namespace fs = std::filesystem;
 UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 1.0f, 1.0f)
 {
 	newObjectInfo = CreatClassInfo();
+
+	vertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
 }
 
 UILayer::~UILayer()
@@ -139,6 +141,13 @@ void UILayer::EnableDocking()
 			ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
 			ImGui::Separator();
 
+			if(ImGui::Button("Save Current Scene"))
+			{
+				Quack::GetCurrentScene()->SaveScene();
+			}
+
+			ImGui::Separator();
+
 			if (ImGui::MenuItem("Close", NULL, false, &p_open != NULL))
 				p_open = false;
 
@@ -169,10 +178,10 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Create"))
 			{
-				GameObject* newGameObject = new GameObject(newObjectInfo.objectName, newObjectInfo.vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName);
-				Quack::GetCurrentScene()->GetGameObjects().push_back(newGameObject);
+				GameObject* newGameObject = new GameObject(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
+				Quack::GetCurrentScene()->AddGameObject(newGameObject);
 			}
 
 			if (ImGui::Button("Close"))
@@ -258,11 +267,6 @@ void UILayer::SetUpObjectCreator()
 
 		ImGui::EndMenu();
 	}
-
-}
-
-void UILayer::CreatePopupContent(Classes createClass)
-{
 
 }
 

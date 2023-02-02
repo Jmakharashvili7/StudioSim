@@ -30,7 +30,7 @@ public:
 	void RenderScene();
 
 	inline OrthographicCamera* GetCamera() { return m_activeCamera; }
-	void CloseScene();
+	void SaveScene();
 
 	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 	void AddGameObject(GameObject* newGameObject);
