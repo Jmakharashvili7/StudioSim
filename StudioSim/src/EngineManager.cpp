@@ -36,22 +36,21 @@ int EngineManager::GetGameObjectIndex(std::string name)
 	}
 }
 
-int EngineManager::GetGameObjectIndex(GameObject* gameObject, std::vector<GameObject*> gameObjectArray)
+int EngineManager::GetGameObjectIndex(GameObject* gameObject)
 {
 	int i = 0;
-	int indexToReturn = -1;
 
-	for (GameObject* loopedGameObject : gameObjectArray)
+	for (GameObject* loopedGameObject : Quack::GetCurrentScene()->GetGameObjects())
 	{
 		if (gameObject == loopedGameObject)
 		{
-			indexToReturn = i;
+			return i;
 		}
 
 		i++;
 	}
 
-	return indexToReturn;
+	return -1;
 }
 
 void EngineManager::SetInputCharacter(Character* newInputCharacter)
