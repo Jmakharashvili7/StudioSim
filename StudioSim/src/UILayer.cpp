@@ -214,7 +214,7 @@ void UILayer::SetUpObjectCreator()
 		{
 			BasePopupContent();
 			ActorContent();
-			CharacterContent();
+			CharacterContent();  
 
 			if (ImGui::Button("Create"))
 			{
