@@ -91,14 +91,31 @@ void GameObject::AdjustPosition(const Vector3 adjustPosition)
 void GameObject::SetScale(const Vector3 newScale)
 {
 	m_transform->SetScale(newScale);
-	SetCollisionBoxSize(newScale);
 }
 
 void GameObject::AdjustScale(const Vector3 adjustScale)
 {
 	m_transform->AdjustScale(adjustScale);
-	const Vector3 newScale = m_transform->GetScale();
-	SetCollisionBoxSize(newScale);
+}
+
+void GameObject::SetCollisionType(const CollisionType newCollisionType)
+{
+	m_collisionData.collisionType = newCollisionType;
+
+	if (newCollisionType != CollisionType::NONE)
+	{
+		SetCollisionCenter(GetPosition());
+
+		if (newCollisionType == CollisionType::BOX)
+		{
+			SetCollisionBoxSize(GetScale());
+		}
+	}
+	else
+	{
+		SetCollisionCenter(Vector3(0.0f));
+		SetCollisionBoxSize(Vector3(0.0f));
+	}
 }
 
 void GameObject::UpdateObjectData(VertexData* newData)
@@ -121,7 +138,7 @@ void GameObject::SetNewTexture(std::string fileName)
 	}	
 }
 
-bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)
+const bool GameObject::GetIsCollidingGameObject(GameObject* gameObject) const
 {
 	bool bFound = false;
 

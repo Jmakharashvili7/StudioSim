@@ -32,7 +32,7 @@ public:
 	virtual const inline FacingDirection GetFacingDirection() const { return m_facingDirection; }
 
 	// Health
-	virtual void TakeDamage(const float amount);
+	virtual void TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection);
 	virtual void Kill();
 	virtual void Die();
 	virtual void SetCurrentHealth(const float inHealth);
@@ -72,6 +72,10 @@ protected:
 
 	// Combat
 	WeaponData m_currentWeaponData = WeaponData();
+	bool m_beingKnockbacked = false;
+	float m_knockbackSpeed = 0.0f;
+	float m_totalKnockbackAmount = 0.0f;
+	float m_currentKnockbackAmount = 0.0f;
 
 	// Components
 	CombatComponent* m_combatComponent = nullptr;

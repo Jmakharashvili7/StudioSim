@@ -22,7 +22,7 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	ResetCurrentHealth();
 
 	// Combat init
-	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 5.0f, 0.1f, 0.01f, 0.25f, 0.01f)); // todo move
+	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.5f, 0.5f, 0.5f), -0.1f, 0.05f, 0.01f, 0.1f, 0.01f)); // todo move
 	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
 	AddComponent(m_combatComponent);
 }
@@ -35,11 +35,31 @@ Character::~Character()
 void Character::Update(const float deltaTime)
 {
 	Actor::Update(deltaTime);
+
+	if (m_beingKnockbacked)
+	{
+		const float tickKnockbackAmount = m_knockbackSpeed * deltaTime;
+		m_currentKnockbackAmount += glm::abs(tickKnockbackAmount);
+		AdjustPosition(Vector3(tickKnockbackAmount, 0.0f, 0.0f));
+
+		if (m_currentKnockbackAmount >= glm::abs(m_totalKnockbackAmount))
+		{
+			m_beingKnockbacked = false;
+			m_currentKnockbackAmount = 0.0f;
+			m_totalKnockbackAmount = 0.0f;
+		}
+	}
 }
 
 void Character::AdjustPosition(const Vector3 adjustPosition)
 {
 	GameObject::AdjustPosition(adjustPosition);
+	const Vector3 newPosition = GetPosition();
+	
+	if (m_combatComponent)
+	{
+		m_combatComponent->UpdateAttackHitboxPosition(newPosition);
+	}
 
 	if (adjustPosition.x > 0)
 	{
@@ -143,10 +163,20 @@ void Character::SpecialAttack()
 	}
 }
 
-void Character::TakeDamage(const float amount)
+void Character::TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection)
 {
 	std::cout << "Ouch - " + m_name << std::endl;
-	AdjustCurrentHealth(amount);
+	if (knockbackAmount > 0.0f)
+	{
+		const float bdamageDirectionRight = damageDirection == FacingDirection::RIGHT;
+		const float finalKnockbackSpeed = knockbackSpeed / GetMass();
+		const float finalKnockbackAmount = knockbackAmount / GetMass();
+
+		m_beingKnockbacked = true;
+		m_knockbackSpeed = bdamageDirectionRight ? -finalKnockbackSpeed : finalKnockbackSpeed;
+		m_totalKnockbackAmount = bdamageDirectionRight ? -finalKnockbackAmount : finalKnockbackAmount;
+	}
+	AdjustCurrentHealth(-amount);
 }
 
 void Character::Kill()
@@ -157,4 +187,5 @@ void Character::Kill()
 void Character::Die()
 {
 	std::cout << "Im dead - " + m_name << std::endl;
+	Quack::GetCurrentScene()->RemoveGameObject(this);
 }
