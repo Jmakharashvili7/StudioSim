@@ -116,6 +116,7 @@
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\ObjectIncludes.h" />
     <ClInclude Include="src\CombatComponent.h" />
+    <ClInclude Include="src\QE_Keyboard.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />

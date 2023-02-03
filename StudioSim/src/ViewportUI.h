@@ -18,4 +18,11 @@ public:
 private:
 	float startViewportX;
 	float startViewportY;
+
+	float m_aspect;
+
+	float m_horizontalMovement;
+	float m_verticalMovement;
+	
+	glm::vec3 m_newPosition;
 };

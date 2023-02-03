@@ -14,6 +14,8 @@ public:
 	inline void SetRotation(const float& rotation) { m_rotation = rotation; RecalculateViewMatix(); }
 	inline float GetRotation() { return m_rotation; }
 
+	inline float GetMoveSpeed() { return m_moveSpeed; }
+
 	inline void SetZoom(float zoom) { m_Zoom = zoom; }
 	inline float GetZoom() { return m_Zoom; }
 	inline float GetZoomSpeed() { return m_ZoomSpeed; }
@@ -37,6 +39,8 @@ private:
 
 	glm::vec3 m_position;
 	float m_rotation = 0.0f;
+
+	float m_moveSpeed = 1.0f;
 
 	float m_Zoom;
 	float m_ZoomSpeed;

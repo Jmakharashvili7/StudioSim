@@ -145,15 +145,16 @@ Texture* Quack::GetTexture(std::string textureName)
 
 void Quack::HandleInput()
 {
-	//if (!KeyboardClass::KeyBufferIsEmpty())
-	//{
-	//	KeyEvent key = KeyboardClass::ReadKey();
+	//For keyboard inputs that are not letters use QE_KEYS
+	//Keys are based on UK Keyboard
+	//e.g right arrow key QE_KEY_RIGHT_ARROW or space QE_KEYS_SPACE
+	if (!KeyboardClass::KeyBufferIsEmpty())
+	{
+		KeyEvent key = KeyboardClass::ReadKey();
 
-	//	if (key.GetKeyCode() != 0)
-	//	{
-	//		//m_uiMain->GetViewport()->HandleKeyboardInput(key);
-	//	}
-	//}
+		m_uiMain->GetViewport()->HandleKeyboardInput(key);
+		
+	}
 
 	//Mouse Input
 	if (!MouseClass::IsEventBufferEmpty())

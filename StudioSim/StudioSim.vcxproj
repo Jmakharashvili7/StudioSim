@@ -224,6 +224,7 @@
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\ContentBrowserUI.h" />
     <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\QE_Keyboard.h" />
     <ClInclude Include="src\ObjectIncludes.h" />
     <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\pch.h" />

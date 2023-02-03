@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "ViewportUI.h"
+#include "GameTime.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -12,6 +13,8 @@ ViewportUI::ViewportUI(std::string name) : UIWindow(name)
 {
 	startViewportX = 0;
 	startViewportY = 0;
+
+	
 }
 
 ViewportUI::~ViewportUI()
@@ -40,11 +43,11 @@ void ViewportUI::Render()
 		m_size = { viewportSize.x, viewportSize.y };
 		Quack::GetFrameBuffer()->Resize(m_size.x, m_size.y);
 
-		float aspect = m_size.x / m_size.y;
+		m_aspect = m_size.x / m_size.y;
 
 		if (Quack::GetOrthoCam())
 		{
-			Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
+			Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * m_aspect, Quack::GetOrthoCam()->GetZoom() * m_aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
 		}
 
 	}
@@ -58,7 +61,36 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	
+	if (key.IsPressed())
+	{
+
+		switch (key.GetKeyCode())
+		{
+			case QE_KEY_LEFT_ARROW:
+				QE_LOG(Quack::GetOrthoCam()->GetPosition().x);
+				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
+				Quack::GetOrthoCam()->SetPosition(m_newPosition);
+				QE_LOG(Quack::GetOrthoCam()->GetPosition().x);
+				break;
+		
+
+			case QE_KEY_RIGHT_ARROW:
+				
+				break;
+			
+
+			case QE_KEY_UP_ARROW:
+				QE_LOG("MOVE CAMERA UP");
+				break;
+
+			case QE_KEY_DOWN_ARROW:
+				QE_LOG("MOVE CAMERA DOWN");
+				break;
+
+		default:
+			break;
+		}
+	}
 }
 
 void ViewportUI::HandleMouseInput(MouseEvent e)
