@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Scene.h"
 #include "GameObject.h"
 #include "Actor.h"
@@ -31,7 +33,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window) :
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
 	EngineManager::SetGameObjects(m_gameObjects);
 	SetupShaders();
-	EventManager::Instance()->CoinCollected.Subscribe([this]() {this->printshitt(); });
+	EventManager::Instance().CoinCollected.Subscribe([this]() {this->printshitt(); });
 	//EventManager::Instance()->CoinCollected.Subscribe([this]() {this->printshitt(); });
 }
 
@@ -188,24 +190,22 @@ void Scene::printshitt() noexcept
 void Scene::HandleInput()
 {
 	const float deltaTime = m_gameTimer.GetDeltaTime();
-	const float movementAmount = 5.0f;
 
-
-	//jabas engine manager get can also be used here 
-	Actor* duck = dynamic_cast<Actor*>(EngineManager::GetGameObject("duck"));
+	Character* duck = dynamic_cast<Character*>(EngineManager::GetGameObject(0));
 	if (duck)
 	{
 		if (InputComponent* inputComponent = duck->GetComponent<InputComponent>())
 		{
 			// MOVE LEFT
-			if (inputComponent->GetKeyDown('a'))
+			if (inputComponent->GetKeyPressed(' '))
 			{
-				duck->AdjustPosition(Vector3((-movementAmount * deltaTime), 0.0f, 0.0f));
+				duck->Jump();
 			}
+
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				duck->AdjustPosition(Vector3((movementAmount * deltaTime), 0.0f, 0.0f));
+				duck->AdjustPosition(Vector3((duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 	
 	
@@ -214,10 +214,11 @@ void Scene::HandleInput()
 				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 100, 0));
 				if (duck->GetComponent<PhysicsComponent>())
 				{
-					EventManager::Instance()->OnCoinCollected();
+					EventManager::Instance().OnCoinCollected();
 					
 				}
 				
+				duck->AdjustPosition(Vector3((-duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
 		}
 	}

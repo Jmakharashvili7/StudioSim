@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Renderer.h"
 
 std::vector<VertexArray*> Renderer::m_objects;

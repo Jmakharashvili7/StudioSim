@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Quack.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -15,6 +17,9 @@
 #include "UILayer.h"
 #include "Scene.h"
 #include "WorldOutlinerUI.h"
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 #pragma region DeclareMembers
 bool Quack::s_glfwInitialised = false;
@@ -35,6 +40,8 @@ UILayer* Quack::m_uiMain;
 Scene Quack::m_mainScene;
 
 OrthographicCamera* Quack::m_mainCamera;
+
+std::map<std::string, Texture*> Quack::m_textures;
 #pragma endregion DeclareMembers
 
 int Quack::InitEngine()
@@ -77,10 +84,57 @@ int Quack::InitEngine()
 	///	Initialize IMGUI (Must be after keyboard and mouse callbacks)
 	/// 
 	m_uiMain->OnAttach();
+	GenerateTextureList();
 
 	m_mainScene = Scene("MainScene", m_uiMain, m_window);
 	m_uiMain->InitWindows(); // should always be after init objects
+
 	return 0;
+}
+
+void Quack::GenerateTextureList()
+{
+	for (fs::directory_entry file : fs::directory_iterator("res/textures"))
+	{
+		std::string imagePath = file.path().string();
+
+		std::string imageName = file.path().filename().string();	
+
+		QE_LOG(imageName);
+
+		Texture* texture = new Texture(TextureData(imagePath));
+
+		m_textures[imageName] = texture;
+	}
+}
+
+/// <summary>
+/// Takes in name of the texure and if the specified texture exists returns a pointer to it.
+/// If the texture does not exist it returns a nullptr and prints out an error.
+/// </summary>
+/// <param name="textureName"> The name of the texture </param>
+/// <returns></returns>
+Texture* Quack::GetTexture(std::string textureName)
+{
+	//auto index = m_textures.find(textureName);
+
+	//if (index == m_textures.end())
+	//{
+	//	QE_LOG(textureName + " Not found");
+	//	return nullptr;
+	//}
+	//else // texture found
+	//	return index->second;
+
+	Texture* objectTexture = m_textures[textureName];
+
+	if (!objectTexture)
+	{
+		QE_LOG(textureName + " Not found");
+		return nullptr;
+	}
+
+	return objectTexture;
 }
 
 void Quack::HandleInput()

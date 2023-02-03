@@ -145,9 +145,6 @@
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\InputComponent.cpp" />
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
-    <ClCompile Include="src\ContentBrowser.cpp">
-      <Filter>source files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ContentBrowserUI.cpp">
       <Filter>source files</Filter>
     </ClCompile>
@@ -162,7 +159,9 @@
     <ClCompile Include="src\Observer.cpp">
       <Filter>DesignPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="src\Singleton.cpp" />
+    <ClCompile Include="src\AIComponent.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h">
@@ -310,7 +309,10 @@
     <ClInclude Include="src\Singleton.h">
       <Filter>DesignPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="src\AIComponent.h" />
+    <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\ObjectIncludes.h" />
+    <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\blue.png">

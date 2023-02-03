@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Transform.h"
 
 Transform::Transform(const Vector3 inPosition, const Vector3 inRotation, const Vector3 inScale ) 

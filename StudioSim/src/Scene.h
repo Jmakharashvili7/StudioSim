@@ -41,12 +41,10 @@ private:
 	void Update();
 	void PhysicsUpdate();
 
-	GameObject* LoadGameObject(std::string path);
-	bool StoreGameObject(GameObject* gameObject, int index);
-
 	void printshitt() noexcept;
 
-
+	GameObject* LoadGameObject(std::string path);
+	bool StoreGameObject(GameObject* gameObject, int index);
 private:
 	std::string m_name;
 

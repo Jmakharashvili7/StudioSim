@@ -1,3 +1,5 @@
+#include "pch.h"
+#include "PhysicsComponent.h"
 #include "CollisionManager.h"
 #include "EngineManager.h"
 
@@ -75,4 +77,58 @@ void CollisionManager::RemoveGameObject(GameObject* gameObjectToRemove)
 		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObjectToRemove, m_gameObjects);
 		m_gameObjects.erase(m_gameObjects.begin() + gameObjectIndex);
 	}
+}
+
+void CollisionResolver::Resolve(float deltaTime)
+{
+	ResolveVelocity(deltaTime);
+}
+
+float CollisionResolver::CalculateSeparateVelocity() const
+{
+	Vector3 relativeVelocity = m_PhysicsObject[0]->GetVelocity();
+	if (m_PhysicsObject[1])
+	{
+		relativeVelocity -= m_PhysicsObject[1]->GetVelocity();
+		
+	}
+	Vector3::Normalize(contactNormal);
+	return (relativeVelocity * contactNormal.Length()).Length();
+	
+}
+
+void CollisionResolver::ResolveVelocity(float deltaTime)
+{
+	float separatingVelocity = CalculateSeparateVelocity();
+
+	if (separatingVelocity > 0)
+	{
+		return;
+	}
+
+	float newSepVelocity = -separatingVelocity * restitution;
+
+	float deltaVelocity = newSepVelocity - separatingVelocity;
+
+	float totalInverseMass = m_PhysicsObject[0]->GetInverseMass();
+	if (m_PhysicsObject[1])
+	{
+		totalInverseMass += m_PhysicsObject[1]->GetInverseMass();
+	}
+	if (totalInverseMass <=0)
+	{
+		return;
+	}
+
+	float impulse = deltaVelocity / totalInverseMass;
+
+	Vector3 impulsePerMass = contactNormal * impulse;
+
+	m_PhysicsObject[0]->SetVelocity(m_PhysicsObject[0]->GetVelocity() + impulsePerMass * m_PhysicsObject[0]->GetInverseMass());
+
+	if (m_PhysicsObject[1])
+	{
+		m_PhysicsObject[1]->SetVelocity(m_PhysicsObject[1]->GetVelocity() + impulsePerMass * -m_PhysicsObject[1]->GetInverseMass());
+	}
+
 }

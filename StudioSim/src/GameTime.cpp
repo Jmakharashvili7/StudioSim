@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "GameTime.h"
 #include <windows.h>
 

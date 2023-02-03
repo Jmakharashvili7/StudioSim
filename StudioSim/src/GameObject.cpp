@@ -1,15 +1,20 @@
+#include "pch.h"
+
 #include "GameObject.h"
 #include "Animate.h"
 #include "Quack.h"
 #include "EngineManager.h"
 
-GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const TextureData& textureData)
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName)
 	: m_name(name), m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), m_texture(new Texture(textureData)), m_data(data), m_textureData(textureData), m_transformData(transformData) 
+	m_collisionData(collisionData), m_data(data), m_transformData(transformData), m_textureName(textureName)
 {
 	m_type = GameObjectType::OBJECT;
 	m_va = new VertexArray();
 	UpdateVertexArray();
+
+	m_texture = Quack::GetTexture(textureName);
+	
 }
 
 GameObject::~GameObject()
@@ -80,9 +85,18 @@ void GameObject::UpdateObjectData(VertexData* newData)
 	UpdateVertexArray();
 }
 
-void GameObject::SetNewTexture(std::string newPath)
+void GameObject::SetNewTexture(std::string fileName)
 {
-	m_texture = new Texture(TextureData(newPath, GL_RGBA, GL_RGBA));
+	if (Quack::GetTexture(fileName))
+	{
+		m_texture = Quack::GetTexture(fileName);
+
+		m_textureName = fileName;
+	}
+	else
+	{
+		QE_LOG("Texture Does Not Exist");
+	}	
 }
 
 bool const GameObject::GetIsCollidingGameObject(GameObject* gameObject)

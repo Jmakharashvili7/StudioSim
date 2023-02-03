@@ -1,12 +1,10 @@
 #pragma once
 #include "Component.h"
-#include <limits>
-#include <assert.h>
 
 class PhysicsComponent : public Component
 {
 public:
-	PhysicsComponent(Actor* owner, int updateOrder, const float mass, const bool bSimulateGravity);
+	PhysicsComponent(Actor* owner, int updateOrder, const float mass, const bool bSimulateGravity, const float gravityMultiplier);
 	~PhysicsComponent();
 
 	void SetMass(const float mass) { assert(mass != 0); m_InverseMass = 1 / mass; }
@@ -38,7 +36,7 @@ public:
 	void SetAcceleration(const Vector3& acceleration) { m_Acceleration = acceleration; }
 	Vector3 GetAcceleration() const { return m_Acceleration; }
 
-	void SetGravityValue(const float gravity) { m_GravitationalValue = gravity; UpdateAccelerationByGravity(); }
+	void SetGravityValue(const float gravityMultiplier) { m_GravitationalValue = m_baseGravitationalValue * gravityMultiplier; UpdateAccelerationByGravity(); }
 	float GetGravity() const { return m_GravitationalValue; }
 
 	virtual void Update(float deltaTime) override;
@@ -88,6 +86,8 @@ protected:
 	Vector3 m_Force;
 
 	float m_GravitationalValue = 9.807f;
+
+	float m_baseGravitationalValue = 9.807f;
 
 	bool m_bOnGround = false;
 
