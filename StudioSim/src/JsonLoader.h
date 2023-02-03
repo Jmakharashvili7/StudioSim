@@ -277,11 +277,6 @@ namespace QuackEngine {
 			{
 				GameObject* obj = j["GameObject" + std::to_string(i)].get<GameObject*>();
 				gameObjects.push_back(obj);
-
-				if (obj->GetCollisionType() != CollisionType::NONE)
-				{
-					collisionManager->AddGameObject(obj);
-				}
 			}
 			
 			return sceneInfo;
