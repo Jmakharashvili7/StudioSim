@@ -4,6 +4,7 @@
 #include "Actor.h"
 #include "Scene.h"
 #include "CollisionManager.h"
+#include "AIComponent.h"
 #include "Enemy.h"
 
 using json = nlohmann::json;
@@ -90,9 +91,9 @@ namespace nlohmann
 				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
 
 				// Load AnimationData
-				animationData.banimated = j["banimated"].get<bool>();
-				animationData.columns = j["columns"].get<int>();
-				animationData.rows = j["rows"].get<int>();
+				//animationData.banimated = j["banimated"].get<bool>();
+				//animationData.columns = j["columns"].get<int>();
+				//animationData.rows = j["rows"].get<int>();
 
 				// Load movement data
 				movementData.jumpHeight = j["jumpHeight"].get<float>();
@@ -113,9 +114,9 @@ namespace nlohmann
 				physicsData.gravityMultiplier = j["gravityMultiplier"].get<float>();
 
 				// Load AnimationData
-				animationData.banimated = j["banimated"].get<bool>();
-				animationData.columns = j["columns"].get<int>();
-				animationData.rows = j["rows"].get<int>();
+				//animationData.banimated = j["banimated"].get<bool>();
+				//animationData.columns = j["columns"].get<int>();
+				//animationData.rows = j["rows"].get<int>();
 
 				// Load movement data
 				movementData.jumpHeight = j["jumpHeight"].get<float>();
@@ -156,7 +157,7 @@ namespace nlohmann
 			std::string textureName = gameObject->GetTextureName();
 			j["textureName"] = textureName;
 
-			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER)
+			if (gameObject->GetType() == GameObjectType::ACTOR || gameObject->GetType() == GameObjectType::CHARACTER || gameObject->GetType() == GameObjectType::ENEMY)
 			{
 				Actor* actor = dynamic_cast<Actor*>(gameObject);
 
@@ -167,10 +168,10 @@ namespace nlohmann
 				j["gravityMultiplier"] = physicsData.gravityMultiplier;
 
 				// Store Animation Data
-				AnimationData animationData = actor->GetAnimationData();
-				j["banimated"] = animationData.banimated;
-				j["columns"] = animationData.columns;
-				j["rows"] = animationData.rows;
+				//AnimationData animationData = actor->GetAnimationData();
+				//j["banimated"] = animationData.banimated;
+				//j["columns"] = animationData.columns;
+				//j["rows"] = animationData.rows;
 
 				if (gameObject->GetType() == GameObjectType::CHARACTER || gameObject->GetType() == GameObjectType::ENEMY)
 				{
@@ -254,7 +255,7 @@ namespace QuackEngine {
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager, Grid<PathNode> grid)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 
@@ -281,6 +282,13 @@ namespace QuackEngine {
 				if (obj->GetCollisionType() != CollisionType::NONE)
 				{
 					collisionManager->AddGameObject(obj);
+				}
+
+				// Set Grid for enemies
+				if (obj->GetType() == GameObjectType::ENEMY)
+				{
+					Enemy* enemy = static_cast<Enemy*>(obj);
+					enemy->GetAIComponent()->SetGrid(grid);
 				}
 			}
 			

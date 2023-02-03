@@ -26,6 +26,8 @@ public:
     /// </summary>
     inline Grid<PathNode> GetGrid() { return m_grid; }
 
+    inline void SetGrid(Grid<PathNode> grid) { m_grid = grid; }
+
     /// <summary>
     /// Get a node from the grid using x and y
     /// </summary>

@@ -415,6 +415,14 @@ public:
 		return temp;
 	}
 
+	// Returns direction vector
+	static Vector3 Direction(const Vector3& vec1, const Vector3& vec2)
+	{
+		Vector3 temp = vec2 - vec1;
+		temp.Normalize();
+		return temp;
+	}
+
 	// Dot product between two vectors (a dot b)
 	static float Dot(const Vector3& a, const Vector3& b)
 	{

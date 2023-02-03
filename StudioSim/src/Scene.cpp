@@ -28,12 +28,13 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	// Setup collision Manager
 	m_collisionManager = new CollisionManager();
 
-	// Load scen einfo
-	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_collisionManager);
+	m_grid = Grid<PathNode>(60, 60, 0.5, { -10,-10, 0 });
+
+	// Load scene
+	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_collisionManager, m_grid);
 	m_gameTimer.Start();
 
 	// Update engine manager
-	m_grid = Grid<PathNode>(60, 60, 0.5, { -10,-10, 0 });
 	m_pathfinder = new Pathfinding(m_grid);
 	EngineManager::SetGameObjects(m_gameObjects);
 }

@@ -1,6 +1,5 @@
 {
     "GameObject0": {
-        "banimated": false,
         "bconsumeInput": true,
         "bsimulateGravity": true,
         "centerPosition": {
@@ -29,7 +28,6 @@
             1.0,
             1.0
         ],
-        "columns": 0,
         "gravityMultiplier": 1.0,
         "jumpHeight": 500.0,
         "mass": 1.0,
@@ -48,7 +46,6 @@
             "y": 0.0,
             "z": 34.0
         },
-        "rows": 0,
         "scale": {
             "x": 1.0,
             "y": 1.0,
@@ -182,12 +179,14 @@
         ]
     },
     "GameObject2": {
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
         "centerPosition": {
             "x": 0.0,
-            "y": 0.0,
+            "y": -0.5,
             "z": 0.0
         },
-        "collisionType": 2,
+        "collisionType": 0,
         "colors": [
             1.0,
             1.0,
@@ -208,18 +207,23 @@
             1.0,
             1.0
         ],
-        "name": "Test",
-        "objectType": 0,
+        "gravityMultiplier": 1.0,
+        "jumpHeight": 7.2820000648498535,
+        "mass": 1.0,
+        "maxHealth": 24.011999130249023,
+        "movementSpeed": 1.0,
+        "name": " EnemyTest",
+        "objectType": 3,
         "position": {
-            "x": -5.0,
-            "y": 2.0,
+            "x": 0.0,
+            "y": -0.5,
             "z": 0.0
         },
         "radius": 0.0,
         "rotation": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
         },
         "scale": {
             "x": 1.0,
@@ -245,7 +249,7 @@
             0.0,
             0.0
         ],
-        "textureName": "duck.png",
+        "textureName": "blue.png",
         "vertices": [
             -0.5,
             -0.5,

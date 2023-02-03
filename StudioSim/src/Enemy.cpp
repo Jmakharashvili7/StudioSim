@@ -10,7 +10,7 @@ Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformD
 	m_type = GameObjectType::ENEMY;
 
 	// AI init
-	m_aiComponent = new AIComponent(this, 2, Quack::GetGrid());
+	m_aiComponent = new AIComponent(this, 2);
 	AddComponent(m_aiComponent);
 }
 
