@@ -38,7 +38,7 @@ void UILayer::OnAttach()
 void UILayer::InitWindows()
 {
 	m_viewportUI = new ViewportUI("Viewport");
-	m_editorUI = new EditorUI("Settings", EngineManager::GetGameObject(0));
+	m_editorUI = new EditorUI("Settings");
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_worldOutliner->SetEditorUI(m_editorUI);
 	m_contentBrowser = new ContentBrowserUI("Content Browser");

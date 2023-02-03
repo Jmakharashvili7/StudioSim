@@ -7,7 +7,7 @@ class ViewportUI;
 class EditorUI : public UIWindow
 {
 public:
-	EditorUI(std::string name, GameObject* gameObject);
+	EditorUI(std::string name);
 	~EditorUI();
 
 	void Render() override;

@@ -11,13 +11,13 @@
 
 namespace fs = std::filesystem;
 
-EditorUI::EditorUI(std::string name, GameObject* gameObject) :
-	UIWindow(name),
-	m_object(gameObject)
+EditorUI::EditorUI(std::string name) :
+	UIWindow(name)
 {
 	m_Viewport = Quack::GetUILayer()->GetViewport();
 
 	m_ItemWidth = 0.0f;
+	m_object = nullptr;
 }
 
 EditorUI::~EditorUI()
@@ -463,6 +463,8 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		finalPosition.z = values[0].z + values[1].z;
 	}
 
+	finalPosition.x += Quack::GetOrthoCam()->GetPosition().x;
+	finalPosition.y += Quack::GetOrthoCam()->GetPosition().y;
 	m_object->SetPosition(finalPosition);
 
 }
