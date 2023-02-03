@@ -66,23 +66,25 @@ void ViewportUI::HandleKeyboardInput(KeyEvent key)
 		switch (key.GetKeyCode())
 		{
 			case QE_KEY_LEFT_ARROW:
-				QE_LOG(Quack::GetOrthoCam()->GetPosition().x);
 				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
 				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				QE_LOG(Quack::GetOrthoCam()->GetPosition().x);
 				break;
 		
 
 			case QE_KEY_RIGHT_ARROW:
-				
+				m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
+				Quack::GetOrthoCam()->SetPosition(m_newPosition);
+				break;
 				
 
 			case QE_KEY_UP_ARROW:
-				QE_LOG("MOVE CAMERA UP");
+				m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+				Quack::GetOrthoCam()->SetPosition(m_newPosition);
 				break;
 
 			case QE_KEY_DOWN_ARROW:
-				QE_LOG("MOVE CAMERA DOWN");
+				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+				Quack::GetOrthoCam()->SetPosition(m_newPosition);
 				break;
 
 		default:
