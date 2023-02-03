@@ -24,7 +24,7 @@ struct PhysicsData
 		: bsimulateGravity(inSimulateGravity), mass(inMass), gravityMultiplier(inGravityMultiplier) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f), gravityMultiplier(1.0f) {};
+		: bsimulateGravity(false), mass(1.0f), gravityMultiplier(1.0f) {};
 
 	bool bsimulateGravity;
 	float mass;
@@ -123,17 +123,26 @@ enum class FacingDirection
 
 struct AttackData
 {
-	AttackData(const float inDamage, const float inKnockbackAmount, const float inCooldownTime, const float inHitboxActivateDelay, const float inHitboxActiveTime, const float inHitboxDeactivateTime)
-		: damage(inDamage), knockbackAmount(inKnockbackAmount), cooldownTime(inCooldownTime), hitboxActivateDelay(inHitboxActivateDelay), hitboxActiveTime(inHitboxActiveTime), hitboxDeactivateTime(inHitboxDeactivateTime)
+	AttackData(const float inDamage, const float inKnockbackAmount, const float inKnockbackSpeed, const Vector3 inHitboxScale, const float inSideOffset, const float inCooldownTime, const float inHitboxActivateDelay, const float inHitboxActiveTime, const float inHitboxDeactivateTime)
+		: damage(inDamage), knockbackAmount(inKnockbackAmount), knockbackSpeed(inKnockbackSpeed), hitboxScale(inHitboxScale), sideOffset(inSideOffset), cooldownTime(inCooldownTime), hitboxActivateDelay(inHitboxActivateDelay), hitboxActiveTime(inHitboxActiveTime), hitboxDeactivateTime(inHitboxDeactivateTime)
 		, totalAttackTime(inCooldownTime+inHitboxActivateDelay+inHitboxActiveTime+inHitboxDeactivateTime) {}
 
-	AttackData() : damage(0.0f), knockbackAmount(0.0f), cooldownTime(0.0f), hitboxActivateDelay(0.0f), hitboxActiveTime(0.0f), hitboxDeactivateTime(0.0f), totalAttackTime(0.0f) {}
+	AttackData() : damage(0.0f), knockbackAmount(0.0f), knockbackSpeed(0.0f), hitboxScale(Vector3(0.0f)), sideOffset(0.0f), cooldownTime(0.0f), hitboxActivateDelay(0.0f), hitboxActiveTime(0.0f), hitboxDeactivateTime(0.0f), totalAttackTime(0.0f) {}
 
 	// The damage the attack does
 	float damage;
 
 	// The amount the enemy is knocked back when hit
 	float knockbackAmount;
+
+	// The speed in which the enemy is knocked back
+	float knockbackSpeed;
+
+	// The scale of the hitbox
+	Vector3 hitboxScale;
+
+	// The x offset from the side of the character thats attacking
+	float sideOffset;
 
 	// After the attack is finished (after hitboxDeactivateTime) how long before you can press any attack again
 	float cooldownTime;

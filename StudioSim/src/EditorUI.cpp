@@ -92,21 +92,30 @@ void EditorUI::Render()
 			ImGui::PushItemWidth(m_ItemWidth);
 			Vector3 pos = m_object->GetPosition();
 			ImGui::DragFloat3("Position", &pos.x);
-			m_object->SetPosition(pos);
+			if (m_object->GetPosition().x != pos.x || m_object->GetPosition().y != pos.y || m_object->GetPosition().z != pos.z)
+			{
+				m_object->SetPosition(pos);
+			}
 			ImGui::PopItemWidth();
 
 			ImGui::PushItemWidth(m_ItemWidth);
 			Vector3 rot = m_object->GetRotation();
 			ImGui::DragFloat("Rotation", &rot.z);
-			m_object->SetRotation(rot);
+			if (m_object->GetRotation().x != rot.x || m_object->GetRotation().y != rot.y || m_object->GetRotation().z != rot.z)
+			{
+				m_object->SetRotation(rot);
+			}
 			ImGui::PopItemWidth();
 
 			ImGui::PushItemWidth(m_ItemWidth);
 			Vector3 scale = m_object->GetScale();
 			ImGui::DragFloat3("Scale", &scale.x);
-			m_object->SetScale(scale);
+			if (m_object->GetScale().x != scale.x || m_object->GetScale().y != scale.y || m_object->GetScale().z != scale.z)
+			{
+				m_object->SetScale(scale);
+			}
 			ImGui::PopItemWidth();
-
+		
 			ImGui::TreePop();
 			ImGui::Separator();
 		}
@@ -132,6 +141,27 @@ void EditorUI::Render()
 				if (m_object->GetCollisionSphereRadius() != sphereRadius)
 				{
 					m_object->SetCollisionSphereRadius(sphereRadius);
+				}
+				ImGui::PopItemWidth();
+			}
+
+			if (m_object->GetCollisionType() == CollisionType::BOX)
+			{
+				ImGui::PushItemWidth(m_ItemWidth);
+				Vector3 collisionBoxCenter = m_object->GetCollisionCenter();
+				ImGui::DragFloat3("Collision Box Center", &collisionBoxCenter.x);
+				if (m_object->GetCollisionCenter().x != collisionBoxCenter.x || m_object->GetCollisionCenter().y != collisionBoxCenter.y || m_object->GetCollisionCenter().z != collisionBoxCenter.z)
+				{
+					m_object->SetCollisionCenter(collisionBoxCenter);
+				}
+				ImGui::PopItemWidth();
+
+				ImGui::PushItemWidth(m_ItemWidth);
+				Vector3 collisionBoxSize = m_object->GetCollisionBoxSize();
+				ImGui::DragFloat3("Collision Box Size", &collisionBoxSize.x);
+				if (m_object->GetCollisionCenter().x != collisionBoxSize.x || m_object->GetCollisionCenter().y != collisionBoxSize.y || m_object->GetCollisionCenter().z != collisionBoxSize.z)
+				{
+					m_object->SetCollisionBoxSize(collisionBoxSize);
 				}
 				ImGui::PopItemWidth();
 			}

@@ -15,7 +15,8 @@ enum class GameObjectType
 	OBJECT,
 	ACTOR,
 	CHARACTER,
-	ENEMY
+	ENEMY,
+	ATTACKHITBOX,
 };
 
 struct VertexData
@@ -59,16 +60,16 @@ public:
 
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
-	inline void SetCollisionType(const CollisionType newCollisionType) { m_collisionData.collisionType = newCollisionType; }
+	void SetCollisionType(const CollisionType newCollisionType);
 	inline void SetCollisionCenter(const Vector3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
 	inline void SetCollisionBoxSize(const Vector3 newSize) { m_collisionData.size = newSize; }
 	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
-	inline const CollisionData& const GetCollisionData() { return m_collisionData; }
-	inline const CollisionType const GetCollisionType() { return m_collisionData.collisionType; }
-	inline const Vector3 const GetCollisionCenter() { return m_collisionData.centerPosition; }
-	inline const Vector3 const GetCollisionBoxSize() { return m_collisionData.size; }
-	inline const float const GetCollisionSphereRadius() { return m_collisionData.radius; }
-	const bool const GetIsCollidingGameObject(GameObject* gameObject);
+	inline const CollisionData& GetCollisionData() const { return m_collisionData; }
+	inline const CollisionType GetCollisionType() const { return m_collisionData.collisionType; }
+	inline const Vector3 GetCollisionCenter() const { return m_collisionData.centerPosition; }
+	inline const Vector3 GetCollisionBoxSize() const { return m_collisionData.size; }
+	inline const float GetCollisionSphereRadius() const { return m_collisionData.radius; }
+	const bool GetIsCollidingGameObject(GameObject* gameObject) const;
 	virtual void AddCollision(GameObject* collidingObject);
 	virtual void RemoveCollision(GameObject* gameObject);
 
