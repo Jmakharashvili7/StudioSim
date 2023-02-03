@@ -173,12 +173,7 @@ void EditorUI::Render()
 
 					//Check box to toggle simulation of gravity on and off
 					ImGui::PushItemWidth(m_ItemWidth);
-					bool simGravity = actorObject->GetSimulatingGravity();
-					ImGui::Checkbox("Simulate Gravity", &simGravity);
-					if (actorObject->GetSimulatingGravity() != simGravity)
-					{
-						actorObject->SetSimulateGravity(simGravity);
-					}
+					
 					ImGui::PopItemWidth();
 
 					ImGui::TreePop();
