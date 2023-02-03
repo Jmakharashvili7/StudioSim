@@ -61,9 +61,8 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	if (key.IsHeld())
+	if (key.IsHeld() || key.IsPressed())
 	{
-
 		switch (key.GetKeyCode())
 		{
 			case QE_KEY_LEFT_ARROW:
@@ -76,8 +75,7 @@ void ViewportUI::HandleKeyboardInput(KeyEvent key)
 
 			case QE_KEY_RIGHT_ARROW:
 				
-				break;
-			
+				
 
 			case QE_KEY_UP_ARROW:
 				QE_LOG("MOVE CAMERA UP");

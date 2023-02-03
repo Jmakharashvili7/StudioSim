@@ -17,7 +17,7 @@ void main()
     ourColor = aColor;
     TexCoord = aTexCoord;
 }
-    
+
 #shader fragment
 #version 330 core
 

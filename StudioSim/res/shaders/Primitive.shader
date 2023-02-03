@@ -10,7 +10,7 @@ uniform mat4 u_viewProjection;
 void main()
 {
     gl_Position = u_viewProjection * vec4(aPos, 1.0); // see how we directly give a vec3 to vec4's constructor
-    vertexColor = vec4(aCol, 1.0); // set the output variable to a dark-red color
+    vertexColor = vec4(aCol, 1.0); // set the output variable to a color
 }
 
 #shader fragment
