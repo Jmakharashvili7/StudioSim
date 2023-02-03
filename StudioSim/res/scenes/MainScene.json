@@ -4,8 +4,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -0.532830536365509,
-            "y": -0.7553801536560059,
+            "x": -3.0,
+            "y": 2.0,
             "z": 0.0
         },
         "collisionType": 0,
@@ -38,8 +38,8 @@
         "name": "Jaba",
         "objectType": 2,
         "position": {
-            "x": -0.532830536365509,
-            "y": -0.7553801536560059,
+            "x": -3.0,
+            "y": 2.0,
             "z": 0.0
         },
         "radius": 1.0,

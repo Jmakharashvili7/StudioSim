@@ -67,24 +67,37 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 	{
 		if (Quack::GetOrthoCam()->GetCanZoom())
 		{
-			float newZoom = Quack::GetOrthoCam()->GetZoom();
-			float aspect = m_size.x / m_size.y;
+			Vector2 port;
+			//Size of viewport
+			port.x = GetSize().x;
+			port.y = GetSize().y;
 
-			if (e.GetType() == MouseEvent::EventType::SCROLL_DOWN)
+			//Current mouse position within viewport scale
+			Vector2 viewStart;
+			viewStart.x = ImGui::GetMousePos().x - GetStartX();
+			viewStart.y = ImGui::GetMousePos().y - GetStartY();
+
+			//Only counting the click within viewport boundary
+			if ((viewStart.x >= 0 && viewStart.y >= 0) && (viewStart.x <= port.x && viewStart.y <= port.y))
 			{
-				newZoom += (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+				float newZoom = Quack::GetOrthoCam()->GetZoom();
+				float aspect = m_size.x / m_size.y;
+
+				if (e.GetType() == MouseEvent::EventType::SCROLL_DOWN)
+				{
+					newZoom += (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+				}
+
+				if (e.GetType() == MouseEvent::EventType::SCROLL_UP)
+				{
+					newZoom -= (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+				}
+
+				newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
+				Quack::GetOrthoCam()->SetZoom(newZoom);
+
+				Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
 			}
-
-			if (e.GetType() == MouseEvent::EventType::SCROLL_UP)
-			{
-				newZoom -= (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
-			}
-
-			newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
-			Quack::GetOrthoCam()->SetZoom(newZoom);
-
-			Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
-			
 		}
 
 	}
