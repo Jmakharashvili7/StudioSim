@@ -17,6 +17,35 @@ namespace QuackEngine {
 			KeyboardClass::OnKeyReleased(key);
 			break;
 		}
+
+		//if (action == GLFW_PRESS)
+		//{
+		//	KeyboardClass::OnKeyPressed(key);
+		//}
+		//if (action == GLFW_RELEASE)
+		//{
+		//	KeyboardClass::OnKeyReleased(key);
+		//}
+
+		//if (action == GLFW_REPEAT)
+		//{
+		//	if (key == GLFW_KEY_D)
+		//	{
+		//		cout << "d" << endl;
+		//	}
+		//}
+
+		//if (action == GLFW_PRESS)
+		//{
+
+		//	if (key == GLFW_KEY_W)
+		//	{
+		//		cout << "w" << endl;
+		//	}
+		//}
+
+
+
 	}
 
 	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)

@@ -31,6 +31,12 @@ KeyEvent KeyboardClass::ReadKey()
 		s_KeyBuffer.pop(); 
 		return e;
 	}
+
+	for (int i = 0; i < s_KeyBuffer.size(); i++)
+	{
+
+	}
+
 }
 
 unsigned char KeyboardClass::ReadChar()

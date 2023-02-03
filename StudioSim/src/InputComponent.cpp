@@ -165,4 +165,6 @@ void InputComponent::ProcessInput()
 {
 	keyEvent = KeyboardClass::ReadKey();
 	mouseEvent = MouseClass::ReadEvent();
+
+	cout << KeyboardClass::ReadKey().GetKeyCode() << endl;
 }
