@@ -7,6 +7,7 @@ using namespace std;
 
 bool KeyboardClass::s_AutoRepeatKeys;
 bool KeyboardClass::s_AutoRepeatChars;
+bool KeyboardClass::m_StopPopping;
 bool KeyboardClass::s_KeyStates[256];
 std::queue<KeyEvent> KeyboardClass::s_KeyBuffer;
 std::queue<unsigned char> KeyboardClass::s_CharBuffer;
@@ -30,6 +31,8 @@ KeyEvent KeyboardClass::ReadKey()
 		// retreive the first event and remove it from the queue, after this return the event.
 		KeyEvent e = s_KeyBuffer.front(); 
 		s_KeyBuffer.pop(); 
+		
+		
 		return e;
 	}
 }

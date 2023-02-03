@@ -44,6 +44,9 @@ OrthographicCamera* Quack::m_mainCamera;
 
 std::map<std::string, Texture*> Quack::m_textures;
 
+KeyEvent Quack::m_keyEvent = KeyEvent();
+MouseEvent Quack::m_mouseEvent = MouseEvent();
+
 #pragma endregion DeclareMembers
 
 int Quack::InitEngine()
@@ -150,20 +153,19 @@ void Quack::HandleInput()
 	//e.g right arrow key QE_KEY_RIGHT_ARROW or space QE_KEYS_SPACE
 	if (!KeyboardClass::KeyBufferIsEmpty())
 	{
-		KeyEvent key = KeyboardClass::ReadKey();
-
-		m_uiMain->GetViewport()->HandleKeyboardInput(key);
+		m_keyEvent = KeyboardClass::ReadKey();
 		
+		/*m_uiMain->GetViewport()->HandleKeyboardInput(m_keyEvent);*/
 	}
 
 	//Mouse Input
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-		MouseEvent e = MouseClass::ReadEvent();
+		m_mouseEvent = MouseClass::ReadEvent();
 
-		m_uiMain->GetEditorUI()->HandleMouseInput(e);
-		m_uiMain->GetViewport()->HandleMouseInput(e);
-		m_uiMain->GetWorldOutliner()->HandleMouseInput(e);
+		m_uiMain->GetEditorUI()->HandleMouseInput(m_mouseEvent);
+		m_uiMain->GetViewport()->HandleMouseInput(m_mouseEvent);
+		m_uiMain->GetWorldOutliner()->HandleMouseInput(m_mouseEvent);
 	}
 
 }

@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "InputComponent.h"
+#include "Quack.h"
 
 InputComponent::InputComponent(Actor* owningActor, const int updateOrder) : Component{ owningActor, updateOrder }
 {
@@ -11,7 +12,7 @@ void InputComponent::Update(const float deltaTime)
 {
 	Component::Update(deltaTime);
 	ProcessInput();
-	//KeyboardClass::ClearKeyBuffer();
+	KeyboardClass::ClearKeyBuffer();
 }
 
 const bool InputComponent::GetKeyDown(const char key) const
@@ -22,7 +23,7 @@ const bool InputComponent::GetKeyDown(const char key) const
 	if (KeyboardClass::IsKeyPressed(upperCaseKey))
 	{
 		KeyboardClass::OnKeyPressed(upperCaseKey);
-		if (keyEvent.GetKeyCode() == upperCaseKey)
+		if (Quack::GetKeyEvent().GetKeyCode() == upperCaseKey)
 		{
 			bkeyHeld = true;
 		}
@@ -37,9 +38,9 @@ const bool InputComponent::GetKeyUp(const char key) const
 	bool bkeyUp = false;
 	const char upperCaseKey = toupper(key);
 
-	if (keyEvent.IsReleased())
+	if (Quack::GetKeyEvent().IsReleased())
 	{
-		if (keyEvent.GetKeyCode() == upperCaseKey)
+		if (Quack::GetKeyEvent().GetKeyCode() == upperCaseKey)
 		{
 			bkeyUp = true;
 		}
@@ -53,9 +54,9 @@ const bool InputComponent::GetKeyPressed(const char key) const
 	bool bkeyPressed = false;
 	const char upperCaseKey = toupper(key);
 
-	if (keyEvent.IsPressed())
+	if (Quack::GetKeyEvent().IsPressed())
 	{
-		if (keyEvent.GetKeyCode() == upperCaseKey)
+		if (Quack::GetKeyEvent().GetKeyCode() == upperCaseKey)
 		{
 			bkeyPressed = true;
 		}
@@ -70,7 +71,7 @@ const bool InputComponent::AnyKeyDown() const
 
 	if (!KeyboardClass::KeyBufferIsEmpty())
 	{
-		if (keyEvent.GetKeyCode() != NULL)
+		if (Quack::GetKeyEvent().GetKeyCode() != NULL)
 		{
 			banyKeyHeld = true;
 		}
@@ -83,9 +84,9 @@ const bool InputComponent::AnyKeyPressed() const
 {
 	bool banyKeyPressed = false;
 
-	if (keyEvent.IsPressed())
+	if (Quack::GetKeyEvent().IsPressed())
 	{
-		if (keyEvent.GetKeyCode() != NULL)
+		if (Quack::GetKeyEvent().GetKeyCode() != NULL)
 		{
 			banyKeyPressed = true;
 		}
@@ -100,15 +101,15 @@ const bool InputComponent::GetMouseButtonDown(const int mouseClick)
 
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-		if (mouseEvent.GetType() == MouseEvent::EventType::L_HELD && mouseClick == 0)
+		if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::L_HELD && mouseClick == 0)
 		{
 			bmouseButtonHeld = true;
 		}
-		else if (mouseEvent.GetType() == MouseEvent::EventType::R_HELD && mouseClick == 1)
+		else if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::R_HELD && mouseClick == 1)
 		{
 			bmouseButtonHeld = true;
 		}
-		else if (mouseEvent.GetType() == MouseEvent::EventType::SCROLL_HELD && mouseClick == 2)
+		else if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::SCROLL_HELD && mouseClick == 2)
 		{
 			bmouseButtonHeld = true;
 		}
@@ -123,15 +124,15 @@ const bool InputComponent::GetMouseButtonUp(const int mouseClick)
 
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-		if (mouseEvent.GetType() == MouseEvent::EventType::L_RELEASE && mouseClick == 0)
+		if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::L_RELEASE && mouseClick == 0)
 		{
 			bmouseButtonUp = true;
 		}
-		else if (mouseEvent.GetType() == MouseEvent::EventType::R_RELEASE && mouseClick == 1)
+		else if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::R_RELEASE && mouseClick == 1)
 		{
 			bmouseButtonUp = true;
 		}
-		else if (mouseEvent.GetType() == MouseEvent::EventType::SCROLL_RELEASE && mouseClick == 2)
+		else if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::SCROLL_RELEASE && mouseClick == 2)
 		{
 			bmouseButtonUp = true;
 		}
@@ -146,15 +147,15 @@ const bool InputComponent::GetMouseButtonPressed(const int mouseClick)
 
 	if (!MouseClass::IsEventBufferEmpty())
 	{
-		if (mouseEvent.GetType() == MouseEvent::EventType::L_CLICK && mouseClick == 0)
+		if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::L_CLICK && mouseClick == 0)
 		{
 			bmouseButtonPressed = true;
 		}
-		else if (mouseEvent.GetType() == MouseEvent::EventType::R_CLICK && mouseClick == 1)
+		else if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::R_CLICK && mouseClick == 1)
 		{
 			bmouseButtonPressed = true;
 		}
-		else if (mouseEvent.GetType() == MouseEvent::EventType::SCROLL_CLICK && mouseClick == 2)
+		else if (Quack::GetMouseEvent().GetType() == MouseEvent::EventType::SCROLL_CLICK && mouseClick == 2)
 		{
 			bmouseButtonPressed = true;
 		}
@@ -165,6 +166,6 @@ const bool InputComponent::GetMouseButtonPressed(const int mouseClick)
 
 void InputComponent::ProcessInput()
 {
-	keyEvent = KeyboardClass::ReadKey();
-	mouseEvent = MouseClass::ReadEvent();
+
 }
+

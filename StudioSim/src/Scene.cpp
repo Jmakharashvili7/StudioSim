@@ -23,7 +23,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 {
 	// Setup camera
 	m_activeCamera = new OrthographicCamera(-5.0f, 5.0f, -5.0f, 5.0f);
-	m_activeCamera->SetPosition(glm::vec3(3.0f, -10.0f, 0.0f));
+	m_activeCamera->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	// Setup collision Manager
 	m_collisionManager = new CollisionManager();
