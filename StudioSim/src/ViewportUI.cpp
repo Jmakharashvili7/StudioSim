@@ -23,6 +23,7 @@ void ViewportUI::Render()
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin(m_name.c_str());
+	m_isHovered = ImGui::IsWindowHovered();
 
 	// Check if the size of the window changed
 	// *((glm::vec2*)& is used to compare imvec2 and glm vec2 and it works due to their layouts both being two floats
@@ -67,18 +68,19 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 	{
 		if (Quack::GetOrthoCam()->GetCanZoom())
 		{
-			Vector2 port;
-			//Size of viewport
-			port.x = GetSize().x;
-			port.y = GetSize().y;
+			//Spikes child
+			//Vector2 port;
+			////Size of viewport
+			//port.x = GetSize().x;
+			//port.y = GetSize().y;
 
-			//Current mouse position within viewport scale
-			Vector2 viewStart;
-			viewStart.x = ImGui::GetMousePos().x - GetStartX();
-			viewStart.y = ImGui::GetMousePos().y - GetStartY();
+			////Current mouse position within viewport scale
+			//Vector2 viewStart;
+			//viewStart.x = ImGui::GetMousePos().x - GetStartX();
+			//viewStart.y = ImGui::GetMousePos().y - GetStartY();
 
 			//Only counting the click within viewport boundary
-			if ((viewStart.x >= 0 && viewStart.y >= 0) && (viewStart.x <= port.x && viewStart.y <= port.y))
+			if (m_isHovered)
 			{
 				float newZoom = Quack::GetOrthoCam()->GetZoom();
 				float aspect = m_size.x / m_size.y;
