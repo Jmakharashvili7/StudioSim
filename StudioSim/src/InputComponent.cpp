@@ -11,7 +11,7 @@ void InputComponent::Update(const float deltaTime)
 {
 	Component::Update(deltaTime);
 	ProcessInput();
-	KeyboardClass::ClearKeyBuffer();
+	//KeyboardClass::ClearKeyBuffer();
 }
 
 const bool InputComponent::GetKeyDown(const char key) const
