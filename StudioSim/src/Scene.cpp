@@ -246,13 +246,9 @@ void Scene::SaveScene()
 void Scene::AddGameObject(GameObject* newGameObject)
 {
 	m_gameObjectsToAdd.push_back(newGameObject);
-	m_collisionManager->AddGameObject(newGameObject);
 }
 
 void Scene::RemoveGameObject(GameObject* gameObject)
 {
-	/*m_gameObjectsToRemove.push_back(gameObject);
-	m_collisionManager->RemoveGameObject(gameObject);*/
-	auto index = std::find(m_gameObjects.begin(), m_gameObjects.end(), gameObject);
-	m_gameObjects.erase(index);
+	m_gameObjectsToRemove.push_back(gameObject);
 }

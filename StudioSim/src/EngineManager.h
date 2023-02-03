@@ -20,6 +20,7 @@ public:
 	/// <param name="gameObjectArray"></param>
 	/// <returns>if object not found returns -1</returns>
 	static int GetGameObjectIndex(GameObject* gameObject);
+	static int GetGameObjectIndex(GameObject* gameObject, std::vector<GameObject*> gameObjectArray);
 	static void SetInputCharacter(Character* newInputCharacter);
 	static inline Character* GetInputCharacter() { return m_inputCharacter; }
 	static const bool GetCharacterConsumingInput(Character* inputCharacter);

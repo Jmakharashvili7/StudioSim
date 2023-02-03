@@ -53,6 +53,27 @@ int EngineManager::GetGameObjectIndex(GameObject* gameObject)
 	return -1;
 }
 
+EngineManager::~EngineManager()
+{
+}
+
+int EngineManager::GetGameObjectIndex(GameObject* gameObject, std::vector<GameObject*> gameObjectArray)
+{
+	int i = 0;
+
+	for (GameObject* loopedGameObject : gameObjectArray)
+	{
+		if (gameObject == loopedGameObject)
+		{
+			return i;
+		}
+
+		i++;
+	}
+
+	return -1;
+}
+
 void EngineManager::SetInputCharacter(Character* newInputCharacter)
 {
 	m_inputCharacter = newInputCharacter;
