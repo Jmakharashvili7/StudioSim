@@ -81,3 +81,5 @@ ipch/
 *.filters
 *.bin
 *.recipe
+
+*.lock

@@ -56,7 +56,6 @@ void Character::AddCollision(GameObject* collidingObject)
 	if (collidingObject->GetName() == "ground")
 	{
 		SetJumping(false); 
-		SetCollidingWithGround(true);
 	}
 
 	Actor::AddCollision(collidingObject);

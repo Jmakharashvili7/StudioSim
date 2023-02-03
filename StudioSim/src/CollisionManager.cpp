@@ -16,12 +16,14 @@ void CollisionManager::Update(const float deltaTime)
 {
 	int index = 0;
 
+	std::vector<GameObject*> currentSceneGameObjects = Quack::GetCurrentScene()->GetGameObjects();
+
 	// Update collision for each game object
-	for (GameObject* gameObject : m_gameObjects)
+	for (GameObject* gameObject : Quack::GetCurrentScene()->GetGameObjects())
 	{
 		if (gameObject->GetCollisionType() != CollisionType::NONE)
 		{
-			std::vector<GameObject*> tempGameObjects = m_gameObjects;
+			std::vector<GameObject*> tempGameObjects = Quack::GetCurrentScene()->GetGameObjects();
 			tempGameObjects.erase(tempGameObjects.begin() + index);
 
 			for (GameObject* otherGameObject : tempGameObjects)
@@ -96,15 +98,5 @@ void CollisionManager::Update(const float deltaTime)
 		}
 
 		index++;
-	}
-}
-
-void CollisionManager::RemoveGameObject(GameObject* gameObjectToRemove)
-{
-	if (gameObjectToRemove)
-	{
-		//const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObjectToRemove);
-		auto index = std::find(m_gameObjects.begin(), m_gameObjects.end(), gameObjectToRemove);
-		m_gameObjects.erase(index);
 	}
 }

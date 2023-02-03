@@ -147,11 +147,11 @@ void GameObject::AddCollision(GameObject* collidingObject)
 
 void GameObject::RemoveCollision(GameObject* gameObject)
 {
-	/*if (gameObject)
+	if (gameObject)
 	{
 		const int gameObjectIndex = EngineManager::GetGameObjectIndex(gameObject, m_collidingObjects);
 		m_collidingObjects.erase(m_collidingObjects.begin() + gameObjectIndex);
-	}*/
+	}
 }
 
 void GameObject::UpdateVertexArray()
