@@ -61,7 +61,7 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	if (key.IsPressed())
+	if (key.IsHeld())
 	{
 
 		switch (key.GetKeyCode())
