@@ -2,6 +2,7 @@
 #include "component.h"
 
 class Character;
+class AttackHitbox;
 
 class CombatComponent : public Component
 {
@@ -10,6 +11,8 @@ public:
 	~CombatComponent();
 
 	virtual void Update(const float deltaTime) override;
+
+	virtual void UpdateAttackHitboxPosition(const Vector3& newPosition);
 
 	virtual void LightAttack();
 	virtual void HeavyAttack();
@@ -26,11 +29,13 @@ public:
 	virtual inline void SetCurrentWeaponData(const WeaponData& newWeaponData) { m_currentWeaponData = newWeaponData; }
 	virtual inline const WeaponData GetCurrentWeaponData() const { return m_currentWeaponData; }
 
+	virtual void CharacterHit(Character* hitCharacter);
+
 protected:
 	Character* m_owningCharacter = nullptr;
 
 	WeaponData m_currentWeaponData = WeaponData();
-	GameObject* m_weaponHitbox = nullptr;
+	AttackHitbox* m_attackHitbox = nullptr;
 	bool m_battacking = false;
 	AttackData m_currentAttackData = AttackData();
 	float m_currentAttackTimer = 0.0f;

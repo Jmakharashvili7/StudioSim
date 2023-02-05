@@ -7,6 +7,7 @@ class KeyboardClass
 private:
 	static bool s_AutoRepeatKeys;
 	static bool s_AutoRepeatChars;
+	static bool m_StopPopping;
 	static bool s_KeyStates[256];
 	static std::queue<KeyEvent> s_KeyBuffer;
 	static std::queue<unsigned char> s_CharBuffer;

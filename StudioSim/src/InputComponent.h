@@ -26,6 +26,4 @@ protected:
 private:
 	GLFWwindow* m_window = nullptr;
 	map <KeyType, int> buttonKeys;
-	KeyEvent keyEvent = KeyEvent();
-	MouseEvent mouseEvent = MouseEvent();
 };

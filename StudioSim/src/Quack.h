@@ -11,6 +11,7 @@
 #include "QuackDataTypes.h"
 #include "FrameBuffer.h"
 #include "Scene.h"
+#include "MouseEvent.h"
 
 class LayerStack;
 class UIRenderer;
@@ -46,6 +47,9 @@ public:
 	static inline Shader* GetTextureShader() { return m_textureShader; }
 
 	static Scene* GetCurrentScene() { return &m_mainScene; }
+
+	static inline KeyEvent GetKeyEvent() { return m_keyEvent; }
+	static inline MouseEvent GetMouseEvent() { return m_mouseEvent; }
 private:
 	Quack();
 	~Quack();
@@ -72,4 +76,7 @@ private:
 	static OrthographicCamera* m_mainCamera;
 
 	static std::map<std::string, Texture*> m_textures;
+
+	static KeyEvent m_keyEvent;
+	static MouseEvent m_mouseEvent;
 };
