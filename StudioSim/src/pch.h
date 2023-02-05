@@ -29,6 +29,7 @@
 #include <limits>
 #include <assert.h>
 #include <unordered_map>
+#include <map>
 #include <stdexcept>
 
 //Engine stuff
