@@ -31,6 +31,7 @@ void WorldOutlinerUI::Render()
 	//Creates initial node
 	//Opening this dropdown will show the game objects within the current scene
 	//This dropdown is set to be open by default as it is the root node
+	ImGui::BeginChild("Scene Objects", ImVec2(ImGui::GetContentRegionAvail().x * 0.75, ImGui::GetContentRegionAvail().y * 0.75), false, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 	bool dropdown = ImGui::TreeNodeEx("Current Scene Game Objects", ImGuiTreeNodeFlags_DefaultOpen);
 
 	if (dropdown)
@@ -82,10 +83,10 @@ void WorldOutlinerUI::Render()
 			}
 
 		}
-
+		
 		ImGui::TreePop();
 	}
-
+	ImGui::EndChild();
 	ImGui::End();
 }
 
