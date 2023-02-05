@@ -59,7 +59,7 @@ void WorldOutlinerUI::Render()
 					{
 						if (actorObject->GetComoponents().size() > 0)
 						{
-							//ImGui::Text(typeid(*components).name());
+							ImGui::Text(typeid(*components).name());
 
 							if (ImGui::Selectable(typeid(*components).name()))
 							{

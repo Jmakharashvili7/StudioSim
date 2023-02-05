@@ -155,7 +155,7 @@ void Quack::HandleInput()
 	{
 		m_keyEvent = KeyboardClass::ReadKey();
 		
-		/*m_uiMain->GetViewport()->HandleKeyboardInput(m_keyEvent);*/
+		m_uiMain->GetViewport()->HandleKeyboardInput(m_keyEvent);
 	}
 
 	//Mouse Input
