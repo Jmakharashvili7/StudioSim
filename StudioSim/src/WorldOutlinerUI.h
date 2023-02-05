@@ -23,5 +23,7 @@ private:
 	Scene* m_CurrentScene;
 	EditorUI* m_EditorUI;
 
+	float m_ListHeight;
+
 
 };

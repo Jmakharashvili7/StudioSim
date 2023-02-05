@@ -25,4 +25,5 @@ private:
 	float m_verticalMovement;
 	
 	glm::vec3 m_newPosition;
+
 };
