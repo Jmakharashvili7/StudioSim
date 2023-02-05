@@ -92,4 +92,6 @@ protected:
 	bool m_bOnGround = false;
 
 	bool m_bSimulateGravity = true;
+
+	class CollisionResolver* m_Contacts;
 };

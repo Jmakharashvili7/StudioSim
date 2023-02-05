@@ -82,6 +82,26 @@ void CollisionManager::RemoveGameObject(GameObject* gameObjectToRemove)
 void CollisionResolver::Resolve(float deltaTime)
 {
 	ResolveVelocity(deltaTime);
+	ResolveInterpenetration(deltaTime);
+}
+
+void CollisionResolver::ResolveInterpenetration(float deltaTime)
+{
+	if (m_Penetration <= 0) return;
+
+	float totalInverseMass = m_PhysicsObject[0]->GetInverseMass();
+	if (m_PhysicsObject[1]) totalInverseMass += m_PhysicsObject[1]->GetInverseMass();
+
+	if (totalInverseMass <= 0) return;
+
+	Vector3 movePerIMass = m_contactNormal * (-m_Penetration / totalInverseMass);
+
+	m_PhysicsObject[0]->GetOwningActor()->SetPosition(m_PhysicsObject[0]->GetOwningActor()->GetPosition() + movePerIMass * m_PhysicsObject[0]->GetInverseMass());
+
+	if (m_PhysicsObject[1])
+	{
+		m_PhysicsObject[1]->GetOwningActor()->SetPosition(m_PhysicsObject[1]->GetOwningActor()->GetPosition() + movePerIMass * m_PhysicsObject[1]->GetInverseMass());
+	}
 }
 
 float CollisionResolver::CalculateSeparateVelocity() const
@@ -92,8 +112,10 @@ float CollisionResolver::CalculateSeparateVelocity() const
 		relativeVelocity -= m_PhysicsObject[1]->GetVelocity();
 		
 	}
-	Vector3::Normalize(contactNormal);
-	return (relativeVelocity * contactNormal.Length()).Length();
+	
+	Vector3 contactNormal = m_contactNormal;
+	contactNormal.Normalize();
+	return Vector3::Dot(relativeVelocity,contactNormal);
 	
 }
 
@@ -122,7 +144,7 @@ void CollisionResolver::ResolveVelocity(float deltaTime)
 
 	float impulse = deltaVelocity / totalInverseMass;
 
-	Vector3 impulsePerMass = contactNormal * impulse;
+	Vector3 impulsePerMass = m_contactNormal * impulse;
 
 	m_PhysicsObject[0]->SetVelocity(m_PhysicsObject[0]->GetVelocity() + impulsePerMass * m_PhysicsObject[0]->GetInverseMass());
 

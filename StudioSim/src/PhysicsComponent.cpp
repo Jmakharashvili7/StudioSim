@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "PhysicsComponent.h"
+#include "CollisionManager.h"
 
 PhysicsComponent::PhysicsComponent(Actor* owner, int updateOrder, const float mass, const bool bSimulateGravity, const float gravityMultiplier) : Component(owner, updateOrder), m_InverseMass(1 / mass)
 {	
@@ -13,6 +14,8 @@ PhysicsComponent::PhysicsComponent(Actor* owner, int updateOrder, const float ma
 	m_updateOrder = updateOrder;
 	SetSimulateGravity(bSimulateGravity);
 	SetGravityValue(gravityMultiplier);
+	m_Contacts = new CollisionResolver();
+
 }
 
 
@@ -33,6 +36,12 @@ void PhysicsComponent::Update(float deltaTime)
 	m_Velocity += resultingAcc * deltaTime;
 
 	m_Velocity *= powf(m_Dampening, deltaTime);
+
+	if (m_bOnGround)
+	{
+		m_Contacts->Resolve(deltaTime);
+	}
+	
 	
 	ClearAccumulator();
 }
@@ -64,11 +73,14 @@ void PhysicsComponent::SetOnGround(const bool bOnGround)
 
 	if (bOnGround)
 	{
-		ResetForces();
+		//ResetForces();
+		m_Contacts->m_PhysicsObject[0] = this;
+		m_Contacts->m_PhysicsObject[1] = nullptr;
+		
 	}
 	else
 	{
-		UpdateAccelerationByGravity();
+		//UpdateAccelerationByGravity();
 	}
 }
 
