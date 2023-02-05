@@ -2,10 +2,10 @@
     "GameObject0": {
         "banimated": false,
         "bconsumeInput": true,
-        "bsimulateGravity": true,
+        "bsimulateGravity": false,
         "centerPosition": {
-            "x": -2.4516546726226807,
-            "y": -0.7553801536560059,
+            "x": 2.5,
+            "y": 3.5,
             "z": 0.0
         },
         "collisionType": 0,
@@ -38,8 +38,8 @@
         "name": "Jaba",
         "objectType": 2,
         "position": {
-            "x": -2.4516546726226807,
-            "y": -0.7553801536560059,
+            "x": 2.5,
+            "y": 3.5,
             "z": 0.0
         },
         "radius": 1.0,
@@ -137,12 +137,12 @@
         },
         "scale": {
             "x": 15.0,
-            "y": 0.6320000290870667,
+            "y": 0.6000000238418579,
             "z": 1.0
         },
         "size": {
             "x": 15.0,
-            "y": 0.6320000290870667,
+            "y": 0.6000000238418579,
             "z": 1.0
         },
         "texCoords": [
@@ -183,8 +183,8 @@
     },
     "GameObject2": {
         "centerPosition": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": -5.0,
+            "y": 2.0,
             "z": 0.0
         },
         "collisionType": 2,
@@ -227,9 +227,9 @@
             "z": 1.0
         },
         "size": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
         },
         "texCoords": [
             0.0,
@@ -267,5 +267,101 @@
             0.0
         ]
     },
-    "ObjectCount": 3
+    "GameObject3": {
+        "banimated": false,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": 0.5,
+            "y": -0.5,
+            "z": 0.0
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "columns": 0,
+        "gravityMultiplier": 1.0,
+        "jumpHeight": 0.0,
+        "mass": 1.0,
+        "maxHealth": 88.99099731445313,
+        "movementSpeed": 0.0,
+        "name": "Spike",
+        "objectType": 2,
+        "position": {
+            "x": 0.5,
+            "y": -0.5,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "rows": 0,
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "texCoords": [
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ],
+        "textureName": "twist.png",
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "ObjectCount": 4
 }

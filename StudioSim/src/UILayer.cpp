@@ -42,7 +42,7 @@ void UILayer::InitWindows()
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_worldOutliner->SetEditorUI(m_editorUI);
 	m_contentBrowser = new ContentBrowserUI("Content Browser");
-	
+
 }
 
 void UILayer::OnDetach()
@@ -141,10 +141,38 @@ void UILayer::EnableDocking()
 			ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
 			ImGui::Separator();
 
-			if(ImGui::Button("Save Current Scene"))
+			if (ImGui::Button("Save Current Scene"))
 			{
 				Quack::GetCurrentScene()->SaveScene();
 			}
+
+			if (inEditor)
+			{
+				if (ImGui::Button("Play"))
+				{
+					Quack::GetCurrentScene()->SaveScene();
+
+					inEditor = false;
+					inPlay = true;
+				}
+			}
+
+			if (inPlay)
+			{
+				if (ImGui::Button("Stop"))
+				{
+					for (GameObject* gameObject : Quack::GetCurrentScene()->GetGameObjects())
+					{
+						Quack::GetCurrentScene()->RemoveGameObject(gameObject);
+					}
+					Quack::GetCurrentScene()->LoadScene();
+
+					inEditor = true;
+					inPlay = false;
+
+				}
+			}
+
 
 			ImGui::Separator();
 
@@ -210,7 +238,7 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Close"))
 			{
-				Actor* newActor = new Actor(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName,newObjectInfo.physicsData, newObjectInfo.animationData);
+				Actor* newActor = new Actor(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.animationData);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
 				Quack::GetCurrentScene()->AddGameObject(newActor);
@@ -228,7 +256,7 @@ void UILayer::SetUpObjectCreator()
 		{
 			BasePopupContent();
 			ActorContent();
-			CharacterContent();  
+			CharacterContent();
 
 			if (ImGui::Button("Create"))
 			{

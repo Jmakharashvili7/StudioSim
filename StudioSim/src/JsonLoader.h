@@ -254,7 +254,7 @@ namespace QuackEngine {
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 

@@ -29,7 +29,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	m_collisionManager = new CollisionManager();
 
 	// Load scen einfo
-	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_collisionManager);
+	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects);
 	m_gameTimer.Start();
 
 	// Update engine manager
@@ -58,77 +58,77 @@ void Scene::RenderScene()
 
 void Scene::HandleLights()
 {
-//#ifdef _3D_SHADER
-//	// bind shader
-//	m_3dShader->Bind();
-//	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
-//	m_3dShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
-//	//Light
-//	m_3dShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
-//	//Material Struct
-//	m_3dShader->SetUniform1i("u_material.diffuse", 0);
-//	m_3dShader->SetUniform1i("u_material.specular", 1);
-//	m_3dShader->SetUniform1f("u_material.shine", 32.0f);
-//	//Directional Light
-//	m_3dShader->SetUniform4f("u_dirLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
-//	m_3dShader->SetUniform4f("u_dirLight.ambient", m_dirAmbient.x, m_dirAmbient.y, m_dirAmbient.z, m_dirAmbient.a);
-//	m_3dShader->SetUniform4f("u_dirLight.diffuse", m_dirDiffuse.x, m_dirDiffuse.y, m_dirDiffuse.z, m_dirDiffuse.a);
-//	m_3dShader->SetUniform4f("u_dirLight.specular", m_dirSpecular.x, m_dirSpecular.y, m_dirSpecular.z, m_dirSpecular.a);
-//
-//	//Point Lights
-//
-//	m_3dShader->SetUniform4f("u_pointLights[0].position", m_pointLightPositions[0].x, m_pointLightPositions[0].y, m_pointLightPositions[0].z, 1.0f);
-//	m_3dShader->SetUniform4f("u_pointLights[1].position", m_pointLightPositions[1].x, m_pointLightPositions[1].y, m_pointLightPositions[1].z, 1.0f);
-//	m_3dShader->SetUniform4f("u_pointLights[2].position", m_pointLightPositions[2].x, m_pointLightPositions[2].y, m_pointLightPositions[2].z, 1.0f);
-//
-//	m_3dShader->SetUniform4f("u_pointLights[0].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
-//	m_3dShader->SetUniform4f("u_pointLights[1].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
-//	m_3dShader->SetUniform4f("u_pointLights[2].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
-//	m_3dShader->SetUniform4f("u_pointLights[0].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
-//	m_3dShader->SetUniform4f("u_pointLights[1].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
-//	m_3dShader->SetUniform4f("u_pointLights[2].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
-//	m_3dShader->SetUniform4f("u_pointLights[0].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
-//	m_3dShader->SetUniform4f("u_pointLights[1].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
-//	m_3dShader->SetUniform4f("u_pointLights[2].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
-//	//dont change																													
-//	m_3dShader->SetUniform1f("u_pointLights[0].constant", 1.0f);
-//	m_3dShader->SetUniform1f("u_pointLights[1].constant", 1.0f);
-//	m_3dShader->SetUniform1f("u_pointLights[2].constant", 1.0f);
-//	m_3dShader->SetUniform1f("u_pointLights[0].linear", 0.09f);
-//	m_3dShader->SetUniform1f("u_pointLights[1].linear", 0.09f);
-//	m_3dShader->SetUniform1f("u_pointLights[2].linear", 0.09f);
-//	m_3dShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
-//	m_3dShader->SetUniform1f("u_pointLights[1].quadratic", 0.032f);
-//	m_3dShader->SetUniform1f("u_pointLights[2].quadratic", 0.032f);
-//
-//	//Spot Light
-//	m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
-//	m_3dShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
-//	m_3dShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
-//	m_3dShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
-//	m_3dShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
-//	//dont change
-//	m_3dShader->SetUniform1f("u_spotLight.constant", 1.0f);
-//	m_3dShader->SetUniform1f("u_spotLight.linear", 0.09f);
-//	m_3dShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
-//	m_3dShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-//	m_3dShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-//
-//#endif // _3D_SHADER
-//
-//#ifdef _2D_SHADER
-//
-//	// bind shader
-//	m_mainShader->Bind();
-//	m_mainShader->SetUniform4x4("u_viewProjection", m_activeCamera->GetViewProjectionMatrix());
-//
-//	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-//
-//	//Ambient light
-//	m_mainShader->SetUniform4f("u_light.position", 0.0f, 0.0f, 0.0f, -2.0f);
-//	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
-//
-//#endif // _2D_SHADER
+	//#ifdef _3D_SHADER
+	//	// bind shader
+	//	m_3dShader->Bind();
+	//	m_3dShader->SetUniform4x4("u_viewProjection", m_mainCamera->GetViewProjectionMatrix());
+	//	m_3dShader->SetUniform4f("u_color", 0.5f, 0.5, 0.5f, 1.f);
+	//	//Light
+	//	m_3dShader->SetUniform4f("u_viewPos", 1.0f, 4.0f, 1.0f, 1.0f);
+	//	//Material Struct
+	//	m_3dShader->SetUniform1i("u_material.diffuse", 0);
+	//	m_3dShader->SetUniform1i("u_material.specular", 1);
+	//	m_3dShader->SetUniform1f("u_material.shine", 32.0f);
+	//	//Directional Light
+	//	m_3dShader->SetUniform4f("u_dirLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	//	m_3dShader->SetUniform4f("u_dirLight.ambient", m_dirAmbient.x, m_dirAmbient.y, m_dirAmbient.z, m_dirAmbient.a);
+	//	m_3dShader->SetUniform4f("u_dirLight.diffuse", m_dirDiffuse.x, m_dirDiffuse.y, m_dirDiffuse.z, m_dirDiffuse.a);
+	//	m_3dShader->SetUniform4f("u_dirLight.specular", m_dirSpecular.x, m_dirSpecular.y, m_dirSpecular.z, m_dirSpecular.a);
+	//
+	//	//Point Lights
+	//
+	//	m_3dShader->SetUniform4f("u_pointLights[0].position", m_pointLightPositions[0].x, m_pointLightPositions[0].y, m_pointLightPositions[0].z, 1.0f);
+	//	m_3dShader->SetUniform4f("u_pointLights[1].position", m_pointLightPositions[1].x, m_pointLightPositions[1].y, m_pointLightPositions[1].z, 1.0f);
+	//	m_3dShader->SetUniform4f("u_pointLights[2].position", m_pointLightPositions[2].x, m_pointLightPositions[2].y, m_pointLightPositions[2].z, 1.0f);
+	//
+	//	m_3dShader->SetUniform4f("u_pointLights[0].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[1].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[2].ambient", m_pointAmbient.x, m_pointAmbient.y, m_pointAmbient.z, m_pointAmbient.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[0].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[1].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[2].diffuse", m_pointDiffuse.x, m_pointDiffuse.y, m_pointDiffuse.z, m_pointDiffuse.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[0].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[1].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	//	m_3dShader->SetUniform4f("u_pointLights[2].specular", m_pointSpecular.x, m_pointSpecular.y, m_pointSpecular.z, m_pointSpecular.a);
+	//	//dont change																													
+	//	m_3dShader->SetUniform1f("u_pointLights[0].constant", 1.0f);
+	//	m_3dShader->SetUniform1f("u_pointLights[1].constant", 1.0f);
+	//	m_3dShader->SetUniform1f("u_pointLights[2].constant", 1.0f);
+	//	m_3dShader->SetUniform1f("u_pointLights[0].linear", 0.09f);
+	//	m_3dShader->SetUniform1f("u_pointLights[1].linear", 0.09f);
+	//	m_3dShader->SetUniform1f("u_pointLights[2].linear", 0.09f);
+	//	m_3dShader->SetUniform1f("u_pointLights[0].quadratic", 0.032f);
+	//	m_3dShader->SetUniform1f("u_pointLights[1].quadratic", 0.032f);
+	//	m_3dShader->SetUniform1f("u_pointLights[2].quadratic", 0.032f);
+	//
+	//	//Spot Light
+	//	m_3dShader->SetUniform4f("u_spotLight.position", m_mainCamera->GetPosition().x, m_mainCamera->GetPosition().y, m_mainCamera->GetPosition().z, 1.0f);
+	//	m_3dShader->SetUniform4f("u_spotLight.direction", 0.0f, 0.0f, -0.3f, 1.0f);
+	//	m_3dShader->SetUniform4f("u_spotLight.ambient", m_spotAmbient.x, m_spotAmbient.y, m_spotAmbient.z, m_spotAmbient.a);
+	//	m_3dShader->SetUniform4f("u_spotLight.diffuse", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
+	//	m_3dShader->SetUniform4f("u_spotLight.specular", m_spotDiffuse.x, m_spotDiffuse.y, m_spotDiffuse.z, m_spotDiffuse.a);
+	//	//dont change
+	//	m_3dShader->SetUniform1f("u_spotLight.constant", 1.0f);
+	//	m_3dShader->SetUniform1f("u_spotLight.linear", 0.09f);
+	//	m_3dShader->SetUniform1f("u_spotLight.quadratic", 0.032f);
+	//	m_3dShader->SetUniform1f("u_spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+	//	m_3dShader->SetUniform1f("u_spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+	//
+	//#endif // _3D_SHADER
+	//
+	//#ifdef _2D_SHADER
+	//
+	//	// bind shader
+	//	m_mainShader->Bind();
+	//	m_mainShader->SetUniform4x4("u_viewProjection", m_activeCamera->GetViewProjectionMatrix());
+	//
+	//	m_mainShader->SetUniform4f("u_lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
+	//
+	//	//Ambient light
+	//	m_mainShader->SetUniform4f("u_light.position", 0.0f, 0.0f, 0.0f, -2.0f);
+	//	m_mainShader->SetUniform4f("u_light.ambient", 1.0f, 1.0f, 1.0f, 1.0f);
+	//
+	//#endif // _2D_SHADER
 }
 
 void Scene::Update()
@@ -136,6 +136,27 @@ void Scene::Update()
 	m_gameTimer.Tick();
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
+
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (Actor* actorObject = dynamic_cast<Actor*>(gameObject))
+		{
+			if (m_uiMain->GetInPlay())
+			{
+				m_StopInput = false;
+				actorObject->SetSimulateGravity(true);
+			}
+			else
+			{
+				m_StopInput = true;
+				actorObject->SetSimulateGravity(false);
+			}
+		}
+	}
+	/*if (actorObject->GetSimulatingGravity() != simGravity)
+	{
+		actorObject->SetSimulateGravity(simGravity);
+	}*/
 
 	if (m_gameObjectsToAdd.size() != 0)
 	{
@@ -166,6 +187,8 @@ void Scene::Update()
 	glfwGetCursorPos(Quack::GetWindow()->GetGLFWWindow(), &xpos, &ypos);
 
 	HandleInput();
+
+
 }
 
 void Scene::Render()
@@ -185,6 +208,7 @@ void Scene::Render()
 
 void Scene::PhysicsUpdate()
 {
+
 	float deltaTime = m_gameTimer.GetDeltaTime();
 	m_collisionManager->Update(deltaTime);
 }
@@ -195,44 +219,48 @@ void Scene::HandleInput()
 
 	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
 
+
+
 	if (inputCharacter && !m_StopInput)
 	{
 		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{
-			// JUMP
-			if (inputComponent->GetKeyPressed(' '))
-			{
-				inputCharacter->Jump();
-			}
 
-			// LIGHT ATTACK
-			if (inputComponent->GetKeyPressed('j'))
-			{
-				inputCharacter->LightAttack();
-			}
+			{// JUMP
+				if (inputComponent->GetKeyPressed(' '))
+				{
+					inputCharacter->Jump();
+				}
 
-			// HEAVY ATTACK
-			if (inputComponent->GetKeyPressed('l'))
-			{
-				inputCharacter->HeavyAttack();
-			}
+				// LIGHT ATTACK
+				if (inputComponent->GetKeyPressed('j'))
+				{
+					inputCharacter->LightAttack();
+				}
 
-			// SPECIAL ATTACK
-			if (inputComponent->GetKeyPressed('k'))
-			{
-				inputCharacter->SpecialAttack();
-			}
+				// HEAVY ATTACK
+				if (inputComponent->GetKeyPressed('l'))
+				{
+					inputCharacter->HeavyAttack();
+				}
 
-			// MOVE RIGHT
-			if (inputComponent->GetKeyDown('d'))
-			{
-				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-			}
-	
-			// MOVE LEFT
-			if (inputComponent->GetKeyDown('a'))
-			{
-				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				// SPECIAL ATTACK
+				if (inputComponent->GetKeyPressed('k'))
+				{
+					inputCharacter->SpecialAttack();
+				}
+
+				// MOVE RIGHT
+				if (inputComponent->GetKeyDown('d'))
+				{
+					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				}
+
+				// MOVE LEFT
+				if (inputComponent->GetKeyDown('a'))
+				{
+					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				}
 			}
 		}
 	}
@@ -241,6 +269,10 @@ void Scene::HandleInput()
 void Scene::SaveScene()
 {
 	QuackEngine::JsonLoader::StoreScene(m_sceneInfo, m_gameObjects);
+}
+void Scene::LoadScene()
+{
+	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects);
 }
 
 void Scene::AddGameObject(GameObject* newGameObject)
