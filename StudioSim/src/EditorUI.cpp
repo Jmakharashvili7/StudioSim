@@ -47,7 +47,7 @@ void EditorUI::Render()
 		if (ImGui::TreeNode("Object Name"))
 		{
 			std::string stringName = m_object->GetName();
-			std::string textItem = "Current Name: " + stringName;
+			std::string textItem = "Current Name: " + m_object->GetName();
 
 			ImGui::PushItemWidth(m_ItemWidth);
 			ImGui::Text(textItem.c_str());

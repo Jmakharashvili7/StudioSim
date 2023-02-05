@@ -28,9 +28,7 @@ void WorldOutlinerUI::Render()
 
 	ImGui::Begin("World Outliner");
 
-	m_ListHeight = ImGui::GetContentRegionAvail().y * 0.75f;
-
-	ImGui::ShowDemoWindow();
+	ImGui::BeginChild("Scene objects", ImVec2(ImGui::GetContentRegionAvail().x * 0.75f, ImGui::GetContentRegionAvail().y * 0.75f), false, ImGuiWindowFlags_HorizontalScrollbar);
 	m_isHovered = ImGui::IsWindowHovered();
 
 	//Creates initial node
@@ -40,7 +38,6 @@ void WorldOutlinerUI::Render()
 
 	if (dropdown)
 	{
-		ImGui::BeginChild("Scene objects", ImVec2(ImGui::GetContentRegionAvail().x * 0.75f, ImGui::GetContentRegionAvail().y * 0.75f), false, ImGuiWindowFlags_HorizontalScrollbar);
 		//Loops through game objects in the current scene
 		//and creates a tree node for each game object that in the current scene
 		for (GameObject* object : m_CurrentScene->GetGameObjects())
@@ -65,7 +62,8 @@ void WorldOutlinerUI::Render()
 					{
 						if (actorObject->GetComoponents().size() > 0)
 						{
-							ImGui::Text(typeid(*components).name());
+							string name = (string)typeid(*components).name();
+							ImGui::Text(name.c_str());
 
 							if (ImGui::Selectable(typeid(*components).name()))
 							{
@@ -86,13 +84,12 @@ void WorldOutlinerUI::Render()
 					ImGui::TreePop();
 				}
 			}
-
+			
 		}
-		ImGui::EndChild();
 		ImGui::TreePop();
 		
 	}
-
+	ImGui::EndChild();
 	ImGui::End();
 }
 
