@@ -153,10 +153,6 @@ void Scene::Update()
 			}
 		}
 	}
-	/*if (actorObject->GetSimulatingGravity() != simGravity)
-	{
-		actorObject->SetSimulateGravity(simGravity);
-	}*/
 
 	if (m_gameObjectsToAdd.size() != 0)
 	{
@@ -187,8 +183,6 @@ void Scene::Update()
 	glfwGetCursorPos(Quack::GetWindow()->GetGLFWWindow(), &xpos, &ypos);
 
 	HandleInput();
-
-
 }
 
 void Scene::Render()
@@ -208,7 +202,6 @@ void Scene::Render()
 
 void Scene::PhysicsUpdate()
 {
-
 	float deltaTime = m_gameTimer.GetDeltaTime();
 	m_collisionManager->Update(deltaTime);
 }
