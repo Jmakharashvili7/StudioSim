@@ -488,6 +488,8 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		finalPosition.z = values[0].z + values[1].z;
 	}
 
+	finalPosition.x += Quack::GetOrthoCam()->GetPosition().x;
+	finalPosition.y += Quack::GetOrthoCam()->GetPosition().y;
 	m_object->SetPosition(finalPosition);
 
 }
