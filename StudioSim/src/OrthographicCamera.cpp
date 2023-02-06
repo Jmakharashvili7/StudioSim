@@ -5,14 +5,13 @@
 
 OrthographicCamera::OrthographicCamera(float l, float r, float b, float t) :
 	m_projectionMatrix(glm::ortho(l, r, b, t, -1.0f, 1.0f)),
-	m_viewMatrix(1.0f)
+	m_viewMatrix(1.0f),
+	m_dimensions(l, r, b, t)
 {
 	m_Zoom = 5.0f;
 	m_ZoomSpeed = 0.25f;
 
-
 	m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
-	
 }
 
 OrthographicCamera::OrthographicCamera(float width, float height)
@@ -22,6 +21,7 @@ OrthographicCamera::OrthographicCamera(float width, float height)
 
 void OrthographicCamera::RecalculateProjection(float l, float r, float b, float t)
 {
+	m_dimensions = {l ,r, b, t};
 	m_projectionMatrix = glm::ortho(l, r, b, t, -1.0f, 1.0f);
 
 	m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;

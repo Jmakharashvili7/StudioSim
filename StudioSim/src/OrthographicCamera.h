@@ -11,6 +11,9 @@ public:
 	inline void SetPosition(const glm::vec3& position) { m_position = position; RecalculateViewMatix(); }
 	inline glm::vec3 GetPosition() { return m_position; }
 
+	// x = left, y = right, z = bottom, w = top
+	inline glm::vec4 GetDimensions() { return m_dimensions; }
+
 	inline void SetRotation(const float& rotation) { m_rotation = rotation; RecalculateViewMatix(); }
 	inline float GetRotation() { return m_rotation; }
 
@@ -33,6 +36,7 @@ private:
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
 	glm::mat4 m_viewProjectionMatrix;
+	glm::vec4 m_dimensions;
 	Matrix4 m_viewProj;
 
 	glm::vec3 m_position;

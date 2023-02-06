@@ -49,6 +49,8 @@ void Scene::RenderScene()
 
 	Render();
 
+	m_HUD->Draw();
+
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */

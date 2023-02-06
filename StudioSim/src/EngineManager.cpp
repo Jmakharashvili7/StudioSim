@@ -15,6 +15,8 @@ GameObject* EngineManager::GetGameObject(std::string name)
 			return gameObject;
 		}
 	}
+
+	return nullptr;
 }
 
 GameObject* EngineManager::GetGameObject(const int index)
