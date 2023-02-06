@@ -1,0 +1,598 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Actor" Collapsed="true">
+    <Position X="2.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQCAcAAAIIIgkgECAAABAAAQACgAQIIIAQABiIgAAA=</HashCode>
+      <FileName>src\Actor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AIComponent" Collapsed="true">
+    <Position X="8" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>src\AIComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animate" Collapsed="true">
+    <Position X="3.25" Y="7.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEEAYAQAAAAMQCgAAAAQAAQCAAAAAACgoIAAABAAAAg=</HashCode>
+      <FileName>src\Animate.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_object" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Character" Collapsed="true">
+    <Position X="1" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQCIAAAAmAkAEsgAAICAAAAEgSAgQgAAEAkgqAAKAA=</HashCode>
+      <FileName>src\Character.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Component" Collapsed="true">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQkAgAAAQAAAAAACAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>src\Component.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_owningActor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ContentBrowserUI" Collapsed="true">
+    <Position X="10.5" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="UIWindow" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="1.562" />
+        <Point X="6.75" Y="2.375" />
+        <Point X="10.938" Y="2.375" />
+        <Point X="10.938" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="m_FolderThumbnail" Type="Texture">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.556" Y="0.078" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_FileThumbnail" Type="Texture" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.562" Y="2.75" />
+        <Point X="11.562" Y="1.062" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.126" Y="0.076" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>CAEAAAAAAAAAAABAAAAAAAAIAAAACAAAQTCAAIAAUAA=</HashCode>
+      <FileName>src\ContentBrowserUI.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_FolderThumbnail" />
+      <Field Name="m_FileThumbnail" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EditorUI" Collapsed="true">
+    <Position X="4.5" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>kAAAAAAAIABBIAAAAAAEACQoAIAAACAkABAAAIAAQAA=</HashCode>
+      <FileName>src\EditorUI.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_object" />
+      <Field Name="m_Viewport" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Enemy" Collapsed="true">
+    <Position X="0.75" Y="9" Width="1.5" />
+    <InheritanceLine Type="Character" FixedFromPoint="true">
+      <Path>
+        <Point X="1.5" Y="8.191" />
+        <Point X="1.5" Y="9" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AgQAAgAAAAAAAEAAAEAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Enemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EngineManager" Collapsed="true">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="m_inputCharacter" Type="Character">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.014" Y="0.092" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAgAAAAACAAAAAAAABAAEAAACAgAAUAkEEA=</HashCode>
+      <FileName>src\EngineManager.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_inputCharacter" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Event" Collapsed="true">
+    <Position X="10.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAIAAAAAAAAAAAAEgACAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>src\Observer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventManager" Collapsed="true">
+    <Position X="10.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABIAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Observer.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="CoinCollected" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GameObject" Collapsed="true">
+    <Position X="2.25" Y="4.25" Width="1.5" />
+    <AssociationLine Name="m_shader" Type="Shader" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.875" Y="4.25" />
+        <Point X="2.875" Y="3.875" />
+        <Point X="5.135" Y="3.875" Type="JumpStart" />
+        <Point X="5.302" Y="3.875" Type="JumpEnd" />
+        <Point X="9.378" Y="3.875" Type="JumpStart" />
+        <Point X="9.544" Y="3.875" Type="JumpEnd" />
+        <Point X="12.6" Y="3.875" />
+        <Point X="12.6" Y="3.596" />
+        <Point X="15.167" Y="3.596" Type="JumpStart" />
+        <Point X="15.333" Y="3.596" Type="JumpEnd" />
+        <Point X="23.344" Y="3.596" />
+        <Point X="23.344" Y="6.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EBRBISFKACSgIlJIAIBAIAABAgCAAykBKEIRUgJCBAA=</HashCode>
+      <FileName>src\GameObject.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_shader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IndexBuffer" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAiAAAAAAAAAAAAAAAEAABAAAAAAAAAAAEAAQAAAA=</HashCode>
+      <FileName>src\IndexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputComponent">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CIQIgAQAAAgAAAAAQAAAAAAAIAAgIAAAAACAAAAQIAA=</HashCode>
+      <FileName>src\InputComponent.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="keyEvent" />
+      <Field Name="mouseEvent" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="KeyboardClass" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQogAEAAAEAAAQCAAAAQAECQAJAAQCAACACBABAgQA=</HashCode>
+      <FileName>src\KeyboardClass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Layer" Collapsed="true">
+    <Position X="20.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAEAEAAAAAAAIAAAAAEAAABAAEABAA=</HashCode>
+      <FileName>src\Layer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LayerStack" Collapsed="true">
+    <Position X="23.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAACCAAAAAAAACAEAAAAICEAAAAAgAAAIAAAA=</HashCode>
+      <FileName>src\LayerStack.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix3" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAACAAEAAAAAAAQACAAAAACIAAEAAAAAAAAg=</HashCode>
+      <FileName>src\CustomMaths.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix4" Collapsed="true">
+    <Position X="14.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEAgAIAAAAIAAAAAAQAyAIAAJDIAIEAAIAAIAAg=</HashCode>
+      <FileName>src\CustomMaths.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseClass" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQISCRgACCyQhAAWAEAAA0AABAMIAAAAAgDAAAgaAA=</HashCode>
+      <FileName>src\MouseClass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseEvent">
+    <Position X="8" Y="7.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="MouseEvent::EventType">
+        <TypeIdentifier>
+          <NewMemberFileName>src\MouseEvent.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgIABAACAAAAAAAAgAAQgAAAAAAAEAYAAAAAAAAAA=</HashCode>
+      <FileName>src\MouseEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrthographicCamera" Collapsed="true">
+    <Position X="17.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADAAAAMEADCAIAAAAAAAAASCACAAAggAAgABAAEAAAA=</HashCode>
+      <FileName>src\OrthographicCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PerspectiveCamera" Collapsed="true">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAACCAAAgAAAAAIASAADBEAgkAAgAQAAEAAYA=</HashCode>
+      <FileName>src\PerspectiveCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PhysicsComponent" Collapsed="true">
+    <Position X="10" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="Component" ManuallyRouted="true">
+      <Path>
+        <Point X="6.75" Y="5.062" />
+        <Point X="6.75" Y="5.246" />
+        <Point X="10.75" Y="5.246" />
+        <Point X="10.75" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQAEwCkAIAIBEgCgAIQAAIAGEEABUwCBUAAQAQAAAE=</HashCode>
+      <FileName>src\PhysicsComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Quack">
+    <Position X="17.5" Y="5.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="m_window" Type="Window" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.812" Y="7.574" />
+        <Point X="18.812" Y="7.949" />
+        <Point X="22.625" Y="7.949" />
+        <Point X="22.625" Y="10.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_uiMain" Type="UILayer" FixedFromPoint="true">
+      <Path>
+        <Point X="18" Y="7.574" />
+        <Point X="18" Y="9" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_mainScene" Type="Scene" FixedToPoint="true">
+      <Path>
+        <Point X="17.5" Y="7.25" />
+        <Point X="16.5" Y="7.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.044" Y="0.129" Height="0.182" Width="1.603" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_primitiveShader" Type="Shader" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19" Y="7.125" />
+        <Point X="19.375" Y="7.125" />
+        <Point X="19.375" Y="7.117" />
+        <Point X="23" Y="7.117" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.063" Y="-0.243" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_textureShader" Type="Shader" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19" Y="6.875" />
+        <Point X="19.625" Y="6.875" />
+        <Point X="19.625" Y="6.859" />
+        <Point X="23" Y="6.859" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>GAYAIACCACACAQAgABQSAgMACCAAAQAAAAAgSQCQEAg=</HashCode>
+      <FileName>src\Quack.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_window" />
+      <Field Name="m_layerStack" />
+      <Field Name="m_uiMain" />
+      <Field Name="m_gameTimer" />
+      <Field Name="m_mainScene" />
+      <Field Name="m_primitiveShader" />
+      <Field Name="m_textureShader" />
+      <Field Name="m_mainCamera" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Quaternion" Collapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABIAAAAABAAAEAAAAABACAAAAAAAgEhgAQAQAAA=</HashCode>
+      <FileName>src\CustomMaths.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Renderer" Collapsed="true">
+    <Position X="26" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEACAABAgAA=</HashCode>
+      <FileName>src\Renderer.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_shader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Scene">
+    <Position X="15" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="m_window" Type="Window" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.375" Y="10.382" />
+        <Point X="15.375" Y="11.437" />
+        <Point X="22.062" Y="11.437" />
+        <Point X="22.062" Y="11.062" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_uiMain" Type="UILayer" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="16.5" Y="7.97" />
+        <Point X="16.875" Y="7.97" />
+        <Point X="16.875" Y="9.408" />
+        <Point X="17.75" Y="9.408" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>GARAQDiIBAAAIEAAgBAAIoAAQAwEkQAAABhAKBEEEAA=</HashCode>
+      <FileName>src\Scene.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_window" />
+      <Field Name="m_activeCamera" />
+      <Field Name="m_collisionManager" />
+      <Field Name="m_uiMain" />
+      <Field Name="m_frameBuffer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="23" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIEAiAAAAEAgAEAAAAEACAAAAgAAAAAQBBAEACAAAAA=</HashCode>
+      <FileName>src\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Transform" Collapsed="true">
+    <Position X="14.5" Y="2.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="m_position" Type="Vector3">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.407" Y="0.877" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_previousPosition" Type="Vector3">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.431" Y="0.617" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_rotation" Type="Vector3">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.148" Y="0.105" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_scale" Type="Vector3">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.457" Y="0.37" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AABBgABAICCAICBAAAAAIAQCAAAAAggAKABAAoEAAIE=</HashCode>
+      <FileName>src\Transform.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_transformationMatrix" />
+      <Field Name="m_position" />
+      <Field Name="m_previousPosition" />
+      <Field Name="m_rotation" />
+      <Field Name="m_scale" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UILayer" Collapsed="true">
+    <Position X="17.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAAJAgAAAAAIAAFAQAAIIAMAAAACAAAABAAkAEwA=</HashCode>
+      <FileName>src\UILayer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIWindow" Collapsed="true">
+    <Position X="6" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAAAAAAACAAAADAAQAIAAAAAACAAgCAABQAAIIAUAA=</HashCode>
+      <FileName>src\UIWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vector2" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAIAAAAAABBAAgEAAAQQRBCQAAAAAAgABgAAAAAIA=</HashCode>
+      <FileName>src\CustomMaths.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vector3" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAIgUAAIAABAAgEAAAQQRBCQAIAAAQgADkAQBgAIg=</HashCode>
+      <FileName>src\CustomMaths.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexArray" Collapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgiAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAEAAAAA=</HashCode>
+      <FileName>src\VertexArray.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBuffer" Collapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAEAA=</HashCode>
+      <FileName>src\VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBufferLayout" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAiAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAACAI=</HashCode>
+      <FileName>src\VertexBufferLayout.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewportUI" Collapsed="true">
+    <Position X="2" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAQAAAAgBAAIIAAwAA=</HashCode>
+      <FileName>src\ViewportUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorldOutlinerUI" Collapsed="true">
+    <Position X="12.5" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="UIWindow" ManuallyRouted="true">
+      <Path>
+        <Point X="6.75" Y="1.562" />
+        <Point X="6.75" Y="2.959" />
+        <Point X="9.461" Y="2.959" />
+        <Point X="9.461" Y="4.657" />
+        <Point X="13.25" Y="4.657" />
+        <Point X="13.25" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAgAAAAwAEAAAAAAAAAAAABAAAIAAQgA=</HashCode>
+      <FileName>src\WorldOutlinerUI.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_CurrentScene" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GameTimer" Collapsed="true">
+    <Position X="21" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAgEAAAgCAABQIBCAAIAAACACIAIAAgAAAAAAAAQAA=</HashCode>
+      <FileName>src\GameTime.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Window" Collapsed="true">
+    <Position X="22" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAAAAAABAIAAAABAAUAAIACAgAABCEAAAAA=</HashCode>
+      <FileName>src\Window.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_fullScreenMode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Texture" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiAAAAAAAgAABAAABAABAQAAAgACAABIEAEAAAAA=</HashCode>
+      <FileName>src\Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeyEvent">
+    <Position X="5.25" Y="8" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="KeyEvent::EventType">
+        <TypeIdentifier>
+          <NewMemberFileName>src\KeyEvent.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ggAAMAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAACAAAg=</HashCode>
+      <FileName>src\KeyEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollisionManager" Collapsed="true">
+    <Position X="12" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARgQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>src\CollisionManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FrameBuffer" Collapsed="true">
+    <Position X="12.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQiAAEAAAAAAAAAAAAgBACAAAABAACAAAEAAEABAA=</HashCode>
+      <FileName>src\FrameBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="FullScreenMode" Collapsed="true">
+    <Position X="24.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Window.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -131,6 +131,7 @@
     <None Include="res\shaders\basic.shader" />
     <None Include="res\shaders\Primitive.shader" />
     <None Include="res\textures\test sheet.png~" />
+    <None Include="diagrama.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

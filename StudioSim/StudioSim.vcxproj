@@ -278,6 +278,7 @@
     <ClInclude Include="src\ViewportUI.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="diagrama.cd" />
     <None Include="imgui.ini" />
     <None Include="res\shaders\3Dbasic.shader" />
     <None Include="res\shaders\basic.shader" />
