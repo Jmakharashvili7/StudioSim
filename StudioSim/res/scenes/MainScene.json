@@ -28797,7 +28797,7 @@
             0.0,
             0.0
         ],
-        "textureName": "bg.png",
+        "textureName": "bg_Tinted.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -38343,7 +38343,7 @@
             0.0,
             0.0
         ],
-        "textureName": "bg.png",
+        "textureName": "bg_Tinted.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -47889,7 +47889,7 @@
             0.0,
             0.0
         ],
-        "textureName": "bg.png",
+        "textureName": "bg_Tinted.png",
         "vertices": [
             -0.5,
             -0.5,
