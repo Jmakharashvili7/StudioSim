@@ -2,7 +2,7 @@
 
 #include "KeyboardClass.h"
 
-using namespace std;
+//using namespace std;
 
 
 bool KeyboardClass::s_AutoRepeatKeys;
@@ -33,11 +33,6 @@ KeyEvent KeyboardClass::ReadKey()
 		return e;
 	}
 
-	for (int i = 0; i < s_KeyBuffer.size(); i++)
-	{
-
-	}
-
 }
 
 unsigned char KeyboardClass::ReadChar()
@@ -56,6 +51,31 @@ unsigned char KeyboardClass::ReadChar()
 	}
 }
 
+
+vector<KeyEvent> KeyboardClass::ReadKeys()
+{
+    vector<KeyEvent> events;
+    int size = s_KeyBuffer.size();
+    for (int i = 0; i < size; i++)
+    {
+        events.push_back(s_KeyBuffer.front());
+        s_KeyBuffer.pop();
+    }
+    return events;
+}
+
+vector<unsigned char> KeyboardClass::ReadChars()
+{
+	vector<unsigned char> events;
+	int size = s_CharBuffer.size();
+	for (int i = 0; i < size; i++)
+	{
+		events.push_back(s_CharBuffer.front());
+		s_CharBuffer.pop();
+	}
+	return events;
+}
+
 void KeyboardClass::OnKeyPressed(const unsigned char key)
 {
 	s_KeyStates[key] = true;
@@ -64,11 +84,14 @@ void KeyboardClass::OnKeyPressed(const unsigned char key)
 	
 }
 
-void KeyboardClass::OnKeyHeld(const unsigned char key)
+void KeyboardClass::UpdateKeyStates()
 {
-	if (s_KeyBuffer.front().IsPressed())
+	for (int i = 0; i < 256; i++)
 	{
-		s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
+		if (s_KeyStates[i] == true)
+		{
+			s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::PRESS, i));
+		}
 	}
 }
 

@@ -207,11 +207,16 @@ void Scene::HandleInput()
 			{
 				duck->AdjustPosition(Vector3((duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 			}
+				// MOVE RIGHT
+			if (inputComponent->GetKeyDown('a'))
+			{
+				duck->AdjustPosition(Vector3((-duck->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+			}
 	
 	
 			if (inputComponent->GetKeyPressed('w'))
 			{
-				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 100, 0));
+				duck->GetComponent<PhysicsComponent>()->AddForce(Vector3(0, 1000, 0));
 				if (duck->GetComponent<PhysicsComponent>())
 				{
 					EventManager::Instance().OnCoinCollected();
