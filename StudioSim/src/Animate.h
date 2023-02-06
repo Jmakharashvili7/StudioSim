@@ -1,5 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
+#include "QuackDataTypes.h"
 
 class Actor;
 
@@ -13,7 +14,7 @@ private:
 	void GenerateFrameList();
 
 public:
-	Animate(Actor* target, int rows, int columns);
+	Animate(Actor* target, const AnimationData& animationData);
 	~Animate();
 
 	/// <summary>
@@ -49,13 +50,17 @@ public:
 	inline void SetPlayRate(float inRate) { m_playRate = inRate; }
 	inline int GetRowToPlay() { return m_rowToPlay; }
 
-	inline int GetRows() { return m_rows; }
-	inline void SetRows(int rows) { m_rows = rows; }
-
-	inline int GetColumns() { return m_columns; }
-	inline void SetColumns(int columns) { m_columns = columns; }
-
-	
+	virtual inline void SetAnimationRows(const int newRowNumber) { m_animationData.rows = newRowNumber; }
+	virtual inline void SetAnimationColumns(const int newColumnNumber) { m_animationData.columns = newColumnNumber; }
+	virtual inline void SetIdleAnimationRow(const int newRow) { m_animationData.idleRow = newRow; }
+	virtual inline void SetMoveAnimationRow(const int newRow) { m_animationData.runRow = newRow; }
+	virtual inline void SetLightAttackAnimationRow(const int newRow) { m_animationData.lightAttackRow = newRow; }
+	virtual inline void SetHeavyAttackAnimationRow(const int newRow) { m_animationData.heavyAttackRow = newRow; }
+	virtual inline void SetSpecialAttackAnimationRow(const int newRow) { m_animationData.specialAttackRow = newRow; }
+	virtual inline void SetDeathAnimationRow(const int newRow) { m_animationData.deathRow = newRow; }
+	virtual inline void SetJumpAnimationRow(const int newRow) { m_animationData.jumpRow = newRow; }
+	virtual inline void SetTakeHitAnimationRow(const int newRow) { m_animationData.takeHitRow = newRow; }
+	virtual inline void SetAnimationStatus(const bool newAnimating) { m_animationData.banimated = newAnimating; }
 
 private:
 	Actor* m_object;
@@ -64,9 +69,9 @@ private:
 
 	std::pair<int, int> m_frameToPlay;
 
+	AnimationData m_animationData = AnimationData();
+
 	float m_delay;
-	float m_rows;
-	float m_columns;
 	float m_playRate;
 
 	int m_spriteFrame;

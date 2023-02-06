@@ -5,6 +5,7 @@
 #include "PhysicsComponent.h"
 #include "EngineManager.h"
 #include "JsonLoader.h"
+#include "Animate.h"
 
 Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
 	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, const bool bconsumeInput)
@@ -22,7 +23,7 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	ResetCurrentHealth();
 
 	// Combat init
-	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.5f, 0.5f, 0.5f), -0.1f, 0.05f, 0.01f, 0.1f, 0.01f)); // todo move
+	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.5f, 0.5f, 0.5f), 0.25f, 0.05f, 0.01f, 0.1f, 0.01f)); // todo move
 	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
 	AddComponent(m_combatComponent);
 }
@@ -64,16 +65,28 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 	if (adjustPosition.x > 0)
 	{
 		m_facingDirection = FacingDirection::RIGHT;
+
+		if (GetScale().x < 0)
+		{
+			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
+		}
+
+	    
 	}
 	else if (adjustPosition.x < 0)
 	{
 		m_facingDirection = FacingDirection::LEFT;
+
+		if (GetScale().x > 0)
+		{
+			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
+		}
 	}
 }
 
 void Character::AddCollision(GameObject* collidingObject)
 {
-	if (collidingObject->GetName() == "ground")
+	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
 	{
 		SetJumping(false); 
 	}
@@ -160,6 +173,66 @@ void Character::SpecialAttack()
 	if (m_combatComponent)
 	{
 		m_combatComponent->SpecialAttack();
+	}
+}
+
+void Character::SetLightAttackAnimationRow(const int newRow)
+{
+	m_animationData.lightAttackRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetLightAttackAnimationRow(newRow);
+	}
+}
+
+void Character::SetHeavyAttackAnimationRow(const int newRow)
+{
+	m_animationData.heavyAttackRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetHeavyAttackAnimationRow(newRow);
+	}
+}
+
+void Character::SetSpecialAttackAnimationRow(const int newRow)
+{
+	m_animationData.specialAttackRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetSpecialAttackAnimationRow(newRow);
+	}
+}
+
+void Character::SetDeathAnimationRow(const int newRow)
+{
+	m_animationData.deathRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetDeathAnimationRow(newRow);
+	}
+}
+
+void Character::SetJumpAnimationRow(const int newRow)
+{
+	m_animationData.jumpRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetJumpAnimationRow(newRow);
+	}
+}
+
+void Character::SetTakeHitAnimationRow(const int newRow)
+{
+	m_animationData.takeHitRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetTakeHitAnimationRow(newRow);
 	}
 }
 

@@ -56,6 +56,7 @@ namespace nlohmann
 
 			// Load Collision Data
 			collisionData.centerPosition = j["centerPosition"].get<Vector3>();
+			collisionData.centerPositionOffset = j["centerPositionOffset"].get<Vector3>();
 			collisionData.collisionType = (CollisionType)j["collisionType"].get<int>();
 			collisionData.radius = j["radius"].get<float>();
 			collisionData.size = j["size"].get<Vector3>();
@@ -80,6 +81,14 @@ namespace nlohmann
 				animationData.banimated = j["banimated"].get<bool>();
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
+				animationData.lightAttackRow = j["lightAttackRow"].get<int>();
+				animationData.heavyAttackRow = j["heavyAttackRow"].get<int>();
+				animationData.specialAttackRow = j["specialAttackRow"].get<int>();
+				animationData.deathRow = j["deathRow"].get<int>();
+				animationData.idleRow = j["idleRow"].get<int>();
+				animationData.jumpRow = j["jumpRow"].get<int>();
+				animationData.runRow = j["runRow"].get<int>();
+				animationData.takeHitRow = j["takeHitRow"].get<int>();
 
 				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
 			case GameObjectType::CHARACTER:
@@ -93,6 +102,14 @@ namespace nlohmann
 				animationData.banimated = j["banimated"].get<bool>();
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
+				animationData.lightAttackRow = j["lightAttackRow"].get<int>();
+				animationData.heavyAttackRow = j["heavyAttackRow"].get<int>();
+				animationData.specialAttackRow = j["specialAttackRow"].get<int>();
+				animationData.deathRow = j["deathRow"].get<int>();
+				animationData.idleRow = j["idleRow"].get<int>();
+				animationData.jumpRow = j["jumpRow"].get<int>();
+				animationData.runRow = j["runRow"].get<int>();
+				animationData.takeHitRow = j["takeHitRow"].get<int>();
 
 				// Load movement data
 				movementData.jumpHeight = j["jumpHeight"].get<float>();
@@ -116,6 +133,14 @@ namespace nlohmann
 				animationData.banimated = j["banimated"].get<bool>();
 				animationData.columns = j["columns"].get<int>();
 				animationData.rows = j["rows"].get<int>();
+				animationData.lightAttackRow = j["lightAttackRow"].get<int>();
+				animationData.heavyAttackRow = j["heavyAttackRow"].get<int>();
+				animationData.specialAttackRow = j["specialAttackRow"].get<int>();
+				animationData.deathRow = j["deathRow"].get<int>();
+				animationData.idleRow = j["idleRow"].get<int>();
+				animationData.jumpRow = j["jumpRow"].get<int>();
+				animationData.runRow = j["runRow"].get<int>();
+				animationData.takeHitRow = j["takeHitRow"].get<int>();
 
 				// Load movement data
 				movementData.jumpHeight = j["jumpHeight"].get<float>();
@@ -149,6 +174,7 @@ namespace nlohmann
 			CollisionData collisionData = gameObject->GetCollisionData();
 			j["collisionType"] = (int)collisionData.collisionType;
 			j["centerPosition"] = collisionData.centerPosition;
+			j["centerPositionOffset"] = collisionData.centerPositionOffset;
 			j["size"] = collisionData.size;
 			j["radius"] = collisionData.radius;
 
@@ -171,6 +197,14 @@ namespace nlohmann
 				j["banimated"] = animationData.banimated;
 				j["columns"] = animationData.columns;
 				j["rows"] = animationData.rows;
+				j["lightAttackRow"] = animationData.lightAttackRow;
+				j["heavyAttackRow"] = animationData.heavyAttackRow;
+				j["specialAttackRow"] = animationData.specialAttackRow;
+				j["deathRow"] = animationData.deathRow;
+				j["idleRow"] = animationData.idleRow;
+				j["jumpRow"] = animationData.jumpRow;
+				j["runRow"] = animationData.runRow;
+				j["takeHitRow"] = animationData.takeHitRow;
 
 				if (gameObject->GetType() == GameObjectType::CHARACTER || gameObject->GetType() == GameObjectType::ENEMY)
 				{

@@ -162,7 +162,7 @@ void Scene::Update()
 		}
 		m_gameObjectsToAdd.clear();
 	}
-
+	
 	if (m_gameObjectsToRemove.size() != 0)
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
@@ -263,8 +263,19 @@ void Scene::SaveScene()
 {
 	QuackEngine::JsonLoader::StoreScene(m_sceneInfo, m_gameObjects);
 }
+
 void Scene::LoadScene()
 {
+	if (!m_gameObjects.empty())
+	{
+		for (int i = 0; i < m_gameObjects.size(); i++)
+		{
+			delete m_gameObjects[i];
+		}
+		m_gameObjects.clear();
+		m_gameObjectsToAdd.clear();
+		m_gameObjectsToRemove.clear();
+	}
 	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects);
 }
 

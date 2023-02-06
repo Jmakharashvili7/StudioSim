@@ -148,18 +148,18 @@ void EditorUI::Render()
 			if (m_object->GetCollisionType() == CollisionType::BOX)
 			{
 				ImGui::PushItemWidth(m_ItemWidth);
-				Vector3 collisionBoxCenter = m_object->GetCollisionCenter();
-				ImGui::DragFloat3("Collision Box Center", &collisionBoxCenter.x);
-				if (m_object->GetCollisionCenter().x != collisionBoxCenter.x || m_object->GetCollisionCenter().y != collisionBoxCenter.y || m_object->GetCollisionCenter().z != collisionBoxCenter.z)
+				Vector3 collisionBoxCenterOffset = m_object->GetCollisionCenterOffset();
+				ImGui::DragFloat3("Collision Box Center Offset", &collisionBoxCenterOffset.x);
+				if (m_object->GetCollisionCenterOffset().x != collisionBoxCenterOffset.x || m_object->GetCollisionCenterOffset().y != collisionBoxCenterOffset.y || m_object->GetCollisionCenterOffset().z != collisionBoxCenterOffset.z)
 				{
-					m_object->SetCollisionCenter(collisionBoxCenter);
+					m_object->SetCollisionCenterOffset(collisionBoxCenterOffset);
 				}
 				ImGui::PopItemWidth();
 
 				ImGui::PushItemWidth(m_ItemWidth);
 				Vector3 collisionBoxSize = m_object->GetCollisionBoxSize();
 				ImGui::DragFloat3("Collision Box Size", &collisionBoxSize.x);
-				if (m_object->GetCollisionCenter().x != collisionBoxSize.x || m_object->GetCollisionCenter().y != collisionBoxSize.y || m_object->GetCollisionCenter().z != collisionBoxSize.z)
+				if (m_object->GetCollisionBoxSize().x != collisionBoxSize.x || m_object->GetCollisionBoxSize().y != collisionBoxSize.y || m_object->GetCollisionBoxSize().z != collisionBoxSize.z)
 				{
 					m_object->SetCollisionBoxSize(collisionBoxSize);
 				}
@@ -225,13 +225,98 @@ void EditorUI::Render()
 
 					if (actorObject->GetAnimationStatus())
 					{
-						int rows = actorObject->GetAnimator()->GetRows();
-						ImGui::InputInt("Rows in Spritesheet", &rows);
-						actorObject->GetAnimator()->SetRows(rows);
+						ImGui::PushItemWidth(m_ItemWidth);
+						int rows = actorObject->GetAnimationRows();
+						ImGui::SliderInt("Rows in Spritesheet", &rows, 1, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetAnimationRows() != rows)
+						{
+							actorObject->SetAnimationRows(rows);
+						}
+						ImGui::PopItemWidth();
+						
+						ImGui::PushItemWidth(m_ItemWidth);
+						int columns = actorObject->GetAnimationColumns();
+						ImGui::SliderInt("Columns in Spritesheet", &columns, 1, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetAnimationColumns() != columns)
+						{
+							actorObject->SetAnimationColumns(columns);
+						}
+						ImGui::PopItemWidth();
 
-						int columns = actorObject->GetAnimator()->GetColumns();
-						ImGui::InputInt("Columns in Spritesheet", &columns);
-						actorObject->GetAnimator()->SetColumns(columns);
+						ImGui::PushItemWidth(m_ItemWidth);
+						int idleRow = actorObject->GetIdleAnimationRow();
+						ImGui::SliderInt("Idle Animation Row", &idleRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetIdleAnimationRow() != idleRow)
+						{
+							actorObject->SetIdleAnimationRow(idleRow);
+						}
+						ImGui::PopItemWidth();
+
+						ImGui::PushItemWidth(m_ItemWidth);
+						int moveRow = actorObject->GetMoveAnimationRow();
+						ImGui::SliderInt("Move Animation Row", &moveRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetMoveAnimationRow() != moveRow)
+						{
+							actorObject->SetMoveAnimationRow(moveRow);
+						}
+						ImGui::PopItemWidth();
+
+						if (Character* characterObject = dynamic_cast<Character*>(m_object))
+						{
+							ImGui::PushItemWidth(m_ItemWidth);
+							int lightAttackRow = characterObject->GetLightAttackAnimationRow();
+							ImGui::SliderInt("Light Attack Animation Row", &lightAttackRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (characterObject->GetLightAttackAnimationRow() != lightAttackRow)
+							{
+								characterObject->SetLightAttackAnimationRow(lightAttackRow);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int heavyAttackRow = characterObject->GetHeavyAttackAnimationRow();
+							ImGui::SliderInt("Heavy Attack Animation Row", &heavyAttackRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (characterObject->GetHeavyAttackAnimationRow() != heavyAttackRow)
+							{
+								characterObject->SetHeavyAttackAnimationRow(heavyAttackRow);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int specialAttackRow = characterObject->GetSpecialAttackAnimationRow();
+							ImGui::SliderInt("Special Attack Animation Row", &specialAttackRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (characterObject->GetSpecialAttackAnimationRow() != specialAttackRow)
+							{
+								characterObject->SetSpecialAttackAnimationRow(specialAttackRow);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int deathRow = characterObject->GetDeathAnimationRow();
+							ImGui::SliderInt("Death Animation Row", &deathRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (characterObject->GetDeathAnimationRow() != deathRow)
+							{
+								characterObject->SetDeathAnimationRow(deathRow);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int jumpRow = characterObject->GetJumpAnimationRow();
+							ImGui::SliderInt("Jump Animation Row", &jumpRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (characterObject->GetJumpAnimationRow() != jumpRow)
+							{
+								characterObject->SetJumpAnimationRow(jumpRow);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int takeHitRow = characterObject->GetTakeHitAnimationRow();
+							ImGui::SliderInt("Take Hit Animation Row", &takeHitRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (characterObject->GetTakeHitAnimationRow() != takeHitRow)
+							{
+								characterObject->SetTakeHitAnimationRow(takeHitRow);
+							}
+							ImGui::PopItemWidth();
+						}
 					}
 				}
 				else

@@ -154,6 +154,8 @@ void UILayer::EnableDocking()
 
 					inEditor = false;
 					inPlay = true;
+
+					
 				}
 			}
 
@@ -166,6 +168,8 @@ void UILayer::EnableDocking()
 						Quack::GetCurrentScene()->RemoveGameObject(gameObject);
 					}
 					Quack::GetCurrentScene()->LoadScene();
+					m_editorUI->SetDisplayedGameObject(nullptr);
+
 
 					inEditor = true;
 					inPlay = false;

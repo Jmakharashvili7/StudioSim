@@ -1,11 +1,16 @@
 {
     "GameObject0": {
-        "banimated": false,
+        "banimated": true,
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": 2.5,
-            "y": 3.5,
+            "x": -4.5,
+            "y": 2.5,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 1.0,
+            "y": 0.0,
             "z": 0.0
         },
         "collisionType": 0,
@@ -29,17 +34,22 @@
             1.0,
             1.0
         ],
-        "columns": 0,
+        "columns": 11,
+        "deathRow": 0,
         "gravityMultiplier": 1.5,
+        "heavyAttackRow": 0,
+        "idleRow": 0,
         "jumpHeight": 500.0,
+        "jumpRow": 0,
+        "lightAttackRow": 0,
         "mass": 1.0,
         "maxHealth": 100.0,
         "movementSpeed": 5.0,
-        "name": "Jaba",
+        "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": 2.5,
-            "y": 3.5,
+            "x": -5.5,
+            "y": 2.5,
             "z": 0.0
         },
         "radius": 1.0,
@@ -48,32 +58,35 @@
             "y": 0.0,
             "z": 34.0
         },
-        "rows": 0,
+        "rows": 7,
+        "runRow": 0,
         "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 3.5,
+            "y": 3.5,
+            "z": 3.5
         },
         "size": {
-            "x": 1.0,
-            "y": 1.0,
+            "x": 0.75,
+            "y": 1.25,
             "z": 1.0
         },
+        "specialAttackRow": 0,
+        "takeHitRow": 0,
         "texCoords": [
             0.0,
             0.0,
-            1.0,
+            0.09090909361839294,
             0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
+            0.09090909361839294,
+            0.1428571492433548,
+            0.09090909361839294,
+            0.1428571492433548,
             0.0,
-            1.0,
+            0.1428571492433548,
             0.0,
             0.0
         ],
-        "textureName": "duck2.png",
+        "textureName": "DieAndIdle2.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -101,6 +114,11 @@
             "y": -1.5,
             "z": 0.0
         },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "collisionType": 0,
         "colors": [
             1.0,
@@ -122,7 +140,7 @@
             1.0,
             1.0
         ],
-        "name": "ground",
+        "name": "Ground",
         "objectType": 0,
         "position": {
             "x": 1.5,
@@ -181,187 +199,5 @@
             0.0
         ]
     },
-    "GameObject2": {
-        "centerPosition": {
-            "x": -5.0,
-            "y": 2.0,
-            "z": 0.0
-        },
-        "collisionType": 2,
-        "colors": [
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
-        ],
-        "name": "Test",
-        "objectType": 0,
-        "position": {
-            "x": -5.0,
-            "y": 2.0,
-            "z": 0.0
-        },
-        "radius": 0.0,
-        "rotation": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "size": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "texCoords": [
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            0.0,
-            0.0
-        ],
-        "textureName": "duck.png",
-        "vertices": [
-            -0.5,
-            -0.5,
-            0.0,
-            0.5,
-            -0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            -0.5,
-            0.5,
-            0.0,
-            -0.5,
-            -0.5,
-            0.0
-        ]
-    },
-    "GameObject3": {
-        "banimated": false,
-        "bconsumeInput": false,
-        "bsimulateGravity": false,
-        "centerPosition": {
-            "x": 0.5,
-            "y": -0.5,
-            "z": 0.0
-        },
-        "collisionType": 0,
-        "colors": [
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
-        ],
-        "columns": 0,
-        "gravityMultiplier": 1.0,
-        "jumpHeight": 0.0,
-        "mass": 1.0,
-        "maxHealth": 88.99099731445313,
-        "movementSpeed": 0.0,
-        "name": "Spike",
-        "objectType": 2,
-        "position": {
-            "x": 0.5,
-            "y": -0.5,
-            "z": 0.0
-        },
-        "radius": 0.0,
-        "rotation": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "rows": 0,
-        "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "size": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "texCoords": [
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            0.0,
-            0.0
-        ],
-        "textureName": "twist.png",
-        "vertices": [
-            -0.5,
-            -0.5,
-            0.0,
-            0.5,
-            -0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            -0.5,
-            0.5,
-            0.0,
-            -0.5,
-            -0.5,
-            0.0
-        ]
-    },
-    "ObjectCount": 4
+    "ObjectCount": 2
 }

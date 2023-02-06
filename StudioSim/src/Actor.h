@@ -31,8 +31,17 @@ public:
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }
 	inline AnimationData GetAnimationData() { return m_animationData; }
-	inline bool GetAnimationStatus() { return m_banimated; }
-	inline void SetAnimationStatus(bool animated) { m_banimated = animated; }
+	
+	virtual void SetAnimationStatus(bool animated);
+	virtual inline const bool GetAnimationStatus() { return m_animationData.banimated; }
+	virtual void SetAnimationRows(const int newRowNumber);
+	virtual inline const int GetAnimationRows() { return m_animationData.rows; }
+	virtual void SetAnimationColumns(const int newColumnNumber);
+	virtual inline const int GetAnimationColumns() { return m_animationData.columns; }
+	virtual void SetIdleAnimationRow(const int newRow);
+	virtual inline const int GetIdleAnimationRow() { return m_animationData.idleRow; }
+	virtual void SetMoveAnimationRow(const int newRow);
+	virtual inline const int GetMoveAnimationRow() { return m_animationData.runRow; }
 
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);
@@ -63,7 +72,7 @@ protected:
 	// Animation
 	Animate* m_animator = nullptr;
 	bool m_banimated = false;
-	AnimationData m_animationData;
+	AnimationData m_animationData = AnimationData();
 
 	// Physics
 	PhysicsData m_physicsData = PhysicsData();

@@ -12,11 +12,7 @@ Actor::Actor(std::string name, VertexData* data, const TransformData& transformD
 	m_type = GameObjectType::ACTOR;
 
 	//Animation init
-	m_banimated = animationData.banimated;
-	if (m_banimated)
-	{
-		m_animator = new Animate(this, animationData.rows, animationData.columns);
-	}
+	m_animator = new Animate(this, animationData);
 
 	// Input init
 	m_inputComponent = new InputComponent(this, 0);
@@ -89,9 +85,64 @@ void Actor::SetGravityMultiplier(const float gravityMultiplier)
 	}
 }
 
+inline void Actor::SetAnimationStatus(bool animated)
+{
+	if (m_animationData.banimated == animated)
+	{
+		return;
+	}
+
+	m_animationData.banimated = animated;
+
+	if (m_animator)
+	{
+		m_animator->SetAnimationStatus(animated);
+	}
+}
+
+void Actor::SetAnimationRows(const int newRowNumber)
+{
+	m_animationData.rows = newRowNumber;
+
+	if (m_animator)
+	{
+		m_animator->SetAnimationRows(newRowNumber);
+	}
+}
+
+void Actor::SetAnimationColumns(const int newColumnNumber)
+{
+	m_animationData.columns = newColumnNumber;
+
+	if (m_animator)
+	{
+		m_animator->SetAnimationColumns(newColumnNumber);
+	}
+}
+
+void Actor::SetIdleAnimationRow(const int newRow)
+{
+	m_animationData.idleRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetIdleAnimationRow(newRow);
+	}
+}
+
+void Actor::SetMoveAnimationRow(const int newRow)
+{
+	m_animationData.runRow = newRow;
+
+	if (m_animator)
+	{
+		m_animator->SetMoveAnimationRow(newRow);
+	}
+}
+
 void Actor::AddCollision(GameObject* collidingObject)
 {
-	if (collidingObject->GetName() == "ground")
+	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
 	{
 		SetCollidingWithGround(true);
 	}
@@ -101,7 +152,7 @@ void Actor::AddCollision(GameObject* collidingObject)
 
 void Actor::RemoveCollision(GameObject* gameObject)
 {
-	if (gameObject->GetName() == "ground")
+	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
 	{
 		SetCollidingWithGround(false);
 	}

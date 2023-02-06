@@ -4,15 +4,12 @@
 #include "GameObject.h"
 #include "Actor.h"
 
-Animate::Animate(Actor* target, int rows, int columns)
+Animate::Animate(Actor* target, const AnimationData& animationData) : m_animationData(animationData)
 {
 	m_object = target;
 
 	m_delay = 50.0f;
 	m_spriteFrame = 0;
-
-	m_rows = rows;
-	m_columns = columns;
 
 	m_rowToPlay = 0;
 	m_playRate = 1.0f;
@@ -22,8 +19,7 @@ Animate::Animate(Actor* target, int rows, int columns)
 
 Animate::~Animate()
 {
-	delete m_object;
-	m_object = nullptr;
+	
 }
 
 
@@ -40,21 +36,21 @@ void Animate::UpdateTextCoord(float deltaTime)
 		glm::vec2 startLocation = glm::vec2(m_frameToPlay.first, m_frameToPlay.second);
 
 		//making sure the sprite frame value isn't more than the number of columns
-		m_spriteFrame = m_spriteFrame > m_columns - 1 ? m_spriteFrame - m_columns : m_spriteFrame;
-		startLocation.x = (1 / m_columns) * m_spriteFrame;
+		m_spriteFrame = m_spriteFrame > m_animationData.columns - 1 ? m_spriteFrame - m_animationData.columns : m_spriteFrame;
+		startLocation.x = (1 / m_animationData.columns) * m_spriteFrame;
 
-		startLocation.y = (1 / m_rows) * m_rowToPlay;
+		startLocation.y = (1 / m_animationData.rows) * m_rowToPlay;
 
 		
 		//Updating texture co-ordinates
 		m_object->GetGameObjectData()->texCoords =
 		{
-			startLocation.x,						startLocation.y,
-			startLocation.x + 1.0f / m_columns,		startLocation.y,
-			startLocation.x + 1.0f / m_columns,		startLocation.y + 1.0f / m_rows,
-			startLocation.x + 1.0f / m_columns,		startLocation.y + 1.0f / m_rows,
-			startLocation.x,						startLocation.y + 1.0f / m_rows,
-			startLocation.x,						startLocation.y
+			startLocation.x,										startLocation.y,
+			startLocation.x + 1.0f / m_animationData.columns,		startLocation.y,
+			startLocation.x + 1.0f / m_animationData.columns,		startLocation.y + 1.0f / m_animationData.rows,
+			startLocation.x + 1.0f / m_animationData.columns,		startLocation.y + 1.0f / m_animationData.rows,
+			startLocation.x,										startLocation.y + 1.0f / m_animationData.rows,
+			startLocation.x,										startLocation.y
 		};
 		m_object->UpdateVertexArray();
 
@@ -71,9 +67,9 @@ void Animate::GenerateFrameList()
 {
 	float time = 1.0f;
 
-	for (int row = 0; row < m_rows; ++row)
+	for (int row = 0; row < m_animationData.rows; ++row)
 	{
-		for (int column = 0; column < m_columns; ++column)
+		for (int column = 0; column < m_animationData.columns; ++column)
 		{
 			std::pair<int, int> location = { row, column };
 
@@ -111,7 +107,7 @@ float Animate::GetAnimationPlayTime(int row)
 {
 	float playtime = 0.0f;
 
-	for (int column = 0; column < m_columns; ++column)
+	for (int column = 0; column < m_animationData.columns; ++column)
 	{
 		std::pair<int, int> frame = { row, column };
 		playtime += m_durationData[frame];

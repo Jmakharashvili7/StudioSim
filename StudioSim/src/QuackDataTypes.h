@@ -54,15 +54,23 @@ struct EntityData
 
 struct AnimationData
 {
-	AnimationData(const bool inAnimated, const int inRows, const int inColumns)
-		: banimated(inAnimated), rows(inRows), columns(inColumns) {};
+	AnimationData(const bool inAnimated, const int inRows, const int inColumns, const int inLightAttackRow, const int inHeavyAttackRow, const int inSpecialAttackRow, const int inDeathRow, const int inIdleRow, const int inJumpRow, const int inRunRow, const int inTakeHitRow)
+		: banimated(inAnimated), rows(inRows), columns(inColumns), lightAttackRow(inLightAttackRow), heavyAttackRow(inHeavyAttackRow), specialAttackRow(inSpecialAttackRow), deathRow(inDeathRow), idleRow(inIdleRow), jumpRow(inJumpRow), runRow(inRunRow), takeHitRow(inTakeHitRow) {};
 
 	AnimationData() 
-		: banimated(false), rows(0), columns(0) {};
+		: banimated(false), rows(1), columns(1), lightAttackRow(0), heavyAttackRow(0), specialAttackRow(0), deathRow(0), idleRow(0), jumpRow(0), runRow(0), takeHitRow(0) {};
 
 	bool banimated;
 	int rows;
 	int columns;
+	int lightAttackRow;
+	int heavyAttackRow;
+	int specialAttackRow;
+	int deathRow;
+	int idleRow;
+	int jumpRow;
+	int runRow;
+	int takeHitRow;
 };
 
 struct TransformData
@@ -86,16 +94,17 @@ enum class CollisionType
 
 struct CollisionData
 {
-	CollisionData(const Vector3 inCenterPosition, const Vector3 inSize)
-		: collisionType(CollisionType::BOX), centerPosition(inCenterPosition), size(inSize), radius(0.0f) {};
+	CollisionData(const Vector3 inCenterPosition, const Vector3 inCenterPositionOffset, const Vector3 inSize)
+		: collisionType(CollisionType::BOX), centerPosition(inCenterPosition), centerPositionOffset(inCenterPositionOffset), size(inSize), radius(0.0f) {};
 
-	CollisionData(const Vector3 inCenterPosition, const float inRadius)
-		: collisionType(CollisionType::SPHERE), centerPosition(inCenterPosition), size(Vector3::Zero), radius(inRadius) {};
+	CollisionData(const Vector3 inCenterPosition, const Vector3 inCenterPositionOffset, const float inRadius)
+		: collisionType(CollisionType::SPHERE), centerPosition(inCenterPosition), centerPositionOffset(inCenterPositionOffset), size(Vector3::Zero), radius(inRadius) {};
 
 	CollisionData() 
-		: collisionType(CollisionType::NONE), centerPosition(Vector3::Zero), size(Vector3::Zero), radius(0.0f) {};
+		: collisionType(CollisionType::NONE), centerPosition(Vector3::Zero), centerPositionOffset(Vector3::Zero), size(Vector3::Zero), radius(0.0f) {};
 
 	CollisionType collisionType;
+	Vector3 centerPositionOffset;
 	Vector3 centerPosition;
 	Vector3 size;
 	float radius;
