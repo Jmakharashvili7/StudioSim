@@ -434,7 +434,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		else if (values[1].z < 0.25)
 			values[1].z = 0.0f;
 		else if (values[1].z > 0.75)
-			values[1].z = -1.0f;
+			values[1].z = -1.0f; 
 	}
 	else
 	{
