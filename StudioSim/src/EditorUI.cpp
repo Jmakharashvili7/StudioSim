@@ -445,50 +445,49 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		else if (values[1].z < -0.75)
 			values[1].z = -1.0f;
 	}
-	Vector3 finalPosition;
 
 	//calculate the final position X
 	if (values[0].x > 0)
 	{
-		finalPosition.x = values[0].x + values[1].x;
+		m_mouseWorldPos.x = values[0].x + values[1].x;
 	}
 	else if (values[0].x == 0)
 	{
-		finalPosition.x = values[1].x;
+		m_mouseWorldPos.x = values[1].x;
 	}
 	else
 	{
-		finalPosition.x = values[0].x + values[1].x;
+		m_mouseWorldPos.x = values[0].x + values[1].x;
 	}
 
 	//calculate the final position Y
 	if (values[0].y > 0)
 	{
-		finalPosition.y = values[0].y + values[1].y;
+		m_mouseWorldPos.y = values[0].y + values[1].y;
 	}
 	else if (values[0].y == 0)
 	{
-		finalPosition.y = values[1].y;
+		m_mouseWorldPos.y = values[1].y;
 	}
 	else
 	{
-		finalPosition.y = values[0].y + values[1].y;
+		m_mouseWorldPos.y = values[0].y + values[1].y;
 	}
 	//calculate the final position Z
 	if (values[0].z > 0)
 	{
-		finalPosition.z = values[0].z + values[1].z;
+		m_mouseWorldPos.z = values[0].z + values[1].z;
 	}
 	else if (values[0].z == 0)
 	{
-		finalPosition.z = values[1].z;
+		m_mouseWorldPos.z = values[1].z;
 	}
 	else
 	{
-		finalPosition.z = values[0].z + values[1].z;
+		m_mouseWorldPos.z = values[0].z + values[1].z;
 	}
 
-	m_object->SetPosition(finalPosition);
+	m_object->SetPosition(m_mouseWorldPos);
 
 }
 

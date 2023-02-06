@@ -1,11 +1,10 @@
 {
     "GameObject0": {
-        "banimated": false,
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": 2.5,
-            "y": 3.5,
+            "x": -4.5,
+            "y": 0.0,
             "z": 0.0
         },
         "collisionType": 0,
@@ -29,7 +28,6 @@
             1.0,
             1.0
         ],
-        "columns": 0,
         "gravityMultiplier": 1.5,
         "jumpHeight": 500.0,
         "mass": 1.0,
@@ -38,8 +36,8 @@
         "name": "Jaba",
         "objectType": 2,
         "position": {
-            "x": 2.5,
-            "y": 3.5,
+            "x": -4.5,
+            "y": 0.0,
             "z": 0.0
         },
         "radius": 1.0,
@@ -48,7 +46,6 @@
             "y": 0.0,
             "z": 34.0
         },
-        "rows": 0,
         "scale": {
             "x": 1.0,
             "y": 1.0,
@@ -268,7 +265,6 @@
         ]
     },
     "GameObject3": {
-        "banimated": false,
         "bconsumeInput": false,
         "bsimulateGravity": false,
         "centerPosition": {
@@ -297,7 +293,6 @@
             1.0,
             1.0
         ],
-        "columns": 0,
         "gravityMultiplier": 1.0,
         "jumpHeight": 0.0,
         "mass": 1.0,
@@ -316,7 +311,6 @@
             "y": 1.0,
             "z": 1.0
         },
-        "rows": 0,
         "scale": {
             "x": 1.0,
             "y": 1.0,
@@ -363,5 +357,98 @@
             0.0
         ]
     },
-    "ObjectCount": 4
+    "GameObject4": {
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": -3.831453323364258,
+            "y": 0.4656619429588318,
+            "z": 0.24999992549419403
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 1.0,
+        "jumpHeight": 2.427000045776367,
+        "mass": 1.0,
+        "maxHealth": 15.534000396728516,
+        "movementSpeed": 1.465999960899353,
+        "name": " MyEnemy",
+        "objectType": 3,
+        "position": {
+            "x": -3.831453323364258,
+            "y": 0.4656619429588318,
+            "z": 0.24999992549419403
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "texCoords": [
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ],
+        "textureName": "blue.png",
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "ObjectCount": 5
 }

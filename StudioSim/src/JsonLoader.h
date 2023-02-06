@@ -255,7 +255,7 @@ namespace QuackEngine {
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager, Grid<PathNode> grid)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, Grid<PathNode> grid)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 
@@ -278,11 +278,6 @@ namespace QuackEngine {
 			{
 				GameObject* obj = j["GameObject" + std::to_string(i)].get<GameObject*>();
 				gameObjects.push_back(obj);
-
-				if (obj->GetCollisionType() != CollisionType::NONE)
-				{
-					collisionManager->AddGameObject(obj);
-				}
 
 				// Set Grid for enemies
 				if (obj->GetType() == GameObjectType::ENEMY)

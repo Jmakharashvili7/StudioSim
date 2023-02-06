@@ -9,7 +9,7 @@ AIComponent::AIComponent(Actor* owningActor, const int updateOrder) :
 	m_targetRange(10.0f),
 	m_attackRange(1.0f),
 	m_pathUpdateTime(0.5f),
-	m_speed(1.0f)
+	m_speed(3.0f)
 {
 	m_pathFinder = new Pathfinding();
 	m_player = EngineManager::GetInputCharacter();	

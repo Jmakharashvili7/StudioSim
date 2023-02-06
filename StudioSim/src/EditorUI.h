@@ -31,6 +31,7 @@ public:
 private:
 	GameObject* m_object;
 	ViewportUI* m_Viewport;
+	Vector3 m_mouseWorldPos;
 
 	float m_ItemWidth;
 

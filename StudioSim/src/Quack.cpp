@@ -145,15 +145,18 @@ Texture* Quack::GetTexture(std::string textureName)
 
 void Quack::HandleInput()
 {
-	//if (!KeyboardClass::KeyBufferIsEmpty())
-	//{
-	//	KeyEvent key = KeyboardClass::ReadKey();
+	if (!KeyboardClass::KeyBufferIsEmpty())
+	{
+		KeyEvent key = KeyboardClass::ReadKey();
 
-	//	if (key.GetKeyCode() != 0)
-	//	{
-	//		//m_uiMain->GetViewport()->HandleKeyboardInput(key);
-	//	}
-	//}
+		if (key.GetKeyCode() != 0)
+		{
+			m_uiMain->GetViewport()->HandleKeyboardInput(key);
+
+			if (key.GetKeyCode() == 'Q')
+				m_mainScene = Scene("MainMenu", m_uiMain, m_window, m_mainScene.GetFrameBuffer());
+		}
+	}
 
 	//Mouse Input
 	if (!MouseClass::IsEventBufferEmpty())
