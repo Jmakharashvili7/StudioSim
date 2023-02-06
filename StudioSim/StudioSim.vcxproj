@@ -168,6 +168,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\AttackHitbox.cpp" />
     <ClCompile Include="src\CombatComponent.cpp" />
     <ClCompile Include="src\AIComponent.cpp" />
     <ClCompile Include="src\Component.cpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AttackHitbox.h" />
     <ClInclude Include="src\CombatComponent.h" />
     <ClInclude Include="src\AIComponent.h" />
     <ClInclude Include="src\Component.h" />

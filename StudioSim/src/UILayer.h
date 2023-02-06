@@ -45,7 +45,7 @@ struct CreatClassInfo
 
 		movementData = MovementData();
 		entityData = EntityData();
-	}	
+	}
 };
 
 enum class Classes
@@ -81,6 +81,7 @@ public:
 	inline ViewportUI* GetViewport() { return m_viewportUI; }
 	inline EditorUI* GetEditorUI() { return m_editorUI; }
 	inline WorldOutlinerUI* GetWorldOutliner() { return m_worldOutliner; }
+	inline bool GetInPlay() { return inPlay; }
 
 	inline std::vector<UIWindow*> GetAllWindows() { return m_windowList; }
 
@@ -100,14 +101,18 @@ private:
 
 private:
 	float m_time;
+	bool inEditor = true;
+	bool inPlay = false;
+
 	glm::vec4 m_color;
-	ViewportUI* m_viewportUI;	
+	ViewportUI* m_viewportUI;
 	EditorUI* m_editorUI;
 	WorldOutlinerUI* m_worldOutliner;
 	ContentBrowserUI* m_contentBrowser;
 
+
 	std::vector<UIWindow*> m_windowList;
-	
+
 	CreatClassInfo newObjectInfo;
 
 	VertexData* vertexData;

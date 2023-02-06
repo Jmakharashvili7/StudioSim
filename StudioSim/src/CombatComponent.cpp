@@ -4,6 +4,7 @@
 #include "EngineManager.h"
 #include "JsonLoader.h"
 #include "Character.h"
+#include "AttackHitbox.h"
 
 CombatComponent::CombatComponent(Actor* owner, int updateOrder, const WeaponData& startingWeaponData) : Component {owner, updateOrder}
 {
@@ -46,6 +47,16 @@ void CombatComponent::Update(const float deltaTime)
 		{
 			AttackFinished();
 		}
+	}
+}
+
+void CombatComponent::UpdateAttackHitboxPosition(const Vector3& newPosition)
+{
+	if (m_battacking && m_attackHitbox)
+	{
+		const bool RightAttack = m_currentAttackFacingDirection == FacingDirection::RIGHT ? true : false;
+		const Vector3 newHitboxPosition = RightAttack ? Vector3((newPosition).x + (m_owningActor->GetScale().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, newPosition.y, newPosition.z) : Vector3(newPosition.x - (m_owningActor->GetScale().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, newPosition.y, newPosition.z);
+		m_attackHitbox->SetPosition(newHitboxPosition);
 	}
 }
 
@@ -96,26 +107,23 @@ void CombatComponent::ActivateDelayTimerFinished()
 {
 	m_bactivateDelayTimerFinished = true;
 
-	// temp todo change
-	const Vector3 hitboxScale = m_owningActor->GetScale();
-
 	const bool RightAttack = m_currentAttackFacingDirection == FacingDirection::RIGHT ? true : false;
-	const Vector3 HitboxPosition = RightAttack ? Vector3(m_owningActor->GetPosition().x + (m_owningActor->GetScale().x * 0.5f) + (hitboxScale.x * 0.5f), m_owningActor->GetPosition().y, m_owningActor->GetPosition().z) : Vector3(m_owningActor->GetPosition().x - (m_owningActor->GetScale().x * 0.5f) - (hitboxScale.x * 0.5f), m_owningActor->GetPosition().y, m_owningActor->GetPosition().z);
+	const Vector3 HitboxPosition = RightAttack ? Vector3(m_owningActor->GetPosition().x + (m_owningActor->GetScale().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, m_owningActor->GetPosition().y, m_owningActor->GetPosition().z) : Vector3(m_owningActor->GetPosition().x - (m_owningActor->GetScale().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, m_owningActor->GetPosition().y, m_owningActor->GetPosition().z);
 	VertexData* weaponHitboxVertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
 
-	TransformData weaponHitboxTransformData = TransformData(HitboxPosition, m_owningActor->GetRotation(), hitboxScale);
-	CollisionData weaponHitboxCollisionData = CollisionData(m_owningActor->GetCollisionData());
+	TransformData weaponHitboxTransformData = TransformData(HitboxPosition, m_owningActor->GetRotation(), m_currentAttackData.hitboxScale);
+	CollisionData weaponHitboxCollisionData = CollisionData(weaponHitboxTransformData.position, weaponHitboxTransformData.scale);
 
-	m_weaponHitbox = new GameObject("tempWeaponHitbox", weaponHitboxVertexData, weaponHitboxTransformData, weaponHitboxCollisionData, m_currentWeaponData.textureName);
-	Quack::GetCurrentScene()->AddGameObject(m_weaponHitbox);
-}
+	m_attackHitbox = new AttackHitbox("TemAttackHitbox", this, weaponHitboxVertexData, weaponHitboxTransformData, weaponHitboxCollisionData, m_currentWeaponData.textureName);
+	Quack::GetCurrentScene()->AddGameObject(m_attackHitbox);
+} 
 
 void CombatComponent::ActiveTimerFinished()
 {
 	m_bactivateTimerFinished = true;
 
-	Quack::GetCurrentScene()->RemoveGameObject(m_weaponHitbox);
-	m_weaponHitbox = nullptr;
+	Quack::GetCurrentScene()->RemoveGameObject(m_attackHitbox);
+	m_attackHitbox = nullptr;
 }
 
 void CombatComponent::DeactivateTimerFinished()
@@ -128,4 +136,13 @@ void CombatComponent::AttackFinished()
 	m_battacking = false;
 	m_currentAttackTimer = 0.0f;
 	ResetTimerBools();
+}
+
+void CombatComponent::CharacterHit(Character* hitCharacter)
+{
+	if (hitCharacter)
+	{
+		const FacingDirection damageDirection = m_currentAttackFacingDirection == FacingDirection::RIGHT ? FacingDirection::LEFT : FacingDirection::RIGHT;
+		hitCharacter->TakeDamage(m_currentAttackData.damage, m_currentAttackData.knockbackAmount, m_currentAttackData.knockbackSpeed, damageDirection);
+	}
 }

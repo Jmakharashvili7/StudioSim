@@ -23,6 +23,7 @@ void ViewportUI::Render()
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin(m_name.c_str());
+	m_isHovered = ImGui::IsWindowHovered();
 
 	// Check if the size of the window changed
 	// *((glm::vec2*)& is used to compare imvec2 and glm vec2 and it works due to their layouts both being two floats
@@ -67,24 +68,38 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 	{
 		if (Quack::GetOrthoCam()->GetCanZoom())
 		{
-			float newZoom = Quack::GetOrthoCam()->GetZoom();
-			float aspect = m_size.x / m_size.y;
+			//Spikes child
+			//Vector2 port;
+			////Size of viewport
+			//port.x = GetSize().x;
+			//port.y = GetSize().y;
 
-			if (e.GetType() == MouseEvent::EventType::SCROLL_DOWN)
+			////Current mouse position within viewport scale
+			//Vector2 viewStart;
+			//viewStart.x = ImGui::GetMousePos().x - GetStartX();
+			//viewStart.y = ImGui::GetMousePos().y - GetStartY();
+
+			//Only counting the click within viewport boundary
+			if (m_isHovered)
 			{
-				newZoom += (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+				float newZoom = Quack::GetOrthoCam()->GetZoom();
+				float aspect = m_size.x / m_size.y;
+
+				if (e.GetType() == MouseEvent::EventType::SCROLL_DOWN)
+				{
+					newZoom += (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+				}
+
+				if (e.GetType() == MouseEvent::EventType::SCROLL_UP)
+				{
+					newZoom -= (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
+				}
+
+				newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
+				Quack::GetOrthoCam()->SetZoom(newZoom);
+
+				Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
 			}
-
-			if (e.GetType() == MouseEvent::EventType::SCROLL_UP)
-			{
-				newZoom -= (float)e.GetType() * Quack::GetOrthoCam()->GetZoomSpeed();
-			}
-
-			newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
-			Quack::GetOrthoCam()->SetZoom(newZoom);
-
-			Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
-			
 		}
 
 	}
