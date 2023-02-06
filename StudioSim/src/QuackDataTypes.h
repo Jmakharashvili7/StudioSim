@@ -24,7 +24,7 @@ struct PhysicsData
 		: bsimulateGravity(inSimulateGravity), mass(inMass), gravityMultiplier(inGravityMultiplier) {};
 
 	PhysicsData() 
-		: bsimulateGravity(false), mass(0.0f), gravityMultiplier(1.0f) {};
+		: bsimulateGravity(false), mass(1.0f), gravityMultiplier(1.0f) {};
 
 	bool bsimulateGravity;
 	float mass;
@@ -112,6 +112,72 @@ enum class AxisType
 {
 	HORIZONTAL,
 	VERTICAL
+};
+
+
+enum class FacingDirection
+{
+	LEFT,
+	RIGHT
+};
+
+struct AttackData
+{
+	AttackData(const float inDamage, const float inKnockbackAmount, const float inKnockbackSpeed, const Vector3 inHitboxScale, const float inSideOffset, const float inCooldownTime, const float inHitboxActivateDelay, const float inHitboxActiveTime, const float inHitboxDeactivateTime)
+		: damage(inDamage), knockbackAmount(inKnockbackAmount), knockbackSpeed(inKnockbackSpeed), hitboxScale(inHitboxScale), sideOffset(inSideOffset), cooldownTime(inCooldownTime), hitboxActivateDelay(inHitboxActivateDelay), hitboxActiveTime(inHitboxActiveTime), hitboxDeactivateTime(inHitboxDeactivateTime)
+		, totalAttackTime(inCooldownTime+inHitboxActivateDelay+inHitboxActiveTime+inHitboxDeactivateTime) {}
+
+	AttackData() : damage(0.0f), knockbackAmount(0.0f), knockbackSpeed(0.0f), hitboxScale(Vector3(0.0f)), sideOffset(0.0f), cooldownTime(0.0f), hitboxActivateDelay(0.0f), hitboxActiveTime(0.0f), hitboxDeactivateTime(0.0f), totalAttackTime(0.0f) {}
+
+	// The damage the attack does
+	float damage;
+
+	// The amount the enemy is knocked back when hit
+	float knockbackAmount;
+
+	// The speed in which the enemy is knocked back
+	float knockbackSpeed;
+
+	// The scale of the hitbox
+	Vector3 hitboxScale;
+
+	// The x offset from the side of the character thats attacking
+	float sideOffset;
+
+	// After the attack is finished (after hitboxDeactivateTime) how long before you can press any attack again
+	float cooldownTime;
+
+	// Once the attack is pressed, how long before the hit box is activated 
+	float hitboxActivateDelay;
+
+	// How long the hit box is active for
+	float hitboxActiveTime;
+
+	// How long it takes for the attack to deactivate after (hitboxactivetime)
+	float hitboxDeactivateTime;
+
+	// Total attack time
+	float totalAttackTime;
+};
+
+struct WeaponData
+{
+	WeaponData(const std::string inName, const std::string inTextureName, const AttackData& inLightAttackData, const AttackData& inHeavyAttackData, const AttackData& inSpecialAttackData)
+		: name(inName), textureName(inTextureName), lightAttackData(inLightAttackData), heavyAttackData(inHeavyAttackData), specialAttackData(inSpecialAttackData) {}
+
+	WeaponData(const std::string inName, const std::string inTextureName, const AttackData& inLightAttackData, const AttackData& inHeavyAttackData)
+		: name(inName), textureName(inTextureName), lightAttackData(inLightAttackData), heavyAttackData(inHeavyAttackData), specialAttackData(AttackData()) {}
+
+	WeaponData(const std::string inName, const std::string inTextureName, const AttackData& inLightAttackData)
+		: name(inName), textureName(inTextureName), lightAttackData(inLightAttackData), heavyAttackData(AttackData()), specialAttackData(AttackData()) {}
+
+	WeaponData() : name(""), textureName(""), lightAttackData(AttackData()), heavyAttackData(AttackData()), specialAttackData(AttackData()) {}
+
+	std::string name;
+	std::string textureName;
+	AttackData lightAttackData;
+	AttackData heavyAttackData;
+	AttackData specialAttackData;
 };
 
 

@@ -3,6 +3,7 @@
 #include "Grid.h"
 #include "PathNode.h"
 #include "GameTime.h"
+#include "FrameBuffer.h"
 
 class GameObject;
 class Actor;
@@ -24,26 +25,31 @@ class Scene
 {
 public:
 	Scene() {}
-	Scene(const std::string& path, UILayer* uiLayer, Window* window);
+	Scene(const std::string& path, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer);
 	~Scene() {}
+	
+	void RenderScene();
 
-	void Render();
-
-	inline OrthographicCamera* GetCamera() { return m_mainCamera; }
-	void CloseScene();
+	inline OrthographicCamera* GetCamera() { return m_activeCamera; }
+	void SaveScene();
+	void LoadScene();
 
 	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
+	void AddGameObject(GameObject* newGameObject);
+	void RemoveGameObject(GameObject* gameObject);
+
+	inline FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
+
+	inline bool GetStopInput() { return m_StopInput; }
+	inline void ToggleStopInput(bool toggle) { m_StopInput = toggle; }
 private:
-	void SetupShaders();
 	void HandleLights();
 
 	void HandleInput();
 
+	void Render();
 	void Update();
 	void PhysicsUpdate();
-
-	GameObject* LoadGameObject(std::string path);
-	bool StoreGameObject(GameObject* gameObject, int index);
 private:
 	std::string m_name;
 
@@ -73,14 +79,15 @@ private:
 	glm::vec4 m_spotSpecular;
 	glm::vec4 m_lightAmbient;
 
-	Shader* m_mainShader;
-	Shader* m_3dShader;
-	Shader* m_primitiveShader;
-	OrthographicCamera* m_mainCamera;
+	OrthographicCamera* m_activeCamera;
 ;
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
+	
+	FrameBuffer* m_frameBuffer;
+
+	bool m_StopInput : 1;
 
 	HUD* m_HUD;
 
@@ -91,5 +98,7 @@ private:
 	//static double m_deltaTime;
 	//static double m_frameTime;
 	//static double m_frameDelay;
+	std::vector<GameObject*> m_gameObjectsToAdd;
+	std::vector<GameObject*> m_gameObjectsToRemove;
 };
 

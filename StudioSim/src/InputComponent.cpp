@@ -28,6 +28,7 @@ const bool InputComponent::GetKeyDown(const char key) const
 		}
 	}
 	
+
 	return bkeyHeld;
 }
 

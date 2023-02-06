@@ -4,6 +4,7 @@
 
 GameTimer* EngineManager::m_gameTimer;
 std::vector<GameObject*> EngineManager::m_gameObjects;
+Character* EngineManager::m_inputCharacter;
 
 GameObject* EngineManager::GetGameObject(std::string name)
 {
@@ -35,20 +36,66 @@ int EngineManager::GetGameObjectIndex(std::string name)
 	}
 }
 
-int EngineManager::GetGameObjectIndex(GameObject* gameObject, std::vector<GameObject*> gameObjectArray)
+int EngineManager::GetGameObjectIndex(GameObject* gameObject)
 {
 	int i = 0;
-	int indexToReturn = -1;
 
-	for (GameObject* loopedGameObject : gameObjectArray)
+	for (GameObject* loopedGameObject : Quack::GetCurrentScene()->GetGameObjects())
 	{
 		if (gameObject == loopedGameObject)
 		{
-			indexToReturn = i;
+			return i;
 		}
 
 		i++;
 	}
 
-	return indexToReturn;
+	return -1;
+}
+
+EngineManager::~EngineManager()
+{
+}
+
+int EngineManager::GetGameObjectIndex(GameObject* gameObject, std::vector<GameObject*> gameObjectArray)
+{
+	int i = 0;
+
+	for (GameObject* loopedGameObject : gameObjectArray)
+	{
+		if (gameObject == loopedGameObject)
+		{
+			return i;
+		}
+
+		i++;
+	}
+
+	return -1;
+}
+
+void EngineManager::SetInputCharacter(Character* newInputCharacter)
+{
+	m_inputCharacter = newInputCharacter;
+
+	for (GameObject* loopedGameObject : m_gameObjects)
+	{
+		Character* characterObject = dynamic_cast<Character*>(loopedGameObject);
+		if (characterObject)
+		{
+			if (characterObject == newInputCharacter)
+			{
+				characterObject->SetConsumingInput(true);
+			}
+			else
+			{
+				characterObject->SetConsumingInput(false);
+			}
+		}
+	}
+}
+
+const bool EngineManager::GetCharacterConsumingInput(Character* inputCharacter)
+{
+	return m_inputCharacter == inputCharacter;
 }

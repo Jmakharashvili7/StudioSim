@@ -39,6 +39,7 @@ namespace nlohmann
 			AnimationData animationData;
 			MovementData movementData;
 			EntityData entityData;
+			bool bconsumeInput = false;
 
 			// Load name
 			std::string name = j["name"].get<std::string>();
@@ -100,7 +101,10 @@ namespace nlohmann
 				// load entity data
 				entityData.maxHealth = j["maxHealth"].get<float>();
 
-				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
+				// load input data
+				bconsumeInput = j["bconsumeInput"].get<bool>();
+
+				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData, bconsumeInput);
 			case GameObjectType::ENEMY:
 
 				// Load PhysicsData
@@ -177,6 +181,9 @@ namespace nlohmann
 					
 					EntityData entityData = character->GetEntityData();
 					j["maxHealth"] = entityData.maxHealth;
+
+					const bool bconsumingInput = character->GetConsumingInput();
+					j["bconsumeInput"] = bconsumingInput;
 				}
 			}
 		}
@@ -247,7 +254,7 @@ namespace QuackEngine {
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, CollisionManager* collisionManager)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 
@@ -270,11 +277,6 @@ namespace QuackEngine {
 			{
 				GameObject* obj = j["GameObject" + std::to_string(i)].get<GameObject*>();
 				gameObjects.push_back(obj);
-
-				if (obj->GetCollisionType() != CollisionType::NONE)
-				{
-					collisionManager->AddGameObject(obj);
-				}
 			}
 			
 			return sceneInfo;

@@ -39,14 +39,14 @@ Actor::~Actor()
 	}
 }
 
-void Actor::Draw(Shader* mainShader)
+void Actor::Draw(OrthographicCamera* camera)
 {
 	if (m_animator)
 	{
 		m_animator->UpdateTextCoord(Quack::GetDeltaTime());
 	}
 
-	GameObject::Draw(mainShader);
+	GameObject::Draw(camera);
 }
 
 void Actor::Update(const float deltaTime)
@@ -91,25 +91,6 @@ void Actor::SetGravityMultiplier(const float gravityMultiplier)
 
 void Actor::AddCollision(GameObject* collidingObject)
 {
-	// Debug
-	
-	/*if (GetPosition().y < collidingObject->GetPosition().y)
-	{
-		std::cout << "BOTTOM HIT" << std::endl;
-	}
-	else
-	{
-		std::cout << "BOTTOM HIT" << std::endl;
-	}
-	if (GetPosition().x < collidingObject->GetPosition().x)
-	{
-		std::cout << "Right HIT" << std::endl;
-	}
-	else
-	{
-		std::cout << "Bottom HIT" << std::endl;
-	}*/
-
 	if (collidingObject->GetName() == "ground")
 	{
 		SetCollidingWithGround(true);

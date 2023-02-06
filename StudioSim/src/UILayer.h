@@ -5,6 +5,56 @@
 #include "EditorUI.h"
 #include "WorldOutlinerUI.h"
 #include "ContentBrowserUI.h"
+#include "JsonLoader.h"
+
+struct CreatClassInfo
+{
+
+	std::string objectName;
+	std::string textureName;
+
+	TransformData transformData;
+	CollisionData collisionData;
+	bool boxCollision;
+	bool sphereCollision;
+	bool noCollision;
+
+	bool addPhysicsComponent : 1;
+	PhysicsData physicsData;
+
+	bool addAnimator : 1;
+	AnimationData animationData;
+
+	MovementData movementData;
+	EntityData entityData;
+
+
+	CreatClassInfo()
+	{
+		objectName = " ";
+		textureName = "blue.png";
+
+		transformData = TransformData();
+		collisionData = CollisionData();
+
+		addPhysicsComponent = false;
+		physicsData = PhysicsData();
+
+		addAnimator = false;
+		animationData = AnimationData();
+
+		movementData = MovementData();
+		entityData = EntityData();
+	}
+};
+
+enum class Classes
+{
+	GAMEOBJECT,
+	ACTOR,
+	CHARACTER,
+	ENEMY
+};
 
 // Basic setup of new window
 //1. Create a class for the window you want to implement and make it a child of UIWindow
@@ -31,15 +81,40 @@ public:
 	inline ViewportUI* GetViewport() { return m_viewportUI; }
 	inline EditorUI* GetEditorUI() { return m_editorUI; }
 	inline WorldOutlinerUI* GetWorldOutliner() { return m_worldOutliner; }
+	inline bool GetInPlay() { return inPlay; }
+
+	inline std::vector<UIWindow*> GetAllWindows() { return m_windowList; }
 
 private:
 	void EnableDocking();
+	void SetUpObjectCreator();
+	void CreatePopupContent(Classes createClass);
+	void BasePopupContent();
+	void ActorContent();
+	void CharacterContent();
+	std::string CollisionName(CollisionType type);
+
+	void ObjectName();
+	void ObjectTransformData();
+	void ObjectCollisionData(TransformData data);
+	void ObjectTextureName();
+
 private:
 	float m_time;
+	bool inEditor = true;
+	bool inPlay = false;
+
 	glm::vec4 m_color;
-	ViewportUI* m_viewportUI;	
+	ViewportUI* m_viewportUI;
 	EditorUI* m_editorUI;
 	WorldOutlinerUI* m_worldOutliner;
 	ContentBrowserUI* m_contentBrowser;
+
+
+	std::vector<UIWindow*> m_windowList;
+
+	CreatClassInfo newObjectInfo;
+
+	VertexData* vertexData;
 };
 

@@ -9,5 +9,6 @@ namespace QuackEngine {
 
 	void window_size_callback(GLFWwindow* window, int width, int height);
 	void window_close_callback(GLFWwindow* window);
+	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 } // quack engine namespace
 

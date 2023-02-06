@@ -11,9 +11,10 @@ public:
 	WorldOutlinerUI(std::string name);
 	~WorldOutlinerUI();
 
-	
+
 	void Render() override;
-	void HandleInput(KeyEvent key) override;
+	void HandleKeyboardInput(KeyEvent key) override;
+	void HandleMouseInput(MouseEvent e) override;
 
 	inline void SetCurrentScene(Scene* scene) { m_CurrentScene = scene; }
 	inline void SetEditorUI(EditorUI* editor) { m_EditorUI = editor; }

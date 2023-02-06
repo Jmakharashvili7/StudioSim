@@ -2,10 +2,10 @@
 
 #include "MouseClass.h"
 
-#include <directxmath.h>
-#include <d3d11_1.h>
+//#include <directxmath.h>
+//#include <d3d11_1.h>
 
-using namespace DirectX;
+//using namespace DirectX;
 
 std::queue<MouseEvent> MouseClass::s_EventBuffer;
 bool MouseClass::s_IsLeftClick;
@@ -98,8 +98,8 @@ void MouseClass::OnScrollDown(int x, int y)
 
 void MouseClass::OnMouseMove(int x, int y)
 {
-	s_DiffX = XMConvertToRadians(0.25f*static_cast<float>(x-s_Position.x));
-	s_DiffY = XMConvertToRadians(0.25f*static_cast<float>(y-s_Position.y));
+	s_DiffX = glm::radians(0.25f*static_cast<float>(x-s_Position.x));
+	s_DiffY = glm::radians(0.25f*static_cast<float>(y-s_Position.y));
 
 	s_Position.x = x;
 	s_Position.y = y;
@@ -109,20 +109,6 @@ void MouseClass::OnMouseMove(int x, int y)
 void MouseClass::OnMouseMoveRaw(int x, int y)
 {
 	s_EventBuffer.push(MouseEvent(MouseEvent::EventType::MOVE_RAW, x, y));
-}
-
-void MouseClass::ResetMousePos(int x, int y)
-{
-	// Clear the queue of all inputs
-	std::queue<MouseEvent> empty;
-	std::swap(s_EventBuffer, empty);
-
-	// Set the mouse position variable to the new position
-	s_Position.x = x;
-	s_Position.y = y;
-	
-	// reset the mouse position
-	SetCursorPos(x, y);
 }
 
 MouseEvent MouseClass::ReadEvent()

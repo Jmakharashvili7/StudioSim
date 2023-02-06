@@ -32,17 +32,20 @@ public:
 	static void ShutDown();
 	static Window* GetWindow() { return m_window; }
 
-	static OrthographicCamera* GetOrthoCamera() { return m_mainCamera; }
-	static void SetOrthoCamera(OrthographicCamera* camera) { m_mainCamera = camera; }
-
 	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
-	static FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
+	static FrameBuffer* GetFrameBuffer() { return m_mainScene.GetFrameBuffer(); }
 	static UILayer* GetUILayer() { return m_uiMain; }
 
 	static OrthographicCamera* GetOrthoCam() { return m_mainScene.GetCamera(); }
 
 	static void GenerateTextureList();
 	static Texture* GetTexture(std::string textureName);
+
+	// Default shader for objects without custom shader
+	static inline Shader* GetPrimitiveShader() { return m_primitiveShader; }
+	static inline Shader* GetTextureShader() { return m_textureShader; }
+
+	static Scene* GetCurrentScene() { return &m_mainScene; }
 private:
 	Quack();
 	~Quack();
@@ -57,13 +60,14 @@ private:
 	static LayerStack* m_layerStack;
 	static UILayer* m_uiMain;
 
-	static FrameBuffer* m_frameBuffer;
-
 	static GameTimer m_gameTimer;
 	static Scene m_mainScene;
 
 	static int m_frameCounter;
 	static int m_currentFrameRate;
+
+	static Shader* m_primitiveShader;
+	static Shader* m_textureShader;
 
 	static OrthographicCamera* m_mainCamera;
 

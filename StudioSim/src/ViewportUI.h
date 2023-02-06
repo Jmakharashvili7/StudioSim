@@ -5,18 +5,17 @@
 class ViewportUI : public UIWindow
 {
 public:
-	ViewportUI(std::string name, FrameBuffer* frameBuffer);
+	ViewportUI(std::string name);
 	~ViewportUI();
 
 	void Render() override;
-	void HandleInput(KeyEvent key) override;
+	void HandleKeyboardInput(KeyEvent key) override;
+	void HandleMouseInput(MouseEvent e) override;
 
 	inline float GetStartX() { return startViewportX; }
 	inline float GetStartY() { return startViewportY; }
 
 private:
-	FrameBuffer* m_frameBuffer;
 	float startViewportX;
 	float startViewportY;
 };
-
