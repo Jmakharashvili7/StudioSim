@@ -11,7 +11,7 @@ void InputComponent::Update(const float deltaTime)
 {
 	Component::Update(deltaTime);
 	ProcessInput();
-	//KeyboardClass::ClearKeyBuffer();
+	KeyboardClass::ClearKeyBuffer();
 }
 
 const bool InputComponent::GetKeyDown(const char key) const
@@ -41,11 +41,11 @@ const bool InputComponent::GetKeyDown(const char key) const
 			if (keyEvent[i].GetKeyCode() == upperCaseKey)
 			{
 				KeyboardClass::UpdateKeyStates();
+				
 				bkeyHeld = true;
 			}
 		}
 	}
-
 
 	return bkeyHeld;
 	
@@ -89,6 +89,7 @@ const bool InputComponent::GetKeyPressed(const char key) const
 		{
 			if (keyEvent[i].GetKeyCode() == upperCaseKey)
 			{
+				
 				bkeyPressed = true;
 			}
 		}
@@ -214,5 +215,10 @@ void InputComponent::ProcessInput()
 	keyEvent = KeyboardClass::ReadKeys();
 	mouseEvent = MouseClass::ReadEvent();
 
+<<<<<<< Updated upstream
 	cout << KeyboardClass::ReadKey().GetKeyCode() << endl;
 }
+=======
+	
+}
+>>>>>>> Stashed changes

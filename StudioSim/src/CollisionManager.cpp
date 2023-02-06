@@ -130,6 +130,24 @@ void CollisionResolver::ResolveVelocity(float deltaTime)
 
 	float newSepVelocity = -separatingVelocity * restitution;
 
+	//Vector3 accCausedVelocity = m_PhysicsObject[0]->GetAcceleration();
+
+	//if (m_PhysicsObject[1])
+	//{
+	//	accCausedVelocity -= m_PhysicsObject[1]->GetAcceleration();
+	//}
+
+	//float accCausedSepVelocity = accCausedVelocity.Length() * m_contactNormal.Length() * deltaTime;
+	//if (accCausedSepVelocity < 0)
+	//{
+	//	newSepVelocity += restitution * accCausedSepVelocity;
+	//	if (newSepVelocity < 0)
+	//	{
+	//		newSepVelocity = 0;
+	//	}
+	//}
+
+
 	float deltaVelocity = newSepVelocity - separatingVelocity;
 
 	float totalInverseMass = m_PhysicsObject[0]->GetInverseMass();

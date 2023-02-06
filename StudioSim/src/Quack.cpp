@@ -146,6 +146,7 @@ void Quack::Update()
 {
 	m_gameTimer.Tick();
 
+
 	m_uiMain->GetWorldOutliner()->SetCurrentScene(&m_mainScene);
 
 	// get mouse position
