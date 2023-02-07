@@ -26,6 +26,9 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.5f, 0.5f, 0.5f), 0.25f, 0.05f, 0.01f, 0.1f, 0.01f)); // todo move
 	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
 	AddComponent(m_combatComponent);
+	m_CanMove = true;
+	m_DashTime = 0.2f;
+	m_DashCooldowm = 2.5f;
 }
 
 Character::~Character()
@@ -50,10 +53,15 @@ void Character::Update(const float deltaTime)
 			m_totalKnockbackAmount = 0.0f;
 		}
 	}
+	CheckDash();
 }
 
 void Character::AdjustPosition(const Vector3 adjustPosition)
 {
+	if (!m_CanMove)
+	{
+		return;
+	}
 	GameObject::AdjustPosition(adjustPosition);
 	const Vector3 newPosition = GetPosition();
 	
@@ -233,6 +241,39 @@ void Character::SetTakeHitAnimationRow(const int newRow)
 	if (m_animator)
 	{
 		m_animator->SetTakeHitAnimationRow(newRow);
+	}
+}
+
+void Character::AttemptToDash()
+{
+	if (Quack::GetGameTime() >= (m_TimeSinceLastDash + m_DashCooldowm))
+	{
+		m_IsDashing = true;
+		m_DashTimeLeft = m_DashTime;
+		m_TimeSinceLastDash = Quack::GetGameTime();
+			cout << "attempttodash" << endl;
+	}
+}
+
+void Character::CheckDash()
+{
+	if (m_IsDashing)
+	{
+		if (m_DashTimeLeft > 0)
+		{
+			//m_CanMove = false;
+			AdjustPosition(Vector3((GetMovementSpeed() * Quack::GetDeltaTime()), 0.0f, 1.0f));
+			m_DashTimeLeft -= Quack::GetDeltaTime();
+		}
+		if (m_DashTimeLeft <= 0)
+		{
+			m_IsDashing = false;
+			m_CanMove = true;
+			m_physicsComponent->ResetForces();
+		}
+		
+		cout << m_DashTimeLeft << endl;
+		
 	}
 }
 

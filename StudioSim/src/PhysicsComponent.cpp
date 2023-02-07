@@ -37,13 +37,14 @@ void PhysicsComponent::Update(float deltaTime)
 
 	m_Velocity *= powf(m_Dampening, deltaTime);
 
+	ClearAccumulator();
 	if (m_bOnGround)
 	{
 		m_Contacts->Resolve(deltaTime);
 	}
 
 
-	ClearAccumulator();
+	
 }
 
 void PhysicsComponent::UpdateAccelerationByGravity()
@@ -59,11 +60,6 @@ void PhysicsComponent::ClearAccumulator()
 
 void PhysicsComponent::AddForce(const Vector3& force)
 {
-	cout << m_Force.x << "  " << m_Force.y << "  " << m_Force.z << endl;
-	if (m_bOnGround)
-	{
-		m_bOnGround = !m_bOnGround;
-	}
 	m_Force += force;
 }
 

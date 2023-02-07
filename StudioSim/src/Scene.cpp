@@ -254,6 +254,11 @@ void Scene::HandleInput()
 				{
 					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
+
+				if (inputComponent->GetKeyPressed('z'))
+				{
+					inputCharacter->AttemptToDash();
+				}
 			}
 		}
 	}

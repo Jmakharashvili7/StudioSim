@@ -4,7 +4,7 @@
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -4.5,
+            "x": 0.0,
             "y": 2.5,
             "z": 0.0
         },
@@ -36,7 +36,7 @@
         ],
         "columns": 11,
         "deathRow": 0,
-        "gravityMultiplier": 1.5,
+        "gravityMultiplier": 1.0,
         "heavyAttackRow": 0,
         "idleRow": 0,
         "jumpHeight": 500.0,
@@ -48,7 +48,7 @@
         "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": -5.5,
+            "x": -1.0,
             "y": 2.5,
             "z": 0.0
         },

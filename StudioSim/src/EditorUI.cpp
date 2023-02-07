@@ -232,6 +232,7 @@ void EditorUI::Render()
 						{
 							actorObject->SetAnimationRows(rows);
 						}
+
 						ImGui::PopItemWidth();
 						
 						ImGui::PushItemWidth(m_ItemWidth);
@@ -407,12 +408,21 @@ void EditorUI::Render()
 
 
 	ImGui::End();
+
 }
+
+
+
+
 
 void EditorUI::HandleKeyboardInput(KeyEvent key)
 {
 
 }
+
+
+
+
 
 void EditorUI::HandleMouseInput(MouseEvent e)
 {
@@ -532,6 +542,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 	}
 	Vector3 finalPosition;
 
+
 	//calculate the final position X
 	if (values[0].x > 0)
 	{
@@ -546,6 +557,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		finalPosition.x = values[0].x + values[1].x;
 	}
 
+
 	//calculate the final position Y
 	if (values[0].y > 0)
 	{
@@ -559,6 +571,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 	{
 		finalPosition.y = values[0].y + values[1].y;
 	}
+
 	//calculate the final position Z
 	if (values[0].z > 0)
 	{
@@ -582,14 +595,14 @@ std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
 {
 	switch (collisionType)
 	{
-	case CollisionType::BOX:
-		return "BOX";
-	case CollisionType::SPHERE:
-		return "SPHERE";
-	case CollisionType::NONE:
-		return "NONE";
-	default:
-		return "";
+		case CollisionType::BOX:
+			return "BOX";
+		case CollisionType::SPHERE:
+			return "SPHERE";
+		case CollisionType::NONE:
+			return "NONE";
+		default:
+			return "";
 	}
 }
 

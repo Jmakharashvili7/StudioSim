@@ -71,10 +71,15 @@ public:
 	virtual void SetTakeHitAnimationRow(const int newRow);
 	virtual inline const int GetTakeHitAnimationRow() { return m_animationData.takeHitRow; }
 
+	//dash
+	void AttemptToDash();
+	void CheckDash();
+
 protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
+	bool m_CanMove;
 	FacingDirection m_facingDirection = FacingDirection::RIGHT;
 	
 	// Entity
@@ -93,5 +98,13 @@ protected:
 
 	// Components
 	CombatComponent* m_combatComponent = nullptr;
+
+	//dash
+	bool m_IsDashing;
+	float m_DashTime;
+	float m_DashSpeed;
+	float m_DashCooldowm;
+	float m_DashTimeLeft;
+	float m_TimeSinceLastDash = -100;
 };
 
