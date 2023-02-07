@@ -365,8 +365,8 @@
     },
     "GameObject4": {
         "centerPosition": {
-            "x": 0.0,
-            "y": 685.0,
+            "x": -6.5071024894714355,
+            "y": -4.0,
             "z": 0.0
         },
         "collisionType": 2,
@@ -393,8 +393,8 @@
         "name": "Heart0",
         "objectType": 0,
         "position": {
-            "x": 0.0,
-            "y": 685.0,
+            "x": -6.5071024894714355,
+            "y": -4.0,
             "z": 0.0
         },
         "radius": 0.0,
@@ -427,7 +427,7 @@
             0.0,
             0.0
         ],
-        "textureName": "FullHeart.png",
+        "textureName": "HeartFull.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -451,7 +451,7 @@
     },
     "GameObject5": {
         "centerPosition": {
-            "x": -7.0,
+            "x": -5.5071024894714355,
             "y": -4.0,
             "z": 0.0
         },
@@ -479,7 +479,7 @@
         "name": "Heart1",
         "objectType": 0,
         "position": {
-            "x": -7.0,
+            "x": -5.5071024894714355,
             "y": -4.0,
             "z": 0.0
         },
@@ -513,7 +513,7 @@
             0.0,
             0.0
         ],
-        "textureName": "FullHeart.png",
+        "textureName": "HeartFull.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -537,7 +537,7 @@
     },
     "GameObject6": {
         "centerPosition": {
-            "x": -6.0,
+            "x": -4.5071024894714355,
             "y": -4.0,
             "z": 0.0
         },
@@ -565,7 +565,7 @@
         "name": "Heart2",
         "objectType": 0,
         "position": {
-            "x": -6.0,
+            "x": -4.5071024894714355,
             "y": -4.0,
             "z": 0.0
         },
@@ -599,7 +599,7 @@
             0.0,
             0.0
         ],
-        "textureName": "FullHeart.png",
+        "textureName": "HeartFull.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -623,7 +623,7 @@
     },
     "GameObject7": {
         "centerPosition": {
-            "x": -4.5,
+            "x": -3.5,
             "y": -4.0,
             "z": 0.0
         },
@@ -651,7 +651,7 @@
         "name": "Heart3",
         "objectType": 0,
         "position": {
-            "x": -4.5,
+            "x": -3.5,
             "y": -4.0,
             "z": 0.0
         },
@@ -685,7 +685,7 @@
             0.0,
             0.0
         ],
-        "textureName": "FullHeart.png",
+        "textureName": "HeartFull.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -707,5 +707,91 @@
             0.0
         ]
     },
-    "ObjectCount": 8
+    "GameObject8": {
+        "centerPosition": {
+            "x": -2.5,
+            "y": -4.0,
+            "z": 0.0
+        },
+        "collisionType": 2,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "name": "Heart4",
+        "objectType": 0,
+        "position": {
+            "x": -2.5,
+            "y": -4.0,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "texCoords": [
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ],
+        "textureName": "HeartFull.png",
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "ObjectCount": 9
 }

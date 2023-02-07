@@ -4,6 +4,7 @@
 #include "UILayer.h"
 #include "EngineManager.h"
 
+
 HUD::HUD()
 {
 }
@@ -49,6 +50,10 @@ void HUD::Draw()
 
 	GameObject* temp3 = EngineManager::GetGameObject("Heart3");
 	temp3->SetPosition({ camPort_x + camDimensions.x + 4, camPort_y + camDimensions.z + 1, 0.0f });
+
+	GameObject* temp4 = EngineManager::GetGameObject("Heart4");
+	temp4->SetPosition({ camPort_x + camDimensions.x + 5, camPort_y + camDimensions.z + 1, 0.0f });
+
 	////Health bar
 	//glColor3f(1.0f, 1.0f, 0.0f);
 	//glVertex2f(0.0, port_y - 100);
@@ -68,5 +73,171 @@ void HUD::Draw()
 	//glVertex2f(200.0, 100.0);
 	//glVertex2f(0.0, 100.0);
 
+	Update();
+
 	glEnd();
+}
+
+void HUD::Update()
+{
+	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
+
+	GameObject* temp0 = EngineManager::GetGameObject("Heart0");
+	GameObject* temp1 = EngineManager::GetGameObject("Heart1");
+	GameObject* temp2 = EngineManager::GetGameObject("Heart2");
+	GameObject* temp3 = EngineManager::GetGameObject("Heart3");
+	GameObject* temp4 = EngineManager::GetGameObject("Heart4");
+
+	if (!inputCharacter)
+	{
+		return;
+	}
+
+	switch (int(inputCharacter->GetCurrentHealth()))
+	{
+		case(100):
+		{
+			
+			temp0->SetNewTexture("HeartFull.png");
+			
+			temp1->SetNewTexture("HeartFull.png");
+			
+			temp2->SetNewTexture("HeartFull.png");
+			
+			temp3->SetNewTexture("HeartFull.png");
+			
+			temp4->SetNewTexture("HeartFull.png");
+			break;
+		}
+		case(90):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartFull.png");
+
+			temp2->SetNewTexture("HeartFull.png");
+
+			temp3->SetNewTexture("HeartFull.png");
+
+			temp4->SetNewTexture("HeartHalf.png");
+			break;
+		}
+		case(80):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartFull.png");
+
+			temp2->SetNewTexture("HeartFull.png");
+
+			temp3->SetNewTexture("HeartFull.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(70):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartFull.png");
+
+			temp2->SetNewTexture("HeartFull.png");
+
+			temp3->SetNewTexture("HeartHalf.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(60):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartFull.png");
+
+			temp2->SetNewTexture("HeartFull.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(50):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartFull.png");
+
+			temp2->SetNewTexture("HeartHalf.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(40):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartFull.png");
+
+			temp2->SetNewTexture("HeartEmpty.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(30):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartHalf.png");
+
+			temp2->SetNewTexture("HeartEmpty.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(20):
+		{
+			temp0->SetNewTexture("HeartFull.png");
+
+			temp1->SetNewTexture("HeartEmpty.png");
+
+			temp2->SetNewTexture("HeartEmpty.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(10):
+		{
+			temp0->SetNewTexture("HeartHalf.png");
+
+			temp1->SetNewTexture("HeartEmpty.png");
+
+			temp2->SetNewTexture("HeartEmpty.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+		case(1):
+		{
+			temp0->SetNewTexture("HeartEmpty.png");
+
+			temp1->SetNewTexture("HeartEmpty.png");
+
+			temp2->SetNewTexture("HeartEmpty.png");
+
+			temp3->SetNewTexture("HeartEmpty.png");
+
+			temp4->SetNewTexture("HeartEmpty.png");
+			break;
+		}
+	}
 }

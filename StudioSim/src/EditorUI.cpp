@@ -279,7 +279,7 @@ void EditorUI::Render()
 			{
 				ImGui::PushItemWidth(m_ItemWidth);
 				float maxHealth = characterObject->GetMaxHealth();
-				ImGui::SliderFloat("Max Health", &maxHealth, 1.0f, 500.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+				ImGui::SliderFloat("Max Health", &maxHealth, 1.0f, 100.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
 				if (characterObject->GetMaxHealth() != maxHealth)
 				{
 					characterObject->SetMaxHealth(maxHealth, true);
