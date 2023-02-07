@@ -28,8 +28,6 @@ void EditorUI::Render()
 {
 	ImGui::Begin("Settings", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 
-	
-
 	if (m_object)
 	{
 		//sets the push width of ImGui items
@@ -226,98 +224,78 @@ void EditorUI::Render()
 					if (actorObject->GetAnimationStatus())
 					{
 						ImGui::PushItemWidth(m_ItemWidth);
-						int rows = actorObject->GetAnimationRows();
-						ImGui::SliderInt("Rows in Spritesheet", &rows, 1, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-						if (actorObject->GetAnimationRows() != rows)
+						int totalRows = actorObject->GetAnimationDataTotalRows();
+						ImGui::SliderInt("Total Rows", &totalRows, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetAnimationDataTotalRows() != totalRows)
 						{
-							actorObject->SetAnimationRows(rows);
-						}
-
-						ImGui::PopItemWidth();
-						
-						ImGui::PushItemWidth(m_ItemWidth);
-						int columns = actorObject->GetAnimationColumns();
-						ImGui::SliderInt("Columns in Spritesheet", &columns, 1, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-						if (actorObject->GetAnimationColumns() != columns)
-						{
-							actorObject->SetAnimationColumns(columns);
+							actorObject->SetAnimationDataTotalRows(totalRows);
 						}
 						ImGui::PopItemWidth();
 
 						ImGui::PushItemWidth(m_ItemWidth);
-						int idleRow = actorObject->GetIdleAnimationRow();
-						ImGui::SliderInt("Idle Animation Row", &idleRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-						if (actorObject->GetIdleAnimationRow() != idleRow)
+						int totalColumns = actorObject->GetAnimationDataTotalColumns();
+						ImGui::SliderInt("Total Columns", &totalColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetAnimationDataTotalColumns() != totalColumns)
 						{
-							actorObject->SetIdleAnimationRow(idleRow);
+							actorObject->SetAnimationDataTotalColumns(totalColumns);
 						}
 						ImGui::PopItemWidth();
+						ImGui::Separator();
+
+						int i = 0;
+						for (const AnimationRowData& animationRowData : actorObject->GetAnimationRowData())
+						{
+							ImGui::PushItemWidth(m_ItemWidth);
+							static char charName[128] = "_____";
+							strcpy_s(charName, animationRowData.name.c_str());
+							std::string animationNameLabel = "Animation Name " + to_string(i);
+							ImGui::InputText(animationNameLabel.c_str(), charName, IM_ARRAYSIZE(charName));
+							if (actorObject->GetAnimationDataRowName(animationRowData) != charName)
+							{
+								actorObject->SetAnimationDataRowName(animationRowData, charName);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int rowNumber = actorObject->GetAnimationDataRowNumber(animationRowData);
+							std::string animationRowNumberLabel = "Animation Row Number " + to_string(i);
+							ImGui::SliderInt(animationRowNumberLabel.c_str(), &rowNumber, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (actorObject->GetAnimationDataRowNumber(animationRowData) != rowNumber)
+							{
+								actorObject->SetAnimationDataRowNumber(animationRowData, rowNumber);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int numberOfColumns = actorObject->GetAnimationDataNumberOfColumns(animationRowData);
+							std::string animationColumnsTotalLabel = "Animation Columns " + to_string(i);
+							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (actorObject->GetAnimationDataNumberOfColumns(animationRowData) != numberOfColumns)
+							{
+								actorObject->SetAnimationDataNumberOfColumns(animationRowData, numberOfColumns);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							float playRate = actorObject->GetAnimationDataPlayRate(animationRowData);
+							std::string animationPlayRateLabel = "Animation Play Rate " + to_string(i);
+							ImGui::SliderFloat(animationPlayRateLabel.c_str(), &playRate, 0.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (actorObject->GetAnimationDataPlayRate(animationRowData) != playRate)
+							{
+								actorObject->SetAnimationDataPlayRate(animationRowData, playRate);
+							}
+							ImGui::PopItemWidth();
+							ImGui::Separator();
+
+							i++;
+						}
 
 						ImGui::PushItemWidth(m_ItemWidth);
-						int moveRow = actorObject->GetMoveAnimationRow();
-						ImGui::SliderInt("Move Animation Row", &moveRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-						if (actorObject->GetMoveAnimationRow() != moveRow)
+						if (ImGui::Button("Add Animation"))
 						{
-							actorObject->SetMoveAnimationRow(moveRow);
+							actorObject->AddAnimationData();
 						}
 						ImGui::PopItemWidth();
-
-						if (Character* characterObject = dynamic_cast<Character*>(m_object))
-						{
-							ImGui::PushItemWidth(m_ItemWidth);
-							int lightAttackRow = characterObject->GetLightAttackAnimationRow();
-							ImGui::SliderInt("Light Attack Animation Row", &lightAttackRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (characterObject->GetLightAttackAnimationRow() != lightAttackRow)
-							{
-								characterObject->SetLightAttackAnimationRow(lightAttackRow);
-							}
-							ImGui::PopItemWidth();
-
-							ImGui::PushItemWidth(m_ItemWidth);
-							int heavyAttackRow = characterObject->GetHeavyAttackAnimationRow();
-							ImGui::SliderInt("Heavy Attack Animation Row", &heavyAttackRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (characterObject->GetHeavyAttackAnimationRow() != heavyAttackRow)
-							{
-								characterObject->SetHeavyAttackAnimationRow(heavyAttackRow);
-							}
-							ImGui::PopItemWidth();
-
-							ImGui::PushItemWidth(m_ItemWidth);
-							int specialAttackRow = characterObject->GetSpecialAttackAnimationRow();
-							ImGui::SliderInt("Special Attack Animation Row", &specialAttackRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (characterObject->GetSpecialAttackAnimationRow() != specialAttackRow)
-							{
-								characterObject->SetSpecialAttackAnimationRow(specialAttackRow);
-							}
-							ImGui::PopItemWidth();
-
-							ImGui::PushItemWidth(m_ItemWidth);
-							int deathRow = characterObject->GetDeathAnimationRow();
-							ImGui::SliderInt("Death Animation Row", &deathRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (characterObject->GetDeathAnimationRow() != deathRow)
-							{
-								characterObject->SetDeathAnimationRow(deathRow);
-							}
-							ImGui::PopItemWidth();
-
-							ImGui::PushItemWidth(m_ItemWidth);
-							int jumpRow = characterObject->GetJumpAnimationRow();
-							ImGui::SliderInt("Jump Animation Row", &jumpRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (characterObject->GetJumpAnimationRow() != jumpRow)
-							{
-								characterObject->SetJumpAnimationRow(jumpRow);
-							}
-							ImGui::PopItemWidth();
-
-							ImGui::PushItemWidth(m_ItemWidth);
-							int takeHitRow = characterObject->GetTakeHitAnimationRow();
-							ImGui::SliderInt("Take Hit Animation Row", &takeHitRow, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (characterObject->GetTakeHitAnimationRow() != takeHitRow)
-							{
-								characterObject->SetTakeHitAnimationRow(takeHitRow);
-							}
-							ImGui::PopItemWidth();
-						}
 					}
 				}
 				else

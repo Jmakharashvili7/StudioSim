@@ -212,53 +212,55 @@ void Scene::HandleInput()
 
 	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
 
-
-
 	if (inputCharacter && !m_StopInput)
 	{
 		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{
+			// JUMP
+			if (inputComponent->GetKeyPressed(' '))
+			{
+				inputCharacter->Jump();
+			}
 
-			{// JUMP
-				if (inputComponent->GetKeyPressed(' '))
-				{
-					inputCharacter->Jump();
-				}
+			// LIGHT ATTACK
+			if (inputComponent->GetKeyPressed('j'))
+			{
+				inputCharacter->LightAttack();
+			}
 
-				// LIGHT ATTACK
-				if (inputComponent->GetKeyPressed('j'))
-				{
-					inputCharacter->LightAttack();
-				}
+			// HEAVY ATTACK
+			if (inputComponent->GetKeyPressed('l'))
+			{
+				inputCharacter->HeavyAttack();
+			}
 
-				// HEAVY ATTACK
-				if (inputComponent->GetKeyPressed('l'))
-				{
-					inputCharacter->HeavyAttack();
-				}
+			// SPECIAL ATTACK
+			if (inputComponent->GetKeyPressed('k'))
+			{
+				inputCharacter->SpecialAttack();
+			}
 
-				// SPECIAL ATTACK
-				if (inputComponent->GetKeyPressed('k'))
-				{
-					inputCharacter->SpecialAttack();
-				}
+			// MOVE RIGHT
+			if (inputComponent->GetKeyDown('d'))
+			{
+				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+			}
 
-				// MOVE RIGHT
-				if (inputComponent->GetKeyDown('d'))
-				{
-					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-				}
+			// MOVE LEFT
+			if (inputComponent->GetKeyDown('a'))
+			{
+				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+			}
 
-				// MOVE LEFT
-				if (inputComponent->GetKeyDown('a'))
-				{
-					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-				}
+			// IDLE
+			if (inputComponent->GetKeyUp('d') && !inputComponent->GetKeyDown('a') || inputComponent->GetKeyUp('a') && !inputComponent->GetKeyDown('d'))
+			{
+				inputCharacter->SetIdleAnimation();
+			}
 
-				if (inputComponent->GetKeyPressed('z'))
-				{
-					inputCharacter->AttemptToDash();
-				}
+			if (inputComponent->GetKeyPressed('z'))
+			{
+				inputCharacter->AttemptToDash();
 			}
 		}
 	}

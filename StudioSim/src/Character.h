@@ -31,6 +31,9 @@ public:
 	inline MovementData GetMovementData() { return m_movementData; }
 	virtual const inline FacingDirection GetFacingDirection() const { return m_facingDirection; }
 
+	// Animation
+	virtual void SetIdleAnimation();
+
 	// Health
 	virtual void TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection);
 	virtual void Kill();
@@ -57,21 +60,7 @@ public:
 	void HeavyAttack();
 	void SpecialAttack();
 
-	// Animation
-	virtual void SetLightAttackAnimationRow(const int newRow);
-	virtual inline const int GetLightAttackAnimationRow() { return m_animationData.lightAttackRow; }
-	virtual void SetHeavyAttackAnimationRow(const int newRow);
-	virtual inline const int GetHeavyAttackAnimationRow() { return m_animationData.heavyAttackRow; }
-	virtual void SetSpecialAttackAnimationRow(const int newRow);
-	virtual inline const int GetSpecialAttackAnimationRow() { return m_animationData.specialAttackRow; }
-	virtual void SetDeathAnimationRow(const int newRow);
-	virtual inline const int GetDeathAnimationRow() { return m_animationData.deathRow; }
-	virtual void SetJumpAnimationRow(const int newRow);
-	virtual inline const int GetJumpAnimationRow() { return m_animationData.jumpRow; }
-	virtual void SetTakeHitAnimationRow(const int newRow);
-	virtual inline const int GetTakeHitAnimationRow() { return m_animationData.takeHitRow; }
-
-	//dash
+	// Dash
 	void AttemptToDash();
 	void CheckDash();
 

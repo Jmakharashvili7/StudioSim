@@ -13,6 +13,7 @@ Actor::Actor(std::string name, VertexData* data, const TransformData& transformD
 
 	//Animation init
 	m_animator = new Animate(this, animationData);
+	SetCurrentAnimation(GetAnimationByName("idle"));
 
 	// Input init
 	m_inputComponent = new InputComponent(this, 0);
@@ -53,6 +54,13 @@ void Actor::Update(const float deltaTime)
 	{
 		component->Update(deltaTime);
 	}
+}
+
+void Actor::AdjustPosition(const Vector3 adjustPosition)
+{
+	SetCurrentAnimation(GetAnimationByName("move"));
+
+	GameObject::AdjustPosition(adjustPosition);
 }
 
 void Actor::SetMass(float newMass)
@@ -100,43 +108,211 @@ inline void Actor::SetAnimationStatus(bool animated)
 	}
 }
 
-void Actor::SetAnimationRows(const int newRowNumber)
+void Actor::SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowData)
 {
-	m_animationData.rows = newRowNumber;
+	m_animationData.animationRowData = newAnimationRowData;
 
 	if (m_animator)
 	{
-		m_animator->SetAnimationRows(newRowNumber);
+		m_animator->SetAnimationRowData(newAnimationRowData);
 	}
 }
 
-void Actor::SetAnimationColumns(const int newColumnNumber)
+void Actor::SetAnimationDataRowName(const AnimationRowData& animationRowData, const std::string newName)
 {
-	m_animationData.columns = newColumnNumber;
+	int indexToChange = -1;
 
-	if (m_animator)
+	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
 	{
-		m_animator->SetAnimationColumns(newColumnNumber);
+		if (m_animationData.animationRowData[i].name == animationRowData.name)
+		{
+			indexToChange = i;
+			break;
+		}
+	}
+	
+	m_animationData.animationRowData[indexToChange].name = newName;
+
+	if (m_currentAnimationData.name == animationRowData.name)
+	{
+		if (m_animator)
+		{
+			m_animator->SetAnimationName(newName);
+		}
 	}
 }
 
-void Actor::SetIdleAnimationRow(const int newRow)
+const std::string Actor::GetAnimationDataRowName(const AnimationRowData& animationRowData)
 {
-	m_animationData.idleRow = newRow;
-
-	if (m_animator)
+	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
 	{
-		m_animator->SetIdleAnimationRow(newRow);
+		if (loopAnimationRowData.name == animationRowData.name)
+		{
+			return loopAnimationRowData.name;
+		}
+	}
+
+	return "";
+}
+
+void Actor::SetAnimationDataRowNumber(const AnimationRowData& animationRowData, const int newRowNumber)
+{
+	int indexToChange = -1;
+
+	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
+	{
+		if (m_animationData.animationRowData[i].name == animationRowData.name)
+		{
+			indexToChange = i;
+			break;
+		}
+	}
+
+	m_animationData.animationRowData[indexToChange].rowNumber = newRowNumber;
+
+	if (m_currentAnimationData.name == animationRowData.name)
+	{
+		if (m_animator)
+		{
+			m_animator->SetAnimationRowNumber(newRowNumber);
+		}
 	}
 }
 
-void Actor::SetMoveAnimationRow(const int newRow)
+const int Actor::GetAnimationDataRowNumber(const AnimationRowData& animationRowData)
 {
-	m_animationData.runRow = newRow;
+	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
+	{
+		if (loopAnimationRowData.name == animationRowData.name)
+		{
+			return loopAnimationRowData.rowNumber;
+		}
+	}
+
+	return 0;
+}
+
+void Actor::SetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData, const int newNumberOfColumns)
+{
+	int indexToChange = -1;
+
+	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
+	{
+		if (m_animationData.animationRowData[i].name == animationRowData.name)
+		{
+			indexToChange = i;
+			break;
+		}
+	}
+
+	m_animationData.animationRowData[indexToChange].amountOfColumns = newNumberOfColumns;
+
+	if (m_currentAnimationData.name == animationRowData.name)
+	{
+		if (m_animator)
+		{
+			m_animator->SetAnimationNumberOfColumns(newNumberOfColumns);
+		}
+	}
+}
+
+const int Actor::GetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData)
+{
+	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
+	{
+		if (loopAnimationRowData.name == animationRowData.name)
+		{
+			return loopAnimationRowData.amountOfColumns;
+		}
+	}
+	
+	return 0;
+}
+
+void Actor::SetAnimationDataPlayRate(const AnimationRowData& animationRowData, const float newPlayRate)
+{
+	int indexToChange = -1;
+
+	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
+	{
+		if (m_animationData.animationRowData[i].name == animationRowData.name)
+		{
+			indexToChange = i;
+			break;
+		}
+	}
+
+	m_animationData.animationRowData[indexToChange].playRate = newPlayRate;
+
+	if (m_currentAnimationData.name == animationRowData.name)
+	{
+		if (m_animator)
+		{
+			m_animator->SetAnimationPlayRate(newPlayRate);
+		}
+	}
+}
+
+const float Actor::GetAnimationDataPlayRate(const AnimationRowData& animationRowData)
+{
+	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
+	{
+		if (loopAnimationRowData.name == animationRowData.name)
+		{
+			return loopAnimationRowData.playRate;
+		}
+	}
+
+	return 0;
+}
+
+void Actor::SetAnimationDataTotalRows(const int newTotalRows)
+{
+	m_animationData.totalRows = newTotalRows;
 
 	if (m_animator)
 	{
-		m_animator->SetMoveAnimationRow(newRow);
+		m_animator->SetAnimationTotalRows(newTotalRows);
+	}
+}
+
+void Actor::SetAnimationDataTotalColumns(const int newTotalColumns)
+{
+	m_animationData.totalColumns = newTotalColumns;
+
+	if (m_animator)
+	{
+		m_animator->SetAnimationTotalColumns(newTotalColumns);
+	}
+}
+
+void Actor::AddAnimationData()
+{
+	std::vector<AnimationRowData> tempAnimationRowData = m_animationData.animationRowData;
+	tempAnimationRowData.push_back(AnimationRowData());
+	SetAnimationRowData(tempAnimationRowData);
+}
+
+const AnimationRowData& Actor::GetAnimationByName(std::string name)
+{
+	for (const AnimationRowData& anim : m_animationData.animationRowData)
+	{
+		if (anim.name == name)
+		{
+			return anim;
+		}
+	}
+
+	return AnimationRowData();
+}
+
+void Actor::SetCurrentAnimation(const AnimationRowData& newCurrentAnimation)
+{
+	m_currentAnimationData = newCurrentAnimation;
+	
+	if (m_animator)
+	{
+		m_animator->SetAnimation(newCurrentAnimation);
 	}
 }
 

@@ -52,25 +52,34 @@ struct EntityData
 	float maxHealth;
 };
 
+struct AnimationRowData
+{
+	AnimationRowData(const std::string inName, const int inRowNumber, const int inAmountOfColumns, const float inPlayRate)
+		: name(inName), rowNumber(inRowNumber), amountOfColumns(inAmountOfColumns), playRate(inPlayRate) {}
+
+	AnimationRowData() : name(""), rowNumber(0), amountOfColumns(0), playRate(0.0f) {}
+
+	std::string name;
+	int rowNumber;
+	int amountOfColumns;
+	float playRate;
+};
+
 struct AnimationData
 {
-	AnimationData(const bool inAnimated, const int inRows, const int inColumns, const int inLightAttackRow, const int inHeavyAttackRow, const int inSpecialAttackRow, const int inDeathRow, const int inIdleRow, const int inJumpRow, const int inRunRow, const int inTakeHitRow)
-		: banimated(inAnimated), rows(inRows), columns(inColumns), lightAttackRow(inLightAttackRow), heavyAttackRow(inHeavyAttackRow), specialAttackRow(inSpecialAttackRow), deathRow(inDeathRow), idleRow(inIdleRow), jumpRow(inJumpRow), runRow(inRunRow), takeHitRow(inTakeHitRow) {};
+	AnimationData(const bool inAnimated, const int inTotalRows, const int inTotalColumns, const std::vector<AnimationRowData>& inAnimationRowData)
+		: banimated(inAnimated), totalRows(inTotalRows), totalColumns(inTotalRows), animationRowData(inAnimationRowData) {};
 
-	AnimationData() 
-		: banimated(false), rows(1), columns(1), lightAttackRow(0), heavyAttackRow(0), specialAttackRow(0), deathRow(0), idleRow(0), jumpRow(0), runRow(0), takeHitRow(0) {};
+	AnimationData(const bool inAnimated)
+		: banimated(inAnimated), totalRows(0), totalColumns(0) {};
+
+	AnimationData()
+		: banimated(false), totalRows(0), totalColumns(0) {};
 
 	bool banimated;
-	int rows;
-	int columns;
-	int lightAttackRow;
-	int heavyAttackRow;
-	int specialAttackRow;
-	int deathRow;
-	int idleRow;
-	int jumpRow;
-	int runRow;
-	int takeHitRow;
+	int totalRows;
+	int totalColumns;
+	std::vector<AnimationRowData> animationRowData;
 };
 
 struct TransformData

@@ -1,15 +1,42 @@
 {
     "GameObject0": {
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 11,
+                "playRate": 17.5,
+                "rowName": "idle",
+                "rowNumber": 0
+            },
+            "animRowData1": {
+                "amountOfColumns": 7,
+                "playRate": 25.0,
+                "rowName": "lightAttack",
+                "rowNumber": 20
+            },
+            "animRowData2": {
+                "amountOfColumns": 7,
+                "playRate": 25.0,
+                "rowName": "heavyAttack",
+                "rowNumber": 20
+            },
+            "animRowData3": {
+                "amountOfColumns": 8,
+                "playRate": 15.0,
+                "rowName": "move",
+                "rowNumber": 2
+            },
+            "numOfAnim": 4
+        },
         "banimated": true,
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": 0.0,
-            "y": 2.5,
+            "x": -5.5,
+            "y": 3.5,
             "z": 0.0
         },
         "centerPositionOffset": {
-            "x": 1.0,
+            "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
@@ -34,22 +61,16 @@
             1.0,
             1.0
         ],
-        "columns": 11,
-        "deathRow": 0,
-        "gravityMultiplier": 1.0,
-        "heavyAttackRow": 0,
-        "idleRow": 0,
+        "gravityMultiplier": 1.5,
         "jumpHeight": 500.0,
-        "jumpRow": 0,
-        "lightAttackRow": 0,
         "mass": 1.0,
         "maxHealth": 100.0,
         "movementSpeed": 5.0,
         "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": -1.0,
-            "y": 2.5,
+            "x": -5.5,
+            "y": 3.5,
             "z": 0.0
         },
         "radius": 1.0,
@@ -58,8 +79,6 @@
             "y": 0.0,
             "z": 34.0
         },
-        "rows": 7,
-        "runRow": 0,
         "scale": {
             "x": 3.5,
             "y": 3.5,
@@ -70,23 +89,23 @@
             "y": 1.25,
             "z": 1.0
         },
-        "specialAttackRow": 0,
-        "takeHitRow": 0,
         "texCoords": [
+            0.9090909361839294,
             0.0,
+            1.0,
             0.0,
-            0.09090909361839294,
-            0.0,
-            0.09090909361839294,
-            0.1428571492433548,
-            0.09090909361839294,
-            0.1428571492433548,
-            0.0,
-            0.1428571492433548,
-            0.0,
+            1.0,
+            0.125,
+            1.0,
+            0.125,
+            0.9090909361839294,
+            0.125,
+            0.9090909361839294,
             0.0
         ],
-        "textureName": "DieAndIdle2.png",
+        "textureName": "Player.png",
+        "totalColumns": 11,
+        "totalRows": 8,
         "vertices": [
             -0.5,
             -0.5,

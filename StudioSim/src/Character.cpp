@@ -26,6 +26,7 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.5f, 0.5f, 0.5f), 0.25f, 0.05f, 0.01f, 0.1f, 0.01f)); // todo move
 	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
 	AddComponent(m_combatComponent);
+
 	m_CanMove = true;
 	m_DashTime = 0.2f;
 	m_DashCooldowm = 2.5f;
@@ -62,7 +63,7 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 	{
 		return;
 	}
-	GameObject::AdjustPosition(adjustPosition);
+
 	const Vector3 newPosition = GetPosition();
 	
 	if (m_combatComponent)
@@ -72,17 +73,19 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 
 	if (adjustPosition.x > 0)
 	{
+		SetCurrentAnimation(GetAnimationByName("move"));
+
 		m_facingDirection = FacingDirection::RIGHT;
 
 		if (GetScale().x < 0)
 		{
 			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
 		}
-
-	    
 	}
 	else if (adjustPosition.x < 0)
 	{
+		SetCurrentAnimation(GetAnimationByName("move"));
+
 		m_facingDirection = FacingDirection::LEFT;
 
 		if (GetScale().x > 0)
@@ -90,6 +93,8 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
 		}
 	}
+
+	GameObject::AdjustPosition(adjustPosition);
 }
 
 void Character::AddCollision(GameObject* collidingObject)
@@ -184,66 +189,6 @@ void Character::SpecialAttack()
 	}
 }
 
-void Character::SetLightAttackAnimationRow(const int newRow)
-{
-	m_animationData.lightAttackRow = newRow;
-
-	if (m_animator)
-	{
-		m_animator->SetLightAttackAnimationRow(newRow);
-	}
-}
-
-void Character::SetHeavyAttackAnimationRow(const int newRow)
-{
-	m_animationData.heavyAttackRow = newRow;
-
-	if (m_animator)
-	{
-		m_animator->SetHeavyAttackAnimationRow(newRow);
-	}
-}
-
-void Character::SetSpecialAttackAnimationRow(const int newRow)
-{
-	m_animationData.specialAttackRow = newRow;
-
-	if (m_animator)
-	{
-		m_animator->SetSpecialAttackAnimationRow(newRow);
-	}
-}
-
-void Character::SetDeathAnimationRow(const int newRow)
-{
-	m_animationData.deathRow = newRow;
-
-	if (m_animator)
-	{
-		m_animator->SetDeathAnimationRow(newRow);
-	}
-}
-
-void Character::SetJumpAnimationRow(const int newRow)
-{
-	m_animationData.jumpRow = newRow;
-
-	if (m_animator)
-	{
-		m_animator->SetJumpAnimationRow(newRow);
-	}
-}
-
-void Character::SetTakeHitAnimationRow(const int newRow)
-{
-	m_animationData.takeHitRow = newRow;
-
-	if (m_animator)
-	{
-		m_animator->SetTakeHitAnimationRow(newRow);
-	}
-}
-
 void Character::AttemptToDash()
 {
 	if (Quack::GetGameTime() >= (m_TimeSinceLastDash + m_DashCooldowm))
@@ -275,6 +220,11 @@ void Character::CheckDash()
 		cout << m_DashTimeLeft << endl;
 		
 	}
+}
+
+void Character::SetIdleAnimation()
+{
+	SetCurrentAnimation(GetAnimationByName("idle"));
 }
 
 void Character::TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection)

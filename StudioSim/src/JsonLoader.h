@@ -28,6 +28,51 @@ namespace nlohmann
 	};
 
 	template<>
+	struct adl_serializer<AnimationRowData>
+	{
+		static AnimationRowData from_json(const json& j)
+		{
+			AnimationRowData tempAnim = AnimationRowData(j["rowName"].get<std::string>(), j["rowNumber"].get<int>(), j["amountOfColumns"].get<int>(), j["playRate"].get<float>());
+			return tempAnim;
+		}
+
+		static void to_json(json& j, AnimationRowData anim)
+		{
+			j["rowName"] = anim.name;
+			j["rowNumber"] = anim.rowNumber;
+			j["amountOfColumns"] = anim.amountOfColumns;
+			j["playRate"] = anim.playRate;
+		}
+	};
+
+	template<>
+	struct adl_serializer<std::vector<AnimationRowData>>
+	{
+		static std::vector<AnimationRowData> from_json(const json& j)
+		{
+			std::vector<AnimationRowData> temp;
+			int size = j["numOfAnim"].get<int>();
+
+			for (int i = 0; i < size; i++)
+			{
+				AnimationRowData tempAnim = j["animRowData" + std::to_string(i)].get<AnimationRowData>();
+				temp.push_back(tempAnim);
+			}
+
+			return temp;
+		}
+
+		static void to_json(json& j, std::vector<AnimationRowData> animArray)
+		{
+			for (int i = 0; i < animArray.size(); i++)
+			{
+				j["animRowData" + std::to_string(i)] = animArray[i];
+			}
+			j["numOfAnim"] = animArray.size();
+		}
+	};
+
+	template<>
 	struct adl_serializer<GameObject*>
 	{
 		static GameObject* from_json(const json& j)
@@ -79,16 +124,6 @@ namespace nlohmann
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
-				animationData.columns = j["columns"].get<int>();
-				animationData.rows = j["rows"].get<int>();
-				animationData.lightAttackRow = j["lightAttackRow"].get<int>();
-				animationData.heavyAttackRow = j["heavyAttackRow"].get<int>();
-				animationData.specialAttackRow = j["specialAttackRow"].get<int>();
-				animationData.deathRow = j["deathRow"].get<int>();
-				animationData.idleRow = j["idleRow"].get<int>();
-				animationData.jumpRow = j["jumpRow"].get<int>();
-				animationData.runRow = j["runRow"].get<int>();
-				animationData.takeHitRow = j["takeHitRow"].get<int>();
 
 				return new Actor(name, data, transformData, collisionData, textureName, physicsData, animationData);
 			case GameObjectType::CHARACTER:
@@ -100,17 +135,13 @@ namespace nlohmann
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
-				animationData.columns = j["columns"].get<int>();
-				animationData.rows = j["rows"].get<int>();
-				animationData.lightAttackRow = j["lightAttackRow"].get<int>();
-				animationData.heavyAttackRow = j["heavyAttackRow"].get<int>();
-				animationData.specialAttackRow = j["specialAttackRow"].get<int>();
-				animationData.deathRow = j["deathRow"].get<int>();
-				animationData.idleRow = j["idleRow"].get<int>();
-				animationData.jumpRow = j["jumpRow"].get<int>();
-				animationData.runRow = j["runRow"].get<int>();
-				animationData.takeHitRow = j["takeHitRow"].get<int>();
-
+				if (animationData.banimated)
+				{
+					animationData.totalRows = j["totalRows"].get<int>();
+					animationData.totalColumns = j["totalColumns"].get<int>();
+					animationData.animationRowData = j["animationRowData"].get<std::vector<AnimationRowData>>();
+				}
+				
 				// Load movement data
 				movementData.jumpHeight = j["jumpHeight"].get<float>();
 				movementData.movementSpeed = j["movementSpeed"].get<float>();
@@ -131,16 +162,12 @@ namespace nlohmann
 
 				// Load AnimationData
 				animationData.banimated = j["banimated"].get<bool>();
-				animationData.columns = j["columns"].get<int>();
-				animationData.rows = j["rows"].get<int>();
-				animationData.lightAttackRow = j["lightAttackRow"].get<int>();
-				animationData.heavyAttackRow = j["heavyAttackRow"].get<int>();
-				animationData.specialAttackRow = j["specialAttackRow"].get<int>();
-				animationData.deathRow = j["deathRow"].get<int>();
-				animationData.idleRow = j["idleRow"].get<int>();
-				animationData.jumpRow = j["jumpRow"].get<int>();
-				animationData.runRow = j["runRow"].get<int>();
-				animationData.takeHitRow = j["takeHitRow"].get<int>();
+				if (animationData.banimated)
+				{
+					animationData.totalRows = j["totalRows"].get<int>();
+					animationData.totalColumns = j["totalColumns"].get<int>();
+					animationData.animationRowData = j["animationRowData"].get<std::vector<AnimationRowData>>();
+				}
 
 				// Load movement data
 				movementData.jumpHeight = j["jumpHeight"].get<float>();
@@ -195,16 +222,12 @@ namespace nlohmann
 				// Store Animation Data
 				AnimationData animationData = actor->GetAnimationData();
 				j["banimated"] = animationData.banimated;
-				j["columns"] = animationData.columns;
-				j["rows"] = animationData.rows;
-				j["lightAttackRow"] = animationData.lightAttackRow;
-				j["heavyAttackRow"] = animationData.heavyAttackRow;
-				j["specialAttackRow"] = animationData.specialAttackRow;
-				j["deathRow"] = animationData.deathRow;
-				j["idleRow"] = animationData.idleRow;
-				j["jumpRow"] = animationData.jumpRow;
-				j["runRow"] = animationData.runRow;
-				j["takeHitRow"] = animationData.takeHitRow;
+				if (animationData.banimated)
+				{
+					j["totalRows"] = animationData.totalRows;
+					j["totalColumns"] = animationData.totalColumns;
+					j["animationRowData"] = animationData.animationRowData;
+				}
 
 				if (gameObject->GetType() == GameObjectType::CHARACTER || gameObject->GetType() == GameObjectType::ENEMY)
 				{

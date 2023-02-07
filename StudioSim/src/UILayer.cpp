@@ -377,10 +377,6 @@ void UILayer::ActorContent()
 	{
 		bool animated = newObjectInfo.animationData.banimated;
 
-		ImGui::InputInt("Number of Rows", &newObjectInfo.animationData.rows);
-
-		ImGui::InputInt("Number of Columns", &newObjectInfo.animationData.columns);
-
 		ImGui::Checkbox("Animated", &animated);
 		if (newObjectInfo.animationData.banimated != animated)
 		{

@@ -47,20 +47,18 @@ public:
 	/// <returns>Playtime in seconds</returns>
 	float GetAnimationPlayTime(int row);
 
-	inline void SetPlayRate(float inRate) { m_playRate = inRate; }
 	inline int GetRowToPlay() { return m_rowToPlay; }
 
-	virtual inline void SetAnimationRows(const int newRowNumber) { m_animationData.rows = newRowNumber; }
-	virtual inline void SetAnimationColumns(const int newColumnNumber) { m_animationData.columns = newColumnNumber; }
-	virtual inline void SetIdleAnimationRow(const int newRow) { m_animationData.idleRow = newRow; }
-	virtual inline void SetMoveAnimationRow(const int newRow) { m_animationData.runRow = newRow; }
-	virtual inline void SetLightAttackAnimationRow(const int newRow) { m_animationData.lightAttackRow = newRow; }
-	virtual inline void SetHeavyAttackAnimationRow(const int newRow) { m_animationData.heavyAttackRow = newRow; }
-	virtual inline void SetSpecialAttackAnimationRow(const int newRow) { m_animationData.specialAttackRow = newRow; }
-	virtual inline void SetDeathAnimationRow(const int newRow) { m_animationData.deathRow = newRow; }
-	virtual inline void SetJumpAnimationRow(const int newRow) { m_animationData.jumpRow = newRow; }
-	virtual inline void SetTakeHitAnimationRow(const int newRow) { m_animationData.takeHitRow = newRow; }
 	virtual inline void SetAnimationStatus(const bool newAnimating) { m_animationData.banimated = newAnimating; }
+
+	virtual void SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowData);
+	virtual void SetAnimation(const AnimationRowData& newAnimation);
+	virtual void SetAnimationName(const std::string newName);
+	virtual void SetAnimationRowNumber(const int newRowNumber);
+	virtual void SetAnimationNumberOfColumns(const int newNumberOfColumns);
+	virtual void SetAnimationPlayRate(const float newPlayRate);
+	virtual void SetAnimationTotalRows(const int newTotalRows);
+	virtual void SetAnimationTotalColumns(const int newTotalColumns);
 
 private:
 	Actor* m_object;
@@ -71,10 +69,12 @@ private:
 
 	AnimationData m_animationData = AnimationData();
 
-	float m_delay;
-	float m_playRate;
+	AnimationRowData m_currentAnimationData = AnimationRowData();
 
+	float m_delay;
 	int m_spriteFrame;
 	int m_rowToPlay ;
+	int m_amountOfColumns;
 
+	bool m_bactive = false;
 };

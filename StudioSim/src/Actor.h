@@ -19,6 +19,9 @@ public:
 	// Update
 	virtual void Update(const float deltaTime) override;
 
+	// Position
+	virtual void AdjustPosition(const Vector3 adjustPosition) override;
+
 	// Physics
 	virtual inline const bool GetSimulatingGravity() const { return m_physicsData.bsimulateGravity; }
 	virtual inline const float GetMass() const { return m_physicsData.mass; }
@@ -31,17 +34,25 @@ public:
 	// Animation
 	virtual inline Animate* const GetAnimator() { return m_animator; }
 	inline AnimationData GetAnimationData() { return m_animationData; }
-	
 	virtual void SetAnimationStatus(bool animated);
 	virtual inline const bool GetAnimationStatus() { return m_animationData.banimated; }
-	virtual void SetAnimationRows(const int newRowNumber);
-	virtual inline const int GetAnimationRows() { return m_animationData.rows; }
-	virtual void SetAnimationColumns(const int newColumnNumber);
-	virtual inline const int GetAnimationColumns() { return m_animationData.columns; }
-	virtual void SetIdleAnimationRow(const int newRow);
-	virtual inline const int GetIdleAnimationRow() { return m_animationData.idleRow; }
-	virtual void SetMoveAnimationRow(const int newRow);
-	virtual inline const int GetMoveAnimationRow() { return m_animationData.runRow; }
+	virtual void SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowData);
+	virtual inline const std::vector<AnimationRowData> GetAnimationRowData() { return m_animationData.animationRowData; }
+	virtual void SetAnimationDataRowName(const AnimationRowData& animationRowData, const std::string newName);
+	virtual const std::string GetAnimationDataRowName(const AnimationRowData& animationRowData);
+	virtual void SetAnimationDataRowNumber(const AnimationRowData& animationRowData, const int newRowNumber);
+	virtual const int GetAnimationDataRowNumber(const AnimationRowData& animationRowData);
+	virtual void SetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData, const int newNumberOfColumns);
+	virtual const int GetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData);
+	virtual void SetAnimationDataPlayRate(const AnimationRowData& animationRowData, const float newPlayRate);
+	virtual const float GetAnimationDataPlayRate(const AnimationRowData& animationRowData);
+	virtual void SetAnimationDataTotalRows(const int newTotalRows);
+	virtual inline const int GetAnimationDataTotalRows() { return m_animationData.totalRows; }
+	virtual void SetAnimationDataTotalColumns(const int newTotalColumns);
+	virtual inline const int GetAnimationDataTotalColumns() { return m_animationData.totalColumns; }
+	virtual void AddAnimationData();
+	virtual const AnimationRowData& GetAnimationByName(std::string name);
+	virtual void SetCurrentAnimation(const AnimationRowData& newCurrentAnimation);
 
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);
@@ -73,6 +84,7 @@ protected:
 	Animate* m_animator = nullptr;
 	bool m_banimated = false;
 	AnimationData m_animationData = AnimationData();
+	AnimationRowData m_currentAnimationData = AnimationRowData();
 
 	// Physics
 	PhysicsData m_physicsData = PhysicsData();
