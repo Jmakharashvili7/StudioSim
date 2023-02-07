@@ -480,9 +480,9 @@ void UILayer::ObjectTransformData()
 		Vector3 scale = newObjectInfo.transformData.scale;
 		ImGui::DragFloat3("Scale", &scale.x);
 
-		if (newObjectInfo.transformData.rotation.x != scale.x || newObjectInfo.transformData.rotation.y != scale.y || newObjectInfo.transformData.rotation.z != scale.z)
+		if (newObjectInfo.transformData.scale.x != scale.x || newObjectInfo.transformData.scale.y != scale.y || newObjectInfo.transformData.scale.z != scale.z)
 		{
-			newObjectInfo.transformData.rotation = scale;
+			newObjectInfo.transformData.scale = scale;
 		}
 
 		ImGui::TreePop();
