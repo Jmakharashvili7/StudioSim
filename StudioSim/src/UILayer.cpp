@@ -42,6 +42,7 @@ void UILayer::InitWindows()
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_worldOutliner->SetEditorUI(m_editorUI);
 	m_contentBrowser = new ContentBrowserUI("Content Browser");
+	m_gridEditor = new GridEditor("Grid Editor");
 
 }
 
@@ -120,6 +121,7 @@ void UILayer::EnableDocking()
 	m_editorUI->Render();
 	m_worldOutliner->Render();
 	m_contentBrowser->Render();
+	m_gridEditor->Render();
 
 	ImGui::PopStyleVar();
 
@@ -144,6 +146,21 @@ void UILayer::EnableDocking()
 			if (ImGui::Button("Save Current Scene"))
 			{
 				Quack::GetCurrentScene()->SaveScene();
+			}
+
+			if (!inGridEditor)
+			{
+				if (ImGui::Button("Edit Grid"))
+				{
+					inGridEditor = true;
+				}
+			}
+			else
+			{
+				if (ImGui::Button("Quit Grid Editor"))
+				{
+					inGridEditor = false;
+				}
 			}
 
 			if (inEditor)

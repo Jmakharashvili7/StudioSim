@@ -168,6 +168,7 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\GridEditor.cpp" />
     <ClCompile Include="src\PontiffFireState.cpp" />
     <ClCompile Include="src\PontiffBaseState.cpp" />
     <ClCompile Include="src\PontiffChargeState.cpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GridEditor.h" />
     <ClInclude Include="src\PontiffFireState.h" />
     <ClInclude Include="src\PontiffBaseState.h" />
     <ClInclude Include="src\PontiffChargeState.h" />

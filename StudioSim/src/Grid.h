@@ -36,7 +36,7 @@ public:
         }   
 
         // set debug to true to draw the grid 
-        bool showDebug = false;
+        bool showDebug = true;
         Vector3 white = { 0.0f, 0.0f, 0.0f};
         if (showDebug)
         {
@@ -139,7 +139,7 @@ public:
         }
     }
 
-    TGridObject* GetGridObject(glm::vec3 worldPosition)
+    TGridObject* GetGridObject(Vector3 worldPosition)
     {
         int x, y;
         GetXY(worldPosition, x, y);
