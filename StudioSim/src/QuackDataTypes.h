@@ -54,15 +54,16 @@ struct EntityData
 
 struct AnimationRowData
 {
-	AnimationRowData(const std::string inName, const int inRowNumber, const int inAmountOfColumns, const float inPlayRate)
-		: name(inName), rowNumber(inRowNumber), amountOfColumns(inAmountOfColumns), playRate(inPlayRate) {}
+	AnimationRowData(const std::string inName, const int inRowNumber, const int inAmountOfColumns, const float inPlayRate, const bool inbLooping)
+		: name(inName), rowNumber(inRowNumber), amountOfColumns(inAmountOfColumns), playRate(inPlayRate), blooping(inbLooping) {}
 
-	AnimationRowData() : name(""), rowNumber(0), amountOfColumns(0), playRate(0.0f) {}
+	AnimationRowData() : name(""), rowNumber(0), amountOfColumns(0), playRate(0.0f), blooping(false) {}
 
 	std::string name;
 	int rowNumber;
 	int amountOfColumns;
 	float playRate;
+	bool blooping;
 };
 
 struct AnimationData

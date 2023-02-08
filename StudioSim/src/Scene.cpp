@@ -52,8 +52,29 @@ void Scene::RenderScene()
 	glfwPollEvents();
 
 	m_frameBuffer->Unbind();
+}
 
-	m_StopInput = false;
+void Scene::SetGravity(const bool bactive)
+{
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (Actor* actorObject = dynamic_cast<Actor*>(gameObject))
+		{
+			if (bactive)
+			{
+				actorObject->SetSimulateGravity(true);
+			}
+			else
+			{
+				actorObject->SetSimulateGravity(false);
+			}
+		}
+	}
+}
+
+void Scene::SetInput(const bool bactive)
+{
+	m_StopInput = !bactive;
 }
 
 void Scene::HandleLights()
@@ -137,23 +158,6 @@ void Scene::Update()
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	for (GameObject* gameObject : m_gameObjects)
-	{
-		if (Actor* actorObject = dynamic_cast<Actor*>(gameObject))
-		{
-			if (m_uiMain->GetInPlay())
-			{
-				m_StopInput = false;
-				actorObject->SetSimulateGravity(true);
-			}
-			else
-			{
-				m_StopInput = true;
-				actorObject->SetSimulateGravity(false);
-			}
-		}
-	}
-
 	if (m_gameObjectsToAdd.size() > 0)
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
@@ -212,7 +216,7 @@ void Scene::HandleInput()
 
 	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
 
-	if (inputCharacter && !m_StopInput)
+	if (inputCharacter && !m_StopInput && inputCharacter->GetCurrentHealth() > 0.0f)
 	{
 		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{

@@ -32,7 +32,7 @@ namespace nlohmann
 	{
 		static AnimationRowData from_json(const json& j)
 		{
-			AnimationRowData tempAnim = AnimationRowData(j["rowName"].get<std::string>(), j["rowNumber"].get<int>(), j["amountOfColumns"].get<int>(), j["playRate"].get<float>());
+			AnimationRowData tempAnim = AnimationRowData(j["rowName"].get<std::string>(), j["rowNumber"].get<int>(), j["amountOfColumns"].get<int>(), j["playRate"].get<float>(), j["blooping"].get<bool>());
 			return tempAnim;
 		}
 
@@ -42,6 +42,7 @@ namespace nlohmann
 			j["rowNumber"] = anim.rowNumber;
 			j["amountOfColumns"] = anim.amountOfColumns;
 			j["playRate"] = anim.playRate;
+			j["blooping"] = anim.blooping;
 		}
 	};
 

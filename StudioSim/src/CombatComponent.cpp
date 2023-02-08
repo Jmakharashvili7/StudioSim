@@ -62,17 +62,29 @@ void CombatComponent::UpdateAttackHitboxPosition(const Vector3& newPosition)
 
 void CombatComponent::LightAttack()
 {
-	StartAttack(m_currentWeaponData.lightAttackData);
+	if (CanAttack())
+	{
+		m_owningCharacter->AttackStarted("lightAttack");
+		StartAttack(m_currentWeaponData.lightAttackData);
+	}
 }
 
 void CombatComponent::HeavyAttack()
 {
-	StartAttack(m_currentWeaponData.heavyAttackData);
+	if (CanAttack())
+	{
+		m_owningCharacter->AttackStarted("heavyAttack");
+		StartAttack(m_currentWeaponData.heavyAttackData);
+	}
 }
 
 void CombatComponent::SpecialAttack()
 {
-	StartAttack(m_currentWeaponData.specialAttackData);
+	if (CanAttack())
+	{
+		m_owningCharacter->AttackStarted("specialAttack");
+		StartAttack(m_currentWeaponData.specialAttackData);
+	}
 }
 
 void CombatComponent::StartAttack(const AttackData& attackData)

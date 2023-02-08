@@ -144,6 +144,7 @@ void UILayer::EnableDocking()
 			if (ImGui::Button("Save Current Scene"))
 			{
 				Quack::GetCurrentScene()->SaveScene();
+				Quack::GetCurrentScene()->SetInput(false);
 			}
 
 			if (inEditor)
@@ -151,11 +152,11 @@ void UILayer::EnableDocking()
 				if (ImGui::Button("Play"))
 				{
 					Quack::GetCurrentScene()->SaveScene();
+					Quack::GetCurrentScene()->SetInput(true);
+					Quack::GetCurrentScene()->SetGravity(true);
 
 					inEditor = false;
 					inPlay = true;
-
-					
 				}
 			}
 
@@ -168,6 +169,8 @@ void UILayer::EnableDocking()
 						Quack::GetCurrentScene()->RemoveGameObject(gameObject);
 					}
 					Quack::GetCurrentScene()->LoadScene();
+					Quack::GetCurrentScene()->SetInput(false);
+					Quack::GetCurrentScene()->SetGravity(false);
 					m_editorUI->SetDisplayedGameObject(nullptr);
 
 

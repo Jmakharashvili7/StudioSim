@@ -51,14 +51,23 @@ public:
 	virtual void SetAnimationDataPlayRate(const int animationIndex, const float newPlayRate);
 	virtual const float GetAnimationDataPlayRate(const int animationIndex);
 
+	virtual void SetAnimationDataLooping(const int animationIndex, const bool newbLooping);
+	virtual const bool GetAnimationDataLooping(const int animationIndex);
+
 	virtual void SetAnimationDataTotalRows(const int newTotalRows);
 	virtual inline const int GetAnimationDataTotalRows() { return m_animationData.totalRows; }
 	virtual void SetAnimationDataTotalColumns(const int newTotalColumns);
 	virtual inline const int GetAnimationDataTotalColumns() { return m_animationData.totalColumns; }
 	virtual const AnimationRowData& GetAnimationByName(std::string name);
-	virtual void SetCurrentAnimation(const AnimationRowData& newCurrentAnimation);
+
 	virtual void AddAnimationData();
 	virtual void RemoveAnimationData(const int animationIndex);
+
+	virtual void OnAnimationFinished(const AnimationRowData& finishedAnimation);
+
+	virtual void StartAnimation(const std::string animationName, const bool bForce = false);
+	virtual void SetCurrentAnimation(const AnimationRowData& newCurrentAnimation);
+	virtual const AnimationRowData& GetCurrentAnimation();
 
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);

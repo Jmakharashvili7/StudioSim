@@ -37,7 +37,6 @@ void Animate::UpdateTextCoord(float deltaTime)
 		//Calculate starting position in sprite sheet based of the current frame
 		glm::vec2 startLocation = glm::vec2(m_frameToPlay.second, m_frameToPlay.first);
 
-
 		//making sure the sprite frame value isn't more than the number of columns
 		startLocation.x /= m_animationData.totalColumns;
 		startLocation.y /= m_animationData.totalRows;
@@ -60,6 +59,13 @@ void Animate::UpdateTextCoord(float deltaTime)
 		m_object->UpdateVertexArray();
 
 		m_spriteFrame++;
+		if (m_spriteFrame == m_currentAnimationData.amountOfColumns - 1)
+		{
+			if (!m_currentAnimationData.blooping)
+			{
+				m_object->OnAnimationFinished(m_currentAnimationData);
+			}
+		}
 		m_spriteFrame = m_spriteFrame > m_currentAnimationData.amountOfColumns - 1 ? 0 : m_spriteFrame;
 		m_frameToPlay = { m_rowToPlay, m_spriteFrame };
 		m_delay = 0;
@@ -127,6 +133,7 @@ void Animate::SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowD
 
 void Animate::SetAnimation(const AnimationRowData& newAnimation)
 {
+	m_spriteFrame = 0;
 	m_currentAnimationData = newAnimation;
 	m_rowToPlay = newAnimation.rowNumber;
 	m_amountOfColumns = newAnimation.amountOfColumns;
@@ -160,6 +167,12 @@ void Animate::SetAnimationNumberOfColumns(const int newNumberOfColumns)
 void Animate::SetAnimationPlayRate(const float newPlayRate)
 {
 	m_currentAnimationData.playRate = newPlayRate;
+	SetAnimation(m_currentAnimationData);
+}
+
+void Animate::SetAnimationLooping(const bool newbLooping)
+{
+	m_currentAnimationData.blooping = newbLooping;
 	SetAnimation(m_currentAnimationData);
 }
 

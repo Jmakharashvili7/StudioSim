@@ -13,7 +13,7 @@ Actor::Actor(std::string name, VertexData* data, const TransformData& transformD
 
 	//Animation init
 	m_animator = new Animate(this, animationData);
-	SetCurrentAnimation(GetAnimationByName("idle"));
+	StartAnimation("idle");
 
 	// Input init
 	m_inputComponent = new InputComponent(this, 0);
@@ -76,7 +76,7 @@ void Actor::Update(const float deltaTime)
 
 void Actor::AdjustPosition(const Vector3 adjustPosition)
 {
-	SetCurrentAnimation(GetAnimationByName("move"));
+	StartAnimation("move");
 
 	GameObject::AdjustPosition(adjustPosition);
 }
@@ -208,6 +208,24 @@ const float Actor::GetAnimationDataPlayRate(const int animationIndex)
 	return m_animationData.animationRowData[animationIndex].playRate;
 }
 
+void Actor::SetAnimationDataLooping(const int animationIndex, const bool newbLooping)
+{
+	m_animationData.animationRowData[animationIndex].blooping = newbLooping;
+
+	if (m_currentAnimationData.name == m_animationData.animationRowData[animationIndex].name)
+	{
+		if (m_animator)
+		{
+			m_animator->SetAnimationLooping(newbLooping);
+		}
+	}
+}
+
+const bool Actor::GetAnimationDataLooping(const int animationIndex)
+{
+	return m_animationData.animationRowData[animationIndex].blooping;
+}
+
 void Actor::SetAnimationDataTotalRows(const int newTotalRows)
 {
 	m_animationData.totalRows = newTotalRows;
@@ -231,13 +249,31 @@ void Actor::SetAnimationDataTotalColumns(const int newTotalColumns)
 void Actor::AddAnimationData()
 {
 	m_animationDataRowsToAdd++;
-	//m_animationData.animationRowData.push_back(AnimationRowData());
 }
 
 void Actor::RemoveAnimationData(const int animationIndex)
 {
 	m_animationDataRowsToRemove.push_back(animationIndex);
-	//m_animationData.animationRowData.erase(m_animationData.animationRowData.begin() + animationIndex);
+}
+
+void Actor::OnAnimationFinished(const AnimationRowData& finishedAnimation)
+{
+	StartAnimation("idle");
+}
+
+void Actor::StartAnimation(const std::string animationName, const bool bForce)
+{
+	const AnimationRowData& newAnimation = GetAnimationByName(animationName);
+
+	if (GetCurrentAnimation().name != newAnimation.name)
+	{
+		m_animator->SetAnimation(newAnimation);
+	}
+}
+
+const AnimationRowData& Actor::GetCurrentAnimation()
+{
+	return m_animator->GetCurrentAnimation();
 }
 
 const AnimationRowData& Actor::GetAnimationByName(std::string name)

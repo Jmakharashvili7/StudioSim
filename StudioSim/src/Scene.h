@@ -40,7 +40,9 @@ public:
 	inline FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 
 	inline bool GetStopInput() { return m_StopInput; }
-	inline void ToggleStopInput(bool toggle) { m_StopInput = toggle; }
+
+	void SetGravity(const bool bactive);
+	void SetInput(const bool bactive);
 private:
 	void HandleLights();
 
@@ -86,7 +88,7 @@ private:
 	
 	FrameBuffer* m_frameBuffer;
 
-	bool m_StopInput : 1;
+	bool m_StopInput = true;
 
 	std::vector<GameObject*> m_gameObjectsToAdd;
 	std::vector<GameObject*> m_gameObjectsToRemove;

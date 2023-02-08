@@ -57,8 +57,13 @@ public:
 	virtual void SetAnimationRowNumber(const int newRowNumber);
 	virtual void SetAnimationNumberOfColumns(const int newNumberOfColumns);
 	virtual void SetAnimationPlayRate(const float newPlayRate);
+	virtual void SetAnimationLooping(const bool newbLooping);
 	virtual void SetAnimationTotalRows(const int newTotalRows);
 	virtual void SetAnimationTotalColumns(const int newTotalColumns);
+
+	virtual inline const AnimationRowData& GetCurrentAnimation() { return m_currentAnimationData; }
+
+	inline void ResetSpriteFrame() { m_spriteFrame = 0; }
 
 private:
 	Actor* m_object;

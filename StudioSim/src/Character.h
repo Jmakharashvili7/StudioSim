@@ -33,6 +33,8 @@ public:
 
 	// Animation
 	virtual void SetIdleAnimation();
+	virtual void OnAnimationFinished(const AnimationRowData& finishedAnimation) override;
+	virtual void StartAnimation(const std::string animationName, const bool bForce = false) override;
 
 	// Health
 	virtual void TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection);
@@ -59,6 +61,7 @@ public:
 	void LightAttack();
 	void HeavyAttack();
 	void SpecialAttack();
+	void AttackStarted(const std::string attackType);
 
 	// Dash
 	void AttemptToDash();

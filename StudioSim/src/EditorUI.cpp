@@ -56,7 +56,7 @@ void EditorUI::Render()
 			strcpy_s(charName, stringName.c_str());
 			ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
 			m_object->SetName(std::string(charName));
-			Quack::GetCurrentScene()->ToggleStopInput(ImGui::IsItemActive());
+			//Quack::GetCurrentScene()->SetInput(ImGui::IsItemActive());
 			ImGui::PopItemWidth();
 
 			ImGui::TreePop();
@@ -218,7 +218,10 @@ void EditorUI::Render()
 					ImGui::PushItemWidth(m_ItemWidth);
 					bool animated = actorObject->GetAnimationStatus();
 					ImGui::Checkbox("Animated", &animated);
-					actorObject->SetAnimationStatus(animated);
+					if (actorObject->GetAnimationStatus() != animated)
+					{
+						actorObject->SetAnimationStatus(animated);
+					}
 					ImGui::PopItemWidth();
 
 					if (actorObject->GetAnimationStatus())
@@ -283,6 +286,16 @@ void EditorUI::Render()
 							if (actorObject->GetAnimationDataPlayRate(i) != playRate)
 							{
 								actorObject->SetAnimationDataPlayRate(i, playRate);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							bool blooping = actorObject->GetAnimationDataLooping(i);
+							std::string animationLoopingLabel = "Looping " + to_string(i);
+							ImGui::Checkbox(animationLoopingLabel.c_str(), &blooping);
+							if (actorObject->GetAnimationDataLooping(i) != blooping)
+							{
+								actorObject->SetAnimationDataLooping(i, blooping);
 							}
 							ImGui::PopItemWidth();
 
