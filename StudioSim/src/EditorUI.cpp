@@ -28,8 +28,6 @@ void EditorUI::Render()
 {
 	ImGui::Begin("Settings", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 
-	
-
 	if (m_object)
 	{
 		//sets the push width of ImGui items
@@ -58,7 +56,7 @@ void EditorUI::Render()
 			strcpy_s(charName, stringName.c_str());
 			ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
 			m_object->SetName(std::string(charName));
-			Quack::GetCurrentScene()->ToggleStopInput(ImGui::IsItemActive());
+			//Quack::GetCurrentScene()->SetInput(ImGui::IsItemActive());
 			ImGui::PopItemWidth();
 
 			ImGui::TreePop();
@@ -148,18 +146,18 @@ void EditorUI::Render()
 			if (m_object->GetCollisionType() == CollisionType::BOX)
 			{
 				ImGui::PushItemWidth(m_ItemWidth);
-				Vector3 collisionBoxCenter = m_object->GetCollisionCenter();
-				ImGui::DragFloat3("Collision Box Center", &collisionBoxCenter.x);
-				if (m_object->GetCollisionCenter().x != collisionBoxCenter.x || m_object->GetCollisionCenter().y != collisionBoxCenter.y || m_object->GetCollisionCenter().z != collisionBoxCenter.z)
+				Vector3 collisionBoxCenterOffset = m_object->GetCollisionCenterOffset();
+				ImGui::DragFloat3("Collision Box Center Offset", &collisionBoxCenterOffset.x);
+				if (m_object->GetCollisionCenterOffset().x != collisionBoxCenterOffset.x || m_object->GetCollisionCenterOffset().y != collisionBoxCenterOffset.y || m_object->GetCollisionCenterOffset().z != collisionBoxCenterOffset.z)
 				{
-					m_object->SetCollisionCenter(collisionBoxCenter);
+					m_object->SetCollisionCenterOffset(collisionBoxCenterOffset);
 				}
 				ImGui::PopItemWidth();
 
 				ImGui::PushItemWidth(m_ItemWidth);
 				Vector3 collisionBoxSize = m_object->GetCollisionBoxSize();
 				ImGui::DragFloat3("Collision Box Size", &collisionBoxSize.x);
-				if (m_object->GetCollisionCenter().x != collisionBoxSize.x || m_object->GetCollisionCenter().y != collisionBoxSize.y || m_object->GetCollisionCenter().z != collisionBoxSize.z)
+				if (m_object->GetCollisionBoxSize().x != collisionBoxSize.x || m_object->GetCollisionBoxSize().y != collisionBoxSize.y || m_object->GetCollisionBoxSize().z != collisionBoxSize.z)
 				{
 					m_object->SetCollisionBoxSize(collisionBoxSize);
 				}
@@ -220,18 +218,106 @@ void EditorUI::Render()
 					ImGui::PushItemWidth(m_ItemWidth);
 					bool animated = actorObject->GetAnimationStatus();
 					ImGui::Checkbox("Animated", &animated);
-					actorObject->SetAnimationStatus(animated);
+					if (actorObject->GetAnimationStatus() != animated)
+					{
+						actorObject->SetAnimationStatus(animated);
+					}
 					ImGui::PopItemWidth();
 
 					if (actorObject->GetAnimationStatus())
 					{
-						int rows = actorObject->GetAnimator()->GetRows();
-						ImGui::InputInt("Rows in Spritesheet", &rows);
-						actorObject->GetAnimator()->SetRows(rows);
+						ImGui::PushItemWidth(m_ItemWidth);
+						int totalRows = actorObject->GetAnimationDataTotalRows();
+						ImGui::SliderInt("Total Rows", &totalRows, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetAnimationDataTotalRows() != totalRows)
+						{
+							actorObject->SetAnimationDataTotalRows(totalRows);
+						}
+						ImGui::PopItemWidth();
 
-						int columns = actorObject->GetAnimator()->GetColumns();
-						ImGui::InputInt("Columns in Spritesheet", &columns);
-						actorObject->GetAnimator()->SetColumns(columns);
+						ImGui::PushItemWidth(m_ItemWidth);
+						int totalColumns = actorObject->GetAnimationDataTotalColumns();
+						ImGui::SliderInt("Total Columns", &totalColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						if (actorObject->GetAnimationDataTotalColumns() != totalColumns)
+						{
+							actorObject->SetAnimationDataTotalColumns(totalColumns);
+						}
+						ImGui::PopItemWidth();
+						ImGui::Separator();
+
+						int i = 0;
+						for (const AnimationRowData& animationRowData : actorObject->GetAnimationRowData())
+						{
+							ImGui::PushItemWidth(m_ItemWidth);
+							static char charName[128] = "_____";
+							strcpy_s(charName, animationRowData.name.c_str());
+							std::string animationNameLabel = "Animation Name " + to_string(i);
+							ImGui::InputText(animationNameLabel.c_str(), charName, IM_ARRAYSIZE(charName));
+							if (actorObject->GetAnimationDataRowName(i) != charName)
+							{
+								actorObject->SetAnimationDataRowName(i, charName);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int rowNumber = actorObject->GetAnimationDataRowNumber(i);
+							std::string animationRowNumberLabel = "Animation Row Number " + to_string(i);
+							ImGui::SliderInt(animationRowNumberLabel.c_str(), &rowNumber, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (actorObject->GetAnimationDataRowNumber(i) != rowNumber)
+							{
+								actorObject->SetAnimationDataRowNumber(i, rowNumber);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							int numberOfColumns = actorObject->GetAnimationDataNumberOfColumns(i);
+							std::string animationColumnsTotalLabel = "Animation Columns " + to_string(i);
+							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (actorObject->GetAnimationDataNumberOfColumns(i) != numberOfColumns)
+							{
+								actorObject->SetAnimationDataNumberOfColumns(i, numberOfColumns);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							float playRate = actorObject->GetAnimationDataPlayRate(i);
+							std::string animationPlayRateLabel = "Animation Play Rate " + to_string(i);
+							ImGui::SliderFloat(animationPlayRateLabel.c_str(), &playRate, 0.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
+							if (actorObject->GetAnimationDataPlayRate(i) != playRate)
+							{
+								actorObject->SetAnimationDataPlayRate(i, playRate);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							bool blooping = actorObject->GetAnimationDataLooping(i);
+							std::string animationLoopingLabel = "Looping " + to_string(i);
+							ImGui::Checkbox(animationLoopingLabel.c_str(), &blooping);
+							if (actorObject->GetAnimationDataLooping(i) != blooping)
+							{
+								actorObject->SetAnimationDataLooping(i, blooping);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							std::string deleteAnimationLabel = "Delete Animation " + to_string(i);
+							if (ImGui::Button(deleteAnimationLabel.c_str()))
+							{
+								actorObject->RemoveAnimationData(i);
+							}
+							ImGui::PopItemWidth();
+
+							ImGui::Separator();
+
+							i++;
+						}
+
+						ImGui::PushItemWidth(m_ItemWidth);
+						if (ImGui::Button("Add Animation"))
+						{
+							actorObject->AddAnimationData();
+						}
+						ImGui::PopItemWidth();
 					}
 				}
 				else
@@ -322,12 +408,21 @@ void EditorUI::Render()
 
 
 	ImGui::End();
+
 }
+
+
+
+
 
 void EditorUI::HandleKeyboardInput(KeyEvent key)
 {
 
 }
+
+
+
+
 
 void EditorUI::HandleMouseInput(MouseEvent e)
 {
@@ -447,6 +542,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 	}
 	Vector3 finalPosition;
 
+
 	//calculate the final position X
 	if (values[0].x > 0)
 	{
@@ -461,6 +557,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		finalPosition.x = values[0].x + values[1].x;
 	}
 
+
 	//calculate the final position Y
 	if (values[0].y > 0)
 	{
@@ -474,6 +571,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 	{
 		finalPosition.y = values[0].y + values[1].y;
 	}
+
 	//calculate the final position Z
 	if (values[0].z > 0)
 	{
@@ -497,14 +595,14 @@ std::string EditorUI::GetCollisionTypeName(const CollisionType collisionType)
 {
 	switch (collisionType)
 	{
-	case CollisionType::BOX:
-		return "BOX";
-	case CollisionType::SPHERE:
-		return "SPHERE";
-	case CollisionType::NONE:
-		return "NONE";
-	default:
-		return "";
+		case CollisionType::BOX:
+			return "BOX";
+		case CollisionType::SPHERE:
+			return "SPHERE";
+		case CollisionType::NONE:
+			return "NONE";
+		default:
+			return "";
 	}
 }
 

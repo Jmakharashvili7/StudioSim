@@ -144,6 +144,7 @@ void UILayer::EnableDocking()
 			if (ImGui::Button("Save Current Scene"))
 			{
 				Quack::GetCurrentScene()->SaveScene();
+				Quack::GetCurrentScene()->SetInput(false);
 			}
 
 			if (inEditor)
@@ -151,6 +152,8 @@ void UILayer::EnableDocking()
 				if (ImGui::Button("Play"))
 				{
 					Quack::GetCurrentScene()->SaveScene();
+					Quack::GetCurrentScene()->SetInput(true);
+					Quack::GetCurrentScene()->SetGravity(true);
 
 					inEditor = false;
 					inPlay = true;
@@ -166,6 +169,10 @@ void UILayer::EnableDocking()
 						Quack::GetCurrentScene()->RemoveGameObject(gameObject);
 					}
 					Quack::GetCurrentScene()->LoadScene();
+					Quack::GetCurrentScene()->SetInput(false);
+					Quack::GetCurrentScene()->SetGravity(false);
+					m_editorUI->SetDisplayedGameObject(nullptr);
+
 
 					inEditor = true;
 					inPlay = false;
@@ -372,10 +379,6 @@ void UILayer::ActorContent()
 	if (newObjectInfo.addAnimator)
 	{
 		bool animated = newObjectInfo.animationData.banimated;
-
-		ImGui::InputInt("Number of Rows", &newObjectInfo.animationData.rows);
-
-		ImGui::InputInt("Number of Columns", &newObjectInfo.animationData.columns);
 
 		ImGui::Checkbox("Animated", &animated);
 		if (newObjectInfo.animationData.banimated != animated)

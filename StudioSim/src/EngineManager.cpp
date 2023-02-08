@@ -80,7 +80,7 @@ void EngineManager::SetInputCharacter(Character* newInputCharacter)
 {
 	m_inputCharacter = newInputCharacter;
 
-	for (GameObject* loopedGameObject : m_gameObjects)
+	for (GameObject* loopedGameObject : Quack::GetCurrentScene()->GetGameObjects())
 	{
 		Character* characterObject = dynamic_cast<Character*>(loopedGameObject);
 		if (characterObject)

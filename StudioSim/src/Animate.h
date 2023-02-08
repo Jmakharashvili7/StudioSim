@@ -1,5 +1,6 @@
 #pragma once
 #include "BasicIncludes.h"
+#include "QuackDataTypes.h"
 
 class Actor;
 
@@ -13,7 +14,7 @@ private:
 	void GenerateFrameList();
 
 public:
-	Animate(Actor* target, int rows, int columns);
+	Animate(Actor* target, const AnimationData& animationData);
 	~Animate();
 
 	/// <summary>
@@ -46,16 +47,23 @@ public:
 	/// <returns>Playtime in seconds</returns>
 	float GetAnimationPlayTime(int row);
 
-	inline void SetPlayRate(float inRate) { m_playRate = inRate; }
 	inline int GetRowToPlay() { return m_rowToPlay; }
 
-	inline int GetRows() { return m_rows; }
-	inline void SetRows(int rows) { m_rows = rows; }
+	virtual inline void SetAnimationStatus(const bool newAnimating) { m_animationData.banimated = newAnimating; }
 
-	inline int GetColumns() { return m_columns; }
-	inline void SetColumns(int columns) { m_columns = columns; }
+	virtual void SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowData);
+	virtual void SetAnimation(const AnimationRowData& newAnimation);
+	virtual void SetAnimationName(const std::string newName);
+	virtual void SetAnimationRowNumber(const int newRowNumber);
+	virtual void SetAnimationNumberOfColumns(const int newNumberOfColumns);
+	virtual void SetAnimationPlayRate(const float newPlayRate);
+	virtual void SetAnimationLooping(const bool newbLooping);
+	virtual void SetAnimationTotalRows(const int newTotalRows);
+	virtual void SetAnimationTotalColumns(const int newTotalColumns);
 
-	
+	virtual inline const AnimationRowData& GetCurrentAnimation() { return m_currentAnimationData; }
+
+	inline void ResetSpriteFrame() { m_spriteFrame = 0; }
 
 private:
 	Actor* m_object;
@@ -64,12 +72,14 @@ private:
 
 	std::pair<int, int> m_frameToPlay;
 
-	float m_delay;
-	float m_rows;
-	float m_columns;
-	float m_playRate;
+	AnimationData m_animationData = AnimationData();
 
+	AnimationRowData m_currentAnimationData = AnimationRowData();
+
+	float m_delay;
 	int m_spriteFrame;
 	int m_rowToPlay ;
+	int m_amountOfColumns;
 
+	bool m_bactive = false;
 };

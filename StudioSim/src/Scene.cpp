@@ -57,8 +57,29 @@ void Scene::RenderScene()
 	glfwPollEvents();
 
 	m_frameBuffer->Unbind();
+}
 
-	m_StopInput = false;
+void Scene::SetGravity(const bool bactive)
+{
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (Actor* actorObject = dynamic_cast<Actor*>(gameObject))
+		{
+			if (bactive)
+			{
+				actorObject->SetSimulateGravity(true);
+			}
+			else
+			{
+				actorObject->SetSimulateGravity(false);
+			}
+		}
+	}
+}
+
+void Scene::SetInput(const bool bactive)
+{
+	m_StopInput = !bactive;
 }
 
 void Scene::HandleLights()
@@ -142,28 +163,7 @@ void Scene::Update()
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	for (GameObject* gameObject : m_gameObjects)
-	{
-		if (Actor* actorObject = dynamic_cast<Actor*>(gameObject))
-		{
-			if (m_uiMain->GetInPlay())
-			{
-				m_StopInput = false;
-				actorObject->SetSimulateGravity(true);
-			}
-			else
-			{
-				m_StopInput = true;
-				actorObject->SetSimulateGravity(false);
-			}
-		}
-	}
-	/*if (actorObject->GetSimulatingGravity() != simGravity)
-	{
-		actorObject->SetSimulateGravity(simGravity);
-	}*/
-
-	if (m_gameObjectsToAdd.size() != 0)
+	if (m_gameObjectsToAdd.size() > 0)
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
 		{
@@ -171,8 +171,8 @@ void Scene::Update()
 		}
 		m_gameObjectsToAdd.clear();
 	}
-
-	if (m_gameObjectsToRemove.size() != 0)
+	
+	if (m_gameObjectsToRemove.size() > 0)
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
 		{
@@ -192,8 +192,6 @@ void Scene::Update()
 	glfwGetCursorPos(Quack::GetWindow()->GetGLFWWindow(), &xpos, &ypos);
 
 	HandleInput();
-
-
 }
 
 void Scene::Render()
@@ -213,7 +211,6 @@ void Scene::Render()
 
 void Scene::PhysicsUpdate()
 {
-
 	float deltaTime = m_gameTimer.GetDeltaTime();
 	m_collisionManager->Update(deltaTime);
 }
@@ -224,48 +221,55 @@ void Scene::HandleInput()
 
 	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
 
-
-
-	if (inputCharacter && !m_StopInput)
+	if (inputCharacter && !m_StopInput && inputCharacter->GetCurrentHealth() > 0.0f)
 	{
 		if (InputComponent* inputComponent = inputCharacter->GetComponent<InputComponent>())
 		{
+			// JUMP
+			if (inputComponent->GetKeyPressed(' '))
+			{
+				inputCharacter->Jump();
+			}
 
-			{// JUMP
-				if (inputComponent->GetKeyPressed(' '))
-				{
-					inputCharacter->Jump();
-				}
+			// LIGHT ATTACK
+			if (inputComponent->GetKeyPressed('j'))
+			{
+				inputCharacter->LightAttack();
+			}
 
-				// LIGHT ATTACK
-				if (inputComponent->GetKeyPressed('j'))
-				{
-					inputCharacter->LightAttack();
-				}
+			// HEAVY ATTACK
+			if (inputComponent->GetKeyPressed('l'))
+			{
+				inputCharacter->HeavyAttack();
+			}
 
-				// HEAVY ATTACK
-				if (inputComponent->GetKeyPressed('l'))
-				{
-					inputCharacter->HeavyAttack();
-				}
+			// SPECIAL ATTACK
+			if (inputComponent->GetKeyPressed('k'))
+			{
+				inputCharacter->SpecialAttack();
+			}
 
-				// SPECIAL ATTACK
-				if (inputComponent->GetKeyPressed('k'))
-				{
-					inputCharacter->SpecialAttack();
-				}
+			// MOVE RIGHT
+			if (inputComponent->GetKeyDown('d'))
+			{
+				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+			}
 
-				// MOVE RIGHT
-				if (inputComponent->GetKeyDown('d'))
-				{
-					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-				}
+			// MOVE LEFT
+			if (inputComponent->GetKeyDown('a'))
+			{
+				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+			}
 
-				// MOVE LEFT
-				if (inputComponent->GetKeyDown('a'))
-				{
-					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-				}
+			// IDLE
+			if (inputComponent->GetKeyUp('d') && !inputComponent->GetKeyDown('a') || inputComponent->GetKeyUp('a') && !inputComponent->GetKeyDown('d'))
+			{
+				inputCharacter->SetIdleAnimation();
+			}
+
+			if (inputComponent->GetKeyPressed('z'))
+			{
+				inputCharacter->AttemptToDash();
 			}
 		}
 	}
@@ -275,8 +279,19 @@ void Scene::SaveScene()
 {
 	QuackEngine::JsonLoader::StoreScene(m_sceneInfo, m_gameObjects);
 }
+
 void Scene::LoadScene()
 {
+	if (!m_gameObjects.empty())
+	{
+		for (int i = 0; i < m_gameObjects.size(); i++)
+		{
+			delete m_gameObjects[i];
+		}
+		m_gameObjects.clear();
+		m_gameObjectsToAdd.clear();
+		m_gameObjectsToRemove.clear();
+	}
 	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects);
 }
 

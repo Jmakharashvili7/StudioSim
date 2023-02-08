@@ -18,7 +18,7 @@ GameObject::GameObject(std::string name, VertexData* data, const TransformData& 
 	m_va = new VertexArray();
 	UpdateVertexArray();
 
-	m_texture = Quack::GetTexture(textureName);	
+	m_texture = Quack::GetTexture(textureName);
 }
 
 GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName) : 
@@ -39,9 +39,6 @@ GameObject::GameObject(std::string name, VertexData* data, const TransformData& 
 
 GameObject::~GameObject()
 {
-	delete m_texture;
-	m_texture = nullptr;
-
 	delete m_va;
 	m_va = nullptr;
 
@@ -54,8 +51,6 @@ GameObject::~GameObject()
 
 void GameObject::Draw(OrthographicCamera* camera)
 {
-	Vector3 screenPosition = m_transform->GetPosition();
-	
 	// draw square
 	m_shader->Bind();
 	m_texture->Bind();
@@ -116,6 +111,12 @@ void GameObject::SetCollisionType(const CollisionType newCollisionType)
 		SetCollisionCenter(Vector3(0.0f));
 		SetCollisionBoxSize(Vector3(0.0f));
 	}
+}
+
+void GameObject::SetCollisionCenterOffset(const Vector3 newCenterPositionOffset)
+{
+	m_collisionData.centerPositionOffset = newCenterPositionOffset;
+	UpdateCollisionCenter();
 }
 
 void GameObject::UpdateObjectData(VertexData* newData)
