@@ -300,6 +300,10 @@ namespace QuackEngine {
 					{
 						enemy->GetAIComponent()->SetGrid(grid);
 					}
+					else
+					{
+						enemy->GetAIComponent()->SetGrid(grid);
+					}
 				}
 			}
 			

@@ -23,8 +23,10 @@ Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformD
 		AddComponent(m_aiComponent);
 		break;
 	case EnemyType::MINI_PONTIFF:
-		//m_aiComponent = new AIComponent(this, 2);
-		//AddComponent(m_aiComponent);
+		m_aiComponent = new AIComponent(this, 2);
+		AddComponent(m_aiComponent);
+		//RangedAIComponent* rangedAI = new RangedAIComponent(this, 3);
+		//AddComponent(rangedAI);
 		break;
 	}
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "RangedAIComponent.h"
 
 class PontiffState;
 
@@ -14,6 +15,7 @@ public:
 	void OnCollisionOver(GameObject* gameObject) override;
 
 	void SwitchState(PontiffState* newState);
+	//inline RangedAIComponent* GetAIComponent() { return m_rangedAIComponent; }
 private:
 	// Teleports to a position in the world
 	void Blink(Vector3 pos);
@@ -35,5 +37,6 @@ private:
 
 private:
 	PontiffState* m_state;
+	//RangedAIComponent* m_rangedAIComponent;
 };
 
