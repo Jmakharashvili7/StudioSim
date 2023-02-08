@@ -226,6 +226,7 @@
     <ClInclude Include="src\UIWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="fmod.dll" />
     <None Include="fmodL.dll" />
     <None Include="imgui.ini" />

@@ -87,6 +87,7 @@
     <None Include="shaders\basic.shader" />
     <None Include="fmodL.dll" />
     <None Include="fmod.dll" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\Sounds\quackeve.wav" />

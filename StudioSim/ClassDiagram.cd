@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FMOD::System" Collapsed="true">
+    <Position X="5.75" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>GCCaUJIqEuJgARqBFwGMUg5ADQBPAAoQoKArEZgEwR4=</HashCode>
+      <FileName>C:\Users\Ionescu Alexandru\Documents\GitHub\StudioSim\dependencies\core\inc\fmod.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioEngine">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="AudioEngine::SoundInfo">
+        <TypeIdentifier>
+          <NewMemberFileName>src\AudioEngine.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AASgAAAgEQDBRBAAEAAAAwgAAkAAAACEAAAGEGIAAAA=</HashCode>
+      <FileName>src\AudioEngine.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_State" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FMOD::Reverb3D" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kiAAAAAAAAiAAAAAAAAAAAKAAAAAAAAAAAAAAAAAKAA=</HashCode>
+      <FileName>C:\Users\Ionescu Alexandru\Documents\GitHub\StudioSim\dependencies\core\inc\fmod.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FMOD::ChannelGroup" Collapsed="true">
+    <Position X="5.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAABAAAAAIAAAAAAAAQCAAAAIAAMBAAAAAA=</HashCode>
+      <FileName>C:\Users\Ionescu Alexandru\Documents\GitHub\StudioSim\dependencies\core\inc\fmod.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FMOD::DSP" Collapsed="true">
+    <Position X="5.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kCIAAjEECCCEAAQAJUAAhCYIRQAAQkABAAACAQiEiAQ=</HashCode>
+      <FileName>C:\Users\Ionescu Alexandru\Documents\GitHub\StudioSim\dependencies\core\inc\fmod.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="FmodInit">
+    <Position X="3" Y="2" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Typedef Name="FmodInit::SoundMap" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>src\AudioEngine.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="FmodInit::ChannelMap" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>src\AudioEngine.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <AssociationLine Name="pSoundtracks" Type="FMOD::ChannelGroup" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="4.688" />
+        <Point X="5.75" Y="4.688" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="pDspFader" Type="FMOD::DSP" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="5.938" />
+        <Point X="5.75" Y="5.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAUAAAEAIAAAAABACIGAgtAQCIkCAAAAIQAAIAIAAAA=</HashCode>
+      <FileName>src\AudioEngine.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="pSystem" />
+      <Field Name="pReverb" />
+      <Field Name="pSoundtracks" />
+      <Field Name="pMasterGroup" />
+      <Field Name="pDspFader" />
+      <Field Name="pDspPan" />
+    </ShowAsAssociation>
+  </Struct>
+  <Enum Name="AudioState">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAIAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\AudioEngine.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
