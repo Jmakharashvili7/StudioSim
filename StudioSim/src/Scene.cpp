@@ -154,7 +154,7 @@ void Scene::Update()
 		}
 	}
 
-	if (m_gameObjectsToAdd.size() != 0)
+	if (m_gameObjectsToAdd.size() > 0)
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
 		{
@@ -163,7 +163,7 @@ void Scene::Update()
 		m_gameObjectsToAdd.clear();
 	}
 	
-	if (m_gameObjectsToRemove.size() != 0)
+	if (m_gameObjectsToRemove.size() > 0)
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
 		{

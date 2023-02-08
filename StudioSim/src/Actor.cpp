@@ -54,6 +54,24 @@ void Actor::Update(const float deltaTime)
 	{
 		component->Update(deltaTime);
 	}
+
+	if (m_animationDataRowsToAdd > 0)
+	{
+		for (int i = 0; i < m_animationDataRowsToAdd; i++)
+		{
+			m_animationData.animationRowData.push_back(AnimationRowData());
+		}
+		m_animationDataRowsToAdd = 0;
+	}
+
+	if (m_animationDataRowsToRemove.size() > 0)
+	{
+		for (int animIndexToRemove : m_animationDataRowsToRemove)
+		{
+			m_animationData.animationRowData.erase(m_animationData.animationRowData.begin() + animIndexToRemove);
+		}
+		m_animationDataRowsToRemove.clear();
+	}
 }
 
 void Actor::AdjustPosition(const Vector3 adjustPosition)
@@ -118,59 +136,29 @@ void Actor::SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowDat
 	}
 }
 
-void Actor::SetAnimationDataRowName(const AnimationRowData& animationRowData, const std::string newName)
+void Actor::SetAnimationDataRowName(const int animationIndex, const std::string newName)
 {
-	int indexToChange = -1;
-
-	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
-	{
-		if (m_animationData.animationRowData[i].name == animationRowData.name)
-		{
-			indexToChange = i;
-			break;
-		}
-	}
-	
-	m_animationData.animationRowData[indexToChange].name = newName;
-
-	if (m_currentAnimationData.name == animationRowData.name)
+	if (m_currentAnimationData.name == newName)
 	{
 		if (m_animator)
 		{
 			m_animator->SetAnimationName(newName);
 		}
 	}
+
+	m_animationData.animationRowData[animationIndex].name = newName;
 }
 
-const std::string Actor::GetAnimationDataRowName(const AnimationRowData& animationRowData)
+const std::string Actor::GetAnimationDataRowName(const int animationIndex)
 {
-	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
-	{
-		if (loopAnimationRowData.name == animationRowData.name)
-		{
-			return loopAnimationRowData.name;
-		}
-	}
-
-	return "";
+	return m_animationData.animationRowData[animationIndex].name;
 }
 
-void Actor::SetAnimationDataRowNumber(const AnimationRowData& animationRowData, const int newRowNumber)
+void Actor::SetAnimationDataRowNumber(const int animationIndex, const int newRowNumber)
 {
-	int indexToChange = -1;
+	m_animationData.animationRowData[animationIndex].rowNumber = newRowNumber;
 
-	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
-	{
-		if (m_animationData.animationRowData[i].name == animationRowData.name)
-		{
-			indexToChange = i;
-			break;
-		}
-	}
-
-	m_animationData.animationRowData[indexToChange].rowNumber = newRowNumber;
-
-	if (m_currentAnimationData.name == animationRowData.name)
+	if (m_currentAnimationData.name == m_animationData.animationRowData[animationIndex].name)
 	{
 		if (m_animator)
 		{
@@ -179,35 +167,16 @@ void Actor::SetAnimationDataRowNumber(const AnimationRowData& animationRowData, 
 	}
 }
 
-const int Actor::GetAnimationDataRowNumber(const AnimationRowData& animationRowData)
+const int Actor::GetAnimationDataRowNumber(const int animationIndex)
 {
-	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
-	{
-		if (loopAnimationRowData.name == animationRowData.name)
-		{
-			return loopAnimationRowData.rowNumber;
-		}
-	}
-
-	return 0;
+	return m_animationData.animationRowData[animationIndex].rowNumber;
 }
 
-void Actor::SetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData, const int newNumberOfColumns)
+void Actor::SetAnimationDataNumberOfColumns(const int animationIndex, const int newNumberOfColumns)
 {
-	int indexToChange = -1;
+	m_animationData.animationRowData[animationIndex].amountOfColumns = newNumberOfColumns;
 
-	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
-	{
-		if (m_animationData.animationRowData[i].name == animationRowData.name)
-		{
-			indexToChange = i;
-			break;
-		}
-	}
-
-	m_animationData.animationRowData[indexToChange].amountOfColumns = newNumberOfColumns;
-
-	if (m_currentAnimationData.name == animationRowData.name)
+	if (m_currentAnimationData.name == m_animationData.animationRowData[animationIndex].name)
 	{
 		if (m_animator)
 		{
@@ -216,35 +185,16 @@ void Actor::SetAnimationDataNumberOfColumns(const AnimationRowData& animationRow
 	}
 }
 
-const int Actor::GetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData)
+const int Actor::GetAnimationDataNumberOfColumns(const int animationIndex)
 {
-	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
-	{
-		if (loopAnimationRowData.name == animationRowData.name)
-		{
-			return loopAnimationRowData.amountOfColumns;
-		}
-	}
-	
-	return 0;
+	return m_animationData.animationRowData[animationIndex].amountOfColumns;
 }
 
-void Actor::SetAnimationDataPlayRate(const AnimationRowData& animationRowData, const float newPlayRate)
+void Actor::SetAnimationDataPlayRate(const int animationIndex, const float newPlayRate)
 {
-	int indexToChange = -1;
+	m_animationData.animationRowData[animationIndex].playRate = newPlayRate;
 
-	for (int i = 0; i < m_animationData.animationRowData.size(); i++)
-	{
-		if (m_animationData.animationRowData[i].name == animationRowData.name)
-		{
-			indexToChange = i;
-			break;
-		}
-	}
-
-	m_animationData.animationRowData[indexToChange].playRate = newPlayRate;
-
-	if (m_currentAnimationData.name == animationRowData.name)
+	if (m_currentAnimationData.name == m_animationData.animationRowData[animationIndex].name)
 	{
 		if (m_animator)
 		{
@@ -253,17 +203,9 @@ void Actor::SetAnimationDataPlayRate(const AnimationRowData& animationRowData, c
 	}
 }
 
-const float Actor::GetAnimationDataPlayRate(const AnimationRowData& animationRowData)
+const float Actor::GetAnimationDataPlayRate(const int animationIndex)
 {
-	for (const AnimationRowData& loopAnimationRowData : m_animationData.animationRowData)
-	{
-		if (loopAnimationRowData.name == animationRowData.name)
-		{
-			return loopAnimationRowData.playRate;
-		}
-	}
-
-	return 0;
+	return m_animationData.animationRowData[animationIndex].playRate;
 }
 
 void Actor::SetAnimationDataTotalRows(const int newTotalRows)
@@ -288,9 +230,14 @@ void Actor::SetAnimationDataTotalColumns(const int newTotalColumns)
 
 void Actor::AddAnimationData()
 {
-	std::vector<AnimationRowData> tempAnimationRowData = m_animationData.animationRowData;
-	tempAnimationRowData.push_back(AnimationRowData());
-	SetAnimationRowData(tempAnimationRowData);
+	m_animationDataRowsToAdd++;
+	//m_animationData.animationRowData.push_back(AnimationRowData());
+}
+
+void Actor::RemoveAnimationData(const int animationIndex)
+{
+	m_animationDataRowsToRemove.push_back(animationIndex);
+	//m_animationData.animationRowData.erase(m_animationData.animationRowData.begin() + animationIndex);
 }
 
 const AnimationRowData& Actor::GetAnimationByName(std::string name)

@@ -250,41 +250,50 @@ void EditorUI::Render()
 							strcpy_s(charName, animationRowData.name.c_str());
 							std::string animationNameLabel = "Animation Name " + to_string(i);
 							ImGui::InputText(animationNameLabel.c_str(), charName, IM_ARRAYSIZE(charName));
-							if (actorObject->GetAnimationDataRowName(animationRowData) != charName)
+							if (actorObject->GetAnimationDataRowName(i) != charName)
 							{
-								actorObject->SetAnimationDataRowName(animationRowData, charName);
+								actorObject->SetAnimationDataRowName(i, charName);
 							}
 							ImGui::PopItemWidth();
 
 							ImGui::PushItemWidth(m_ItemWidth);
-							int rowNumber = actorObject->GetAnimationDataRowNumber(animationRowData);
+							int rowNumber = actorObject->GetAnimationDataRowNumber(i);
 							std::string animationRowNumberLabel = "Animation Row Number " + to_string(i);
 							ImGui::SliderInt(animationRowNumberLabel.c_str(), &rowNumber, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (actorObject->GetAnimationDataRowNumber(animationRowData) != rowNumber)
+							if (actorObject->GetAnimationDataRowNumber(i) != rowNumber)
 							{
-								actorObject->SetAnimationDataRowNumber(animationRowData, rowNumber);
+								actorObject->SetAnimationDataRowNumber(i, rowNumber);
 							}
 							ImGui::PopItemWidth();
 
 							ImGui::PushItemWidth(m_ItemWidth);
-							int numberOfColumns = actorObject->GetAnimationDataNumberOfColumns(animationRowData);
+							int numberOfColumns = actorObject->GetAnimationDataNumberOfColumns(i);
 							std::string animationColumnsTotalLabel = "Animation Columns " + to_string(i);
 							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (actorObject->GetAnimationDataNumberOfColumns(animationRowData) != numberOfColumns)
+							if (actorObject->GetAnimationDataNumberOfColumns(i) != numberOfColumns)
 							{
-								actorObject->SetAnimationDataNumberOfColumns(animationRowData, numberOfColumns);
+								actorObject->SetAnimationDataNumberOfColumns(i, numberOfColumns);
 							}
 							ImGui::PopItemWidth();
 
 							ImGui::PushItemWidth(m_ItemWidth);
-							float playRate = actorObject->GetAnimationDataPlayRate(animationRowData);
+							float playRate = actorObject->GetAnimationDataPlayRate(i);
 							std::string animationPlayRateLabel = "Animation Play Rate " + to_string(i);
 							ImGui::SliderFloat(animationPlayRateLabel.c_str(), &playRate, 0.0f, 25.0f, NULL, ImGuiSliderFlags_AlwaysClamp);
-							if (actorObject->GetAnimationDataPlayRate(animationRowData) != playRate)
+							if (actorObject->GetAnimationDataPlayRate(i) != playRate)
 							{
-								actorObject->SetAnimationDataPlayRate(animationRowData, playRate);
+								actorObject->SetAnimationDataPlayRate(i, playRate);
 							}
 							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(m_ItemWidth);
+							std::string deleteAnimationLabel = "Delete Animation " + to_string(i);
+							if (ImGui::Button(deleteAnimationLabel.c_str()))
+							{
+								actorObject->RemoveAnimationData(i);
+							}
+							ImGui::PopItemWidth();
+
 							ImGui::Separator();
 
 							i++;

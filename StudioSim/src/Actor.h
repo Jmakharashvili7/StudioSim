@@ -38,21 +38,27 @@ public:
 	virtual inline const bool GetAnimationStatus() { return m_animationData.banimated; }
 	virtual void SetAnimationRowData(std::vector<AnimationRowData> newAnimationRowData);
 	virtual inline const std::vector<AnimationRowData> GetAnimationRowData() { return m_animationData.animationRowData; }
-	virtual void SetAnimationDataRowName(const AnimationRowData& animationRowData, const std::string newName);
-	virtual const std::string GetAnimationDataRowName(const AnimationRowData& animationRowData);
-	virtual void SetAnimationDataRowNumber(const AnimationRowData& animationRowData, const int newRowNumber);
-	virtual const int GetAnimationDataRowNumber(const AnimationRowData& animationRowData);
-	virtual void SetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData, const int newNumberOfColumns);
-	virtual const int GetAnimationDataNumberOfColumns(const AnimationRowData& animationRowData);
-	virtual void SetAnimationDataPlayRate(const AnimationRowData& animationRowData, const float newPlayRate);
-	virtual const float GetAnimationDataPlayRate(const AnimationRowData& animationRowData);
+
+	virtual void SetAnimationDataRowName(const int animationIndex, const std::string newName);
+	virtual const std::string GetAnimationDataRowName(const int animationIndex);
+
+	virtual void SetAnimationDataRowNumber(const int animationIndex, const int newRowNumber);
+	virtual const int GetAnimationDataRowNumber(const int animationIndex);
+
+	virtual void SetAnimationDataNumberOfColumns(const int animationIndex, const int newNumberOfColumns);
+	virtual const int GetAnimationDataNumberOfColumns(const int animationIndex);
+
+	virtual void SetAnimationDataPlayRate(const int animationIndex, const float newPlayRate);
+	virtual const float GetAnimationDataPlayRate(const int animationIndex);
+
 	virtual void SetAnimationDataTotalRows(const int newTotalRows);
 	virtual inline const int GetAnimationDataTotalRows() { return m_animationData.totalRows; }
 	virtual void SetAnimationDataTotalColumns(const int newTotalColumns);
 	virtual inline const int GetAnimationDataTotalColumns() { return m_animationData.totalColumns; }
-	virtual void AddAnimationData();
 	virtual const AnimationRowData& GetAnimationByName(std::string name);
 	virtual void SetCurrentAnimation(const AnimationRowData& newCurrentAnimation);
+	virtual void AddAnimationData();
+	virtual void RemoveAnimationData(const int animationIndex);
 
 	// Collision
 	virtual void AddCollision(GameObject* collidingObject);
@@ -85,6 +91,8 @@ protected:
 	bool m_banimated = false;
 	AnimationData m_animationData = AnimationData();
 	AnimationRowData m_currentAnimationData = AnimationRowData();
+	int m_animationDataRowsToAdd;
+	std::vector<int> m_animationDataRowsToRemove;
 
 	// Physics
 	PhysicsData m_physicsData = PhysicsData();
