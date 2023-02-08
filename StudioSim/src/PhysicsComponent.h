@@ -27,7 +27,7 @@ public:
 	/// </summary>
 	/// <param name="velocity"></param>
 	void SetVelocity(const Vector3& velocity) { m_Velocity = velocity; }
-	Vector3 GetVelocity() const { return m_Velocity ; }
+	Vector3 GetVelocity() const { return m_Velocity; }
 
 	/// <summary>
 	/// recommend you use for whether the object should be floaty or heavy 
@@ -92,4 +92,6 @@ protected:
 	bool m_bOnGround = false;
 
 	bool m_bSimulateGravity = true;
+
+	class CollisionResolver* m_Contacts;
 };

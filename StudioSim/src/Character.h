@@ -31,6 +31,11 @@ public:
 	inline MovementData GetMovementData() { return m_movementData; }
 	virtual const inline FacingDirection GetFacingDirection() const { return m_facingDirection; }
 
+	// Animation
+	virtual void SetIdleAnimation();
+	virtual void OnAnimationFinished(const AnimationRowData& finishedAnimation) override;
+	virtual void StartAnimation(const std::string animationName, const bool bForce = false) override;
+
 	// Health
 	virtual void TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection);
 	virtual void Kill();
@@ -56,11 +61,17 @@ public:
 	void LightAttack();
 	void HeavyAttack();
 	void SpecialAttack();
+	void AttackStarted(const std::string attackType);
+
+	// Dash
+	void AttemptToDash();
+	void CheckDash();
 
 protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
+	bool m_CanMove;
 	FacingDirection m_facingDirection = FacingDirection::RIGHT;
 	
 	// Entity
@@ -79,5 +90,13 @@ protected:
 
 	// Components
 	CombatComponent* m_combatComponent = nullptr;
+
+	//dash
+	bool m_IsDashing;
+	float m_DashTime;
+	float m_DashSpeed;
+	float m_DashCooldowm;
+	float m_DashTimeLeft;
+	float m_TimeSinceLastDash = -100;
 };
 
