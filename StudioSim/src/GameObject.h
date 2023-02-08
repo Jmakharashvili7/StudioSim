@@ -49,7 +49,7 @@ public:
 
 	// Rotation
 	virtual Vector3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
-	virtual void SetRotation(const Vector3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
+	virtual void SetRotation(float newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
 	virtual void AdjustRotation(const Vector3 adjustRotation) { if (m_transform) m_transform->AdjustRotation(adjustRotation); }
 	virtual void SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation) { if (m_transform) m_transform->SetRotationAroundPivot(pivotPosition, newRotation); }
 

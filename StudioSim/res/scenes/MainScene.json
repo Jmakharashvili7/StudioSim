@@ -11,7 +11,7 @@
                 "amountOfColumns": 7,
                 "playRate": 25.0,
                 "rowName": "lightAttack",
-                "rowNumber": 20
+                "rowNumber": 2
             },
             "animRowData2": {
                 "amountOfColumns": 7,
@@ -29,10 +29,10 @@
         },
         "banimated": true,
         "bconsumeInput": true,
-        "bsimulateGravity": false,
+        "bsimulateGravity": true,
         "centerPosition": {
-            "x": -5.5,
-            "y": 3.5,
+            "x": 1.0032614469528198,
+            "y": -0.5781697034835815,
             "z": 0.0
         },
         "centerPositionOffset": {
@@ -69,8 +69,8 @@
         "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": -5.5,
-            "y": 3.5,
+            "x": 1.0032614469528198,
+            "y": -0.5781697034835815,
             "z": 0.0
         },
         "radius": 1.0,
@@ -90,17 +90,17 @@
             "z": 1.0
         },
         "texCoords": [
-            0.9090909361839294,
+            0.5454545617103577,
             0.0,
-            1.0,
+            0.6363636255264282,
             0.0,
-            1.0,
+            0.6363636255264282,
             0.125,
-            1.0,
+            0.6363636255264282,
             0.125,
-            0.9090909361839294,
+            0.5454545617103577,
             0.125,
-            0.9090909361839294,
+            0.5454545617103577,
             0.0
         ],
         "textureName": "Player.png",

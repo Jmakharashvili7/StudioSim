@@ -16,7 +16,7 @@ public:
 	inline const Vector3 GetPreviousPosition() const { return m_previousPosition; }
 
 	// Rotation
-	void SetRotation(const Vector3 newRotation);
+	void SetRotation(float newAngle);
 	void AdjustRotation(const Vector3 adjustRotation);
 	void SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation);
 	inline const Vector3 GetRotation() const { return m_rotation; }
