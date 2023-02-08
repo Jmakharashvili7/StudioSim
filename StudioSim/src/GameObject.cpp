@@ -53,9 +53,7 @@ GameObject::~GameObject()
 }
 
 void GameObject::Draw(OrthographicCamera* camera)
-{
-	Vector3 screenPosition = m_transform->GetPosition();
-	
+{	
 	// draw square
 	m_shader->Bind();
 	m_texture->Bind();
@@ -154,7 +152,7 @@ const bool GameObject::GetIsCollidingGameObject(GameObject* gameObject) const
 	return bFound;
 }
 
-void GameObject::AddCollision(GameObject* collidingObject)
+void GameObject::OnCollision(GameObject* collidingObject)
 {
 	if (collidingObject)
 	{
@@ -162,7 +160,7 @@ void GameObject::AddCollision(GameObject* collidingObject)
 	}
 }
 
-void GameObject::RemoveCollision(GameObject* gameObject)
+void GameObject::OnCollisionOver(GameObject* gameObject)
 {
 	if (gameObject)
 	{

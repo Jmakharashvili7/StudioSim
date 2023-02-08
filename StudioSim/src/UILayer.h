@@ -27,6 +27,7 @@ struct CreatClassInfo
 
 	MovementData movementData;
 	EntityData entityData;
+	EnemyType enemyType;
 
 
 	CreatClassInfo()
@@ -98,7 +99,7 @@ private:
 	void ObjectTransformData();
 	void ObjectCollisionData(TransformData data);
 	void ObjectTextureName();
-
+	void EnemyTypeContent();
 private:
 	float m_time;
 	bool inEditor = true;

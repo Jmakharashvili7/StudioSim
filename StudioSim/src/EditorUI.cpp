@@ -313,11 +313,17 @@ void EditorUI::Render()
 			}
 		}
 
+		if (ImGui::Button("Save Object"))
+		{
+			JsonLoader::StoreGameObject2D(m_object);
+		}
+
 		if (ImGui::Button("Delete Object"))
 		{
 			Quack::GetCurrentScene()->RemoveGameObject(m_object);
 			m_object = nullptr;
 		}
+
 	}
 
 

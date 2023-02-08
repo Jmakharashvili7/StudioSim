@@ -96,7 +96,7 @@ void Actor::AddCollision(GameObject* collidingObject)
 		SetCollidingWithGround(true);
 	}
 
-	GameObject::AddCollision(collidingObject);
+	GameObject::OnCollision(collidingObject);
 }
 
 void Actor::RemoveCollision(GameObject* gameObject)
@@ -106,7 +106,7 @@ void Actor::RemoveCollision(GameObject* gameObject)
 		SetCollidingWithGround(false);
 	}
 
-	GameObject::RemoveCollision(gameObject);
+	GameObject::OnCollisionOver(gameObject);
 }
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)

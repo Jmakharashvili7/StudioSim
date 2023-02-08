@@ -36,7 +36,7 @@ public:
         }   
 
         // set debug to true to draw the grid 
-        bool showDebug = true;
+        bool showDebug = false;
         Vector3 white = { 0.0f, 0.0f, 0.0f};
         if (showDebug)
         {

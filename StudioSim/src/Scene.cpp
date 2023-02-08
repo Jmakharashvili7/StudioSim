@@ -14,6 +14,7 @@
 #include "Window.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
+#include "MiniPontiff.h"
 
 Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer) :
 	m_uiMain(uiLayer),
@@ -28,7 +29,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	// Setup collision Manager
 	m_collisionManager = new CollisionManager();
 
-	m_grid = Grid<PathNode>(60, 60, 0.5, { -10,-10, 0 });
+	m_grid = Grid<PathNode>(300, 300, 0.1, { -10,-10, 0 });
 
 	// Load scene
 	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_grid);

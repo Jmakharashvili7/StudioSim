@@ -6,6 +6,7 @@
 #include "CollisionManager.h"
 #include "AIComponent.h"
 #include "Enemy.h"
+#include "MiniPontiff.h"
 
 using json = nlohmann::json;
 
@@ -108,6 +109,8 @@ namespace nlohmann
 				return new Character(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData, bconsumeInput);
 			case GameObjectType::ENEMY:
 
+				EnemyType enemyType = (EnemyType)j["EnemyType"].get<int>();
+
 				// Load PhysicsData
 				physicsData.bsimulateGravity = j["bsimulateGravity"].get<bool>();
 				physicsData.mass = j["mass"].get<float>();
@@ -125,7 +128,10 @@ namespace nlohmann
 				// load entity data
 				entityData.maxHealth = j["maxHealth"].get<float>();
 
-				return new Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData);
+				if (enemyType == EnemyType::MELEE || enemyType == EnemyType::RANGED)
+					return new Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData, enemyType);
+				else if (enemyType == EnemyType::MINI_PONTIFF)
+					return new MiniPontiff(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData, enemyType);
 			}
 		}
 
@@ -185,6 +191,12 @@ namespace nlohmann
 
 					const bool bconsumingInput = character->GetConsumingInput();
 					j["bconsumeInput"] = bconsumingInput;
+
+					if (gameObject->GetType() == GameObjectType::ENEMY)
+					{
+						Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
+						j["EnemyType"] = (int)enemy->GetEnemyType();
+					}
 				}
 			}
 		}
@@ -216,37 +228,37 @@ namespace QuackEngine {
 			return data;
 		}
 
-		static bool StoreGameObjectData2D(const std::string& filename, const VertexData& data)
+		static bool StoreGameObjectData2D(const std::string& fileName, const VertexData& data)
 		{
 			json j;
 			j["vertices"] = data.vertices;
 			j["colors"] = data.colors;
 			j["texCoords"] = data.texCoords;
 
-			std::ofstream o(filename + ".json");
+			std::ofstream o("res/ObjectData/" + fileName + ".json");
 			o << std::setw(4) << j << std::endl;
 			return true;
 		}
 
-		static bool StoreGameObject2D(std::string filename, GameObject* gameObject)
+		static bool StoreGameObject2D(GameObject* gameObject)
 		{
 			json j;
 
 			j[gameObject->GetName()] = gameObject;
 
-			std::ofstream o(filename);
+			std::ofstream o("res/Objects/" + gameObject->GetName() + ".json");
 			o << std::setw(4) << j << std::endl;
 			return true;
 		}
 
-		static GameObject* LoadGameObject2D(std::string path, std::string name)
+		static GameObject* LoadGameObject2D(std::string name)
 		{
-			std::ifstream file(path);
+			std::ifstream file("res/Objects/" + name + ".json");
 
-			// check if the file was found
+			// Check if the file was found
 			if (!file)
 			{
-				QE_LOG(path + " does not exist!");
+				QE_LOG(name + " does not exist!");
 				return nullptr;
 			}
 
@@ -283,7 +295,11 @@ namespace QuackEngine {
 				if (obj->GetType() == GameObjectType::ENEMY)
 				{
 					Enemy* enemy = static_cast<Enemy*>(obj);
-					enemy->GetAIComponent()->SetGrid(grid);
+
+					if (enemy->GetEnemyType() != EnemyType::MINI_PONTIFF)
+					{
+						enemy->GetAIComponent()->SetGrid(grid);
+					}
 				}
 			}
 			

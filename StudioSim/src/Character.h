@@ -15,8 +15,8 @@ public:
 	virtual void AdjustPosition(const Vector3 adjustPosition) override;
 	
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject) override;
-	virtual void RemoveCollision(GameObject* gameObject) override;
+	virtual void OnCollision(GameObject* collidingObject) override;
+	virtual void OnCollisionOver(GameObject* gameObject) override;
 
 	// Jumping
 	void Jump();

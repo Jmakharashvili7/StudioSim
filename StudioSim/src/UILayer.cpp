@@ -187,8 +187,8 @@ void UILayer::EnableDocking()
 
 void UILayer::SetUpObjectCreator()
 {
-	std::string objectName = " ";
-	std::string textureName = " ";
+	std::string objectName = "";
+	std::string textureName = "";
 	TransformData objectTransformData = TransformData();
 	CollisionData objectCollisionData = CollisionData();
 
@@ -285,10 +285,11 @@ void UILayer::SetUpObjectCreator()
 			BasePopupContent();
 			ActorContent();
 			CharacterContent();
+			EnemyTypeContent();
 
 			if (ImGui::Button("Create"))
 			{
-				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData);
+				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData, newObjectInfo.enemyType);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
 				Quack::GetCurrentScene()->AddGameObject(newEnemy);
@@ -566,5 +567,31 @@ void UILayer::ObjectTextureName()
 		ImGui::TreePop();
 	}
 
+	ImGui::Separator();
+}
+
+void UILayer::EnemyTypeContent()
+{
+	static bool melee = false;
+	static bool ranged = false;
+
+	if (ImGui::TreeNode("Enemy Type"))
+	{
+		ImGui::Checkbox("Melee", &melee);
+		if (melee)
+		{
+			ranged = false;
+			newObjectInfo.enemyType = EnemyType::MELEE;
+		}
+
+		ImGui::Checkbox("Ranged", &ranged);
+		if (ranged)
+		{
+			melee = false;
+			newObjectInfo.enemyType = EnemyType::RANGED;
+		}
+
+		ImGui::TreePop();
+	}
 	ImGui::Separator();
 }

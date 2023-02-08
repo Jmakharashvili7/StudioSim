@@ -1,22 +1,15 @@
 #include "pch.h"
 
-#include "AIComponent.h"
-#include "EngineManager.h"
+#include "RangedAIComponent.h"
+#include "Quack.h"
 #include "EnemyProjectile.h"
 
-AIComponent::AIComponent(Actor* owningActor, const int updateOrder) :
-	Component{ owningActor, updateOrder },
-	m_state(MeleeState::IDLE),
-	m_targetRange(20.0f),
-	m_attackRange(1.0f),
-	m_pathUpdateTime(0.5f),
-	m_speed(3.0f)
+RangedAIComponent::RangedAIComponent(Actor* owningActor, const int updateOrder) : AIComponent(owningActor, updateOrder)
 {
-	m_pathFinder = new Pathfinding();
-	m_player = EngineManager::GetInputCharacter();	
+
 }
 
-void AIComponent::Update(const float deltaTime)
+void RangedAIComponent::Update(const float deltaTime)
 {
 	Vector3 enemyPos = m_owningActor->GetPosition();
 	Vector3 playerPos = m_player->GetPosition();
@@ -60,6 +53,7 @@ void AIComponent::Update(const float deltaTime)
 		}
 		break;
 	case MeleeState::ATTACKING:
+		Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, Vector3::Direction(enemyPos, playerPos), enemyPos));
 		if (Vector3::Distance(enemyPos, playerPos) >= m_attackRange)
 		{
 			m_state = MeleeState::IDLE;

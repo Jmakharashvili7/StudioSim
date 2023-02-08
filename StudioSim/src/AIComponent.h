@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 #include "Character.h"
 
-enum class EnemyState
+enum class MeleeState
 {
 	IDLE,
 	CHASING,
@@ -17,10 +17,10 @@ public:
 
 	virtual void Update(const float deltaTime) override;
 	virtual void SetGrid(Grid<PathNode> grid) { m_pathFinder->SetGrid(grid); }
-private:
+protected:
 	Pathfinding* m_pathFinder;
 	std::vector<Vector3> m_path;
-	EnemyState m_state;
+	MeleeState m_state;
 
 	float m_speed;
 	float m_timer; 

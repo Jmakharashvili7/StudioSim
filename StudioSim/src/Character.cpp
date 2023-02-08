@@ -71,7 +71,7 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 	}
 }
 
-void Character::AddCollision(GameObject* collidingObject)
+void Character::OnCollision(GameObject* collidingObject)
 {
 	if (collidingObject->GetName() == "ground")
 	{
@@ -81,7 +81,7 @@ void Character::AddCollision(GameObject* collidingObject)
 	Actor::AddCollision(collidingObject);
 }
 
-void Character::RemoveCollision(GameObject* gameObject)
+void Character::OnCollisionOver(GameObject* gameObject)
 {
 	Actor::RemoveCollision(gameObject);
 }
