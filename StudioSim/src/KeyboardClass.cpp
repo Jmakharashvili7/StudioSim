@@ -96,6 +96,10 @@ void KeyboardClass::UpdateKeyStates()
 	}
 }
 
+void KeyboardClass::OnKeyHeld(const unsigned char key)
+{
+}
+
 
 void KeyboardClass::OnKeyReleased(const unsigned char key)
 {

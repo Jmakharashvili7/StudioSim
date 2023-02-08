@@ -101,7 +101,6 @@ namespace nlohmann
 			transformData.scale = j["scale"].get<Vector3>();
 
 			// Load Collision Data
-			collisionData.centerPosition = j["centerPosition"].get<Vector3>();
 			collisionData.centerPositionOffset = j["centerPositionOffset"].get<Vector3>();
 			collisionData.collisionType = (CollisionType)j["collisionType"].get<int>();
 			collisionData.radius = j["radius"].get<float>();
@@ -201,7 +200,6 @@ namespace nlohmann
 			// Store Collision Data
 			CollisionData collisionData = gameObject->GetCollisionData();
 			j["collisionType"] = (int)collisionData.collisionType;
-			j["centerPosition"] = collisionData.centerPosition;
 			j["centerPositionOffset"] = collisionData.centerPositionOffset;
 			j["size"] = collisionData.size;
 			j["radius"] = collisionData.radius;
