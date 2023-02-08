@@ -8,6 +8,7 @@ public:
 	~HUD();
 
 	void Draw();
-	void Update();
+	void UpdateCharacterHP();
+	void UpdateBossHP();
 };
 

@@ -54,6 +54,14 @@ void HUD::Draw()
 	GameObject* temp4 = EngineManager::GetGameObject("Heart4");
 	temp4->SetPosition({ camPort_x + camDimensions.x + 5, camPort_y + camDimensions.z + 1, 0.0f });
 
+	GameObject* temp5 = EngineManager::GetGameObject("BossHPBack");
+	temp5->SetPosition({ camPort_x, camPort_y + camDimensions.w - 0.5f, 0.0f });
+
+	GameObject* temp6 = EngineManager::GetGameObject("BossHPHealth");
+	temp6->SetPosition({ camPort_x, camPort_y + camDimensions.w - 0.5f, 0.0f });
+
+	GameObject* temp7 = EngineManager::GetGameObject("BossHPFancy");
+	temp7->SetPosition({ camPort_x, camPort_y + camDimensions.w - 0.5f, 0.0f });
 	////Health bar
 	//glColor3f(1.0f, 1.0f, 0.0f);
 	//glVertex2f(0.0, port_y - 100);
@@ -73,12 +81,13 @@ void HUD::Draw()
 	//glVertex2f(200.0, 100.0);
 	//glVertex2f(0.0, 100.0);
 
-	Update();
+	UpdateCharacterHP();
+	UpdateBossHP();
 
 	glEnd();
 }
 
-void HUD::Update()
+void HUD::UpdateCharacterHP()
 {
 	Character* inputCharacter = dynamic_cast<Character*>(EngineManager::GetInputCharacter());
 
@@ -240,4 +249,15 @@ void HUD::Update()
 			break;
 		}
 	}
+}
+
+void HUD::UpdateBossHP()
+{
+	GameObject* temp = EngineManager::GetGameObject("BossHPHealth");
+
+	//Needs to get Boss object and access health
+	float currentBossHealth = 70;
+
+	temp->SetScale({ currentBossHealth / 10, 1, 0 });
+	
 }
