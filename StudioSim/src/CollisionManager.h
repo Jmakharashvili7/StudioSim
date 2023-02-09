@@ -72,6 +72,7 @@ public:
 		return collisionX && collisionY;
 	}
 private:
+	
 	CollisionHelper() {};
 	~CollisionHelper() {};
 };
@@ -88,7 +89,7 @@ public:
 	/// </summary>
 	PhysicsComponent* m_PhysicsObject[2];
 
-	float restitution = 0.1f;
+	float restitution = 0.0f;
 
 	Vector3 m_contactNormal = Vector3(0.0f, 1.0f, 0.0f);
 

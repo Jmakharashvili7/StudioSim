@@ -30,6 +30,8 @@ public:
 	virtual inline void SetMovementSpeed(const float newSpeed) { m_movementData.movementSpeed = newSpeed; }
 	inline MovementData GetMovementData() { return m_movementData; }
 	virtual const inline FacingDirection GetFacingDirection() const { return m_facingDirection; }
+	virtual const inline bool GetHittingWallLeft() const { return m_bHitLeftWall; }
+	virtual const inline bool GetHittingWallRight() const { return m_bHitRightWall; }
 
 	// Animation
 	virtual void SetIdleAnimation();
@@ -72,7 +74,13 @@ protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
+<<<<<<< Updated upstream
 	bool m_CanMove = false;
+=======
+	bool m_CanMove;
+	bool m_bHitLeftWall = false;
+	bool m_bHitRightWall = false;
+>>>>>>> Stashed changes
 	FacingDirection m_facingDirection = FacingDirection::RIGHT;
 	
 	// Entity

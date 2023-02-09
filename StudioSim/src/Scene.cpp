@@ -247,19 +247,32 @@ void Scene::HandleInput()
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
+				if (inputCharacter->GetHittingWallLeft())
+				{
+					inputCharacter->AdjustPosition(Vector3(-(inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				}
 				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+
 			}
 
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
+				if (inputCharacter->GetHittingWallRight())
+				{
+					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				}
 				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+
 			}
+
+			
 
 			// IDLE
 			if (inputComponent->GetKeyUp('d') && !inputComponent->GetKeyDown('a') || inputComponent->GetKeyUp('a') && !inputComponent->GetKeyDown('d'))
 			{
 				inputCharacter->SetIdleAnimation();
+
 			}
 
 			if (inputComponent->GetKeyPressed('z'))
