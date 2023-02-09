@@ -70,6 +70,7 @@
     <ClCompile Include="src\PontiffUltimateState.cpp" />
     <ClCompile Include="src\PontiffBaseState.cpp" />
     <ClCompile Include="src\PontiffFireState.cpp" />
+    <ClCompile Include="src\GridEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="src\PontiffUltimateState.h" />
     <ClInclude Include="src\PontiffBaseState.h" />
     <ClInclude Include="src\PontiffFireState.h" />
+    <ClInclude Include="src\GridEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />

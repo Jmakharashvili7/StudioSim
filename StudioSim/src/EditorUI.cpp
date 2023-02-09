@@ -392,11 +392,21 @@ vector<Vector3> EditorUI::ConvertClickToScreen(Vector2 viewStart, Vector2 port)
 	floats.z = ndc.z - integers.z;
 	values.push_back(floats);
 
+	if (Quack::GetUILayer()->GetGridEditorActive())
+	{
+		Quack::GetUILayer()->GetGridEditor()->SetNode(Quack::GetGrid().GetGridObject({ ndc.x, ndc.y, 0.0f }));
+	}
+
 	return values;
 }
 
 void EditorUI::SnapOnGrid(vector<Vector3> values)
 {
+	if (Quack::GetUILayer()->GetGridEditorActive())
+	{
+		return;
+	}
+
 	if (values[1].x >= 0)
 	{
 		if (values[1].x >= 0.25 && values[1].x <= 0.75)
@@ -492,6 +502,8 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 	{
 		m_mouseWorldPos.z = values[0].z + values[1].z;
 	}
+
+
 
 	m_object->SetPosition(m_mouseWorldPos);
 

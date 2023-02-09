@@ -3,8 +3,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -1.5,
-            "y": -0.5,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "collisionType": 0,
@@ -36,8 +36,8 @@
         "name": "Jaba",
         "objectType": 2,
         "position": {
-            "x": -1.5,
-            "y": -0.5,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "radius": 1.0,
@@ -362,9 +362,9 @@
         "bconsumeInput": false,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -3.5,
-            "y": -0.5,
-            "z": 0.0
+            "x": 0.08467753231525421,
+            "y": 0.6708893775939941,
+            "z": 0.24932169914245605
         },
         "collisionType": 0,
         "colors": [
@@ -395,9 +395,9 @@
         "name": "MiniPontiff",
         "objectType": 3,
         "position": {
-            "x": -3.5,
-            "y": -0.5,
-            "z": 0.0
+            "x": 0.08467753231525421,
+            "y": 0.6708893775939941,
+            "z": 0.24932169914245605
         },
         "radius": 0.0,
         "rotation": {
