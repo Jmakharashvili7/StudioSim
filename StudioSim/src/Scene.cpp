@@ -158,7 +158,13 @@ void Scene::Update()
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	if (m_gameObjectsToAdd.size() > 0)
+	// Make the camera and the background follow the player
+	Vector3 playerPos = EngineManager::GetInputCharacter()->GetPosition();
+	m_activeCamera->SetPosition(playerPos.GetglmVec3());
+	playerPos.y = 0;
+	m_gameObjects[1]->SetPosition(playerPos);
+
+	if (!m_gameObjectsToAdd.empty())
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
 		{
@@ -167,7 +173,7 @@ void Scene::Update()
 		m_gameObjectsToAdd.clear();
 	}
 	
-	if (m_gameObjectsToRemove.size() > 0)
+	if (!m_gameObjectsToRemove.empty())
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
 		{
