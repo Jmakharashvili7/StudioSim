@@ -56,8 +56,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -5.083176136016846,
-            "y": 3.5,
+            "x": -4.5,
+            "y": 2.5,
             "z": 0.0
         },
         "centerPositionOffset": {
@@ -94,8 +94,8 @@
         "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": -5.083176136016846,
-            "y": 3.5,
+            "x": -4.5,
+            "y": 2.5,
             "z": 0.0
         },
         "radius": 1.0,
@@ -433,5 +433,145 @@
             0.0
         ]
     },
-    "ObjectCount": 4
+    "GameObject4": {
+        "EnemyType": 0,
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 23,
+                "blooping": true,
+                "playRate": 25.0,
+                "rowName": "Death",
+                "rowNumber": 0
+            },
+            "animRowData1": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 25.0,
+                "rowName": "Take Damage",
+                "rowNumber": 1
+            },
+            "animRowData2": {
+                "amountOfColumns": 2,
+                "blooping": true,
+                "playRate": 18.0,
+                "rowName": "Attack",
+                "rowNumber": 2
+            },
+            "animRowData3": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 4.428999900817871,
+                "rowName": "Move",
+                "rowNumber": 3
+            },
+            "animRowData4": {
+                "amountOfColumns": 9,
+                "blooping": true,
+                "playRate": 25.0,
+                "rowName": "idle",
+                "rowNumber": 4
+            },
+            "numOfAnim": 5
+        },
+        "banimated": true,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": -3.779651641845703,
+            "y": 2.749941349029541,
+            "z": 0.24994122982025146
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 1.0,
+        "jumpHeight": 0.0,
+        "mass": 1.0,
+        "maxHealth": 0.0,
+        "movementSpeed": 0.0,
+        "name": "fml",
+        "objectType": 3,
+        "position": {
+            "x": -3.779651641845703,
+            "y": 2.749941349029541,
+            "z": 0.24994122982025146
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "scale": {
+            "x": -3.5,
+            "y": 3.5,
+            "z": 1.0
+        },
+        "size": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "texCoords": [
+            0.260869562625885,
+            0.4000000059604645,
+            0.30434781312942505,
+            0.4000000059604645,
+            0.30434781312942505,
+            0.6000000238418579,
+            0.30434781312942505,
+            0.6000000238418579,
+            0.260869562625885,
+            0.6000000238418579,
+            0.260869562625885,
+            0.4000000059604645
+        ],
+        "textureName": "NightBorne.png",
+        "totalColumns": 23,
+        "totalRows": 5,
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "ObjectCount": 5
 }

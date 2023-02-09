@@ -4,6 +4,7 @@
 #include "AIComponent.h"
 #include "RangedAIComponent.h"
 #include "Quack.h"
+#include "Animate.h"
 
 Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, EnemyType enemyType) 
 	: Character{ name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData }
@@ -27,6 +28,7 @@ Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformD
 		AddComponent(m_aiComponent);
 		break;
 	}
+	m_animator->SetAnimationRowNumber(0);
 }
 
 Enemy::~Enemy()
@@ -35,7 +37,7 @@ Enemy::~Enemy()
 
 void Enemy::Update(const float deltaTime)
 {
-	Character::Update(deltaTime);
+	Character::Update(deltaTime);	
 }
 
 void Enemy::OnCollision(GameObject* collidingObject)

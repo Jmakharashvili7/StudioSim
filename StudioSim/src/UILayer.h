@@ -104,6 +104,8 @@ private:
 	void ObjectCollisionData(TransformData data);
 	void ObjectTextureName();
 	void EnemyTypeContent();
+
+	inline bool GetPlayStatus() { return inPlay; }
 private:
 	float m_time;
 	bool inEditor = true;

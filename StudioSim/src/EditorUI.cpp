@@ -237,7 +237,7 @@ void EditorUI::Render()
 
 						ImGui::PushItemWidth(m_ItemWidth);
 						int totalColumns = actorObject->GetAnimationDataTotalColumns();
-						ImGui::SliderInt("Total Columns", &totalColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						ImGui::SliderInt("Total Columns", &totalColumns, 0, 100, NULL, ImGuiSliderFlags_AlwaysClamp);
 						if (actorObject->GetAnimationDataTotalColumns() != totalColumns)
 						{
 							actorObject->SetAnimationDataTotalColumns(totalColumns);
@@ -272,7 +272,7 @@ void EditorUI::Render()
 							ImGui::PushItemWidth(m_ItemWidth);
 							int numberOfColumns = actorObject->GetAnimationDataNumberOfColumns(i);
 							std::string animationColumnsTotalLabel = "Animation Columns " + to_string(i);
-							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 100, NULL, ImGuiSliderFlags_AlwaysClamp);
 							if (actorObject->GetAnimationDataNumberOfColumns(i) != numberOfColumns)
 							{
 								actorObject->SetAnimationDataNumberOfColumns(i, numberOfColumns);

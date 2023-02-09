@@ -59,7 +59,8 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	
+	if(key.KeyCode() == 6)
+
 }
 
 void ViewportUI::HandleMouseInput(MouseEvent e)
