@@ -19190,7 +19190,7 @@
     "GameObject3": {
         "centerPosition": {
             "x": 139.0,
-            "y": 2.0,
+            "y": 4.0,
             "z": 0.0
         },
         "collisionType": 2,
@@ -19218,7 +19218,7 @@
         "objectType": 0,
         "position": {
             "x": 139.0,
-            "y": 2.0,
+            "y": 4.0,
             "z": 0.0
         },
         "radius": 0.0,
