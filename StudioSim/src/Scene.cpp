@@ -249,13 +249,8 @@ void Scene::HandleInput()
 			{
 				if (!inputCharacter->GetHittingWallLeft()) 
 				{
-					//if (inputCharacter->GetJumping() && inputCharacter->GetCollidingWithGround())
-					//inputCharacter->AdjustPositionCollision(Vector3(-((inputCharacter->GetMovementSpeed() + 0.0f) * deltaTime), 0.0f, 0.0f));
 					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
-				//else
-					
-
 			}
 
 			// MOVE LEFT
@@ -263,21 +258,15 @@ void Scene::HandleInput()
 			{
 				if (!inputCharacter->GetHittingWallRight())
 				{
-					//inputCharacter->AdjustPositionCollision(Vector3(((inputCharacter->GetMovementSpeed() + 0.0f) * deltaTime), 0.0f, 0.0f));
+					
 					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
-				//else
-					
-
 			}
-
-			
 
 			// IDLE
 			if (inputComponent->GetKeyUp('d') && !inputComponent->GetKeyDown('a') || inputComponent->GetKeyUp('a') && !inputComponent->GetKeyDown('d'))
 			{
 				inputCharacter->SetIdleAnimation();
-
 			}
 
 			if (inputComponent->GetKeyPressed('z'))

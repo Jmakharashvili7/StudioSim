@@ -217,16 +217,6 @@ void Character::AdjustPositionCollision(const Vector3 adjustPosition)
 		}
 	}
 
-	/*if (adjustPosition.x > 0 && m_bHitRightWall)
-	{
-		return;
-	}
-
-	if (adjustPosition.x < 0 && m_bHitLeftWall)
-	{
-		return;
-	}*/
-
 	const Vector3 newPosition = GetPosition();
 
 	if (m_combatComponent)
