@@ -92,6 +92,8 @@ private:
 	bool m_StopInput = true;
 
 	HUD* m_HUD;
+	bool m_HideHUD;
+	bool m_HideBossHUD;
 
 	// idk if we need this
 	////Frame related variables

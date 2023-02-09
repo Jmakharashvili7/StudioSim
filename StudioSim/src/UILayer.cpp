@@ -157,6 +157,7 @@ void UILayer::EnableDocking()
 
 					inEditor = false;
 					inPlay = true;
+					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetGameZoom());
 				}
 			}
 
@@ -176,6 +177,7 @@ void UILayer::EnableDocking()
 
 					inEditor = true;
 					inPlay = false;
+					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetZoom());
 
 				}
 			}

@@ -45,7 +45,10 @@ void ViewportUI::Render()
 
 		if (Quack::GetOrthoCam())
 		{
-			Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
+			Quack::GetOrthoCam()->RecalculateViewMatix();
+			Quack::GetOrthoCam()->RecalculateProjection(-6 * aspect, 6 * aspect, -6, 6);
+
+			//Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
 		}
 
 	}
@@ -59,7 +62,7 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	
+
 }
 
 void ViewportUI::HandleMouseInput(MouseEvent e)
@@ -99,6 +102,7 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 				Quack::GetOrthoCam()->SetZoom(newZoom);
 
 				Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
+				//Quack::GetOrthoCam()->RecalculateProjection(-6.0f * aspect, 6.0f * aspect, -6.0f, 6.0f);
 			}
 		}
 

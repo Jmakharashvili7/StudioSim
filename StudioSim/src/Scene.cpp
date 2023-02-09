@@ -33,7 +33,10 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects);
 	m_gameTimer.Start();
 
+	//Setup HUD
 	m_HUD = new HUD();
+	m_HideHUD = false;
+	m_HideBossHUD = true;
 
 	// Update engine manager
 	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
@@ -49,7 +52,9 @@ void Scene::RenderScene()
 
 	Render();
 
-	m_HUD->Draw();
+	m_HUD->DrawCharacterHP(m_HideHUD);
+
+	m_HUD->DrawBossHP(m_HideBossHUD);
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_window->GetGLFWWindow());
@@ -187,6 +192,9 @@ void Scene::Update()
 		if (gameObject) gameObject->Update(deltaTime);
 	}
 
+	Quack::GetOrthoCam()->SetPosition({ EngineManager::GetGameObject("Jessica")->GetPosition().x, Quack::GetOrthoCam()->GetPosition().y, Quack::GetOrthoCam()->GetPosition().z });
+	Quack::GetUILayer()->GetViewport()->SetPosition({ Quack::GetOrthoCam()->GetDimensions().x, Quack::GetOrthoCam()->GetDimensions().y});
+
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(Quack::GetWindow()->GetGLFWWindow(), &xpos, &ypos);
@@ -266,10 +274,20 @@ void Scene::HandleInput()
 			{
 				inputCharacter->SetIdleAnimation();
 			}
-
+			// DASH
 			if (inputComponent->GetKeyPressed('z'))
 			{
 				inputCharacter->AttemptToDash();
+			}
+			// HIDE PLAYER HUD
+			if (inputComponent->GetKeyPressed('m'))
+			{
+				m_HideHUD = !m_HideHUD;
+			}
+			// HIDE BOSS HUD
+			if (inputComponent->GetKeyPressed('b'))
+			{
+				m_HideBossHUD = !m_HideBossHUD;
 			}
 		}
 	}

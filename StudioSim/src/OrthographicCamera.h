@@ -19,10 +19,11 @@ public:
 
 	inline void SetZoom(float zoom) { m_Zoom = zoom; }
 	inline float GetZoom() { return m_Zoom; }
+	inline float GetGameZoom() { return m_gameZoom; }
 	inline float GetZoomSpeed() { return m_ZoomSpeed; }
 
 	inline void SetCanZoom(bool canZoom) { m_CanZoom = canZoom; }
-	inline bool GetCanZoom() { return m_CanZoom; }
+	inline bool GetCanZoom() { return m_CanZoom; }	
 
 	const glm::mat4& GetProjectionMatrix() const { return m_projectionMatrix; }
 	const glm::mat4& GetViewMatrix() const { return m_viewMatrix; }
@@ -30,7 +31,6 @@ public:
 	const Matrix4 GetViewProjMatrix() const { return m_viewProj; }
 
 	void RecalculateProjection(float l, float r, float b, float t);
-private:
 	void RecalculateViewMatix();
 private:
 	glm::mat4 m_projectionMatrix;
@@ -43,6 +43,7 @@ private:
 	float m_rotation = 0.0f;
 
 	float m_Zoom;
+	float m_gameZoom;
 	float m_ZoomSpeed;
 
 	bool m_CanZoom : 1;

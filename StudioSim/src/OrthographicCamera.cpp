@@ -9,6 +9,7 @@ OrthographicCamera::OrthographicCamera(float l, float r, float b, float t) :
 	m_dimensions(l, r, b, t)
 {
 	m_Zoom = 5.0f;
+	m_gameZoom = 6.0f;
 	m_ZoomSpeed = 0.25f;
 
 	m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;

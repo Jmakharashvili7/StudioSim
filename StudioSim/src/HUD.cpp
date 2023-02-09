@@ -4,87 +4,110 @@
 #include "UILayer.h"
 #include "EngineManager.h"
 
-
 HUD::HUD()
 {
+
 }
 
 HUD::~HUD()
 {
 }
 
-void HUD::Draw()
+void HUD::DrawCharacterHP(bool hidden)
 {
-	//Size of viewport
-	//double port_x = m_uiMain->GetViewport()->GetSize().x;
-	//double port_y = m_uiMain->GetViewport()->GetSize().y;
-
-	float port_x = Quack::GetUILayer()->GetViewport()->GetSize().x;
-	float port_y = Quack::GetUILayer()->GetViewport()->GetSize().y;
+	//float port_x = Quack::GetUILayer()->GetViewport()->GetSize().x;
+	//float port_y = Quack::GetUILayer()->GetViewport()->GetSize().y;
 
 	OrthographicCamera* camera = Quack::GetOrthoCam();
 	glm::vec4 camDimensions = camera->GetDimensions();
 	float camPort_x = camera->GetPosition().x;
 	float camPort_y = camera->GetPosition().y;
 
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0.0, port_x, port_y, 0.0, -1.0, 10.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glDisable(GL_CULL_FACE);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	if (hidden == false)
+	{
+		//Health Hearts
+		GameObject* temp = EngineManager::GetGameObject("Heart0");
+		temp->SetPosition({ camPort_x + camDimensions.x + 0.45f, camPort_y + camDimensions.w - 0.5f, 0.0f });
 
-	glBegin(GL_QUADS);
+		GameObject* temp1 = EngineManager::GetGameObject("Heart1");
+		temp1->SetPosition({ camPort_x + camDimensions.x + 1.25f, camPort_y + camDimensions.w - 0.5f, 0.0f });
 
-	//Health bar
-	GameObject* temp = EngineManager::GetGameObject("Heart0");
-	temp->SetPosition({ camPort_x + camDimensions.x + 1, camPort_y + camDimensions.z + 1, 0.0f });
-	
-	GameObject* temp1 = EngineManager::GetGameObject("Heart1");
-	temp1->SetPosition({ camPort_x + camDimensions.x + 2, camPort_y + camDimensions.z + 1, 0.0f });
-	
-	GameObject* temp2 = EngineManager::GetGameObject("Heart2");
-	temp2->SetPosition({ camPort_x + camDimensions.x + 3, camPort_y + camDimensions.z + 1, 0.0f });
-	
-	GameObject* temp3 = EngineManager::GetGameObject("Heart3");
-	temp3->SetPosition({ camPort_x + camDimensions.x + 4, camPort_y + camDimensions.z + 1, 0.0f });
-	
-	GameObject* temp4 = EngineManager::GetGameObject("Heart4");
-	temp4->SetPosition({ camPort_x + camDimensions.x + 5, camPort_y + camDimensions.z + 1, 0.0f });
+		GameObject* temp2 = EngineManager::GetGameObject("Heart2");
+		temp2->SetPosition({ camPort_x + camDimensions.x + 2.0f, camPort_y + camDimensions.w - 0.5f, 0.0f });
 
-	GameObject* temp5 = EngineManager::GetGameObject("BossHPBack");
-	temp5->SetPosition({ camPort_x, camPort_y + camDimensions.w - 0.5f, 0.0f });
+		GameObject* temp3 = EngineManager::GetGameObject("Heart3");
+		temp3->SetPosition({ camPort_x + camDimensions.x + 2.75f, camPort_y + camDimensions.w - 0.5f, 0.0f });
 
-	GameObject* temp6 = EngineManager::GetGameObject("BossHPHealth");
-	temp6->SetPosition({ camPort_x, camPort_y + camDimensions.w - 0.5f, 0.0f });
+		GameObject* temp4 = EngineManager::GetGameObject("Heart4");
+		temp4->SetPosition({ camPort_x + camDimensions.x + 3.5f, camPort_y + camDimensions.w - 0.5f, 0.0f });
+	}
+	else
+	{
+		//Health Hearts
+		GameObject* temp = EngineManager::GetGameObject("Heart0");
+		temp->SetPosition({ camPort_x + camDimensions.x + 0.45f, camPort_y + camDimensions.w + 1, 0.0f });
 
-	GameObject* temp7 = EngineManager::GetGameObject("BossHPFancy");
-	temp7->SetPosition({ camPort_x, camPort_y + camDimensions.w - 0.5f, 0.0f });
-	////Health bar
-	//glColor3f(1.0f, 1.0f, 0.0f);
-	//glVertex2f(0.0, port_y - 100);
-	//glVertex2f(400.0, port_y - 100);
-	//glVertex2f(400.0, port_y);
-	//glVertex2f(0.0, port_y);
-	////Blood meter
-	//glColor3f(1.0f, 0.0f, 0.0f);
-	//glVertex2f(port_x - 400.0, port_y - 100);
-	//glVertex2f(port_x, port_y - 100);
-	//glVertex2f(port_x, port_y);
-	//glVertex2f(port_x - 400, port_y);
-	////Coins?
-	//glColor3f(0.0f, 0.0f, 1.0f);
-	//glVertex2f(0.0, 0.0);
-	//glVertex2f(200.0, 0.0);
-	//glVertex2f(200.0, 100.0);
-	//glVertex2f(0.0, 100.0);
+		GameObject* temp1 = EngineManager::GetGameObject("Heart1");
+		temp1->SetPosition({ camPort_x + camDimensions.x + 1.25f, camPort_y + camDimensions.w + 1, 0.0f });
+
+		GameObject* temp2 = EngineManager::GetGameObject("Heart2");
+		temp2->SetPosition({ camPort_x + camDimensions.x + 2.0f, camPort_y + camDimensions.w + 1, 0.0f });
+
+		GameObject* temp3 = EngineManager::GetGameObject("Heart3");
+		temp3->SetPosition({ camPort_x + camDimensions.x + 2.75f, camPort_y + camDimensions.w + 1, 0.0f });
+
+		GameObject* temp4 = EngineManager::GetGameObject("Heart4");
+		temp4->SetPosition({ camPort_x + camDimensions.x + 3.5f, camPort_y + camDimensions.w + 1, 0.0f });
+	}
 
 	UpdateCharacterHP();
-	UpdateBossHP();
+}
 
-	glEnd();
+void HUD::DrawBossHP(bool hidden)
+{
+	//float port_x = Quack::GetUILayer()->GetViewport()->GetSize().x;
+	//float port_y = Quack::GetUILayer()->GetViewport()->GetSize().y;
+
+	OrthographicCamera* camera = Quack::GetOrthoCam();
+	glm::vec4 camDimensions = camera->GetDimensions();
+	float camPort_x = camera->GetPosition().x;
+	float camPort_y = camera->GetPosition().y;
+	if (hidden == false)
+	{
+		//Boss Health Bar
+		GameObject* temp0 = EngineManager::GetGameObject("BossHPBack");
+		temp0->SetPosition({ camPort_x, camPort_y + camDimensions.z + 0.5f, 0.0f });
+
+		GameObject* temp1 = EngineManager::GetGameObject("BossHPHealth");
+		temp1->SetPosition({ camPort_x, camPort_y + camDimensions.z + 0.5f, 0.0f });
+
+		GameObject* temp2 = EngineManager::GetGameObject("BossHPFancy");
+		temp2->SetPosition({ camPort_x, camPort_y + camDimensions.z + 0.5f, 0.0f });
+	}
+	else
+	{
+		//Boss Health Bar
+		GameObject* temp0 = EngineManager::GetGameObject("BossHPBack");
+		temp0->SetPosition({ camPort_x, camPort_y + camDimensions.z - 1, 0.0f });
+
+		GameObject* temp1 = EngineManager::GetGameObject("BossHPHealth");
+		temp1->SetPosition({ camPort_x, camPort_y + camDimensions.z - 1, 0.0f });
+
+		GameObject* temp2 = EngineManager::GetGameObject("BossHPFancy");
+		temp2->SetPosition({ camPort_x, camPort_y + camDimensions.z - 1, 0.0f });
+	}
+	UpdateBossHP();
+}
+
+void HUD::UpdateBossHP()
+{
+	GameObject* temp = EngineManager::GetGameObject("BossHPHealth");
+
+	//Needs to get Boss object and access health
+	float currentBossHealth = 100;
+
+	temp->SetScale({ currentBossHealth / 10, 0.5, 0 });
+
 }
 
 void HUD::UpdateCharacterHP()
@@ -251,13 +274,3 @@ void HUD::UpdateCharacterHP()
 	}
 }
 
-void HUD::UpdateBossHP()
-{
-	GameObject* temp = EngineManager::GetGameObject("BossHPHealth");
-
-	//Needs to get Boss object and access health
-	float currentBossHealth = 70;
-
-	temp->SetScale({ currentBossHealth / 10, 1, 0 });
-	
-}
