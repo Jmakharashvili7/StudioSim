@@ -18,7 +18,9 @@ private:
 	float m_distance;
 	float m_traveled;
 	float m_speed;
+	float m_chargeDelay;
 
+	bool m_delayed;
 	bool m_attacked;
 	bool m_teleported;
 	bool m_directionChange;

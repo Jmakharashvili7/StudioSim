@@ -206,14 +206,14 @@ namespace nlohmann
 namespace QuackEngine {
 	namespace JsonLoader {
 
-		static VertexData* LoadObjectData2D(const std::string& path)
+		static VertexData* LoadObjectData2D(const std::string& name)
 		{
-			std::ifstream file(path);
+			std::ifstream file("res/ObjectData/" + name + ".json");
 
 			// check if the file was found
 			if (!file)
 			{
-				QE_LOG(path + " does not exist!");
+				QE_LOG(name + " does not exist!");
 				return new VertexData();
 			}
 
@@ -296,14 +296,7 @@ namespace QuackEngine {
 				{
 					Enemy* enemy = static_cast<Enemy*>(obj);
 
-					if (enemy->GetEnemyType() != EnemyType::MINI_PONTIFF)
-					{
-						enemy->GetAIComponent()->SetGrid(grid);
-					}
-					else
-					{
-						enemy->GetAIComponent()->SetGrid(grid);
-					}
+					enemy->GetAIComponent()->SetGrid(grid);
 				}
 			}
 			

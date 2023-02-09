@@ -15,10 +15,10 @@ public:
 	void OnCollisionOver(GameObject* gameObject) override;
 
 	void SwitchState(PontiffState* newState);
-	//inline RangedAIComponent* GetAIComponent() { return m_rangedAIComponent; }
-private:
+
 	// Teleports to a position in the world
 	void Blink(Vector3 pos);
+private:
 
 	// A slash attack in both directions
 	void WideSlash(float attackSpeed);
@@ -34,9 +34,7 @@ private:
 
 	// Stand menacingly
 	void Wait(float deltaTime, float duration);
-
 private:
 	PontiffState* m_state;
-	//RangedAIComponent* m_rangedAIComponent;
 };
 

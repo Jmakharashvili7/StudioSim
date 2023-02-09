@@ -16,7 +16,7 @@ UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 1.0f, 1.0f)
 {
 	newObjectInfo = CreatClassInfo();
 
-	vertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
+	vertexData = QuackEngine::JsonLoader::LoadObjectData2D("Square");
 }
 
 UILayer::~UILayer()

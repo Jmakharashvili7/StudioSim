@@ -21,10 +21,11 @@ MiniPontiff::~MiniPontiff()
 
 void MiniPontiff::Update(const float deltaTime)
 {
-	//Enemy::Update(deltaTime);
 	for (Component* component : m_components)
 	{
 		AIComponent* aiComp = dynamic_cast<AIComponent*>(component);
+
+		// Dont update AI component as its manually called in the right state
 		if (aiComp == nullptr)
 			component->Update(deltaTime);
 	}

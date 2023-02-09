@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "AttackHitbox.h"
 
 class EnemyProjectile : public GameObject
 {

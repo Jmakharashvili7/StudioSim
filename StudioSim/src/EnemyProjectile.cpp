@@ -10,6 +10,8 @@ EnemyProjectile::EnemyProjectile(std::string projName, float speed, Vector3 dir,
 	m_speed(speed),
 	m_direction(dir)
 {
+	VertexData* vertexData = JsonLoader::LoadObjectData2D("Square");
+	TransformData transform = TransformData(m_transform->GetPosition(), m_transform->GetRotation(), m_transform->GetScale());
 	m_transform->SetPosition(pos);
 	m_type = GameObjectType::PROJECTILE;
 }
@@ -20,7 +22,7 @@ void EnemyProjectile::Update(float deltaTime)
 
 	AdjustPosition(travel);
 
-	m_distanceTraveled+= travel.Length();
+	m_distanceTraveled += travel.Length();
 	if (m_distanceTraveled >= 10.0f)
 	{
 		Quack::GetCurrentScene()->RemoveGameObject(this);

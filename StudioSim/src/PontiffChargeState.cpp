@@ -13,7 +13,9 @@ PontiffChargeState::PontiffChargeState(MiniPontiff* pontiff) :
 	m_teleported(false),
 	m_speed(9.0f),
 	m_distance(5.0f),
-	m_directionChange(false)
+	m_directionChange(false),
+	m_chargeDelay(0.5),
+	m_delayed(false)
 {
 	m_player = EngineManager::GetInputCharacter();
 	m_timer = 0.7f;
@@ -21,8 +23,10 @@ PontiffChargeState::PontiffChargeState(MiniPontiff* pontiff) :
 
 void PontiffChargeState::Update(float deltaTime)
 {
+	// Charge x amount of times
 	if (m_chargeCounter < m_chargeNum)
 	{
+		// Teleport next to the enemy if we haven't this charge
 		if (!m_teleported)
 		{
 			// teleport boss
@@ -37,34 +41,48 @@ void PontiffChargeState::Update(float deltaTime)
 				spawnPos.x += 2;
 				m_directionChange = !m_directionChange;
 			}
-			m_pontiff->SetPosition(spawnPos);
+			m_pontiff->Blink(spawnPos);
 			m_originPos = spawnPos;
 
 			// set direction to the player
 			m_direction = Vector3::Direction(m_pontiff->GetPosition(), m_player->GetPosition());
-			m_direction.y = 0.0f;
-			m_direction.z = 0.0f;
 			m_teleported = true;
 		}
 		else
 		{
 			if (!m_attacked)
 			{
-				Vector3 traveledDistance = deltaTime * m_direction * m_speed;
-				m_pontiff->AdjustPosition(traveledDistance);
-				m_traveled += traveledDistance.Length();
-				if (m_traveled >= m_distance)
+				// Add a delay before the charge
+				if (!m_delayed)
 				{
-					m_attacked = true;
-					m_traveled = 0;
-					m_chargeCounter++;
+					m_currTime += deltaTime;
+					if (m_currTime >= m_chargeDelay)
+					{
+						m_delayed = true;
+						m_currTime = 0.0f;
+					}
+				}
+				// Charge at the enemy and dissapear
+				else
+				{
+					Vector3 traveledDistance = deltaTime * m_direction * m_speed;
+					m_pontiff->AdjustPosition(traveledDistance);
+					m_traveled += traveledDistance.Length();
+					if (m_traveled >= m_distance)
+					{
+						m_attacked = true;
+						m_delayed = false;
+						m_traveled = 0;
+						m_chargeCounter++;
 
-					// put pontiff off screen
-					m_pontiff->SetPosition({-999999.0f, 0.0f, 0.0f});
+						// put pontiff off screen
+						m_pontiff->SetPosition({ -999999.0f, 0.0f, 0.0f });
+					}
 				}
 			}
 			else
 			{
+				// delay before starting the next charge
 				m_currTime += deltaTime;
 				if (m_currTime >= m_timer)
 				{
@@ -77,6 +95,7 @@ void PontiffChargeState::Update(float deltaTime)
 	}
 	else
 	{
+		// Charges are done so return to base state
 		m_currTime += deltaTime;
 		if (m_currTime >= m_timer)
 		{
