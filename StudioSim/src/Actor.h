@@ -70,8 +70,8 @@ public:
 	virtual const AnimationRowData& GetCurrentAnimation();
 
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject);
-	virtual void RemoveCollision(GameObject* gameObject);
+	virtual void OnCollision(GameObject* collidingObject);
+	virtual void OnCollisionOver(GameObject* gameObject);
 	virtual void SetCollidingWithGround(const bool bcollidingWithGround);
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
 	virtual bool HasObjectsCollidingWithName(const std::string objectName);

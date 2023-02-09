@@ -74,13 +74,9 @@ protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
-<<<<<<< Updated upstream
 	bool m_CanMove = false;
-=======
-	bool m_CanMove;
 	bool m_bHitLeftWall = false;
 	bool m_bHitRightWall = false;
->>>>>>> Stashed changes
 	FacingDirection m_facingDirection = FacingDirection::RIGHT;
 	
 	// Entity

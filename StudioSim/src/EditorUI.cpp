@@ -603,7 +603,7 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 
 	if (m_object)
 	{
-		m_object->SetPosition(finalPosition);
+		m_object->SetPosition(m_mouseWorldPos);
 	}
 }
 

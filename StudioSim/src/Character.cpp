@@ -158,12 +158,11 @@ void Character::OnCollision(GameObject* collidingObject)
 		
 	}
 
-	Actor::AddCollision(collidingObject);
+	Actor::OnCollision(collidingObject);
 }
 
 void Character::OnCollisionOver(GameObject* gameObject)
 {
-	GameObject::RemoveCollision(gameObject);
 
 	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
 	{
@@ -173,8 +172,6 @@ void Character::OnCollisionOver(GameObject* gameObject)
 			StartAnimation("jump");
 		}
 	}
-<<<<<<< Updated upstream
-=======
 	if (gameObject->GetName() == "wall" || gameObject->GetName() == "Wall")
 	{
 		//StartAnimation("jump");
@@ -182,8 +179,8 @@ void Character::OnCollisionOver(GameObject* gameObject)
 		m_bHitRightWall = false;
 	}
 
-	Actor::RemoveCollision(gameObject);
->>>>>>> Stashed changes
+	GameObject::OnCollisionOver(gameObject);
+	//Actor::OnCollisionOver(gameObject);
 }
 
 void Character::Jump()
