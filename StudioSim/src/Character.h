@@ -17,6 +17,9 @@ public:
 	// Collision
 	virtual void OnCollision(GameObject* collidingObject) override;
 	virtual void OnCollisionOver(GameObject* gameObject) override;
+	virtual const inline bool GetHittingWallLeft() const { return m_bHitLeftWall; }
+	virtual const inline bool GetHittingWallRight() const { return m_bHitRightWall; }
+	virtual void AdjustPositionCollision(const Vector3 adjustPosition);
 
 	// Jumping
 	void Jump();
@@ -30,8 +33,6 @@ public:
 	virtual inline void SetMovementSpeed(const float newSpeed) { m_movementData.movementSpeed = newSpeed; }
 	inline MovementData GetMovementData() { return m_movementData; }
 	virtual const inline FacingDirection GetFacingDirection() const { return m_facingDirection; }
-	virtual const inline bool GetHittingWallLeft() const { return m_bHitLeftWall; }
-	virtual const inline bool GetHittingWallRight() const { return m_bHitRightWall; }
 
 	// Animation
 	virtual void SetIdleAnimation();

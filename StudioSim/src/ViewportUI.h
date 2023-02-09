@@ -18,4 +18,5 @@ public:
 private:
 	float startViewportX;
 	float startViewportY;
+	glm::vec3 m_newPosition;
 };

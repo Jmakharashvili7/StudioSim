@@ -45,6 +45,7 @@ public:
 
 	void ClearAccumulator();
 
+	void SetHitWall(const bool bHitRightWall, const bool bHitLeftWall);
 
 	float GetSpeed() { return  m_Velocity.Length(); }
 	Vector3 GetDirection() { return Vector3::Normalize(m_Velocity); }
@@ -52,7 +53,6 @@ public:
 	void AddForce(const Vector3& force);
 
 	void SetOnGround(const bool bOnGround);
-	void SetHitWall(const bool bHitRightWall, const bool bHitLeftWall);
 
 	void SetSimulateGravity(const bool bSimulateGravity);
 

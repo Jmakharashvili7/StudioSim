@@ -59,8 +59,36 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	if(key.KeyCode() == 6)
+	if (key.IsHeld() || key.IsPressed())
+	{
+		switch (key.GetKeyCode())
+		{
+		case QE_KEY_LEFT_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
 
+
+		case QE_KEY_RIGHT_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+
+		case QE_KEY_UP_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+		case QE_KEY_DOWN_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 void ViewportUI::HandleMouseInput(MouseEvent e)

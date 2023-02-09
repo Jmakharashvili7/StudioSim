@@ -44,7 +44,7 @@ void Scene::RenderScene()
 {
 	m_frameBuffer->Bind();
 	/* Render here */
-	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
+	glClearColor(12.0f/255.0f, 19.0f/255.0f, 25.0f/255.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	Render();
@@ -161,7 +161,13 @@ void Scene::Update()
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	if (m_gameObjectsToAdd.size() > 0)
+	// Make the camera and the background follow the player
+	Vector3 playerPos = EngineManager::GetInputCharacter()->GetPosition();
+	m_activeCamera->SetPosition(playerPos.GetglmVec3());
+	playerPos.y = 0;
+	m_gameObjects[1]->SetPosition(playerPos);
+
+	if (!m_gameObjectsToAdd.empty())
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
 		{
@@ -170,7 +176,7 @@ void Scene::Update()
 		m_gameObjectsToAdd.clear();
 	}
 	
-	if (m_gameObjectsToRemove.size() > 0)
+	if (!m_gameObjectsToRemove.empty())
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
 		{
@@ -204,7 +210,10 @@ void Scene::Render()
 		if (gameObject) gameObject->Draw(m_activeCamera);
 	}
 
-	Renderer::DrawDebugLines(m_activeCamera);
+	if (m_StopInput)
+	{
+		Renderer::DrawDebugLines(m_activeCamera);
+	}
 }
 
 void Scene::PhysicsUpdate()
@@ -250,32 +259,25 @@ void Scene::HandleInput()
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				if (inputCharacter->GetHittingWallLeft())
+				if (!inputCharacter->GetHittingWallLeft()) 
 				{
-					inputCharacter->AdjustPosition(Vector3(-(inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
-				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-
 			}
 
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
-				if (inputCharacter->GetHittingWallRight())
+				if (!inputCharacter->GetHittingWallRight())
 				{
-					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
-				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
-
 			}
-
-			
 
 			// IDLE
 			if (inputComponent->GetKeyUp('d') && !inputComponent->GetKeyDown('a') || inputComponent->GetKeyUp('a') && !inputComponent->GetKeyDown('d'))
 			{
 				inputCharacter->SetIdleAnimation();
-
 			}
 
 			if (inputComponent->GetKeyPressed('z'))

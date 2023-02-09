@@ -263,6 +263,7 @@
     <ClInclude Include="src\PathNode.h" />
     <ClInclude Include="src\PerspectiveCamera.h" />
     <ClInclude Include="src\CollisionManager.h" />
+    <ClInclude Include="src\QEKeyboard.h" />
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />

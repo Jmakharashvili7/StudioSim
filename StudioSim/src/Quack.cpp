@@ -147,16 +147,13 @@ void Quack::HandleInput()
 {
 	if (!m_uiMain->GetInPlay())
 	{
-		if (!keyboardclass::keybufferisempty())
+		if (!KeyboardClass::KeyBufferIsEmpty())
 		{
-			keyevent key = keyboardclass::readkey();
+			KeyEvent key = KeyboardClass::ReadKey();
 
-			if (key.getkeycode() != 0)
+			if (key.GetKeyCode() != 0)
 			{
-				m_uimain->getviewport()->handlekeyboardinput(key);
-
-				if (key.getkeycode() == 'q')
-					m_mainscene = scene("mainmenu", m_uimain, m_window, m_mainscene.getframebuffer());
+				m_uiMain->GetViewport()->HandleKeyboardInput(key);
 			}
 		}
 	}

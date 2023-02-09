@@ -8,15 +8,16 @@ public:
 	OrthographicCamera(float l, float r, float b, float t);
 	OrthographicCamera(float width, float height);
 
-	inline void SetPosition(const glm::vec3& position) { m_position = position; RecalculateViewMatix(); }
+	inline void SetPosition(const glm::vec3& position) { m_position = position; RecalculateViewMatrix(); }
 	inline glm::vec3 GetPosition() { return m_position; }
 
-	inline void SetRotation(const float& rotation) { m_rotation = rotation; RecalculateViewMatix(); }
+	inline void SetRotation(const float& rotation) { m_rotation = rotation; RecalculateViewMatrix(); }
 	inline float GetRotation() { return m_rotation; }
 
 	inline void SetZoom(float zoom) { m_Zoom = zoom; }
 	inline float GetZoom() { return m_Zoom; }
 	inline float GetZoomSpeed() { return m_ZoomSpeed; }
+	inline float GetMoveSpeed() { return m_MoveSpeed; }
 
 	inline void SetCanZoom(bool canZoom) { m_CanZoom = canZoom; }
 	inline bool GetCanZoom() { return m_CanZoom; }
@@ -28,7 +29,7 @@ public:
 
 	void RecalculateProjection(float l, float r, float b, float t);
 private:
-	void RecalculateViewMatix();
+	void RecalculateViewMatrix();
 private:
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
@@ -40,6 +41,7 @@ private:
 
 	float m_Zoom;
 	float m_ZoomSpeed;
+	float m_MoveSpeed;
 
 	bool m_CanZoom : 1;
 };
