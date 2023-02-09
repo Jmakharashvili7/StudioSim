@@ -56,8 +56,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -5.0,
-            "y": 4.0,
+            "x": -5.083176136016846,
+            "y": 3.5,
             "z": 0.0
         },
         "centerPositionOffset": {
@@ -94,8 +94,8 @@
         "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": -5.0,
-            "y": 4.0,
+            "x": -5.083176136016846,
+            "y": 3.5,
             "z": 0.0
         },
         "radius": 1.0,
@@ -344,13 +344,8 @@
     },
     "GameObject3": {
         "centerPosition": {
-<<<<<<< Updated upstream
             "x": -1.5,
             "y": -1.0,
-=======
-            "x": -2.5,
-            "y": 0.0,
->>>>>>> Stashed changes
             "z": 0.0
         },
         "centerPositionOffset": {
@@ -379,19 +374,11 @@
             1.0,
             1.0
         ],
-<<<<<<< Updated upstream
         "name": "Ground",
         "objectType": 0,
         "position": {
             "x": -1.5,
             "y": -1.0,
-=======
-        "name": "Wall",
-        "objectType": 0,
-        "position": {
-            "x": -2.5,
-            "y": 0.0,
->>>>>>> Stashed changes
             "z": 0.0
         },
         "radius": 0.0,

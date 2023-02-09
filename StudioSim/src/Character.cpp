@@ -128,8 +128,6 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 
 void Character::AddCollision(GameObject* collidingObject)
 {
-	
-
 	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
 	{
 		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
@@ -137,25 +135,6 @@ void Character::AddCollision(GameObject* collidingObject)
 			SetJumping(false);
 			StartAnimation("idle", true);
 		}
-	}
-
-	
-	if (collidingObject->GetName() == "wall" || collidingObject->GetName() == "Wall")
-	{
-		/*SetJumping(false);
-		StartAnimation("idle", true);*/
-		if (m_facingDirection == FacingDirection::RIGHT)
-		{
-			 m_bHitLeftWall = true;
-			 m_bHitRightWall = false;
-		}
-		else if(m_facingDirection == FacingDirection::LEFT)
-		{
-			m_bHitLeftWall = false;
-			m_bHitRightWall = true;
-		}
-		//AdjustPosition({ -m_movementData.movementSpeed * Quack::GetDeltaTime(), 0.0f, 0.0f });
-		
 	}
 
 	Actor::AddCollision(collidingObject);
@@ -173,17 +152,6 @@ void Character::RemoveCollision(GameObject* gameObject)
 			StartAnimation("jump");
 		}
 	}
-<<<<<<< Updated upstream
-=======
-	if (gameObject->GetName() == "wall" || gameObject->GetName() == "Wall")
-	{
-		//StartAnimation("jump");
-		m_bHitLeftWall = false;
-		m_bHitRightWall = false;
-	}
-
-	Actor::RemoveCollision(gameObject);
->>>>>>> Stashed changes
 }
 
 void Character::Jump()

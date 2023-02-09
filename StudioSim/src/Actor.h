@@ -109,7 +109,6 @@ protected:
 	
 	// Collision
 	bool m_bcollidingWithGround = false;
-	
 
 	// Components
 	std::vector<Component*> m_components;
