@@ -23,7 +23,7 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::Update(float deltaTime)
 {
-	if (m_InverseMass <= 0.0f || !m_bSimulateGravity ||m_bOnGround) return;
+	if (m_InverseMass <= 0.0f || !m_bSimulateGravity || m_bOnGround) return;
 
 	m_owningActor->AdjustPosition(m_Velocity * deltaTime);
 	
@@ -50,6 +50,7 @@ void PhysicsComponent::ClearAccumulator()
 
 void PhysicsComponent::AddForce(const Vector3& force)
 {
+	SetOnGround(false);
 	m_Force += force;
 }
 
