@@ -17,7 +17,6 @@ PhysicsComponent::PhysicsComponent(Actor* owner, int updateOrder, const float ma
 	SetGravityValue(gravityMultiplier);
 	m_Contacts = new CollisionResolver();
 	m_ContactsWall = new CollisionResolver();
-
 }
 
 
@@ -46,15 +45,10 @@ void PhysicsComponent::Update(float deltaTime)
 		
 	}
 
-
 	if (m_bHitLeftWall || m_bHitRightWall)
 	{
 		m_ContactsWall->Resolve(deltaTime);
-		//Charac
 	}
-
-
-	
 }
 
 void PhysicsComponent::UpdateAccelerationByGravity()

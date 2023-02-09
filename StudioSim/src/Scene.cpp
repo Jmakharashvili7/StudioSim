@@ -247,22 +247,27 @@ void Scene::HandleInput()
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				if (inputCharacter->GetHittingWallLeft())
+				if (!inputCharacter->GetHittingWallLeft()) 
 				{
-					inputCharacter->AdjustPosition(Vector3(-(inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+					//if (inputCharacter->GetJumping() && inputCharacter->GetCollidingWithGround())
+					//inputCharacter->AdjustPositionCollision(Vector3(-((inputCharacter->GetMovementSpeed() + 0.0f) * deltaTime), 0.0f, 0.0f));
+					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
-				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				//else
+					
 
 			}
 
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
-				if (inputCharacter->GetHittingWallRight())
+				if (!inputCharacter->GetHittingWallRight())
 				{
-					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+					//inputCharacter->AdjustPositionCollision(Vector3(((inputCharacter->GetMovementSpeed() + 0.0f) * deltaTime), 0.0f, 0.0f));
+					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
-				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				//else
+					
 
 			}
 

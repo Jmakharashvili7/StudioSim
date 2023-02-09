@@ -3090,7 +3090,7 @@
             1.0
         ],
         "gravityMultiplier": 1.5,
-        "jumpHeight": 500.0,
+        "jumpHeight": 450.0,
         "mass": 1.0,
         "maxHealth": 100.0,
         "movementSpeed": 5.0,

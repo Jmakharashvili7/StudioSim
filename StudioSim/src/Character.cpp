@@ -173,14 +173,75 @@ void Character::RemoveCollision(GameObject* gameObject)
 	
 	if (gameObject->GetName() == "wall" || gameObject->GetName() == "Wall")
 	{
-		m_bHitLeftWall = false;
-		m_bHitRightWall = false;
+		if (!HasObjectsCollidingWithName("Wall") && !HasObjectsCollidingWithName("wall"))
+		{
+			m_bHitLeftWall = false;
+			m_bHitRightWall = false;
+		}
 	}
+}
+
+void Character::AdjustPositionCollision(const Vector3 adjustPosition)
+{
+	if (!m_CanMove)
+	{
+		return;
+	}
+
+	bool bforceStopAttack = false;
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::RIGHT && adjustPosition.x < 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::LEFT && adjustPosition.x > 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (bforceStopAttack)
+	{
+		if (m_combatComponent)
+		{
+			m_combatComponent->ForceStopAttack();
+		}
+
+		if (GetCollidingWithGround())
+		{
+			StartAnimation("move", true);
+		}
+		else
+		{
+			StartAnimation("jump", true);
+		}
+	}
+
+	/*if (adjustPosition.x > 0 && m_bHitRightWall)
+	{
+		return;
+	}
+
+	if (adjustPosition.x < 0 && m_bHitLeftWall)
+	{
+		return;
+	}*/
+
+	const Vector3 newPosition = GetPosition();
+
+	if (m_combatComponent)
+	{
+		m_combatComponent->UpdateAttackHitboxPosition(newPosition);
+	}
+
+	StartAnimation("move");
+
+	GameObject::AdjustPosition(adjustPosition);
 }
 
 void Character::Jump()
 {
-	if (m_physicsData.bsimulateGravity && !m_bjumping)
+	if (m_physicsData.bsimulateGravity && !m_bjumping && std::abs(m_physicsComponent->GetVelocity().y) == 0.0f)
 	{
 		m_bjumping = true;
 
