@@ -34,7 +34,7 @@ const bool InputComponent::GetKeyDown(const char key) const
 	}
 	for (int i = 0; i < keyEvent.size(); i++)
 	{
-		if (keyEvent[i].IsPressed())
+		if (keyEvent[i].IsHeld())
 		{
 			if (keyEvent[i].GetKeyCode() == upperCaseKey)
 			{

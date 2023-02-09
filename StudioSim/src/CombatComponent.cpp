@@ -66,7 +66,7 @@ void CombatComponent::LightAttack()
 {
 	if (CanAttack())
 	{
-		Quack::GetAudioEngine()->PlaySound("res/Sounds/LightAttack.wav", Quack::GetAudioEngine()->Effects() , Vec3{ 0,0,0 }, 0.0f);
+		Quack::GetAudioEngine()->PlaySound("res/Sounds/LightAttack.wav", Quack::GetAudioEngine()->Attacks(), Vec3{0,0,0}, 0.0f);
 		Quack::GetAudioEngine()->PlaySound("res/Sounds/JessicaLight.wav", Quack::GetAudioEngine()->Effects(), Vec3{ 0,0,0 }, 0.0f);
 		m_owningCharacter->AttackStarted("lightAttack");
 		StartAttack(m_currentWeaponData.lightAttackData);
@@ -77,7 +77,7 @@ void CombatComponent::HeavyAttack()
 {
 	if (CanAttack())
 	{
-		Quack::GetAudioEngine()->PlaySound("res/Sounds/HeavyAttack.wav", Quack::GetAudioEngine()->Effects(), Vec3{0,0,0}, 0.0f);
+		Quack::GetAudioEngine()->PlaySound("res/Sounds/HeavyAttack.wav", Quack::GetAudioEngine()->Attacks(), Vec3{0,0,0}, 0.0f);
 		Quack::GetAudioEngine()->PlaySound("res/Sounds/JessicaHeavy.wav", Quack::GetAudioEngine()->Effects(), Vec3{ 0,0,0 }, 0.0f);
 		m_owningCharacter->AttackStarted("heavyAttack");
 		StartAttack(m_currentWeaponData.heavyAttackData);
@@ -116,6 +116,7 @@ bool const CombatComponent::CanAttack() const
 
 void CombatComponent::ForceStopAttack()
 {
+	Quack::GetAudioEngine()->StopChannelGroup(Quack::GetAudioEngine()->Attacks()); 
 	ActiveTimerFinished();
 	AttackFinished();
 }

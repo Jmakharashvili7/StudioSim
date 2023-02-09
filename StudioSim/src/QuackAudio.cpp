@@ -172,6 +172,7 @@ void QuackAudio::Init()
 	
 	CreateChannelGroup("Soundtrack", &pFmod->pSoundtracks);
 	CreateChannelGroup("Effects", &pFmod->pEffects);
+	CreateChannelGroup("Attacks", &pFmod->pAttacks);
 	MasterChannelManager();
 	
 	//Soundtrack
@@ -203,13 +204,13 @@ void QuackAudio::Init()
 	CreateSound("res/Sounds/JessicaHeavy.wav");
 	
 	
-
 	
 
 	
 	//Volume control
 	pFmod->pSoundtracks->setVolume(0.1f);
 	pFmod->pEffects->setVolume(0.3f);
+	pFmod->pAttacks->setVolume(0.3f);
 	pFmod->pMasterGroup->setVolume(0.5f);
 
 }
@@ -316,6 +317,7 @@ int QuackAudio::PlaySound(const std::string& pathToSound, FMOD::ChannelGroup* ch
 	}
 
 
+
 	//Creating channel and passing it to the map
 	FMOD::Channel* channel = nullptr;
 	pFmod->pSystem->playSound(found->second,
@@ -348,6 +350,11 @@ void QuackAudio::CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** 
 		exit(-1);
 
 	}
+}
+
+void QuackAudio::StopChannelGroup(FMOD::ChannelGroup* channelGroup)
+{
+	channelGroup->stop();
 }
 
 void QuackAudio::SetVolume(int channelID, float volume)
@@ -387,6 +394,12 @@ void QuackAudio::MasterChannelManager()
 		exit(-1);
 	}
 
+	result = pFmod->pMasterGroup->addGroup(pFmod->pAttacks);
+	if (result != FMOD_OK)
+	{
+		printf("Error adding channel to master group: (%d) %s", result, FMOD_ErrorString(result));
+		exit(-1);
+	}
 }
 
 
@@ -693,6 +706,11 @@ FMOD::ChannelGroup* QuackAudio::Soundtrack()
 FMOD::ChannelGroup* QuackAudio::Master()
 {
 	return pFmod->pMasterGroup;
+}
+
+FMOD::ChannelGroup* QuackAudio::Attacks()
+{
+	return pFmod->pAttacks;
 }
 
 float QuackAudio::ChangingDBToVolume(float DB)

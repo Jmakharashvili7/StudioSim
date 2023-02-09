@@ -49,6 +49,7 @@ struct FmodInit
 	FMOD::ChannelGroup* pSoundtracks;
 	FMOD::ChannelGroup* pEffects;
 	FMOD::ChannelGroup* pMasterGroup;
+	FMOD::ChannelGroup* pAttacks;
 	FMOD::DSP* pDspFader;
 	FMOD::DSP* pDspPan;
 
@@ -61,7 +62,6 @@ struct FmodInit
 	float m_MinDistance;
 	float m_MaxDistance;
 	
-
 	bool  m_StopRequested;
 	bool  m_IsPlaying;
 
@@ -80,22 +80,10 @@ struct FmodInit
 class QuackAudio
 {
 public:
-	QuackAudio() {};
 
 	void  Init();
 	void  Update();
 	void  Shutdown();
-
-	struct SoundInfo
-	{
-		std::string soundName;
-		float volume;
-		float minDistance;
-		float maxdistance;
-		bool is3D;
-		bool isLoop;
-		bool isStreaming;
-	};
 
 	//functions using map
 	void CreateSound(const std::string& pathToSound,
@@ -105,10 +93,8 @@ public:
 	int  PlaySound(const std::string& pathToSound,
 		const Vec3& pos, float volume = 0.0f);
 	int  PlaySound(const std::string& pathToSound, FMOD::ChannelGroup* channelGroup,
-		const Vec3& pos, float volume);
-	int  RegisterSound(const SoundInfo& soundInfo, bool load = true);
+		const Vec3& pos, float volume = 0.0f);
 
-	void  UnregisterSound(int soundID);
 	void  SetVolume(int channelID, float volumeDB);
 	void  SetMasterChannelVolume(float volumeDB);
 	void  SetPitch(int channelID, float pitch);
@@ -117,7 +103,6 @@ public:
 	void  Set3DMinMax(const std::string& pathToSound, float min, float max);
 	void  Set3DAttributes(int channelID, const FMOD_VECTOR* pos, const FMOD_VECTOR* vel);
 	
-
 	void  AddDsp(int channelID, int index, FMOD::DSP* dsp);
 
 	void  MuteChannel(int channelID, bool mute);
@@ -128,6 +113,7 @@ public:
 	void  FadeOut(const std::string& pathToSound, int channelID, float fadeTime);
 
 	void  CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** channelGroup);
+	void  StopChannelGroup(FMOD::ChannelGroup* channelGroup);
 	void  MasterChannelManager();
 	void  SoundtrackManager();
 
@@ -144,6 +130,7 @@ public:
 	static FMOD::ChannelGroup* Effects();
 	static FMOD::ChannelGroup* Soundtrack();
 	static FMOD::ChannelGroup* Master();
+	static FMOD::ChannelGroup* Attacks();
 
 
 };

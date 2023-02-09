@@ -90,9 +90,15 @@ void KeyboardClass::UpdateKeyStates()
 	{
 		if (s_KeyStates[i] == true)
 		{
-			s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::PRESS, i));
+			s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, i));
 		}
 	}
+}
+
+void KeyboardClass::OnKeyHeld(const unsigned char key)
+{
+	s_KeyStates[key] = true;
+	s_KeyBuffer.push(KeyEvent(KeyEvent::EventType::HELD, key));
 }
 
 
