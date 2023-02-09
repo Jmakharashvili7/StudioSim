@@ -52,7 +52,7 @@ void Singleton<T>::Destroy() {
 }
 
 template<typename T>
-inline typename T* Singleton<T>::CreateInstance() {
+inline T* Singleton<T>::CreateInstance() {
     return new T();
 }
 

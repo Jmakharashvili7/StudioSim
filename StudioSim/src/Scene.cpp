@@ -41,7 +41,7 @@ void Scene::RenderScene()
 {
 	m_frameBuffer->Bind();
 	/* Render here */
-	glClearColor(12.f/255.0f, 19.0f/255.0f, 25.0f/255.f, 1.0f);
+	glClearColor(0, 0, 0, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	Render();
