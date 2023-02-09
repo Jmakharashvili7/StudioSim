@@ -156,17 +156,18 @@ void Quack::HandleInput()
 				m_uiMain->GetViewport()->HandleKeyboardInput(key);
 			}
 		}
-	}
 
-	//Mouse Input
-	if (!MouseClass::IsEventBufferEmpty())
-	{
-		MouseEvent e = MouseClass::ReadEvent();
 
-		m_uiMain->GetEditorUI()->HandleMouseInput(e);
-		m_uiMain->GetViewport()->HandleMouseInput(e);
-		m_uiMain->GetWorldOutliner()->HandleMouseInput(e);
-		m_uiMain->GetGridEditor()->HandleMouseInput(e);
+		//Mouse Input
+		if (!MouseClass::IsEventBufferEmpty())
+		{
+			MouseEvent e = MouseClass::ReadEvent();
+
+			m_uiMain->GetEditorUI()->HandleMouseInput(e);
+			m_uiMain->GetViewport()->HandleMouseInput(e);
+			m_uiMain->GetWorldOutliner()->HandleMouseInput(e);
+			m_uiMain->GetGridEditor()->HandleMouseInput(e);
+		}
 	}
 
 }

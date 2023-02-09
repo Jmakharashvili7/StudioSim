@@ -29,7 +29,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	// Setup collision Manager
 	m_collisionManager = new CollisionManager();
 
-	m_grid = Grid<PathNode>(100, 100, 0.5, { -10,-10, 0 });
+	m_grid = Grid<PathNode>(160, 40, 0.5, { -15.5,-10, 0 });
 
 	// Load scene
 	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_grid);
@@ -158,6 +158,11 @@ void Scene::HandleLights()
 void Scene::Update()
 {
 	m_gameTimer.Tick();
+
+	if (!Quack::GetUILayer()->GetInPlay())
+	{
+		return;
+	}
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 

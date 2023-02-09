@@ -15,7 +15,9 @@ public:
 	inline float GetRotation() { return m_rotation; }
 
 	inline void SetZoom(float zoom) { m_Zoom = zoom; }
+	inline void ResetZoom() { m_Zoom = m_DefaultZoom; }
 	inline float GetZoom() { return m_Zoom; }
+	inline float GetGameZoom() { return m_GameZoom; }
 	inline float GetZoomSpeed() { return m_ZoomSpeed; }
 	inline float GetMoveSpeed() { return m_MoveSpeed; }
 
@@ -40,6 +42,8 @@ private:
 	float m_rotation = 0.0f;
 
 	float m_Zoom;
+	float m_DefaultZoom;
+	float m_GameZoom;
 	float m_ZoomSpeed;
 	float m_MoveSpeed;
 

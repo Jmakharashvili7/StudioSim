@@ -8,8 +8,10 @@ OrthographicCamera::OrthographicCamera(float l, float r, float b, float t) :
 	m_viewMatrix(1.0f)
 {
 	m_Zoom = 5.0f;
+	m_DefaultZoom = 5.0f;
 	m_ZoomSpeed = 0.25f;
 	m_MoveSpeed = 5.0f;
+	m_GameZoom = 6.5f;
 
 
 	m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
