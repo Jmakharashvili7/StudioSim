@@ -36,3 +36,7 @@ void GridEditor::Render()
 
 	ImGui::End();
 }
+
+void GridEditor::HandleMouseInput(MouseEvent e)
+{
+}
