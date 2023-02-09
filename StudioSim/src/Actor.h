@@ -74,6 +74,7 @@ public:
 	virtual void RemoveCollision(GameObject* gameObject);
 	virtual void SetCollidingWithGround(const bool bcollidingWithGround);
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
+	virtual bool HasObjectsCollidingWithName(const std::string objectName);
 
 	// Components
 	virtual void AddComponent(Component* component);

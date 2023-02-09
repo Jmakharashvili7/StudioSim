@@ -586,8 +586,10 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		finalPosition.z = values[0].z + values[1].z;
 	}
 
-	m_object->SetPosition(finalPosition);
-
+	if (m_object)
+	{
+		m_object->SetPosition(finalPosition);
+	}
 }
 
 

@@ -64,6 +64,35 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 		return;
 	}
 
+	bool bforceStopAttack = false;
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::RIGHT && adjustPosition.x < 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::LEFT && adjustPosition.x > 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (bforceStopAttack)
+	{
+		if (m_combatComponent)
+		{
+			m_combatComponent->ForceStopAttack();
+		}
+
+		if (GetCollidingWithGround())
+		{
+			StartAnimation("move", true);
+		}
+		else
+		{
+			StartAnimation("jump", true);
+		}
+	}
+
 	const Vector3 newPosition = GetPosition();
 	
 	if (m_combatComponent)
@@ -101,8 +130,11 @@ void Character::AddCollision(GameObject* collidingObject)
 {
 	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
 	{
-		SetJumping(false);
-		StartAnimation("idle", true);
+		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		{
+			SetJumping(false);
+			StartAnimation("idle", true);
+		}
 	}
 
 	Actor::AddCollision(collidingObject);
@@ -110,12 +142,16 @@ void Character::AddCollision(GameObject* collidingObject)
 
 void Character::RemoveCollision(GameObject* gameObject)
 {
+	GameObject::RemoveCollision(gameObject);
+
 	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
 	{
-		StartAnimation("jump");
+		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		{
+			SetCollidingWithGround(false);
+			StartAnimation("jump");
+		}
 	}
-
-	Actor::RemoveCollision(gameObject);
 }
 
 void Character::Jump()
@@ -198,6 +234,16 @@ void Character::SpecialAttack()
 void Character::AttackStarted(const std::string attackType)
 {
 	StartAnimation(attackType);
+}
+
+bool Character::GetAttacking() const
+{
+	if (m_combatComponent)
+	{
+		return m_combatComponent->GetAttacking();
+	}
+
+	return false;
 }
 
 void Character::AttemptToDash()

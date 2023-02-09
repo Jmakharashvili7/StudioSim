@@ -303,7 +303,10 @@ void Actor::AddCollision(GameObject* collidingObject)
 {
 	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
 	{
-		SetCollidingWithGround(true);
+		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		{
+			SetCollidingWithGround(true);
+		}
 	}
 
 	GameObject::AddCollision(collidingObject);
@@ -311,12 +314,15 @@ void Actor::AddCollision(GameObject* collidingObject)
 
 void Actor::RemoveCollision(GameObject* gameObject)
 {
+	GameObject::RemoveCollision(gameObject);
+
 	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
 	{
-		SetCollidingWithGround(false);
+		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		{
+			SetCollidingWithGround(false);
+		}
 	}
-
-	GameObject::RemoveCollision(gameObject);
 }
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
@@ -327,6 +333,22 @@ void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
 	{
 		m_physicsComponent->SetOnGround(bcollidingWithGround);
 	}
+}
+
+bool Actor::HasObjectsCollidingWithName(const std::string objectName)
+{
+	bool bFound = false;
+
+	for (GameObject* collidingObject : m_collidingObjects)
+	{
+		if (collidingObject->GetName() == objectName)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	return bFound;
 }
 
 void Actor::AddComponent(Component* component)

@@ -62,6 +62,7 @@ public:
 	void HeavyAttack();
 	void SpecialAttack();
 	void AttackStarted(const std::string attackType);
+	bool GetAttacking() const;
 
 	// Dash
 	void AttemptToDash();
@@ -71,7 +72,7 @@ protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
-	bool m_CanMove;
+	bool m_CanMove = false;
 	FacingDirection m_facingDirection = FacingDirection::RIGHT;
 	
 	// Entity
