@@ -33,7 +33,7 @@ struct CreatClassInfo
 
 	CreatClassInfo()
 	{
-		objectName = " ";
+		objectName = "";
 		textureName = "blue.png";
 
 		transformData = TransformData();

@@ -1,30 +1,7 @@
 #pragma once
 #define MAXOBSERVERS 26
 #include "Actor.h"
-
-//enum Event
-//{
-//	EventEntityDied
-//};
-
-//class Observer
-//{
-//public: 
-//	Observer();// only here because of test singleton
-//	virtual ~Observer();
-//	virtual void onNotify(const class GameObject& go, Event event) = 0;
-//};
-//
-//class Subject
-//{
-//public:
-//	void
-//
-//private:
-//	Observer* m_Observers[MAXOBSERVERS];
-//	int m_NumOfObservers;
-//
-//};
+#include "Singleton.h"
 
 //template<typename T>
 class Event
@@ -63,15 +40,20 @@ private:
     CallbackId m_callbackIdCounter;
 };
 
-class EventManager// : public Singleton<EventManager>
+class EventManager : public Singleton<EventManager>
 {
-    EventManager(){}
+    //EventManager() {}
+    //static EventManager* m_Instance;
+
 public:
-    
+    //static EventManager* Instance() { return m_Instance = (m_Instance == nullptr) ? new EventManager() : m_Instance; }
     Event CoinCollected;
     void OnCoinCollected() {
 
         CoinCollected.Invoke();
     }
+
+    Event PlayerDead;
+    void OnPlayerDead() { PlayerDead.Invoke(); }
 
 };

@@ -11,7 +11,7 @@ void InputComponent::Update(const float deltaTime)
 {
 	Component::Update(deltaTime);
 	ProcessInput();
-	KeyboardClass::ClearKeyBuffer();
+	//KeyboardClass::ClearKeyBuffer();
 }
 
 const bool InputComponent::GetKeyDown(const char key) const
@@ -19,17 +19,35 @@ const bool InputComponent::GetKeyDown(const char key) const
 	bool bkeyHeld = false;
 	const char upperCaseKey = toupper(key);
 
-	if (KeyboardClass::IsKeyPressed(upperCaseKey))
+	//if (KeyboardClass::IsKeyPressed(upperCaseKey))
+	//{
+	//	KeyboardClass::OnKeyPressed(upperCaseKey);
+	//	if (keyEvent.GetKeyCode() == upperCaseKey)
+	//	{
+	//		bkeyHeld = true;
+	//	}
+	//}
+
+	if (keyEvent.empty())
 	{
-		KeyboardClass::OnKeyPressed(upperCaseKey);
-		if (keyEvent.GetKeyCode() == upperCaseKey)
+		return bkeyHeld;
+	}
+	for (int i = 0; i < keyEvent.size(); i++)
+	{
+		if (keyEvent[i].IsPressed())
 		{
-			bkeyHeld = true;
+			if (keyEvent[i].GetKeyCode() == upperCaseKey)
+			{
+				KeyboardClass::UpdateKeyStates();
+				//bkeyHeld = true;
+				return true;
+			}
 		}
 	}
-	
+
 
 	return bkeyHeld;
+
 }
 
 const bool InputComponent::GetKeyUp(const char key) const
@@ -37,11 +55,19 @@ const bool InputComponent::GetKeyUp(const char key) const
 	bool bkeyUp = false;
 	const char upperCaseKey = toupper(key);
 
-	if (keyEvent.IsReleased())
+	if (keyEvent.empty())
 	{
-		if (keyEvent.GetKeyCode() == upperCaseKey)
+		return bkeyUp;
+	}
+	for (int i = 0; i < keyEvent.size(); i++)
+	{
+		if (keyEvent[i].IsReleased())
 		{
-			bkeyUp = true;
+			if (keyEvent[i].GetKeyCode() == upperCaseKey)
+			{
+				bkeyUp = true;
+				return true;
+			}
 		}
 	}
 
@@ -53,14 +79,21 @@ const bool InputComponent::GetKeyPressed(const char key) const
 	bool bkeyPressed = false;
 	const char upperCaseKey = toupper(key);
 
-	if (keyEvent.IsPressed())
+	if (keyEvent.empty())
 	{
-		if (keyEvent.GetKeyCode() == upperCaseKey)
+		return bkeyPressed;
+	}
+	for (int i = 0; i < keyEvent.size(); i++)
+	{
+		if (keyEvent[i].IsPressed())
 		{
-			bkeyPressed = true;
+			if (keyEvent[i].GetKeyCode() == upperCaseKey)
+			{
+				bkeyPressed = true;
+				return true;
+			}
 		}
 	}
-
 	return bkeyPressed;
 }
 
@@ -68,14 +101,21 @@ const bool InputComponent::AnyKeyDown() const
 {
 	bool banyKeyHeld = false;
 
-	if (!KeyboardClass::KeyBufferIsEmpty())
+	if (keyEvent.empty())
 	{
-		if (keyEvent.GetKeyCode() != NULL)
+		return banyKeyHeld;
+	}
+	for (int i = 0; i < keyEvent.size(); i++)
+	{
+		if (!KeyboardClass::KeyBufferIsEmpty())
 		{
-			banyKeyHeld = true;
+			if (keyEvent[i].GetKeyCode() != NULL)
+			{
+				banyKeyHeld = true;
+				return true;
+			}
 		}
 	}
-
 	return banyKeyHeld;
 }
 
@@ -83,14 +123,22 @@ const bool InputComponent::AnyKeyPressed() const
 {
 	bool banyKeyPressed = false;
 
-	if (keyEvent.IsPressed())
+	if (keyEvent.empty())
 	{
-		if (keyEvent.GetKeyCode() != NULL)
+		return banyKeyPressed;
+	}
+	for (int i = 0; i < keyEvent.size(); i++)
+	{
+
+		if (keyEvent[i].IsPressed())
 		{
-			banyKeyPressed = true;
+			if (keyEvent[i].GetKeyCode() != NULL)
+			{
+				banyKeyPressed = true;
+				return true;
+			}
 		}
 	}
-
 	return banyKeyPressed;
 }
 
@@ -146,6 +194,7 @@ const bool InputComponent::GetMouseButtonPressed(const int mouseClick)
 
 	if (!MouseClass::IsEventBufferEmpty())
 	{
+
 		if (mouseEvent.GetType() == MouseEvent::EventType::L_CLICK && mouseClick == 0)
 		{
 			bmouseButtonPressed = true;
@@ -165,6 +214,8 @@ const bool InputComponent::GetMouseButtonPressed(const int mouseClick)
 
 void InputComponent::ProcessInput()
 {
-	keyEvent = KeyboardClass::ReadKey();
+	keyEvent = KeyboardClass::ReadKeys();
 	mouseEvent = MouseClass::ReadEvent();
+
+	
 }

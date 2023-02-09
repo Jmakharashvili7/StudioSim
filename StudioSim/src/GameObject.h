@@ -50,7 +50,7 @@ public:
 
 	// Rotation
 	virtual Vector3 GetRotation() const { if (m_transform) return m_transform->GetRotation(); }
-	virtual void SetRotation(const Vector3 newRotation) { if (m_transform) m_transform->SetRotation(newRotation); }
+	virtual void SetRotation(const float angle) { if (m_transform) m_transform->SetRotation(angle); }
 	virtual void AdjustRotation(const Vector3 adjustRotation) { if (m_transform) m_transform->AdjustRotation(adjustRotation); }
 	virtual void SetRotationAroundPivot(const Vector3 pivotPosition, const float newRotation) { if (m_transform) m_transform->SetRotationAroundPivot(pivotPosition, newRotation); }
 
@@ -61,15 +61,24 @@ public:
 
 	// Collision
 	inline void SetCollisionData(const CollisionData& newCollisionData) { m_collisionData = newCollisionData; }
-	void SetCollisionType(const CollisionType newCollisionType);
-	inline void SetCollisionCenter(const Vector3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition; }
-	inline void SetCollisionBoxSize(const Vector3 newSize) { m_collisionData.size = newSize; }
-	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
 	inline const CollisionData& GetCollisionData() const { return m_collisionData; }
+
+	void SetCollisionType(const CollisionType newCollisionType);
 	inline const CollisionType GetCollisionType() const { return m_collisionData.collisionType; }
+
+	inline void SetCollisionCenter(const Vector3 newCenterPosition) { m_collisionData.centerPosition = newCenterPosition + m_collisionData.centerPositionOffset; }
+	inline void UpdateCollisionCenter() { m_collisionData.centerPosition = GetPosition() + m_collisionData.centerPositionOffset; }
 	inline const Vector3 GetCollisionCenter() const { return m_collisionData.centerPosition; }
+
+	void SetCollisionCenterOffset(const Vector3 newCenterPositionOffset);
+	inline const Vector3 GetCollisionCenterOffset() const { return m_collisionData.centerPositionOffset; }
+
+	inline void SetCollisionBoxSize(const Vector3 newSize) { m_collisionData.size = newSize; }
 	inline const Vector3 GetCollisionBoxSize() const { return m_collisionData.size; }
+
+	inline void SetCollisionSphereRadius(const float newRadius) { m_collisionData.radius = newRadius; }
 	inline const float GetCollisionSphereRadius() const { return m_collisionData.radius; }
+
 	const bool GetIsCollidingGameObject(GameObject* gameObject) const;
 	virtual void OnCollision(GameObject* collidingObject);
 	virtual void OnCollisionOver(GameObject* gameObject);

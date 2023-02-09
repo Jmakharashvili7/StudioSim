@@ -1,8 +1,66 @@
 {
     "GameObject0": {
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 11,
+                "blooping": true,
+                "playRate": 17.5,
+                "rowName": "idle",
+                "rowNumber": 0
+            },
+            "animRowData1": {
+                "amountOfColumns": 11,
+                "blooping": false,
+                "playRate": 15.0,
+                "rowName": "die",
+                "rowNumber": 1
+            },
+            "animRowData2": {
+                "amountOfColumns": 8,
+                "blooping": true,
+                "playRate": 15.0,
+                "rowName": "move",
+                "rowNumber": 2
+            },
+            "animRowData3": {
+                "amountOfColumns": 7,
+                "blooping": false,
+                "playRate": 20.0,
+                "rowName": "lightAttack",
+                "rowNumber": 3
+            },
+            "animRowData4": {
+                "amountOfColumns": 7,
+                "blooping": false,
+                "playRate": 12.5,
+                "rowName": "heavyAttack",
+                "rowNumber": 4
+            },
+            "animRowData5": {
+                "amountOfColumns": 3,
+                "blooping": true,
+                "playRate": 15.0,
+                "rowName": "jump",
+                "rowNumber": 5
+            },
+            "animRowData6": {
+                "amountOfColumns": 4,
+                "blooping": false,
+                "playRate": 15.0,
+                "rowName": "takeHit",
+                "rowNumber": 6
+            },
+            "numOfAnim": 7
+        },
+        "banimated": true,
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
+            "x": -5.0,
+            "y": 4.0,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
@@ -33,11 +91,11 @@
         "mass": 1.0,
         "maxHealth": 100.0,
         "movementSpeed": 5.0,
-        "name": "Jaba",
+        "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": -5.0,
+            "y": 4.0,
             "z": 0.0
         },
         "radius": 1.0,
@@ -47,30 +105,32 @@
             "z": 34.0
         },
         "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 3.5,
+            "y": 3.5,
+            "z": 3.5
         },
         "size": {
-            "x": 1.0,
-            "y": 1.0,
+            "x": 0.75,
+            "y": 1.25,
             "z": 1.0
         },
         "texCoords": [
+            0.4545454680919647,
             0.0,
+            0.5454545617103577,
             0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            0.0,
+            0.5454545617103577,
+            0.125,
+            0.5454545617103577,
+            0.125,
+            0.4545454680919647,
+            0.125,
+            0.4545454680919647,
             0.0
         ],
-        "textureName": "duck2.png",
+        "textureName": "Player.png",
+        "totalColumns": 11,
+        "totalRows": 8,
         "vertices": [
             -0.5,
             -0.5,
@@ -98,6 +158,11 @@
             "y": -1.5,
             "z": 0.0
         },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "collisionType": 0,
         "colors": [
             1.0,
@@ -119,7 +184,7 @@
             1.0,
             1.0
         ],
-        "name": "ground",
+        "name": "Ground",
         "objectType": 0,
         "position": {
             "x": 1.5,
@@ -179,97 +244,17 @@
         ]
     },
     "GameObject2": {
-        "centerPosition": {
-            "x": -5.0,
-            "y": 2.0,
-            "z": 0.0
-        },
-        "collisionType": 2,
-        "colors": [
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
-        ],
-        "name": "Test",
-        "objectType": 0,
-        "position": {
-            "x": -5.0,
-            "y": 2.0,
-            "z": 0.0
-        },
-        "radius": 0.0,
-        "rotation": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "size": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "texCoords": [
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            0.0,
-            0.0
-        ],
-        "textureName": "duck.png",
-        "vertices": [
-            -0.5,
-            -0.5,
-            0.0,
-            0.5,
-            -0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            -0.5,
-            0.5,
-            0.0,
-            -0.5,
-            -0.5,
-            0.0
-        ]
-    },
-    "GameObject3": {
+        "banimated": false,
         "bconsumeInput": false,
         "bsimulateGravity": false,
         "centerPosition": {
             "x": 0.5,
-            "y": -0.7038328051567078,
+            "y": -0.5,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "collisionType": 0,
@@ -296,13 +281,13 @@
         "gravityMultiplier": 1.0,
         "jumpHeight": 0.0,
         "mass": 1.0,
-        "maxHealth": 88.99099731445313,
+        "maxHealth": 500.0,
         "movementSpeed": 0.0,
         "name": "Spike",
         "objectType": 2,
         "position": {
             "x": 0.5,
-            "y": -0.7038328051567078,
+            "y": -0.5,
             "z": 0.0
         },
         "radius": 0.0,
@@ -335,7 +320,7 @@
             0.0,
             0.0
         ],
-        "textureName": "twist.png",
+        "textureName": "blue.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -357,14 +342,21 @@
             0.0
         ]
     },
-    "GameObject4": {
-        "EnemyType": 2,
-        "bconsumeInput": false,
-        "bsimulateGravity": false,
+    "GameObject3": {
         "centerPosition": {
-            "x": 0.08467753231525421,
-            "y": 0.6708893775939941,
-            "z": 0.24932169914245605
+<<<<<<< Updated upstream
+            "x": -1.5,
+            "y": -1.0,
+=======
+            "x": -2.5,
+            "y": 0.0,
+>>>>>>> Stashed changes
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
         },
         "collisionType": 0,
         "colors": [
@@ -387,23 +379,26 @@
             1.0,
             1.0
         ],
-        "gravityMultiplier": 1.0,
-        "jumpHeight": 2.427000045776367,
-        "mass": 1.0,
-        "maxHealth": 15.534000396728516,
-        "movementSpeed": 1.465999960899353,
-        "name": "MiniPontiff",
-        "objectType": 3,
+<<<<<<< Updated upstream
+        "name": "Ground",
+        "objectType": 0,
         "position": {
-            "x": 0.08467753231525421,
-            "y": 0.6708893775939941,
-            "z": 0.24932169914245605
+            "x": -1.5,
+            "y": -1.0,
+=======
+        "name": "Wall",
+        "objectType": 0,
+        "position": {
+            "x": -2.5,
+            "y": 0.0,
+>>>>>>> Stashed changes
+            "z": 0.0
         },
         "radius": 0.0,
         "rotation": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
         },
         "scale": {
             "x": 1.0,
@@ -429,7 +424,7 @@
             0.0,
             0.0
         ],
-        "textureName": "MiniPontiff.png",
+        "textureName": "blue.png",
         "vertices": [
             -0.5,
             -0.5,
@@ -451,5 +446,5 @@
             0.0
         ]
     },
-    "ObjectCount": 5
+    "ObjectCount": 4
 }

@@ -19,6 +19,8 @@ public:
 	virtual void SpecialAttack();
 	virtual void StartAttack(const AttackData& attackData);
 	virtual bool const CanAttack() const;
+	virtual inline bool GetAttacking() const { return m_battacking; }
+	virtual void ForceStopAttack();
 
 	virtual void ResetTimerBools();
 	virtual void ActivateDelayTimerFinished();

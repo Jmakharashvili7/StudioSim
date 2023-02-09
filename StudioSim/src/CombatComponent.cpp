@@ -55,24 +55,36 @@ void CombatComponent::UpdateAttackHitboxPosition(const Vector3& newPosition)
 	if (m_battacking && m_attackHitbox)
 	{
 		const bool RightAttack = m_currentAttackFacingDirection == FacingDirection::RIGHT ? true : false;
-		const Vector3 newHitboxPosition = RightAttack ? Vector3((newPosition).x + (m_owningActor->GetScale().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, newPosition.y, newPosition.z) : Vector3(newPosition.x - (m_owningActor->GetScale().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, newPosition.y, newPosition.z);
+		const Vector3 newHitboxPosition = RightAttack ? Vector3((newPosition).x + (m_owningActor->GetCollisionBoxSize().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, newPosition.y, newPosition.z) : Vector3(newPosition.x - (m_owningActor->GetCollisionBoxSize().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, newPosition.y, newPosition.z);
 		m_attackHitbox->SetPosition(newHitboxPosition);
 	}
 }
 
 void CombatComponent::LightAttack()
 {
-	StartAttack(m_currentWeaponData.lightAttackData);
+	if (CanAttack())
+	{
+		m_owningCharacter->AttackStarted("lightAttack");
+		StartAttack(m_currentWeaponData.lightAttackData);
+	}
 }
 
 void CombatComponent::HeavyAttack()
 {
-	StartAttack(m_currentWeaponData.heavyAttackData);
+	if (CanAttack())
+	{
+		m_owningCharacter->AttackStarted("heavyAttack");
+		StartAttack(m_currentWeaponData.heavyAttackData);
+	}
 }
 
 void CombatComponent::SpecialAttack()
 {
-	StartAttack(m_currentWeaponData.specialAttackData);
+	if (CanAttack())
+	{
+		m_owningCharacter->AttackStarted("specialAttack");
+		StartAttack(m_currentWeaponData.specialAttackData);
+	}
 }
 
 void CombatComponent::StartAttack(const AttackData& attackData)
@@ -96,6 +108,12 @@ bool const CombatComponent::CanAttack() const
 	return false;
 }
 
+void CombatComponent::ForceStopAttack()
+{
+	ActiveTimerFinished();
+	AttackFinished();
+}
+
 void CombatComponent::ResetTimerBools()
 {
 	m_bactivateDelayTimerFinished = false;
@@ -108,11 +126,11 @@ void CombatComponent::ActivateDelayTimerFinished()
 	m_bactivateDelayTimerFinished = true;
 
 	const bool RightAttack = m_currentAttackFacingDirection == FacingDirection::RIGHT ? true : false;
-	const Vector3 HitboxPosition = RightAttack ? Vector3(m_owningActor->GetPosition().x + (m_owningActor->GetScale().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, m_owningActor->GetPosition().y, m_owningActor->GetPosition().z) : Vector3(m_owningActor->GetPosition().x - (m_owningActor->GetScale().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, m_owningActor->GetPosition().y, m_owningActor->GetPosition().z);
+	const Vector3 HitboxPosition = RightAttack ? Vector3(m_owningActor->GetCollisionCenter().x + (m_owningActor->GetCollisionBoxSize().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, m_owningActor->GetCollisionCenter().y, m_owningActor->GetCollisionCenter().z) : Vector3(m_owningActor->GetCollisionCenter().x - (m_owningActor->GetCollisionBoxSize().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, m_owningActor->GetCollisionCenter().y, m_owningActor->GetCollisionCenter().z);
 	VertexData* weaponHitboxVertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
 
 	TransformData weaponHitboxTransformData = TransformData(HitboxPosition, m_owningActor->GetRotation(), m_currentAttackData.hitboxScale);
-	CollisionData weaponHitboxCollisionData = CollisionData(weaponHitboxTransformData.position, weaponHitboxTransformData.scale);
+	CollisionData weaponHitboxCollisionData = CollisionData(weaponHitboxTransformData.position, Vector3(0.0f), weaponHitboxTransformData.scale);
 
 	m_attackHitbox = new AttackHitbox("TemAttackHitbox", this, weaponHitboxVertexData, weaponHitboxTransformData, weaponHitboxCollisionData, m_currentWeaponData.textureName);
 	Quack::GetCurrentScene()->AddGameObject(m_attackHitbox);
@@ -122,8 +140,11 @@ void CombatComponent::ActiveTimerFinished()
 {
 	m_bactivateTimerFinished = true;
 
-	Quack::GetCurrentScene()->RemoveGameObject(m_attackHitbox);
-	m_attackHitbox = nullptr;
+	if (m_attackHitbox)
+	{
+		Quack::GetCurrentScene()->RemoveGameObject(m_attackHitbox);
+		m_attackHitbox = nullptr;
+	}
 }
 
 void CombatComponent::DeactivateTimerFinished()

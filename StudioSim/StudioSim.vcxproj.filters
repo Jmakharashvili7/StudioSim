@@ -28,6 +28,7 @@
     <ClCompile Include="src\GameTime.cpp" />
     <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Layer.cpp" />
+    <ClCompile Include="src\JsonLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\MouseClass.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
@@ -59,18 +60,6 @@
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\CombatComponent.cpp" />
     <ClCompile Include="src\AttackHitbox.cpp" />
-    <ClCompile Include="src\Pathfinding.cpp" />
-    <ClCompile Include="src\RangedAIComponent.cpp" />
-    <ClCompile Include="src\Abilities.cpp" />
-    <ClCompile Include="src\EnemyProjectile.cpp" />
-    <ClCompile Include="src\MiniPontiff.cpp" />
-    <ClCompile Include="src\PontiffState.cpp" />
-    <ClCompile Include="src\PontiffSlashState.cpp" />
-    <ClCompile Include="src\PontiffChargeState.cpp" />
-    <ClCompile Include="src\PontiffUltimateState.cpp" />
-    <ClCompile Include="src\PontiffBaseState.cpp" />
-    <ClCompile Include="src\PontiffFireState.cpp" />
-    <ClCompile Include="src\GridEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
@@ -129,18 +118,7 @@
     <ClInclude Include="src\ObjectIncludes.h" />
     <ClInclude Include="src\CombatComponent.h" />
     <ClInclude Include="src\AttackHitbox.h" />
-    <ClInclude Include="src\Pathfinding.h" />
-    <ClInclude Include="src\RangedAIComponent.h" />
-    <ClInclude Include="src\Abilities.h" />
-    <ClInclude Include="src\EnemyProjectile.h" />
-    <ClInclude Include="src\MiniPontiff.h" />
-    <ClInclude Include="src\PontiffState.h" />
-    <ClInclude Include="src\PontiffSlashState.h" />
-    <ClInclude Include="src\PontiffChargeState.h" />
-    <ClInclude Include="src\PontiffUltimateState.h" />
-    <ClInclude Include="src\PontiffBaseState.h" />
-    <ClInclude Include="src\PontiffFireState.h" />
-    <ClInclude Include="src\GridEditor.h" />
+    <ClInclude Include="src\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />
@@ -159,14 +137,13 @@
     <None Include="res\shaders\Primitive.shader" />
     <None Include="res\textures\test sheet.png~" />
     <None Include="res\ObjectData\Square.json" />
+    <None Include="res\ObjectData\duck.json" />
+    <None Include="res\ObjectData\floor.json" />
     <None Include="res\scenes\MainScene.json" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">
       <UniqueIdentifier>{d5b48ba3-f929-4c79-ab60-8e943c71654c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PontiffStates">
-      <UniqueIdentifier>{4f6b3ed2-aa9d-417f-998a-4c2bed6093d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

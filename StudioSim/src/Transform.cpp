@@ -12,7 +12,6 @@ Transform::Transform(const Vector3 inPosition, const Vector3 inRotation, const V
 
 Transform::Transform() 
 {
-
 	m_position = Vector3::Zero;
 	m_rotation = Vector3::Zero;
 	m_scale = Vector3::Zero;
@@ -45,9 +44,9 @@ void Transform::AdjustPosition(const Vector3 adjustPosition)
 	UpdateTransformMatrix();
 }
 
-void Transform::SetRotation(const Vector3 newRotation)
+void Transform::SetRotation(const float newAngle)
 {
-	m_rotation = newRotation;
+	m_fRotation = CustomMaths::ToRadians(newAngle);
 	UpdateTransformMatrix();
 }
 

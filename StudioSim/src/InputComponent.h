@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include <vector>
 
 class InputComponent : public Component
 {
@@ -26,6 +27,7 @@ protected:
 private:
 	GLFWwindow* m_window = nullptr;
 	map <KeyType, int> buttonKeys;
-	KeyEvent keyEvent = KeyEvent();
+	vector<KeyEvent> keyEvent;
+	//KeyEvent keyEvent = KeyEvent();
 	MouseEvent mouseEvent = MouseEvent();
 };

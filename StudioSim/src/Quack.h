@@ -33,6 +33,7 @@ public:
 	static Window* GetWindow() { return m_window; }
 
 	static inline float GetDeltaTime() { return m_gameTimer.GetDeltaTime(); }
+	static inline float GetGameTime() { return m_gameTimer.GetGameTime(); }
 	static FrameBuffer* GetFrameBuffer() { return m_mainScene.GetFrameBuffer(); }
 	static UILayer* GetUILayer() { return m_uiMain; }
 

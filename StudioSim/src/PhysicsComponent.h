@@ -27,7 +27,7 @@ public:
 	/// </summary>
 	/// <param name="velocity"></param>
 	void SetVelocity(const Vector3& velocity) { m_Velocity = velocity; }
-	Vector3 GetVelocity() const { return m_Velocity ; }
+	Vector3 GetVelocity() const { return m_Velocity; }
 
 	/// <summary>
 	/// recommend you use for whether the object should be floaty or heavy 
@@ -52,6 +52,7 @@ public:
 	void AddForce(const Vector3& force);
 
 	void SetOnGround(const bool bOnGround);
+	void SetHitWall(const bool bHitRightWall, const bool bHitLeftWall);
 
 	void SetSimulateGravity(const bool bSimulateGravity);
 
@@ -90,6 +91,11 @@ protected:
 	float m_baseGravitationalValue = 9.807f;
 
 	bool m_bOnGround = false;
+	bool m_bHitLeftWall = false;
+	bool m_bHitRightWall = false;
 
 	bool m_bSimulateGravity = true;
+
+	class CollisionResolver* m_Contacts;
+	class CollisionResolver* m_ContactsWall;
 };

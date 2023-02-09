@@ -24,8 +24,6 @@ void AttackHitbox::OnCollision(GameObject* collidingObject)
 {
 	if (collidingObject != m_owningGameObject)
 	{
-		cout << "HIT: " + collidingObject->GetName() << endl;
-
 		Character* hitCharacter = dynamic_cast<Character*>(collidingObject);
 		if (hitCharacter)
 		{

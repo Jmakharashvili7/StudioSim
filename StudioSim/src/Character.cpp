@@ -5,6 +5,7 @@
 #include "PhysicsComponent.h"
 #include "EngineManager.h"
 #include "JsonLoader.h"
+#include "Animate.h"
 
 Character::Character(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, 
 	const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, const bool bconsumeInput)
@@ -22,9 +23,13 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	ResetCurrentHealth();
 
 	// Combat init
-	m_currentWeaponData = WeaponData("test", "blue.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.5f, 0.5f, 0.5f), -0.1f, 0.05f, 0.01f, 0.1f, 0.01f)); // todo move
+	m_currentWeaponData = WeaponData("test", "twist.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.85f, 1.0f, 1.0f), 0.0f, 0.1f, 0.1f, 0.2f, 0.05f), AttackData(40.0f, 1.0f, 20.0f, Vector3(1.25f, 1.0f, 1.0f), 0.2f, 0.2f, 0.25f, 0.25f, 0.05f)); // todo move
 	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
 	AddComponent(m_combatComponent);
+
+	m_CanMove = true;
+	m_DashTime = 0.2f;
+	m_DashCooldowm = 2.5f;
 }
 
 Character::~Character()
@@ -49,11 +54,45 @@ void Character::Update(const float deltaTime)
 			m_totalKnockbackAmount = 0.0f;
 		}
 	}
+	CheckDash();
 }
 
 void Character::AdjustPosition(const Vector3 adjustPosition)
 {
-	GameObject::AdjustPosition(adjustPosition);
+	if (!m_CanMove)
+	{
+		return;
+	}
+
+	bool bforceStopAttack = false;
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::RIGHT && adjustPosition.x < 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::LEFT && adjustPosition.x > 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (bforceStopAttack)
+	{
+		if (m_combatComponent)
+		{
+			m_combatComponent->ForceStopAttack();
+		}
+
+		if (GetCollidingWithGround())
+		{
+			StartAnimation("move", true);
+		}
+		else
+		{
+			StartAnimation("jump", true);
+		}
+	}
+
 	const Vector3 newPosition = GetPosition();
 	
 	if (m_combatComponent)
@@ -63,19 +102,60 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 
 	if (adjustPosition.x > 0)
 	{
+		StartAnimation("move");
+		
 		m_facingDirection = FacingDirection::RIGHT;
+
+		if (GetScale().x < 0)
+		{
+			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
+		}
 	}
 	else if (adjustPosition.x < 0)
 	{
+		StartAnimation("move");
+
 		m_facingDirection = FacingDirection::LEFT;
+
+		if (GetScale().x > 0)
+		{
+			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
+		}
 	}
+
+	GameObject::AdjustPosition(adjustPosition);
 }
 
 void Character::OnCollision(GameObject* collidingObject)
 {
-	if (collidingObject->GetName() == "ground")
+	
+
+	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
 	{
-		SetJumping(false); 
+		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		{
+			SetJumping(false);
+			StartAnimation("idle", true);
+		}
+	}
+
+	
+	if (collidingObject->GetName() == "wall" || collidingObject->GetName() == "Wall")
+	{
+		/*SetJumping(false);
+		StartAnimation("idle", true);*/
+		if (m_facingDirection == FacingDirection::RIGHT)
+		{
+			 m_bHitLeftWall = true;
+			 m_bHitRightWall = false;
+		}
+		else if(m_facingDirection == FacingDirection::LEFT)
+		{
+			m_bHitLeftWall = false;
+			m_bHitRightWall = true;
+		}
+		//AdjustPosition({ -m_movementData.movementSpeed * Quack::GetDeltaTime(), 0.0f, 0.0f });
+		
 	}
 
 	Actor::AddCollision(collidingObject);
@@ -83,7 +163,27 @@ void Character::OnCollision(GameObject* collidingObject)
 
 void Character::OnCollisionOver(GameObject* gameObject)
 {
+	GameObject::RemoveCollision(gameObject);
+
+	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
+	{
+		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		{
+			SetCollidingWithGround(false);
+			StartAnimation("jump");
+		}
+	}
+<<<<<<< Updated upstream
+=======
+	if (gameObject->GetName() == "wall" || gameObject->GetName() == "Wall")
+	{
+		//StartAnimation("jump");
+		m_bHitLeftWall = false;
+		m_bHitRightWall = false;
+	}
+
 	Actor::RemoveCollision(gameObject);
+>>>>>>> Stashed changes
 }
 
 void Character::Jump()
@@ -163,9 +263,95 @@ void Character::SpecialAttack()
 	}
 }
 
+void Character::AttackStarted(const std::string attackType)
+{
+	StartAnimation(attackType);
+}
+
+bool Character::GetAttacking() const
+{
+	if (m_combatComponent)
+	{
+		return m_combatComponent->GetAttacking();
+	}
+
+	return false;
+}
+
+void Character::AttemptToDash()
+{
+	if (Quack::GetGameTime() >= (m_TimeSinceLastDash + m_DashCooldowm))
+	{
+		m_IsDashing = true;
+		m_DashTimeLeft = m_DashTime;
+		m_TimeSinceLastDash = Quack::GetGameTime();
+		cout << "attempttodash" << endl;
+	}
+}
+
+void Character::CheckDash()
+{
+	if (m_IsDashing)
+	{
+		if (m_DashTimeLeft > 0)
+		{
+			//m_CanMove = false;
+			AdjustPosition(Vector3((GetMovementSpeed() * Quack::GetDeltaTime()), 0.0f, 1.0f));
+			m_DashTimeLeft -= Quack::GetDeltaTime();
+		}
+		if (m_DashTimeLeft <= 0)
+		{
+			m_IsDashing = false;
+			m_CanMove = true;
+			m_physicsComponent->ResetForces();
+		}
+		
+		cout << m_DashTimeLeft << endl;
+	}
+}
+
+void Character::SetIdleAnimation()
+{
+	StartAnimation("idle");
+}
+
+void Character::OnAnimationFinished(const AnimationRowData& finishedAnimation)
+{
+	if (GetCollidingWithGround())
+	{
+		StartAnimation("idle");
+	}
+	else
+	{
+		StartAnimation("jump");
+	}
+}
+
+void Character::StartAnimation(const std::string animationName, const bool bForce)
+{
+	if (!bForce)
+	{
+		if (animationName == "move" && !GetCollidingWithGround())
+		{
+			return;
+		}
+
+		if (animationName == "move" && (GetCurrentAnimation().name == "lightAttack" || GetCurrentAnimation().name == "heavyAttack" || GetCurrentAnimation().name == "specialAttack"))
+		{
+			return;
+		}
+
+		if (animationName == "idle" && !GetCollidingWithGround())
+		{
+			return;
+		}
+	}
+	
+	Actor::StartAnimation(animationName);
+}
+
 void Character::TakeDamage(const float amount, const float knockbackAmount, const float knockbackSpeed, const FacingDirection damageDirection)
 {
-	std::cout << "Ouch - " + m_name << std::endl;
 	if (knockbackAmount > 0.0f)
 	{
 		const float bdamageDirectionRight = damageDirection == FacingDirection::RIGHT;
@@ -177,6 +363,7 @@ void Character::TakeDamage(const float amount, const float knockbackAmount, cons
 		m_totalKnockbackAmount = bdamageDirectionRight ? -finalKnockbackAmount : finalKnockbackAmount;
 	}
 	AdjustCurrentHealth(-amount);
+	StartAnimation("takeHit");
 }
 
 void Character::Kill()
@@ -186,6 +373,6 @@ void Character::Kill()
 
 void Character::Die()
 {
-	std::cout << "Im dead - " + m_name << std::endl;
+	StartAnimation("die");
 	Quack::GetCurrentScene()->RemoveGameObject(this);
 }
