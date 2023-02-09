@@ -127,7 +127,7 @@ void CombatComponent::ActivateDelayTimerFinished()
 
 	const bool RightAttack = m_currentAttackFacingDirection == FacingDirection::RIGHT ? true : false;
 	const Vector3 HitboxPosition = RightAttack ? Vector3(m_owningActor->GetCollisionCenter().x + (m_owningActor->GetCollisionBoxSize().x * 0.5f) + (m_currentAttackData.hitboxScale.x * 0.5f) + m_currentAttackData.sideOffset, m_owningActor->GetCollisionCenter().y, m_owningActor->GetCollisionCenter().z) : Vector3(m_owningActor->GetCollisionCenter().x - (m_owningActor->GetCollisionBoxSize().x * 0.5f) - (m_currentAttackData.hitboxScale.x * 0.5f) - m_currentAttackData.sideOffset, m_owningActor->GetCollisionCenter().y, m_owningActor->GetCollisionCenter().z);
-	VertexData* weaponHitboxVertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
+	VertexData* weaponHitboxVertexData = QuackEngine::JsonLoader::LoadObjectData2D("Square");
 
 	TransformData weaponHitboxTransformData = TransformData(HitboxPosition, m_owningActor->GetRotation(), m_currentAttackData.hitboxScale);
 	CollisionData weaponHitboxCollisionData = CollisionData(weaponHitboxTransformData.position, Vector3(0.0f), weaponHitboxTransformData.scale);
