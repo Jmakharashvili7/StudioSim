@@ -79,7 +79,6 @@ void PhysicsComponent::SetOnGround(const bool bOnGround)
 	}
 	else
 	{
-		
 		//UpdateAccelerationByGravity();
 	}
 }
@@ -102,4 +101,31 @@ void PhysicsComponent::ResetForces()
 {
 	//SetAcceleration(Vector3(0, 0, 0));
 	SetVelocity(Vector3(0, 0, 0));
+}
+
+void PhysicsComponent::SetHitWall(const bool bHitRightWall, const bool bHitLeftWall)
+{
+	m_bHitRightWall = bHitRightWall;
+	m_bHitLeftWall = bHitLeftWall;
+
+	if (m_bHitRightWall)
+	{
+		//ResetForces();
+		m_ContactsWall->m_PhysicsObject[0] = this;
+		m_ContactsWall->m_PhysicsObject[1] = nullptr;
+		m_ContactsWall->m_contactNormal = Vector3(-5, 0, 0);
+		QE_LOG("right side resolve");
+		//m_ContactsWall->restitution = 1.0f;
+
+	}
+	if (m_bHitLeftWall)
+	{
+		m_ContactsWall->m_PhysicsObject[0] = this;
+		m_ContactsWall->m_PhysicsObject[1] = nullptr;
+		m_ContactsWall->m_contactNormal = Vector3(1, 0, 0);
+		m_ContactsWall->restitution = 0.0f;
+		QE_LOG("left side resolve");
+
+		//UpdateAccelerationByGravity();
+	}
 }

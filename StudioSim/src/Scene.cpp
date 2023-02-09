@@ -258,7 +258,6 @@ void Scene::HandleInput()
 			{
 				if (!inputCharacter->GetHittingWallRight())
 				{
-					
 					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}
 			}

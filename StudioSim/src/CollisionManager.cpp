@@ -145,6 +145,11 @@ float CollisionResolver::CalculateSeparateVelocity() const
 
 void CollisionResolver::ResolveVelocity(float deltaTime)
 {
+	if (m_PhysicsObject[1])
+	{
+		m_contactNormal = m_PhysicsObject[1]->GetOwningActor()->GetPosition() - m_PhysicsObject[0]->GetOwningActor()->GetPosition();
+	}
+
 	float separatingVelocity = CalculateSeparateVelocity();
 
 	if (separatingVelocity > 0)
