@@ -97,9 +97,9 @@ void EditorUI::Render()
 			ImGui::PopItemWidth();
 
 			ImGui::PushItemWidth(m_ItemWidth);
-			Vector3 rot = m_object->GetRotation();
-			ImGui::DragFloat("Rotation", &rot.z);
-			if (m_object->GetRotation().x != rot.x || m_object->GetRotation().y != rot.y || m_object->GetRotation().z != rot.z)
+			float rot = CustomMaths::ToDegrees(m_object->GetTransform()->GetFloatRotation());
+			ImGui::DragFloat("Rotation", &rot);
+			if (CustomMaths::ToDegrees(m_object->GetTransform()->GetFloatRotation() != rot))
 			{
 				m_object->SetRotation(rot);
 			}

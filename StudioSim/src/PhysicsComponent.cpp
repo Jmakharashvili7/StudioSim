@@ -41,6 +41,7 @@ void PhysicsComponent::Update(float deltaTime)
 	if (m_bOnGround)
 	{
 		m_Contacts->Resolve(deltaTime);
+		
 	}
 
 
@@ -72,10 +73,11 @@ void PhysicsComponent::SetOnGround(const bool bOnGround)
 		//ResetForces();
 		m_Contacts->m_PhysicsObject[0] = this;
 		m_Contacts->m_PhysicsObject[1] = nullptr;
-
+		m_Contacts->restitution = 0.05f; 
 	}
 	else
 	{
+		
 		//UpdateAccelerationByGravity();
 	}
 }

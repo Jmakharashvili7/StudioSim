@@ -176,5 +176,5 @@ void CollisionResolver::ResolveVelocity(float deltaTime)
 	{
 		m_PhysicsObject[1]->SetVelocity(m_PhysicsObject[1]->GetVelocity() + impulsePerMass * -m_PhysicsObject[1]->GetInverseMass());
 	}
-
+	restitution = 0.0f;
 }
