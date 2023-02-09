@@ -5,6 +5,7 @@
 #include "JsonLoader.h"
 #include "Character.h"
 #include "AttackHitbox.h"
+#include "Observer.h"
 
 CombatComponent::CombatComponent(Actor* owner, int updateOrder, const WeaponData& startingWeaponData) : Component {owner, updateOrder}
 {
@@ -13,6 +14,7 @@ CombatComponent::CombatComponent(Actor* owner, int updateOrder, const WeaponData
 
 	// Weapon init
 	m_currentWeaponData = startingWeaponData;
+	EventManager::Instance().PlayMusic.Subscribe([this]() { this->LightAttack(); });
 }
 
 CombatComponent::~CombatComponent()
@@ -64,6 +66,8 @@ void CombatComponent::LightAttack()
 {
 	if (CanAttack())
 	{
+		Quack::GetAudioEngine()->PlaySound("res/Sounds/LightAttack.wav", Quack::GetAudioEngine()->Effects() , Vec3{ 0,0,0 }, 0.0f);
+		Quack::GetAudioEngine()->PlaySound("res/Sounds/JessicaLight.wav", Quack::GetAudioEngine()->Effects(), Vec3{ 0,0,0 }, 0.0f);
 		m_owningCharacter->AttackStarted("lightAttack");
 		StartAttack(m_currentWeaponData.lightAttackData);
 	}
@@ -73,6 +77,8 @@ void CombatComponent::HeavyAttack()
 {
 	if (CanAttack())
 	{
+		Quack::GetAudioEngine()->PlaySound("res/Sounds/HeavyAttack.wav", Quack::GetAudioEngine()->Effects(), Vec3{0,0,0}, 0.0f);
+		Quack::GetAudioEngine()->PlaySound("res/Sounds/JessicaHeavy.wav", Quack::GetAudioEngine()->Effects(), Vec3{ 0,0,0 }, 0.0f);
 		m_owningCharacter->AttackStarted("heavyAttack");
 		StartAttack(m_currentWeaponData.heavyAttackData);
 	}

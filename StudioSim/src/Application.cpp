@@ -14,6 +14,7 @@ int main(void)
     {
         Quack::Update();
         Quack::RenderUpdate();
+        Quack::GetAudioEngine()->Update();
     }
     Quack::ShutDown();
     return 0;

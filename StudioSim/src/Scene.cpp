@@ -50,6 +50,7 @@ void Scene::RenderScene()
 	glfwSwapBuffers(m_window->GetGLFWWindow());
 	/* Poll for and process events */
 	glfwPollEvents();
+	
 
 	m_frameBuffer->Unbind();
 }

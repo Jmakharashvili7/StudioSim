@@ -11,6 +11,7 @@
 #include "QuackDataTypes.h"
 #include "FrameBuffer.h"
 #include "Scene.h"
+#include "QuackAudio.h"
 
 class LayerStack;
 class UIRenderer;
@@ -47,6 +48,8 @@ public:
 	static inline Shader* GetTextureShader() { return m_textureShader; }
 
 	static Scene* GetCurrentScene() { return &m_mainScene; }
+	
+	static inline QuackAudio* GetAudioEngine() { return m_AudioEngine; }
 private:
 	Quack();
 	~Quack();
@@ -73,4 +76,6 @@ private:
 	static OrthographicCamera* m_mainCamera;
 
 	static std::map<std::string, Texture*> m_textures;
+
+	static QuackAudio* m_AudioEngine;
 };

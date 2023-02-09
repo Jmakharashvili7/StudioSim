@@ -186,6 +186,7 @@ void UILayer::EnableDocking()
 			if (ImGui::MenuItem("Close", NULL, false, &p_open != NULL))
 				p_open = false;
 
+
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();

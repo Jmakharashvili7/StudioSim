@@ -60,6 +60,7 @@
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\CombatComponent.cpp" />
     <ClCompile Include="src\AttackHitbox.cpp" />
+    <ClCompile Include="src\QuackAudio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\CombatComponent.h" />
     <ClInclude Include="src\AttackHitbox.h" />
     <ClInclude Include="src\Singleton.h" />
+    <ClInclude Include="src\QuackAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="engine res\icons\Dapino-Flowered-Folder-Folder-flower-pink.512.png" />
