@@ -15,7 +15,7 @@ PhysicsComponent::PhysicsComponent(Actor* owner, int updateOrder, const float ma
 	SetSimulateGravity(bSimulateGravity);
 	SetGravityValue(gravityMultiplier);
 	m_Contacts = new CollisionResolver();
-
+	m_ContactsWall = new CollisionResolver();
 }
 
 
@@ -41,10 +41,13 @@ void PhysicsComponent::Update(float deltaTime)
 	if (m_bOnGround)
 	{
 		m_Contacts->Resolve(deltaTime);
+		
 	}
 
-
-	
+	if (m_bHitLeftWall || m_bHitRightWall)
+	{
+		m_ContactsWall->Resolve(deltaTime);
+	}
 }
 
 void PhysicsComponent::UpdateAccelerationByGravity()
@@ -72,7 +75,7 @@ void PhysicsComponent::SetOnGround(const bool bOnGround)
 		//ResetForces();
 		m_Contacts->m_PhysicsObject[0] = this;
 		m_Contacts->m_PhysicsObject[1] = nullptr;
-
+		m_Contacts->restitution = 0.05f; 
 	}
 	else
 	{
@@ -98,4 +101,31 @@ void PhysicsComponent::ResetForces()
 {
 	//SetAcceleration(Vector3(0, 0, 0));
 	SetVelocity(Vector3(0, 0, 0));
+}
+
+void PhysicsComponent::SetHitWall(const bool bHitRightWall, const bool bHitLeftWall)
+{
+	m_bHitRightWall = bHitRightWall;
+	m_bHitLeftWall = bHitLeftWall;
+
+	if (m_bHitRightWall)
+	{
+		//ResetForces();
+		m_ContactsWall->m_PhysicsObject[0] = this;
+		m_ContactsWall->m_PhysicsObject[1] = nullptr;
+		m_ContactsWall->m_contactNormal = Vector3(-5, 0, 0);
+		QE_LOG("right side resolve");
+		//m_ContactsWall->restitution = 1.0f;
+
+	}
+	if (m_bHitLeftWall)
+	{
+		m_ContactsWall->m_PhysicsObject[0] = this;
+		m_ContactsWall->m_PhysicsObject[1] = nullptr;
+		m_ContactsWall->m_contactNormal = Vector3(1, 0, 0);
+		m_ContactsWall->restitution = 0.0f;
+		QE_LOG("left side resolve");
+
+		//UpdateAccelerationByGravity();
+	}
 }

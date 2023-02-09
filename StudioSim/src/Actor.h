@@ -74,6 +74,9 @@ public:
 	virtual void RemoveCollision(GameObject* gameObject);
 	virtual void SetCollidingWithGround(const bool bcollidingWithGround);
 	virtual inline const bool const GetCollidingWithGround() { return m_bcollidingWithGround; }
+	virtual const bool IsGroundObject(GameObject* gameObject) const;
+	virtual bool HasObjectsCollidingWithName(const std::string objectName);
+	virtual bool HasObjectsCollidingWithName(const std::vector<std::string> objectNames);
 
 	// Components
 	virtual void AddComponent(Component* component);
@@ -108,6 +111,7 @@ protected:
 	
 	// Collision
 	bool m_bcollidingWithGround = false;
+	std::vector<std::string> m_groundNames;
 
 	// Components
 	std::vector<Component*> m_components;

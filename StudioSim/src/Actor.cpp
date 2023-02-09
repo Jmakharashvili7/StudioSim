@@ -22,6 +22,14 @@ Actor::Actor(std::string name, VertexData* data, const TransformData& transformD
 	// Physics init
 	m_physicsComponent = new PhysicsComponent(this, 1, physicsData.mass, physicsData.bsimulateGravity, physicsData.gravityMultiplier);
 	AddComponent(m_physicsComponent);
+
+	// Collision init
+	m_groundNames.push_back("ground");
+	m_groundNames.push_back("Ground");
+	m_groundNames.push_back("floor");
+	m_groundNames.push_back("Floor");
+	m_groundNames.push_back("platform");
+	m_groundNames.push_back("Platform");
 }
 
 Actor::~Actor()
@@ -301,9 +309,12 @@ void Actor::SetCurrentAnimation(const AnimationRowData& newCurrentAnimation)
 
 void Actor::AddCollision(GameObject* collidingObject)
 {
-	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
+	if (IsGroundObject(collidingObject))
 	{
-		SetCollidingWithGround(true);
+		if (!HasObjectsCollidingWithName(m_groundNames))
+		{
+			SetCollidingWithGround(true);
+		}
 	}
 
 	GameObject::AddCollision(collidingObject);
@@ -311,12 +322,15 @@ void Actor::AddCollision(GameObject* collidingObject)
 
 void Actor::RemoveCollision(GameObject* gameObject)
 {
-	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
-	{
-		SetCollidingWithGround(false);
-	}
-
 	GameObject::RemoveCollision(gameObject);
+
+	if (IsGroundObject(gameObject))
+	{
+		if (!HasObjectsCollidingWithName(m_groundNames))
+		{
+			SetCollidingWithGround(false);
+		}
+	}
 }
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
@@ -327,6 +341,58 @@ void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
 	{
 		m_physicsComponent->SetOnGround(bcollidingWithGround);
 	}
+}
+
+const bool Actor::IsGroundObject(GameObject* gameObject) const
+{
+	bool bGroundObject = false;
+
+	for (std::string objectName : m_groundNames)
+	{
+		if (objectName == gameObject->GetName())
+		{
+			bGroundObject = true;
+			break;
+		}
+	}
+
+	return bGroundObject;
+}
+
+bool Actor::HasObjectsCollidingWithName(const std::string objectName)
+{
+	bool bFound = false;
+
+	for (GameObject* collidingObject : m_collidingObjects)
+	{
+		if (collidingObject->GetName() == objectName)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	return bFound;
+}
+
+bool Actor::HasObjectsCollidingWithName(const std::vector<std::string> objectNames)
+{
+	bool bFound = false;
+
+	for (GameObject* collidingObject : m_collidingObjects)
+	{
+		for (std::string objectName : objectNames)
+		{
+			if (collidingObject->GetName() == objectName)
+			{
+				bFound = true;
+				break;
+			}
+		}
+		
+	}
+
+	return bFound;
 }
 
 void Actor::AddComponent(Component* component)

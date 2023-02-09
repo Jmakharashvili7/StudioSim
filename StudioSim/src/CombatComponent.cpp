@@ -114,6 +114,12 @@ bool const CombatComponent::CanAttack() const
 	return false;
 }
 
+void CombatComponent::ForceStopAttack()
+{
+	ActiveTimerFinished();
+	AttackFinished();
+}
+
 void CombatComponent::ResetTimerBools()
 {
 	m_bactivateDelayTimerFinished = false;
@@ -140,8 +146,11 @@ void CombatComponent::ActiveTimerFinished()
 {
 	m_bactivateTimerFinished = true;
 
-	Quack::GetCurrentScene()->RemoveGameObject(m_attackHitbox);
-	m_attackHitbox = nullptr;
+	if (m_attackHitbox)
+	{
+		Quack::GetCurrentScene()->RemoveGameObject(m_attackHitbox);
+		m_attackHitbox = nullptr;
+	}
 }
 
 void CombatComponent::DeactivateTimerFinished()

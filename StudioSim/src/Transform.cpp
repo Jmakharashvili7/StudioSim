@@ -44,9 +44,9 @@ void Transform::AdjustPosition(const Vector3 adjustPosition)
 	UpdateTransformMatrix();
 }
 
-void Transform::SetRotation(const Vector3 newRotation)
+void Transform::SetRotation(const float newAngle)
 {
-	m_rotation = newRotation;
+	m_fRotation = CustomMaths::ToRadians(newAngle);
 	UpdateTransformMatrix();
 }
 

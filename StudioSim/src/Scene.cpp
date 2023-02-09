@@ -41,7 +41,7 @@ void Scene::RenderScene()
 {
 	m_frameBuffer->Bind();
 	/* Render here */
-	glClearColor(m_uiMain->GetColor().x, m_uiMain->GetColor().y, m_uiMain->GetColor().z, 1.0f);
+	glClearColor(12.0f/255.0f, 19.0f/255.0f, 25.0f/255.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	Render();
@@ -248,13 +248,19 @@ void Scene::HandleInput()
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				if (!inputCharacter->GetHittingWallLeft()) 
+				{
+					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				}
 			}
 
 			// MOVE LEFT
 			if (inputComponent->GetKeyDown('a'))
 			{
-				inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				if (!inputCharacter->GetHittingWallRight())
+				{
+					inputCharacter->AdjustPosition(Vector3((-inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
+				}
 			}
 
 			// IDLE

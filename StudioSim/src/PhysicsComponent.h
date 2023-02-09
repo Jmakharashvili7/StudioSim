@@ -45,6 +45,7 @@ public:
 
 	void ClearAccumulator();
 
+	void SetHitWall(const bool bHitRightWall, const bool bHitLeftWall);
 
 	float GetSpeed() { return  m_Velocity.Length(); }
 	Vector3 GetDirection() { return Vector3::Normalize(m_Velocity); }
@@ -90,8 +91,11 @@ protected:
 	float m_baseGravitationalValue = 9.807f;
 
 	bool m_bOnGround = false;
+	bool m_bHitLeftWall = false;
+	bool m_bHitRightWall = false;
 
 	bool m_bSimulateGravity = true;
 
 	class CollisionResolver* m_Contacts;
+	class CollisionResolver* m_ContactsWall;
 };

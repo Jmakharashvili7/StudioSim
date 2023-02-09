@@ -145,6 +145,11 @@ float CollisionResolver::CalculateSeparateVelocity() const
 
 void CollisionResolver::ResolveVelocity(float deltaTime)
 {
+	if (m_PhysicsObject[1])
+	{
+		m_contactNormal = m_PhysicsObject[1]->GetOwningActor()->GetPosition() - m_PhysicsObject[0]->GetOwningActor()->GetPosition();
+	}
+
 	float separatingVelocity = CalculateSeparateVelocity();
 
 	if (separatingVelocity > 0)
@@ -176,5 +181,5 @@ void CollisionResolver::ResolveVelocity(float deltaTime)
 	{
 		m_PhysicsObject[1]->SetVelocity(m_PhysicsObject[1]->GetVelocity() + impulsePerMass * -m_PhysicsObject[1]->GetInverseMass());
 	}
-
+	restitution = 0.0f;
 }

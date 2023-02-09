@@ -441,7 +441,7 @@ void UILayer::ObjectName()
 
 	if (ImGui::TreeNode("Object Name"))
 	{
-		static char charName[128] = "_____";
+		static char charName[128] = "";
 		strcpy_s(charName, name.c_str());
 		ImGui::InputText("Object Name", charName, IM_ARRAYSIZE(charName));
 		name = charName;
