@@ -201,7 +201,10 @@ void Scene::Render()
 		if (gameObject) gameObject->Draw(m_activeCamera);
 	}
 
-	Renderer::DrawDebugLines(m_activeCamera);
+	if (m_StopInput)
+	{
+		Renderer::DrawDebugLines(m_activeCamera);
+	}
 }
 
 void Scene::PhysicsUpdate()
