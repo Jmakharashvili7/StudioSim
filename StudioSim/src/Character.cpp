@@ -23,7 +23,7 @@ Character::Character(std::string name, VertexData* data, const TransformData& tr
 	ResetCurrentHealth();
 
 	// Combat init
-	m_currentWeaponData = WeaponData("test", "twist.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.85f, 1.0f, 1.0f), 0.0f, 0.1f, 0.1f, 0.2f, 0.05f), AttackData(40.0f, 1.0f, 20.0f, Vector3(1.25f, 1.0f, 1.0f), 0.2f, 0.2f, 0.25f, 0.25f, 0.05f)); // todo move
+	m_currentWeaponData = WeaponData("test", "Hitbox.png", AttackData(25.0f, 0.5f, 10.0f, Vector3(0.85f, 1.0f, 1.0f), 0.0f, 0.1f, 0.1f, 0.2f, 0.05f), AttackData(40.0f, 1.0f, 20.0f, Vector3(1.25f, 1.0f, 1.0f), 0.2f, 0.2f, 0.25f, 0.25f, 0.05f)); // todo move
 	m_combatComponent = new CombatComponent(this, 2, m_currentWeaponData);
 	AddComponent(m_combatComponent);
 
@@ -128,12 +128,16 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 
 void Character::AddCollision(GameObject* collidingObject)
 {
-	if (collidingObject->GetName() == "ground" || collidingObject->GetName() == "Ground")
+	if (IsGroundObject(collidingObject))
 	{
-		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		if (!HasObjectsCollidingWithName(m_groundNames))
 		{
 			SetJumping(false);
-			StartAnimation("idle", true);
+
+			if (GetCurrentAnimation().name != "lightAttack" && GetCurrentAnimation().name != "heavyAttack" && GetCurrentAnimation().name != "specialAttack")
+			{
+				StartAnimation("idle", true);
+			}
 		}
 	}
 
@@ -144,9 +148,9 @@ void Character::RemoveCollision(GameObject* gameObject)
 {
 	GameObject::RemoveCollision(gameObject);
 
-	if (gameObject->GetName() == "ground" || gameObject->GetName() == "Ground")
+	if (IsGroundObject(gameObject))
 	{
-		if (!HasObjectsCollidingWithName("Ground") && !HasObjectsCollidingWithName("ground"))
+		if (!HasObjectsCollidingWithName(m_groundNames))
 		{
 			SetCollidingWithGround(false);
 			StartAnimation("jump");
