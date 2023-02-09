@@ -331,7 +331,15 @@ void Actor::RemoveCollision(GameObject* gameObject)
 			SetCollidingWithGround(false);
 		}
 	}
+<<<<<<< Updated upstream
+=======
+
+
+	GameObject::RemoveCollision(gameObject);
+>>>>>>> Stashed changes
 }
+
+
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)
 {

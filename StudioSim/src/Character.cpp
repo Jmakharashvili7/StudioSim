@@ -141,6 +141,20 @@ void Character::AddCollision(GameObject* collidingObject)
 		}
 	}
 
+	if (collidingObject->GetName() == "wall" || collidingObject->GetName() == "Wall")
+	{
+		if (m_facingDirection == FacingDirection::RIGHT)
+		{
+			 m_bHitLeftWall = true;
+			 m_bHitRightWall = false;
+		}
+		else if(m_facingDirection == FacingDirection::LEFT)
+		{
+			m_bHitLeftWall = false;
+			m_bHitRightWall = true;
+		}
+	}
+
 	Actor::AddCollision(collidingObject);
 }
 
@@ -155,6 +169,12 @@ void Character::RemoveCollision(GameObject* gameObject)
 			SetCollidingWithGround(false);
 			StartAnimation("jump");
 		}
+	}
+	
+	if (gameObject->GetName() == "wall" || gameObject->GetName() == "Wall")
+	{
+		m_bHitLeftWall = false;
+		m_bHitRightWall = false;
 	}
 }
 
