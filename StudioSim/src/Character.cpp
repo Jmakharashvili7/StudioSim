@@ -161,6 +161,7 @@ void Character::OnCollision(GameObject* collidingObject)
 
 void Character::OnCollisionOver(GameObject* gameObject)
 {
+	Actor::OnCollisionOver(gameObject);
 
 	if (IsGroundObject(gameObject))
 	{
