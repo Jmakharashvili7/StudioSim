@@ -54,6 +54,8 @@ public:
 	static Scene* GetCurrentScene() { return &m_mainScene; }
 
 	inline KeyEvent GetKeyEvent() { return m_keyEvent; }
+
+	static QuackAudio* GetAudioEngine() { return m_AudioEngine; }
 	//inline MouseEvent GetMouseEvent() { return m_mouseEvent; }
 private:
 	Quack();
