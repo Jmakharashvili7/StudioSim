@@ -53,7 +53,22 @@ void RangedAIComponent::Update(const float deltaTime)
 		}
 		break;
 	case MeleeState::ATTACKING:
-		Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, Vector3::Direction(enemyPos, playerPos), enemyPos));
+		m_attackTimer += deltaTime;
+		if (m_attackTimer >= m_attackSpeed/2)
+		{
+			if (!m_animStarted)
+			{
+				m_owningActor->StartAnimation("attack");
+				m_animStarted = true;
+			}
+		}
+		if (m_attackTimer >= m_attackSpeed)
+		{
+			Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, Vector3::Direction(enemyPos, playerPos), enemyPos));
+			m_attackTimer = 0.0f;
+			m_animStarted = false;
+		}
+
 		if (Vector3::Distance(enemyPos, playerPos) >= m_attackRange)
 		{
 			m_state = MeleeState::IDLE;

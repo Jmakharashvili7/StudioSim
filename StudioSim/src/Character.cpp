@@ -43,6 +43,7 @@ void Character::Update(const float deltaTime)
 
 	if (m_beingKnockbacked)
 	{
+		StartAnimation("hit");
 		const float tickKnockbackAmount = m_knockbackSpeed * deltaTime;
 		m_currentKnockbackAmount += glm::abs(tickKnockbackAmount);
 		AdjustPosition(Vector3(tickKnockbackAmount, 0.0f, 0.0f));

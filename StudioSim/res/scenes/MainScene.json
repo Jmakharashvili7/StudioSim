@@ -21879,7 +21879,210 @@
             0.0,
             0.0
         ],
-        "textureName": "platform_1.png",
+        "textureName": "Hitbox.png",
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "GameObject315": {
+        "EnemyType": 2,
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 36,
+                "blooping": false,
+                "playRate": 15.857000350952148,
+                "rowName": "death",
+                "rowNumber": 0
+            },
+            "animRowData1": {
+                "amountOfColumns": 2,
+                "blooping": false,
+                "playRate": 10.0,
+                "rowName": "hit",
+                "rowNumber": 1
+            },
+            "animRowData10": {
+                "amountOfColumns": 2,
+                "blooping": false,
+                "playRate": 0.0,
+                "rowName": "twoframe",
+                "rowNumber": 10
+            },
+            "animRowData11": {
+                "amountOfColumns": 9,
+                "blooping": false,
+                "playRate": 10.0,
+                "rowName": "wideslash",
+                "rowNumber": 11
+            },
+            "animRowData12": {
+                "amountOfColumns": 9,
+                "blooping": false,
+                "playRate": 0.0,
+                "rowName": "idle",
+                "rowNumber": 12
+            },
+            "animRowData13": {
+                "amountOfColumns": 10,
+                "blooping": false,
+                "playRate": 8.28600025177002,
+                "rowName": "projectile",
+                "rowNumber": 0
+            },
+            "animRowData2": {
+                "amountOfColumns": 13,
+                "blooping": false,
+                "playRate": 10.0,
+                "rowName": "recovery",
+                "rowNumber": 2
+            },
+            "animRowData3": {
+                "amountOfColumns": 13,
+                "blooping": false,
+                "playRate": 9.571000099182129,
+                "rowName": "appear",
+                "rowNumber": 3
+            },
+            "animRowData4": {
+                "amountOfColumns": 6,
+                "blooping": false,
+                "playRate": 10.142999649047852,
+                "rowName": "disappear",
+                "rowNumber": 4
+            },
+            "animRowData5": {
+                "amountOfColumns": 4,
+                "blooping": false,
+                "playRate": 10.428999900817871,
+                "rowName": "temp1",
+                "rowNumber": 5
+            },
+            "animRowData6": {
+                "amountOfColumns": 4,
+                "blooping": false,
+                "playRate": 10.0,
+                "rowName": "temp2",
+                "rowNumber": 6
+            },
+            "animRowData7": {
+                "amountOfColumns": 16,
+                "blooping": false,
+                "playRate": 10.0,
+                "rowName": "charge",
+                "rowNumber": 7
+            },
+            "animRowData8": {
+                "amountOfColumns": 8,
+                "blooping": true,
+                "playRate": 10.571999549865723,
+                "rowName": "move",
+                "rowNumber": 8
+            },
+            "animRowData9": {
+                "amountOfColumns": 8,
+                "blooping": true,
+                "playRate": 10.142999649047852,
+                "rowName": "move2",
+                "rowNumber": 9
+            },
+            "numOfAnim": 14
+        },
+        "banimated": true,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "collisionType": 2,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 0.0,
+        "jumpHeight": 7.2820000648498535,
+        "mass": 1.0,
+        "maxHealth": 500.0,
+        "movementSpeed": 1.0579999685287476,
+        "name": "MiniPontiff",
+        "objectType": 3,
+        "position": {
+            "x": 56.96601104736328,
+            "y": -51.25244903564453,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "scale": {
+            "x": 6.0,
+            "y": 6.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "texCoords": [
+            0.1666666716337204,
+            0.6153846383094788,
+            0.1944444477558136,
+            0.6153846383094788,
+            0.1944444477558136,
+            0.692307710647583,
+            0.1944444477558136,
+            0.692307710647583,
+            0.1666666716337204,
+            0.692307710647583,
+            0.1666666716337204,
+            0.6153846383094788
+        ],
+        "textureName": "The Heart Hoarder Sprite sheet 222x119.png",
+        "totalColumns": 36,
+        "totalRows": 13,
         "vertices": [
             -0.5,
             -0.5,
@@ -22517,6 +22720,279 @@
             0.0
         ],
         "textureName": "damaged_brick_1.png",
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "GameObject323": {
+        "EnemyType": 1,
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 9.28600025177002,
+                "rowName": "idle",
+                "rowNumber": 3
+            },
+            "animRowData1": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 9.428999900817871,
+                "rowName": "move",
+                "rowNumber": 2
+            },
+            "animRowData2": {
+                "amountOfColumns": 3,
+                "blooping": true,
+                "playRate": 8.0,
+                "rowName": "attack",
+                "rowNumber": 1
+            },
+            "animRowData3": {
+                "amountOfColumns": 7,
+                "blooping": false,
+                "playRate": 9.28600025177002,
+                "rowName": "death",
+                "rowNumber": 0
+            },
+            "numOfAnim": 4
+        },
+        "banimated": true,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": -0.5,
+            "y": 0.5,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 0.0,
+        "jumpHeight": 7.2820000648498535,
+        "mass": 1.0,
+        "maxHealth": 26.663999557495117,
+        "movementSpeed": 1.0579999685287476,
+        "name": "RangedEnemy",
+        "objectType": 3,
+        "position": {
+            "x": -0.5,
+            "y": 0.5,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "texCoords": [
+            0.125,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.125,
+            0.25,
+            0.125,
+            0.0
+        ],
+        "textureName": "Cacodaemon Sprite Sheet.png",
+        "totalColumns": 8,
+        "totalRows": 4,
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "GameObject324": {
+        "EnemyType": 0,
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 22,
+                "blooping": false,
+                "playRate": 9.142999649047852,
+                "rowName": "death",
+                "rowNumber": 0
+            },
+            "animRowData1": {
+                "amountOfColumns": 4,
+                "blooping": false,
+                "playRate": 9.428000450134277,
+                "rowName": "hit",
+                "rowNumber": 1
+            },
+            "animRowData2": {
+                "amountOfColumns": 11,
+                "blooping": true,
+                "playRate": 7.85699987411499,
+                "rowName": "attack",
+                "rowNumber": 2
+            },
+            "animRowData3": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 9.0,
+                "rowName": "move",
+                "rowNumber": 3
+            },
+            "animRowData4": {
+                "amountOfColumns": 8,
+                "blooping": true,
+                "playRate": 8.0,
+                "rowName": "idle",
+                "rowNumber": 4
+            },
+            "numOfAnim": 5
+        },
+        "banimated": true,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 0.0,
+        "jumpHeight": 7.2820000648498535,
+        "mass": 1.0,
+        "maxHealth": 43.770999908447266,
+        "movementSpeed": 1.0579999685287476,
+        "name": "meleeEnemy",
+        "objectType": 3,
+        "position": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 1.0
+        },
+        "texCoords": [
+            0.043478261679410934,
+            0.0,
+            0.08695652335882187,
+            0.0,
+            0.08695652335882187,
+            0.20000000298023224,
+            0.08695652335882187,
+            0.20000000298023224,
+            0.043478261679410934,
+            0.20000000298023224,
+            0.043478261679410934,
+            0.0
+        ],
+        "textureName": "NightBorne.png",
+        "totalColumns": 23,
+        "totalRows": 5,
         "vertices": [
             -0.5,
             -0.5,
@@ -29122,8 +29598,13 @@
             1.0,
             1.0
         ],
-        "name": "Floor",
-        "objectType": 0,
+        "gravityMultiplier": 1.5,
+        "jumpHeight": 302.85699462890625,
+        "mass": 1.0,
+        "maxHealth": 100.0,
+        "movementSpeed": 5.0,
+        "name": "Jessica",
+        "objectType": 2,
         "position": {
             "x": 32.0,
             "y": -2.0,
@@ -29146,17 +29627,17 @@
             "z": 1.0
         },
         "texCoords": [
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
+            0.9090909361839294,
             0.0,
             1.0,
             0.0,
+            1.0,
+            0.125,
+            1.0,
+            0.125,
+            0.9090909361839294,
+            0.125,
+            0.9090909361839294,
             0.0
         ],
         "textureName": "floor_wood_carpet_2.png",
@@ -29181,5 +29662,5 @@
             0.0
         ]
     },
-    "ObjectCount": 320
+    "ObjectCount": 325
 }

@@ -321,11 +321,10 @@ namespace QuackEngine {
 			}
 
 			json j = json::parse(file);
-
 			return j[name].get<GameObject*>();
 		}
 
-		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, Grid<PathNode> grid)
+		static SceneInfo LoadScene(std::string sceneName, std::vector<GameObject*>& gameObjects, Grid<PathNode> grid, Grid<PathNode> bossGrid)
 		{
 			std::string path = "res/scenes/" + sceneName + ".json";
 
@@ -354,7 +353,10 @@ namespace QuackEngine {
 				{
 					Enemy* enemy = static_cast<Enemy*>(obj);
 
-					enemy->GetAIComponent()->SetGrid(grid);
+					if (enemy->GetEnemyType() == EnemyType::MINI_PONTIFF)
+						enemy->GetAIComponent()->SetGrid(bossGrid);
+					else
+						enemy->GetAIComponent()->SetGrid(grid);
 				}
 			}
 			
