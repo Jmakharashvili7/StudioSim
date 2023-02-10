@@ -29,8 +29,6 @@ Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformD
 		AddComponent(m_aiComponent);
 		break;
 	}
-
-	m_animator->SetAnimationRowNumber(0);
 }
 
 Enemy::~Enemy()
