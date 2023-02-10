@@ -191,6 +191,8 @@ void Scene::Update()
 		m_gameObjectsToRemove.clear();
 	}
 
+	const float deltaTime = m_gameTimer.GetDeltaTime();
+
 
 	// Make the camera and the background follow the player
 	if (Quack::GetUILayer()->GetInPlay())
