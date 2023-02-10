@@ -17,5 +17,10 @@ public:
 	virtual void SetGrid(Grid<PathNode> grid) { m_pathFinder->SetGrid(grid); }
 protected:
 
+	float m_attackTimer;
+	bool m_animStarted;
+	float m_attackSpeed;
+
+
 };
 

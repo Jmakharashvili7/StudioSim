@@ -125,9 +125,7 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 				}
 
 				newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
-				Quack::GetOrthoCam()->SetZoom(newZoom);
-
-				Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
+				Quack::GetOrthoCam()->SetZoom(newZoom, aspect);
 			}
 		}
 

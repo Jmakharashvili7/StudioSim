@@ -6,7 +6,14 @@
 
 RangedAIComponent::RangedAIComponent(Actor* owningActor, const int updateOrder) : AIComponent(owningActor, updateOrder)
 {
-
+	m_state = MeleeState::IDLE;
+	m_targetRange = 20.0f;
+	m_attackRange = 10.0f;
+	m_pathUpdateTime = 0.5f;
+	m_speed = 3.0f;
+	m_attackSpeed = 0.75f;
+	m_attackTimer = 0.0f;
+	m_animStarted = false;
 }
 
 void RangedAIComponent::Update(const float deltaTime)

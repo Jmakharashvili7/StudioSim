@@ -5,13 +5,13 @@
 #include "Quack.h"
 #include "EngineManager.h"
 
-GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, Shader* shader) : 
-	m_name(name), 
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, Shader* shader) :
+	m_name(name),
 	m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
-	m_collisionData(collisionData), 
-	m_data(data), 
-	m_transformData(transformData), 
-	m_textureName(textureName), 
+	m_collisionData(collisionData),
+	m_data(data),
+	m_transformData(transformData),
+	m_textureName(textureName),
 	m_shader(shader)
 {
 	m_type = GameObjectType::OBJECT;
@@ -21,7 +21,7 @@ GameObject::GameObject(std::string name, VertexData* data, const TransformData& 
 	m_texture = Quack::GetTexture(textureName);
 }
 
-GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName) : 
+GameObject::GameObject(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName) :
 	m_name(name),
 	m_transform(new Transform(transformData.position, transformData.rotation, transformData.scale)),
 	m_collisionData(collisionData),
@@ -59,7 +59,7 @@ void GameObject::Draw(OrthographicCamera* camera)
 	m_shader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
 	m_shader->SetUniform4x4("u_viewProjection", camera->GetViewProjectionMatrix());
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
-	
+
 	m_shader->Unbind();
 	m_texture->UnBind();
 	m_va->Unbind();
@@ -136,7 +136,7 @@ void GameObject::SetNewTexture(std::string fileName)
 	else
 	{
 		QE_LOG("Texture Does Not Exist");
-	}	
+	}
 }
 
 const bool GameObject::GetIsCollidingGameObject(GameObject* gameObject) const

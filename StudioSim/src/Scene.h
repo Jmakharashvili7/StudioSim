@@ -27,12 +27,13 @@ public:
 	Scene() {}
 	Scene(const std::string& path, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer);
 	~Scene() {}
-	
+
 	void RenderScene();
 
 	inline OrthographicCamera* GetCamera() { return m_activeCamera; }
 	void SaveScene();
 	void LoadScene();
+	void ResetScene();
 
 	inline std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 	void AddGameObject(GameObject* newGameObject);
@@ -49,8 +50,6 @@ public:
 	void SetGravity(const bool bactive);
 	void SetInput(const bool bactive);
 private:
-	void HandleLights();
-
 	void HandleInput();
 
 	void Render();
@@ -88,11 +87,11 @@ private:
 	glm::vec4 m_lightAmbient;
 
 	OrthographicCamera* m_activeCamera;
-;
+	;
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
-	
+
 	FrameBuffer* m_frameBuffer;
 
 	bool m_StopInput = true;
@@ -100,4 +99,3 @@ private:
 	std::vector<GameObject*> m_gameObjectsToAdd;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 };
-
