@@ -8,7 +8,8 @@
 EnemyProjectile::EnemyProjectile(std::string projName, float speed, Vector3 dir, Vector3 pos) :
 	GameObject(*JsonLoader::LoadGameObject2D(projName)),
 	m_speed(speed),
-	m_direction(dir)
+	m_direction(dir),
+	m_isBeingDestroyed(false)
 {
 	VertexData* vertexData = JsonLoader::LoadObjectData2D("Square");
 	TransformData transform = TransformData(m_transform->GetPosition(), m_transform->GetRotation(), m_transform->GetScale());
@@ -18,21 +19,29 @@ EnemyProjectile::EnemyProjectile(std::string projName, float speed, Vector3 dir,
 
 void EnemyProjectile::Update(float deltaTime)
 {
-	Vector3 travel = m_speed * m_direction * deltaTime;
-
-	AdjustPosition(travel);
-
-	m_distanceTraveled += travel.Length();
-	if (m_distanceTraveled >= 10.0f)
+	if (!m_isBeingDestroyed)
 	{
-		Quack::GetCurrentScene()->RemoveGameObject(this);
+		Vector3 travel = m_speed * m_direction * deltaTime;
+
+		AdjustPosition(travel);
+
+		m_distanceTraveled += travel.Length();
+		if (m_distanceTraveled >= 10.0f)
+		{
+			Quack::GetCurrentScene()->RemoveGameObject(this);
+			m_isBeingDestroyed = true;
+		}
 	}
 }
 
 void EnemyProjectile::OnCollision(GameObject* collidingObject)
 {
-	if (collidingObject->GetType() != GameObjectType::ENEMY && collidingObject->GetType() != GameObjectType::PROJECTILE)
+	if (!m_isBeingDestroyed)
 	{
-		Quack::GetCurrentScene()->RemoveGameObject(this);
+		if (collidingObject->GetType() != GameObjectType::ENEMY && collidingObject->GetType() != GameObjectType::PROJECTILE)
+		{
+			Quack::GetCurrentScene()->RemoveGameObject(this);
+			m_isBeingDestroyed = true;
+		}
 	}
 }

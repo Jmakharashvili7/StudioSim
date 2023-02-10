@@ -3050,7 +3050,7 @@
                 "amountOfColumns": 4,
                 "blooping": false,
                 "playRate": 15.0,
-                "rowName": "takeHit",
+                "rowName": "hit",
                 "rowNumber": 6
             },
             "numOfAnim": 7
@@ -22832,6 +22832,279 @@
             0.0
         ]
     },
+    "GameObject322": {
+        "EnemyType": 0,
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 22,
+                "blooping": false,
+                "playRate": 9.0,
+                "rowName": "death",
+                "rowNumber": 0
+            },
+            "animRowData1": {
+                "amountOfColumns": 4,
+                "blooping": false,
+                "playRate": 7.285999774932861,
+                "rowName": "hit",
+                "rowNumber": 1
+            },
+            "animRowData2": {
+                "amountOfColumns": 11,
+                "blooping": false,
+                "playRate": 8.0,
+                "rowName": "attack",
+                "rowNumber": 2
+            },
+            "animRowData3": {
+                "amountOfColumns": 5,
+                "blooping": false,
+                "playRate": 0.0,
+                "rowName": "move",
+                "rowNumber": 3
+            },
+            "animRowData4": {
+                "amountOfColumns": 8,
+                "blooping": false,
+                "playRate": 8.28600025177002,
+                "rowName": "idle",
+                "rowNumber": 4
+            },
+            "numOfAnim": 5
+        },
+        "banimated": true,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 1.0,
+        "jumpHeight": 76.9229965209961,
+        "mass": 1.0,
+        "maxHealth": 199.63099670410156,
+        "movementSpeed": 5.614999771118164,
+        "name": "MeleeEnemy",
+        "objectType": 3,
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 0.0
+        },
+        "texCoords": [
+            0.27272728085517883,
+            0.0,
+            0.3181818127632141,
+            0.0,
+            0.3181818127632141,
+            0.25,
+            0.3181818127632141,
+            0.25,
+            0.27272728085517883,
+            0.25,
+            0.27272728085517883,
+            0.0
+        ],
+        "textureName": "NightBorne.png",
+        "totalColumns": 22,
+        "totalRows": 4,
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
+    "GameObject323": {
+        "EnemyType": 1,
+        "animationRowData": {
+            "animRowData0": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 8.241999626159668,
+                "rowName": "idle",
+                "rowNumber": 3
+            },
+            "animRowData1": {
+                "amountOfColumns": 5,
+                "blooping": true,
+                "playRate": 8.428999900817871,
+                "rowName": "move",
+                "rowNumber": 2
+            },
+            "animRowData2": {
+                "amountOfColumns": 3,
+                "blooping": false,
+                "playRate": 8.428999900817871,
+                "rowName": "attack",
+                "rowNumber": 1
+            },
+            "animRowData3": {
+                "amountOfColumns": 7,
+                "blooping": false,
+                "playRate": 8.142999649047852,
+                "rowName": "death",
+                "rowNumber": 0
+            },
+            "numOfAnim": 4
+        },
+        "banimated": true,
+        "bconsumeInput": false,
+        "bsimulateGravity": false,
+        "centerPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "centerPositionOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "collisionType": 0,
+        "colors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "gravityMultiplier": 0.0,
+        "jumpHeight": 97.14299774169922,
+        "mass": 1.0,
+        "maxHealth": 199.63099670410156,
+        "movementSpeed": 3.0980000495910645,
+        "name": "RangedEnemy",
+        "objectType": 3,
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "radius": 0.0,
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "size": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 0.0
+        },
+        "texCoords": [
+            0.5714285969734192,
+            0.0,
+            0.7142857313156128,
+            0.0,
+            0.7142857313156128,
+            0.3333333432674408,
+            0.7142857313156128,
+            0.3333333432674408,
+            0.5714285969734192,
+            0.3333333432674408,
+            0.5714285969734192,
+            0.0
+        ],
+        "textureName": "Cacodaemon Sprite Sheet.png",
+        "totalColumns": 7,
+        "totalRows": 3,
+        "vertices": [
+            -0.5,
+            -0.5,
+            0.0,
+            0.5,
+            -0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            0.5,
+            0.5,
+            0.0,
+            -0.5,
+            0.5,
+            0.0,
+            -0.5,
+            -0.5,
+            0.0
+        ]
+    },
     "GameObject33": {
         "centerPosition": {
             "x": -15.0,
@@ -29475,5 +29748,5 @@
             0.0
         ]
     },
-    "ObjectCount": 322
+    "ObjectCount": 324
 }

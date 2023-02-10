@@ -7,7 +7,7 @@
 
 PontiffFireState::PontiffFireState(MiniPontiff* pontiff) : PontiffState(pontiff)
 {
-	m_timer = 2.0f;
+	m_timer = 1.0f;
 }
 
 void PontiffFireState::Update(float deltaTime)

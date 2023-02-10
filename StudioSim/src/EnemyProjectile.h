@@ -14,5 +14,6 @@ private:
 	float m_speed;
 	float m_distanceTraveled;
 	Vector3 m_direction;
+	bool m_isBeingDestroyed;
 };
 

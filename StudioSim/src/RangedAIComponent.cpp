@@ -68,7 +68,7 @@ void RangedAIComponent::Update(const float deltaTime)
 		{
 			if (!m_animStarted)
 			{
-				m_owningActor->StartAnimation("themicheydeluxe");
+				m_owningActor->StartAnimation("attack");
 				m_animStarted = true;
 			}
 		}

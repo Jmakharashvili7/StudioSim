@@ -11,12 +11,14 @@
 PontiffBaseState::PontiffBaseState(MiniPontiff* pontiff) : PontiffState(pontiff)
 {
 	m_timer = 2.0f;
+	m_pontiff->StartAnimation("idle");
 }
 
 void PontiffBaseState::Update(float deltaTime)
 {
 	m_currTime += deltaTime;
 	m_pontiff->GetAIComponent()->Update(deltaTime);
+	m_pontiff->StartAnimation("move");
 
 	if (m_currTime >= m_timer)
 	{
