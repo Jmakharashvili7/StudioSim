@@ -19,7 +19,6 @@ public:
 	virtual void OnCollisionOver(GameObject* gameObject) override;
 	virtual const inline bool GetHittingWallLeft() const { return m_bHitLeftWall; }
 	virtual const inline bool GetHittingWallRight() const { return m_bHitRightWall; }
-	virtual void AdjustPositionCollision(const Vector3 adjustPosition);
 
 	// Jumping
 	void Jump();

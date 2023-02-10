@@ -601,6 +601,8 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		m_mouseWorldPos.z = values[0].z + values[1].z;
 	}
 
+	m_mouseWorldPos += Vector3(Quack::GetOrthoCam()->GetPosition().x, Quack::GetOrthoCam()->GetPosition().y, Quack::GetOrthoCam()->GetPosition().z);
+
 	if (m_object)
 	{
 		m_object->SetPosition(m_mouseWorldPos);

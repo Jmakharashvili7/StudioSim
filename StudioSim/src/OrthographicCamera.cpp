@@ -14,6 +14,8 @@ OrthographicCamera::OrthographicCamera(float l, float r, float b, float t) :
 	m_MoveSpeed = 5.0f;
 	m_GameZoom = 6.5f;
 
+	m_defaultPos = glm::vec3(0.0f);
+
 	m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 }
 
