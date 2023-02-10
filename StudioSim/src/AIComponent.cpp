@@ -18,11 +18,6 @@ AIComponent::AIComponent(Actor* owningActor, const int updateOrder) :
 
 void AIComponent::Update(const float deltaTime)
 {
-	if (!m_owningActor || !m_player)
-	{
-		return;
-	}
-
 	Vector3 enemyPos = m_owningActor->GetPosition();
 	Vector3 playerPos = m_player->GetPosition();
 

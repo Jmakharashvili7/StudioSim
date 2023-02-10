@@ -209,7 +209,7 @@ namespace nlohmann
 			CollisionData collisionData = gameObject->GetCollisionData();
 			j["collisionType"] = (int)collisionData.collisionType;
 			j["centerPosition"] = collisionData.centerPosition;
-			j["centerPositionOffset"] = Vector3(0.0f); /* collisionData.centerPositionOffset;*/
+			j["centerPositionOffset"] = collisionData.centerPositionOffset;
 			j["size"] = collisionData.size;
 			j["radius"] = collisionData.radius;
 

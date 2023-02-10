@@ -59,40 +59,34 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	//if (key.IsHeld() || key.IsPressed())
+	if (key.IsHeld() || key.IsPressed())
 	{
-		
-
-		/*switch (key.GetKeyCode())
+		switch (key.GetKeyCode())
 		{
-			QE_LOG(QE_KEY_LEFT_ARROW);
-			case QE_KEY_LEFT_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-
-
-			case QE_KEY_RIGHT_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-
-
-			case QE_KEY_UP_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-
-			case QE_KEY_DOWN_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-		}*/
-
-		if (key.GetKeyCode() == QE_KEY_LEFT_ARROW)
-		{
+		case QE_KEY_LEFT_ARROW:
 			m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
 			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+
+		case QE_KEY_RIGHT_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+
+		case QE_KEY_UP_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+		case QE_KEY_DOWN_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+		default:
+			break;
 		}
 	}
 }

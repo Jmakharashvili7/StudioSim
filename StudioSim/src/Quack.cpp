@@ -18,8 +18,6 @@
 #include "Scene.h"
 #include "InputComponent.h"
 #include "WorldOutlinerUI.h"
-#include "KeyEvent.h"
-#include "MouseEvent.h"
 
 namespace fs = std::filesystem;
 
@@ -47,9 +45,6 @@ OrthographicCamera* Quack::m_mainCamera;
 QuackAudio* Quack::m_AudioEngine;
 
 std::map<std::string, Texture*> Quack::m_textures;
-
-KeyEvent Quack::m_keyEvent = KeyEvent();
-//MouseEvent Quack::m_mouseEvent = MouseEvent();
 
 #pragma endregion DeclareMembers
 
@@ -156,16 +151,13 @@ void Quack::HandleInput()
 {
 	if (!m_uiMain->GetInPlay())
 	{
-		
 		if (!KeyboardClass::KeyBufferIsEmpty())
 		{
 			KeyEvent key = KeyboardClass::ReadKey();
 
-			QE_LOG(key.GetKeyCode());
-
 			if (key.GetKeyCode() != 0)
 			{
-				m_uiMain->GetViewport()->HandleKeyboardInput(m_keyEvent);
+				m_uiMain->GetViewport()->HandleKeyboardInput(key);
 			}
 		}
 
@@ -181,6 +173,7 @@ void Quack::HandleInput()
 			m_uiMain->GetGridEditor()->HandleMouseInput(e);
 		}
 	}
+
 }
 
 void Quack::Update()

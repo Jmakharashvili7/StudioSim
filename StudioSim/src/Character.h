@@ -19,6 +19,7 @@ public:
 	virtual void OnCollisionOver(GameObject* gameObject) override;
 	virtual const inline bool GetHittingWallLeft() const { return m_bHitLeftWall; }
 	virtual const inline bool GetHittingWallRight() const { return m_bHitRightWall; }
+	virtual void AdjustPositionCollision(const Vector3 adjustPosition);
 
 	// Jumping
 	void Jump();
@@ -103,8 +104,5 @@ protected:
 	float m_DashCooldowm;
 	float m_DashTimeLeft;
 	float m_TimeSinceLastDash = -100;
-
-	// Reset
-	float m_deathTimer = 2.0f;
 };
 

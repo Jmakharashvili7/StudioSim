@@ -24,9 +24,6 @@ public:
 	inline void SetCanZoom(bool canZoom) { m_CanZoom = canZoom; }
 	inline bool GetCanZoom() { return m_CanZoom; }
 
-	inline void SetDefualtPosition(glm::vec3 pos) { m_defaultPos = pos; }
-	inline glm::vec3 GetDefaultPos() { return m_defaultPos; }
-
 	const glm::mat4& GetProjectionMatrix() const { return m_projectionMatrix; }
 	const glm::mat4& GetViewMatrix() const { return m_viewMatrix; }
 	const glm::mat4& GetViewProjectionMatrix() const { return m_viewProjectionMatrix; }
@@ -41,7 +38,6 @@ private:
 	glm::mat4 m_viewProjectionMatrix;
 	Matrix4 m_viewProj;
 
-	glm::vec3 m_defaultPos;
 	glm::vec3 m_position;
 	float m_rotation = 0.0f;
 

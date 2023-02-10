@@ -191,18 +191,6 @@ void Scene::Update()
 		m_gameObjectsToRemove.clear();
 	}
 
-	const float deltaTime = m_gameTimer.GetDeltaTime();
-
-
-	// Make the camera and the background follow the player
-	if (Quack::GetUILayer()->GetInPlay())
-	{
-		Vector3 playerPos = EngineManager::GetInputCharacter()->GetPosition();
-		m_activeCamera->SetPosition(playerPos.GetglmVec3());
-		playerPos.y = 0;
-		m_gameObjects[1]->SetPosition(playerPos);
-	}
-
 	// Update game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
@@ -218,28 +206,15 @@ void Scene::Update()
 
 void Scene::Render()
 {
-	GameObject* inputCharacter = EngineManager::GetInputCharacter();
-
-	if (!inputCharacter)
-	{
-		return;
-	}
+	HandleLights();
+	Update();
+	PhysicsUpdate();
 
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
-		if (gameObject)
-		{
-			if (gameObject->GetName() != inputCharacter->GetName())
-			{
-				gameObject->Draw(m_activeCamera);
-			}
-		}
+		if (gameObject) gameObject->Draw(m_activeCamera);
 	}
-
-	inputCharacter->Draw(m_activeCamera);
-
-	
 
 	if (m_StopInput)
 	{
@@ -337,21 +312,6 @@ void Scene::LoadScene()
 		m_gameObjectsToRemove.clear();
 	}
 	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects, m_grid);
-}
-
-void Scene::ResetScene()
-{
-	for (GameObject* gameObject : Quack::GetCurrentScene()->GetGameObjects())
-	{
-		Quack::GetCurrentScene()->RemoveGameObject(gameObject);
-	}
-
-	Quack::GetCurrentScene()->LoadScene();
-	Quack::GetUILayer()->GetEditorUI()->SetDisplayedGameObject(nullptr);
-	EngineManager::GetInputCharacter()->SetSimulateGravity(true);
-
-	//Quack::GetOrthoCam()->ResetZoom();
-	//Quack::GetOrthoCam()->SetPosition(Quack::GetOrthoCam()->GetDefaultPos());
 }
 
 void Scene::AddGameObject(GameObject* newGameObject)
