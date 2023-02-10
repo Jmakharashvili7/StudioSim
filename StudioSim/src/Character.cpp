@@ -56,21 +56,11 @@ void Character::Update(const float deltaTime)
 		}
 	}
 	CheckDash();
-
-	if (EngineManager::GetInputCharacter() == this && m_currentHealth <= 0.0f)
-	{
-		m_deathTimer -= deltaTime;
-
-		if (m_deathTimer <= 0.0f)
-		{
-			Quack::GetCurrentScene()->ResetScene();
-		}
-	}
 }
 
 void Character::AdjustPosition(const Vector3 adjustPosition)
 {
-	if (!m_CanMove || m_currentHealth <= 0.0f)
+	if (!m_CanMove)
 	{
 		return;
 	}
@@ -156,20 +146,14 @@ void Character::OnCollision(GameObject* collidingObject)
 	{
 		if (m_facingDirection == FacingDirection::RIGHT)
 		{
-			m_bHitLeftWall = true;
-			m_bHitRightWall = false;
+			 m_bHitLeftWall = true;
+			 m_bHitRightWall = false;
 		}
-		else if (m_facingDirection == FacingDirection::LEFT)
+		else if(m_facingDirection == FacingDirection::LEFT)
 		{
 			m_bHitLeftWall = false;
 			m_bHitRightWall = true;
 		}
-	}
-
-	if (EngineManager::GetInputCharacter() == this && collidingObject->GetName() == "Spike")
-	{
-		cout << "Spike" << endl;
-		Kill();
 	}
 
 	Actor::OnCollision(collidingObject);
@@ -177,7 +161,6 @@ void Character::OnCollision(GameObject* collidingObject)
 
 void Character::OnCollisionOver(GameObject* gameObject)
 {
-	GameObject::OnCollisionOver(gameObject);
 
 	if (IsGroundObject(gameObject))
 	{
@@ -198,13 +181,56 @@ void Character::OnCollisionOver(GameObject* gameObject)
 	}
 }
 
-void Character::Jump()
+void Character::AdjustPositionCollision(const Vector3 adjustPosition)
 {
-	if (m_currentHealth <= 0.0f)
+	if (!m_CanMove)
 	{
 		return;
 	}
 
+	bool bforceStopAttack = false;
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::RIGHT && adjustPosition.x < 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (GetAttacking() && m_facingDirection == FacingDirection::LEFT && adjustPosition.x > 0)
+	{
+		bforceStopAttack = true;
+	}
+
+	if (bforceStopAttack)
+	{
+		if (m_combatComponent)
+		{
+			m_combatComponent->ForceStopAttack();
+		}
+
+		if (GetCollidingWithGround())
+		{
+			StartAnimation("move", true);
+		}
+		else
+		{
+			StartAnimation("jump", true);
+		}
+	}
+
+	const Vector3 newPosition = GetPosition();
+
+	if (m_combatComponent)
+	{
+		m_combatComponent->UpdateAttackHitboxPosition(newPosition);
+	}
+
+	StartAnimation("move");
+
+	GameObject::AdjustPosition(adjustPosition);
+}
+
+void Character::Jump()
+{
 	if (m_physicsData.bsimulateGravity && !m_bjumping && std::abs(m_physicsComponent->GetVelocity().y) == 0.0f)
 	{
 		m_bjumping = true;
@@ -346,11 +372,6 @@ void Character::OnAnimationFinished(const AnimationRowData& finishedAnimation)
 
 void Character::StartAnimation(const std::string animationName, const bool bForce)
 {
-	if (GetCurrentAnimation().name == "die")
-	{
-		return;
-	}
-
 	if (!bForce)
 	{
 		if (animationName == "move" && !GetCollidingWithGround())
@@ -396,6 +417,5 @@ void Character::Kill()
 void Character::Die()
 {
 	StartAnimation("die");
-	SetSimulateGravity(false);
-	//Quack::GetCurrentScene()->RemoveGameObject(this);
+	Quack::GetCurrentScene()->RemoveGameObject(this);
 }

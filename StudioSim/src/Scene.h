@@ -27,7 +27,7 @@ public:
 	Scene() {}
 	Scene(const std::string& path, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer);
 	~Scene() {}
-	
+
 	void RenderScene();
 
 	inline OrthographicCamera* GetCamera() { return m_activeCamera; }
@@ -87,11 +87,11 @@ private:
 	glm::vec4 m_lightAmbient;
 
 	OrthographicCamera* m_activeCamera;
-;
+	;
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
-	
+
 	FrameBuffer* m_frameBuffer;
 
 	bool m_StopInput = true;
@@ -99,4 +99,3 @@ private:
 	std::vector<GameObject*> m_gameObjectsToAdd;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 };
-

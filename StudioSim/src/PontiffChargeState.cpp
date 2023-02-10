@@ -81,7 +81,6 @@ void PontiffChargeState::Update(float deltaTime)
 				// Charge at the enemy and dissapear
 				else
 				{
-					m_pontiff->StartAnimation("charge");
 					Vector3 traveledDistance = deltaTime * m_direction * m_speed;
 					m_pontiff->AdjustPosition(traveledDistance);
 					m_traveled += traveledDistance.Length();

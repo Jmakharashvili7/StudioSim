@@ -11,12 +11,11 @@
 #include "QuackDataTypes.h"
 #include "FrameBuffer.h"
 #include "Scene.h"
+#include "QuackAudio.h"
 
 class LayerStack;
 class UIRenderer;
 class UILayer;
-class MouseEvent;
-class KeyEvent;
 
 #define MAX_FRAME_RATE 144
 #define NUMBER_OF_SQUARES 4
@@ -51,9 +50,8 @@ public:
 	static inline Grid<PathNode> GetGrid() { return m_mainScene.GetGrid(); }
 
 	static Scene* GetCurrentScene() { return &m_mainScene; }
-
-	inline KeyEvent GetKeyEvent() { return m_keyEvent; }
-	//inline MouseEvent GetMouseEvent() { return m_mouseEvent; }
+	
+	static inline QuackAudio* GetAudioEngine() { return m_AudioEngine; }
 private:
 	Quack();
 	~Quack();
@@ -81,6 +79,5 @@ private:
 
 	static std::map<std::string, Texture*> m_textures;
 
-	static  KeyEvent m_keyEvent;
-	//static  MouseEvent m_mouseEvent;
+	static QuackAudio* m_AudioEngine;
 };

@@ -55,5 +55,8 @@ public:
 
     Event PlayerDead;
     void OnPlayerDead() { PlayerDead.Invoke(); }
+    
+    Event PlayMusic;
+    void OnPlayMusic() { PlayMusic.Invoke(); }
 
 };

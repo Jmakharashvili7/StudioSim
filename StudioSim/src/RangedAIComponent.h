@@ -16,8 +16,11 @@ public:
 	virtual void Update(const float deltaTime) override;
 	virtual void SetGrid(Grid<PathNode> grid) { m_pathFinder->SetGrid(grid); }
 protected:
-	float m_attackSpeed;
-	bool m_animStarted;
+
 	float m_attackTimer;
+	bool m_animStarted;
+	float m_attackSpeed;
+
+
 };
 

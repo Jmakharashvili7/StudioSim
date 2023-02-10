@@ -59,40 +59,34 @@ void ViewportUI::Render()
 
 void ViewportUI::HandleKeyboardInput(KeyEvent key)
 {
-	//if (key.IsHeld() || key.IsPressed())
+	if (key.IsHeld() || key.IsPressed())
 	{
-		
-
-		/*switch (key.GetKeyCode())
+		switch (key.GetKeyCode())
 		{
-			QE_LOG(QE_KEY_LEFT_ARROW);
-			case QE_KEY_LEFT_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-
-
-			case QE_KEY_RIGHT_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-
-
-			case QE_KEY_UP_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-
-			case QE_KEY_DOWN_ARROW:
-				m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
-				Quack::GetOrthoCam()->SetPosition(m_newPosition);
-				break;
-		}*/
-
-		if (key.GetKeyCode() == QE_KEY_LEFT_ARROW)
-		{
+		case QE_KEY_LEFT_ARROW:
 			m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
 			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+
+		case QE_KEY_RIGHT_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f, 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+
+		case QE_KEY_UP_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() + glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+		case QE_KEY_DOWN_ARROW:
+			m_newPosition = Quack::GetOrthoCam()->GetPosition() - glm::vec3(0.0f, Quack::GetOrthoCam()->GetMoveSpeed(), 0.0f);
+			Quack::GetOrthoCam()->SetPosition(m_newPosition);
+			break;
+
+		default:
+			break;
 		}
 	}
 }
@@ -103,7 +97,18 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 	{
 		if (Quack::GetOrthoCam()->GetCanZoom())
 		{
-			// Only counting the click within viewport boundary
+			//Spikes child
+			//Vector2 port;
+			////Size of viewport
+			//port.x = GetSize().x;
+			//port.y = GetSize().y;
+
+			////Current mouse position within viewport scale
+			//Vector2 viewStart;
+			//viewStart.x = ImGui::GetMousePos().x - GetStartX();
+			//viewStart.y = ImGui::GetMousePos().y - GetStartY();
+
+			//Only counting the click within viewport boundary
 			if (m_isHovered)
 			{
 				float newZoom = Quack::GetOrthoCam()->GetZoom();

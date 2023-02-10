@@ -30,7 +30,7 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	m_collisionManager = new CollisionManager();
 
 	m_grid = Grid<PathNode>(160, 40, 0.5, { -15.5,-10, 0 });
-	m_bossGrid = Grid<PathNode>(85, 40, 0.5, { 42, -60, 0});
+	m_bossGrid = Grid<PathNode>(85, 40, 0.5, { 42, -60, 0 });
 
 	// Load scene
 	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_grid, m_bossGrid);
@@ -44,7 +44,7 @@ void Scene::RenderScene()
 {
 	m_frameBuffer->Bind();
 	/* Render here */
-	glClearColor(12.0f/255.0f, 19.0f/255.0f, 25.0f/255.0f, 1.0f);
+	glClearColor(12.0f / 255.0f, 19.0f / 255.0f, 25.0f / 255.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	Update();
@@ -138,9 +138,11 @@ void Scene::Render()
 		return;
 	}
 
+	int i = -1;
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
+		i++;
 		if (gameObject)
 		{
 			if (gameObject->GetName() != inputCharacter->GetName())
@@ -152,7 +154,7 @@ void Scene::Render()
 
 	inputCharacter->Draw(m_activeCamera);
 
-	
+
 
 	if (m_StopInput)
 	{
@@ -203,7 +205,7 @@ void Scene::HandleInput()
 			// MOVE RIGHT
 			if (inputComponent->GetKeyDown('d'))
 			{
-				if (!inputCharacter->GetHittingWallLeft()) 
+				if (!inputCharacter->GetHittingWallLeft())
 				{
 					inputCharacter->AdjustPosition(Vector3((inputCharacter->GetMovementSpeed() * deltaTime), 0.0f, 0.0f));
 				}

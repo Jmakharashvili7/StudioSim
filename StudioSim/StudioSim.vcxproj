@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\FMOD\api\core\inc;$(SolutionDir)dependencies\FMOD\api\fsbank\inc;$(SolutionDir)dependencies\FMOD\api\studio\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\imgui;$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\glew\include;$(SolutionDir)dependencies\spdlog\include;$(ProjectDir)src;$(SolutionDir)dependencies\core\inc;$(SolutionDir)dependencies\Win64\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -136,8 +136,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\glew\lib\release\$(Platform);$(SolutionDir)dependencies\Win64\GLFW\lib-vc2022</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\glew\lib\release\$(Platform);$(SolutionDir)dependencies\core\lib\x64;$(SolutionDir)dependencies\Win64\GLFW\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;fmod_vc.lib;fmodL_vc.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -208,6 +208,7 @@
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\MouseClass.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
+    <ClCompile Include="src\QuackAudio.cpp" />
     <ClCompile Include="src\QuackCallbacks.cpp" />
     <ClCompile Include="src\KeyboardClass.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="src\PathNode.h" />
     <ClInclude Include="src\PerspectiveCamera.h" />
     <ClInclude Include="src\CollisionManager.h" />
+    <ClInclude Include="src\QuackAudio.h" />
     <ClInclude Include="src\QEKeyboard.h" />
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\Actor.h" />
