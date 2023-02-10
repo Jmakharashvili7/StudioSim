@@ -166,6 +166,11 @@ void Character::OnCollision(GameObject* collidingObject)
 		}
 	}
 
+	if (EngineManager::GetInputCharacter() == this && collidingObject->GetName() == "Spike")
+	{
+		Kill();
+	}
+
 	Actor::OnCollision(collidingObject);
 }
 
@@ -383,6 +388,11 @@ void Character::OnAnimationFinished(const AnimationRowData& finishedAnimation)
 
 void Character::StartAnimation(const std::string animationName, const bool bForce)
 {
+	if (GetCurrentAnimation().name == "die")
+	{
+		return;
+	}
+
 	if (!bForce)
 	{
 		if (animationName == "move" && !GetCollidingWithGround())
@@ -416,6 +426,7 @@ void Character::TakeDamage(const float amount, const float knockbackAmount, cons
 		m_knockbackSpeed = bdamageDirectionRight ? -finalKnockbackSpeed : finalKnockbackSpeed;
 		m_totalKnockbackAmount = bdamageDirectionRight ? -finalKnockbackAmount : finalKnockbackAmount;
 	}
+	Quack::GetAudioEngine()->PlaySound("res/Sounds/JessicaHit.wav", Quack::GetAudioEngine()->Effects(), Vec3{ 0,0,0 }, 0.0f);
 	AdjustCurrentHealth(-amount);
 	StartAnimation("takeHit", true);
 }
@@ -427,6 +438,7 @@ void Character::Kill()
 
 void Character::Die()
 {
+	Quack::GetAudioEngine()->PlaySound("res/Sounds/JessicaDeathScream.wav", Quack::GetAudioEngine()->Effects(),Vec3{ 0,0,0 } , 0.0f);
 	StartAnimation("die");
 	SetSimulateGravity(false);
 }

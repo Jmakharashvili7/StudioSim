@@ -202,6 +202,9 @@ void QuackAudio::Init()
 	
 	//Jessica voice Heavy
 	CreateSound("res/Sounds/JessicaHeavy.wav");
+
+	CreateSound("res/Sounds/JessicaHit.wav");
+	CreateSound("res/Sounds/JessicaDeathScream.wav");
 	
 	
 	

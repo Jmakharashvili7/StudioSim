@@ -83,6 +83,7 @@ protected:
 	// Entity
 	EntityData m_entityData = EntityData();
 	float m_currentHealth = 0.0f;
+	float m_deathTimer = 2.5f;
 
 	// Input
 	bool m_bconsumingInput = false;

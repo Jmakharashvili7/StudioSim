@@ -63,7 +63,15 @@ void Animate::UpdateTextCoord(float deltaTime)
 		{
 			if (!m_currentAnimationData.blooping)
 			{
-				m_object->OnAnimationFinished(m_currentAnimationData);
+				if (m_currentAnimationData.name == "die")
+				{
+					m_bactive = false;
+					return;
+				}
+				else
+				{
+					m_object->OnAnimationFinished(m_currentAnimationData);
+				}
 			}
 		}
 		m_spriteFrame = m_spriteFrame > m_currentAnimationData.amountOfColumns - 1 ? 0 : m_spriteFrame;
