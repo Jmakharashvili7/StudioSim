@@ -6,6 +6,7 @@
 #include "WorldOutlinerUI.h"
 #include "ContentBrowserUI.h"
 #include "JsonLoader.h"
+#include "GridEditor.h"
 
 struct CreatClassInfo
 {
@@ -27,6 +28,7 @@ struct CreatClassInfo
 
 	MovementData movementData;
 	EntityData entityData;
+	EnemyType enemyType;
 
 
 	CreatClassInfo()
@@ -81,9 +83,12 @@ public:
 	inline ViewportUI* GetViewport() { return m_viewportUI; }
 	inline EditorUI* GetEditorUI() { return m_editorUI; }
 	inline WorldOutlinerUI* GetWorldOutliner() { return m_worldOutliner; }
+	inline GridEditor* GetGridEditor() { return m_gridEditor; }
 	inline bool GetInPlay() { return inPlay; }
 
 	inline std::vector<UIWindow*> GetAllWindows() { return m_windowList; }
+
+	inline bool GetGridEditorActive() { return inGridEditor; }
 
 private:
 	void EnableDocking();
@@ -98,18 +103,21 @@ private:
 	void ObjectTransformData();
 	void ObjectCollisionData(TransformData data);
 	void ObjectTextureName();
+	void EnemyTypeContent();
 
+	inline bool GetPlayStatus() { return inPlay; }
 private:
 	float m_time;
 	bool inEditor = true;
 	bool inPlay = false;
+	bool inGridEditor = false;
 
 	glm::vec4 m_color;
 	ViewportUI* m_viewportUI;
 	EditorUI* m_editorUI;
 	WorldOutlinerUI* m_worldOutliner;
 	ContentBrowserUI* m_contentBrowser;
-
+	GridEditor* m_gridEditor;
 
 	std::vector<UIWindow*> m_windowList;
 

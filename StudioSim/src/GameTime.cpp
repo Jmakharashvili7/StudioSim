@@ -2,6 +2,7 @@
 
 #include "GameTime.h"
 #include <windows.h>
+#include <random>
 
 GameTimer::GameTimer()
 	:m_SecondsPerCount(0.0), m_DeltaTime(-1.0), m_BaseTime(0), 
@@ -49,6 +50,7 @@ void GameTimer::Start()
 {
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_startTime);
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_PrevTime);
+	srand(m_startTime);
 
 	// Check if we are starting from a paused state
 	if (m_Paused)

@@ -307,7 +307,7 @@ void Actor::SetCurrentAnimation(const AnimationRowData& newCurrentAnimation)
 	}
 }
 
-void Actor::AddCollision(GameObject* collidingObject)
+void Actor::OnCollision(GameObject* collidingObject)
 {
 	if (IsGroundObject(collidingObject))
 	{
@@ -317,13 +317,11 @@ void Actor::AddCollision(GameObject* collidingObject)
 		}
 	}
 
-	GameObject::AddCollision(collidingObject);
+	GameObject::OnCollision(collidingObject);
 }
 
-void Actor::RemoveCollision(GameObject* gameObject)
+void Actor::OnCollisionOver(GameObject* gameObject)
 {
-	GameObject::RemoveCollision(gameObject);
-
 	if (IsGroundObject(gameObject))
 	{
 		if (!HasObjectsCollidingWithName(m_groundNames))
@@ -331,6 +329,8 @@ void Actor::RemoveCollision(GameObject* gameObject)
 			SetCollidingWithGround(false);
 		}
 	}
+	
+	GameObject::OnCollisionOver(gameObject);
 }
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)

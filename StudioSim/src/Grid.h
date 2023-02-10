@@ -17,12 +17,12 @@ private:
     int m_width;
     int m_height;
     float m_tileSize;
-    glm::vec3 m_originPos;
+    Vector3 m_originPos;
     std::vector<TGridObject*> m_gridArray;
 public:
     Grid() {}
 
-    Grid(int width, int height, float tileSize, glm::vec3 originPosition)
+    Grid(int width, int height, float tileSize, Vector3 originPosition)
     {
         m_width = width;
         m_height = height;
@@ -37,15 +37,13 @@ public:
 
         // set debug to true to draw the grid 
         bool showDebug = true;
-        glm::vec4 white = { 0.0f, 0.0f, 0.0f, 1.0f };
+        Vector3 white = { 0.0f, 0.0f, 0.0f};
         if (showDebug)
         {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     Renderer::DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), white);
-                    //QE_LOG("Line done");
                     Renderer::DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), white);
-                    //QE_LOG("Line done");
                 }
             }
             
@@ -54,7 +52,7 @@ public:
         }
     }
 
-    glm::vec3 GetOriginPos()
+    Vector3 GetOriginPos()
     {
         return m_originPos;
     }
@@ -104,11 +102,10 @@ public:
     /// <summary>
     /// Converts x and y location of the grid to a world position
     /// </summary>
-    glm::vec3 GetWorldPosition(int x, int y)
+    Vector3 GetWorldPosition(int x, int y)
     {
-        glm::vec3 temp = glm::vec3(x, y, 0) * m_tileSize + m_originPos;
+        Vector3 temp = Vector3(x, y, 0) * m_tileSize + m_originPos;
         std::string output = std::to_string(temp.x) + "," + std::to_string(temp.y) + "," + std::to_string(temp.z);
-        //QE_LOG(output);
         return temp;
     }
 
@@ -116,33 +113,33 @@ public:
     /// <para> Returns the x and y of the world position on the grid </para>
     /// <para> The function outputs the result to the passed in x and y</para>
     /// </summary>
-    void GetXY(glm::vec3 worldPos, int& x, int& y)
+    void GetXY(Vector3 worldPos, int& x, int& y)
     {
-        x = std::floor((worldPos - m_originPos).x / m_tileSize);
-        y = std::floor((worldPos - m_originPos).y / m_tileSize);
+        x = std::floor((worldPos.x - m_originPos.x) / m_tileSize);
+        y = std::floor((worldPos.y - m_originPos.y) / m_tileSize);
     }
 
-    void SetGridObject(glm::vec3 worldPosition, TGridObject value)
+    void SetGridObject(Vector3 worldPosition, TGridObject value)
     {
         int x, y;
         GetXY(worldPosition, x, y);
         SetGridObject(x, y, value);
     }
 
-    TGridObject GetGridObject(int x, int y)
+    TGridObject* GetGridObject(int x, int y)
     {
         if (x >= 0 && y >= 0 && x < m_width && y < m_height)
         {
-            return m_gridArray[x, y];
+            return m_gridArray[y * m_height + x];
         }
         else
         {
-            //QE_LOG("x or y out of bounds");
-            return default(TGridObject);
+            QE_ERROR("x or y out of bounds");   
+            return nullptr;
         }
     }
 
-    TGridObject GetGridObject(glm::vec3 worldPosition)
+    TGridObject* GetGridObject(Vector3 worldPosition)
     {
         int x, y;
         GetXY(worldPosition, x, y);

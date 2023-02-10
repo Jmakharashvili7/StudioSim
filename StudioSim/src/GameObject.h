@@ -17,6 +17,7 @@ enum class GameObjectType
 	CHARACTER,
 	ENEMY,
 	ATTACKHITBOX,
+	PROJECTILE
 };
 
 struct VertexData
@@ -79,8 +80,8 @@ public:
 	inline const float GetCollisionSphereRadius() const { return m_collisionData.radius; }
 
 	const bool GetIsCollidingGameObject(GameObject* gameObject) const;
-	virtual void AddCollision(GameObject* collidingObject);
-	virtual void RemoveCollision(GameObject* gameObject);
+	virtual void OnCollision(GameObject* collidingObject);
+	virtual void OnCollisionOver(GameObject* gameObject);
 
 	// Other
 	inline const std::string const GetName() { return m_name; }

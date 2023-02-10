@@ -84,14 +84,14 @@ void CollisionManager::Update(const float deltaTime)
 				{
 					if (!gameObject->GetIsCollidingGameObject(otherGameObject))
 					{
-						gameObject->AddCollision(otherGameObject);
+						gameObject->OnCollision(otherGameObject);
 					}
 				}
 				else
 				{
 					if (gameObject->GetIsCollidingGameObject(otherGameObject))
 					{
-						gameObject->RemoveCollision(otherGameObject);
+						gameObject->OnCollisionOver(otherGameObject);
 					}
 				}
 			}

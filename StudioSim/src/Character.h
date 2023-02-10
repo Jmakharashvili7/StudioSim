@@ -15,8 +15,8 @@ public:
 	virtual void AdjustPosition(const Vector3 adjustPosition) override;
 	
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject) override;
-	virtual void RemoveCollision(GameObject* gameObject) override;
+	virtual void OnCollision(GameObject* collidingObject) override;
+	virtual void OnCollisionOver(GameObject* gameObject) override;
 	virtual const inline bool GetHittingWallLeft() const { return m_bHitLeftWall; }
 	virtual const inline bool GetHittingWallRight() const { return m_bHitRightWall; }
 	virtual void AdjustPositionCollision(const Vector3 adjustPosition);
@@ -75,7 +75,7 @@ protected:
 	// Movement
 	MovementData m_movementData = MovementData();
 	bool m_bjumping = false;
-	bool m_CanMove;
+	bool m_CanMove = false;
 	bool m_bHitLeftWall = false;
 	bool m_bHitRightWall = false;
 	FacingDirection m_facingDirection = FacingDirection::RIGHT;

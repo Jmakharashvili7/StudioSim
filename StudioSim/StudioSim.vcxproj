@@ -168,6 +168,17 @@
     <ClCompile Include="..\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\GridEditor.cpp" />
+    <ClCompile Include="src\PontiffFireState.cpp" />
+    <ClCompile Include="src\PontiffBaseState.cpp" />
+    <ClCompile Include="src\PontiffChargeState.cpp" />
+    <ClCompile Include="src\PontiffSlashState.cpp" />
+    <ClCompile Include="src\PontiffUltimateState.cpp" />
+    <ClCompile Include="src\PontiffState.cpp" />
+    <ClCompile Include="src\MiniPontiff.cpp" />
+    <ClCompile Include="src\Abilities.cpp" />
+    <ClCompile Include="src\EnemyProjectile.cpp" />
+    <ClCompile Include="src\RangedAIComponent.cpp" />
     <ClCompile Include="src\AttackHitbox.cpp" />
     <ClCompile Include="src\CombatComponent.cpp" />
     <ClCompile Include="src\AIComponent.cpp" />
@@ -175,6 +186,7 @@
     <ClCompile Include="src\ContentBrowserUI.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Observer.cpp" />
+    <ClCompile Include="src\Pathfinding.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\PhysicsComponent.cpp" />
     <ClCompile Include="src\Character.cpp" />
@@ -193,7 +205,6 @@
     <ClCompile Include="src\GameTime.cpp" />
     <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Layer.cpp" />
-    <ClCompile Include="src\JsonLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\MouseClass.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
@@ -221,6 +232,17 @@
     <ClCompile Include="src\WorldOutlinerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GridEditor.h" />
+    <ClInclude Include="src\PontiffFireState.h" />
+    <ClInclude Include="src\PontiffBaseState.h" />
+    <ClInclude Include="src\PontiffChargeState.h" />
+    <ClInclude Include="src\PontiffSlashState.h" />
+    <ClInclude Include="src\PontiffUltimateState.h" />
+    <ClInclude Include="src\PontiffState.h" />
+    <ClInclude Include="src\MiniPontiff.h" />
+    <ClInclude Include="src\Abilities.h" />
+    <ClInclude Include="src\EnemyProjectile.h" />
+    <ClInclude Include="src\RangedAIComponent.h" />
     <ClInclude Include="src\AttackHitbox.h" />
     <ClInclude Include="src\CombatComponent.h" />
     <ClInclude Include="src\AIComponent.h" />
@@ -229,6 +251,7 @@
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\ObjectIncludes.h" />
     <ClInclude Include="src\Observer.h" />
+    <ClInclude Include="src\Pathfinding.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PhysicsComponent.h" />
     <ClInclude Include="src\Character.h" />
@@ -242,6 +265,7 @@
     <ClInclude Include="src\PerspectiveCamera.h" />
     <ClInclude Include="src\CollisionManager.h" />
     <ClInclude Include="src\QuackAudio.h" />
+    <ClInclude Include="src\QEKeyboard.h" />
     <ClInclude Include="src\QuackDataTypes.h" />
     <ClInclude Include="src\Actor.h" />
     <ClCompile Include="src\UIWindow.cpp" />
@@ -286,8 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
-    <None Include="res\ObjectData\duck.json" />
-    <None Include="res\ObjectData\floor.json" />
     <None Include="res\ObjectData\Square.json" />
     <None Include="res\scenes\MainScene.json" />
     <None Include="res\shaders\3Dbasic.shader" />

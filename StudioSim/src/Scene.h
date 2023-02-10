@@ -4,6 +4,7 @@
 #include "PathNode.h"
 #include "GameTime.h"
 #include "FrameBuffer.h"
+#include "Pathfinding.h"
 
 class GameObject;
 class Actor;
@@ -40,6 +41,9 @@ public:
 	inline FrameBuffer* GetFrameBuffer() { return m_frameBuffer; }
 
 	inline bool GetStopInput() { return m_StopInput; }
+	inline void ToggleStopInput(bool toggle) { m_StopInput = toggle; }
+
+	inline Grid<PathNode> GetGrid() { return m_grid; }
 
 	void SetGravity(const bool bactive);
 	void SetInput(const bool bactive);
@@ -56,6 +60,7 @@ private:
 
 	std::vector<GameObject*> m_gameObjects;
 	Grid<PathNode> m_grid;
+	Pathfinding* m_pathfinder;
 
 	// windows
 	UILayer* m_uiMain;

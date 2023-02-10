@@ -11,7 +11,7 @@ void Renderer::Init()
 	m_shader = Quack::GetPrimitiveShader();
 }
 
-void Renderer::DrawLine(glm::vec3 p0, glm::vec3 p1, glm::vec3 color)
+void Renderer::DrawLine(Vector3 p0, Vector3 p1, Vector3 color)
 {
 	float vertices[] = { p0.x, p0.y, p0.z, 
 						 p1.x, p1.y, p1.z };

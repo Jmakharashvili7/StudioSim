@@ -10,8 +10,8 @@ public:
 	virtual ~AttackHitbox();
 
 	// Collision
-	virtual void AddCollision(GameObject* collidingObject) override;
-	virtual void RemoveCollision(GameObject* gameObject) override;
+	virtual void OnCollision(GameObject* collidingObject) override;
+	virtual void OnCollisionOver(GameObject* gameObject) override;
 
 protected:
 	GameObject* m_owningGameObject = nullptr;

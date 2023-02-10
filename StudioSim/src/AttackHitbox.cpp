@@ -20,7 +20,7 @@ AttackHitbox::~AttackHitbox()
 
 }
 
-void AttackHitbox::AddCollision(GameObject* collidingObject)
+void AttackHitbox::OnCollision(GameObject* collidingObject)
 {
 	if (collidingObject != m_owningGameObject)
 	{
@@ -31,10 +31,10 @@ void AttackHitbox::AddCollision(GameObject* collidingObject)
 		}
 	}
 	
-	GameObject::AddCollision(collidingObject);
+	GameObject::OnCollision(collidingObject);
 }
 
-void AttackHitbox::RemoveCollision(GameObject* gameObject)
+void AttackHitbox::OnCollisionOver(GameObject* gameObject)
 {
-	GameObject::RemoveCollision(gameObject);
+	GameObject::OnCollisionOver(gameObject);
 }

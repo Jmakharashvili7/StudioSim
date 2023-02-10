@@ -14,6 +14,7 @@
 #include "Window.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
+#include "MiniPontiff.h"
 
 Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer) :
 	m_uiMain(uiLayer),
@@ -28,12 +29,14 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	// Setup collision Manager
 	m_collisionManager = new CollisionManager();
 
-	// Load scen einfo
-	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects);
+	m_grid = Grid<PathNode>(160, 40, 0.5, { -15.5,-10, 0 });
+
+	// Load scene
+	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_grid);
 	m_gameTimer.Start();
 
 	// Update engine manager
-	m_grid = Grid<PathNode>(30, 30, 0.5, { -6,-6, 0 });
+	m_pathfinder = new Pathfinding(m_grid);
 	EngineManager::SetGameObjects(m_gameObjects);
 }
 
@@ -157,9 +160,20 @@ void Scene::Update()
 {
 	m_gameTimer.Tick();
 
+	if (!Quack::GetUILayer()->GetInPlay())
+	{
+		return;
+	}
+
 	const float deltaTime = m_gameTimer.GetDeltaTime();
 
-	if (m_gameObjectsToAdd.size() > 0)
+	// Make the camera and the background follow the player
+	Vector3 playerPos = EngineManager::GetInputCharacter()->GetPosition();
+	m_activeCamera->SetPosition(playerPos.GetglmVec3());
+	playerPos.y = 0;
+	m_gameObjects[1]->SetPosition(playerPos);
+
+	if (!m_gameObjectsToAdd.empty())
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
 		{
@@ -168,7 +182,7 @@ void Scene::Update()
 		m_gameObjectsToAdd.clear();
 	}
 	
-	if (m_gameObjectsToRemove.size() > 0)
+	if (!m_gameObjectsToRemove.empty())
 	{
 		for (GameObject* gameObjectToRemove : m_gameObjectsToRemove)
 		{
@@ -202,7 +216,10 @@ void Scene::Render()
 		if (gameObject) gameObject->Draw(m_activeCamera);
 	}
 
-	Renderer::DrawDebugLines(m_activeCamera);
+	if (m_StopInput)
+	{
+		Renderer::DrawDebugLines(m_activeCamera);
+	}
 }
 
 void Scene::PhysicsUpdate()
@@ -294,7 +311,7 @@ void Scene::LoadScene()
 		m_gameObjectsToAdd.clear();
 		m_gameObjectsToRemove.clear();
 	}
-	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects);
+	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects, m_grid);
 }
 
 void Scene::AddGameObject(GameObject* newGameObject)

@@ -237,7 +237,7 @@ void EditorUI::Render()
 
 						ImGui::PushItemWidth(m_ItemWidth);
 						int totalColumns = actorObject->GetAnimationDataTotalColumns();
-						ImGui::SliderInt("Total Columns", &totalColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+						ImGui::SliderInt("Total Columns", &totalColumns, 0, 100, NULL, ImGuiSliderFlags_AlwaysClamp);
 						if (actorObject->GetAnimationDataTotalColumns() != totalColumns)
 						{
 							actorObject->SetAnimationDataTotalColumns(totalColumns);
@@ -272,7 +272,7 @@ void EditorUI::Render()
 							ImGui::PushItemWidth(m_ItemWidth);
 							int numberOfColumns = actorObject->GetAnimationDataNumberOfColumns(i);
 							std::string animationColumnsTotalLabel = "Animation Columns " + to_string(i);
-							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 20, NULL, ImGuiSliderFlags_AlwaysClamp);
+							ImGui::SliderInt(animationColumnsTotalLabel.c_str(), &numberOfColumns, 0, 100, NULL, ImGuiSliderFlags_AlwaysClamp);
 							if (actorObject->GetAnimationDataNumberOfColumns(i) != numberOfColumns)
 							{
 								actorObject->SetAnimationDataNumberOfColumns(i, numberOfColumns);
@@ -399,11 +399,17 @@ void EditorUI::Render()
 			}
 		}
 
+		if (ImGui::Button("Save Object"))
+		{
+			JsonLoader::StoreGameObject2D(m_object);
+		}
+
 		if (ImGui::Button("Delete Object"))
 		{
 			Quack::GetCurrentScene()->RemoveGameObject(m_object);
 			m_object = nullptr;
 		}
+
 	}
 
 
@@ -481,11 +487,21 @@ vector<Vector3> EditorUI::ConvertClickToScreen(Vector2 viewStart, Vector2 port)
 	floats.z = ndc.z - integers.z;
 	values.push_back(floats);
 
+	if (Quack::GetUILayer()->GetGridEditorActive())
+	{
+		Quack::GetUILayer()->GetGridEditor()->SetNode(Quack::GetGrid().GetGridObject({ ndc.x, ndc.y, 0.0f }));
+	}
+
 	return values;
 }
 
 void EditorUI::SnapOnGrid(vector<Vector3> values)
 {
+	if (Quack::GetUILayer()->GetGridEditorActive())
+	{
+		return;
+	}
+
 	if (values[1].x >= 0)
 	{
 		if (values[1].x >= 0.25 && values[1].x <= 0.75)
@@ -540,55 +556,54 @@ void EditorUI::SnapOnGrid(vector<Vector3> values)
 		else if (values[1].z < -0.75)
 			values[1].z = -1.0f;
 	}
-	Vector3 finalPosition;
 
 
 	//calculate the final position X
 	if (values[0].x > 0)
 	{
-		finalPosition.x = values[0].x + values[1].x;
+		m_mouseWorldPos.x = values[0].x + values[1].x;
 	}
 	else if (values[0].x == 0)
 	{
-		finalPosition.x = values[1].x;
+		m_mouseWorldPos.x = values[1].x;
 	}
 	else
 	{
-		finalPosition.x = values[0].x + values[1].x;
+		m_mouseWorldPos.x = values[0].x + values[1].x;
 	}
 
 
 	//calculate the final position Y
 	if (values[0].y > 0)
 	{
-		finalPosition.y = values[0].y + values[1].y;
+		m_mouseWorldPos.y = values[0].y + values[1].y;
 	}
 	else if (values[0].y == 0)
 	{
-		finalPosition.y = values[1].y;
+		m_mouseWorldPos.y = values[1].y;
 	}
 	else
 	{
-		finalPosition.y = values[0].y + values[1].y;
+		m_mouseWorldPos.y = values[0].y + values[1].y;
 	}
 
 	//calculate the final position Z
 	if (values[0].z > 0)
 	{
-		finalPosition.z = values[0].z + values[1].z;
+		m_mouseWorldPos.z = values[0].z + values[1].z;
 	}
 	else if (values[0].z == 0)
 	{
-		finalPosition.z = values[1].z;
+		m_mouseWorldPos.z = values[1].z;
 	}
 	else
 	{
-		finalPosition.z = values[0].z + values[1].z;
+		m_mouseWorldPos.z = values[0].z + values[1].z;
 	}
 
 	if (m_object)
 	{
-		m_object->SetPosition(finalPosition);
+		m_object->SetPosition(m_mouseWorldPos);
 	}
 }
 

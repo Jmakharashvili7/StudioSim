@@ -16,7 +16,7 @@ UILayer::UILayer() : Layer("UI Layer"), m_color(0.0f, 1.0f, 1.0f, 1.0f)
 {
 	newObjectInfo = CreatClassInfo();
 
-	vertexData = QuackEngine::JsonLoader::LoadObjectData2D("res/ObjectData/Square.json");
+	vertexData = QuackEngine::JsonLoader::LoadObjectData2D("Square");
 }
 
 UILayer::~UILayer()
@@ -42,6 +42,7 @@ void UILayer::InitWindows()
 	m_worldOutliner = new WorldOutlinerUI("World Outliner");
 	m_worldOutliner->SetEditorUI(m_editorUI);
 	m_contentBrowser = new ContentBrowserUI("Content Browser");
+	m_gridEditor = new GridEditor("Grid Editor");
 
 }
 
@@ -120,6 +121,7 @@ void UILayer::EnableDocking()
 	m_editorUI->Render();
 	m_worldOutliner->Render();
 	m_contentBrowser->Render();
+	m_gridEditor->Render();
 
 	ImGui::PopStyleVar();
 
@@ -147,6 +149,21 @@ void UILayer::EnableDocking()
 				Quack::GetCurrentScene()->SetInput(false);
 			}
 
+			if (!inGridEditor)
+			{
+				if (ImGui::Button("Edit Grid"))
+				{
+					inGridEditor = true;
+				}
+			}
+			else
+			{
+				if (ImGui::Button("Quit Grid Editor"))
+				{
+					inGridEditor = false;
+				}
+			}
+
 			if (inEditor)
 			{
 				if (ImGui::Button("Play"))
@@ -157,6 +174,7 @@ void UILayer::EnableDocking()
 
 					inEditor = false;
 					inPlay = true;
+					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetGameZoom());
 				}
 			}
 
@@ -176,6 +194,7 @@ void UILayer::EnableDocking()
 
 					inEditor = true;
 					inPlay = false;
+					Quack::GetOrthoCam()->ResetZoom();
 
 				}
 			}
@@ -195,8 +214,8 @@ void UILayer::EnableDocking()
 
 void UILayer::SetUpObjectCreator()
 {
-	std::string objectName = " ";
-	std::string textureName = " ";
+	std::string objectName = "";
+	std::string textureName = "";
 	TransformData objectTransformData = TransformData();
 	CollisionData objectCollisionData = CollisionData();
 
@@ -293,10 +312,11 @@ void UILayer::SetUpObjectCreator()
 			BasePopupContent();
 			ActorContent();
 			CharacterContent();
+			EnemyTypeContent();
 
 			if (ImGui::Button("Create"))
 			{
-				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData);
+				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData, newObjectInfo.enemyType);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
 				Quack::GetCurrentScene()->AddGameObject(newEnemy);
@@ -570,5 +590,31 @@ void UILayer::ObjectTextureName()
 		ImGui::TreePop();
 	}
 
+	ImGui::Separator();
+}
+
+void UILayer::EnemyTypeContent()
+{
+	static bool melee = false;
+	static bool ranged = false;
+
+	if (ImGui::TreeNode("Enemy Type"))
+	{
+		ImGui::Checkbox("Melee", &melee);
+		if (melee)
+		{
+			ranged = false;
+			newObjectInfo.enemyType = EnemyType::MELEE;
+		}
+
+		ImGui::Checkbox("Ranged", &ranged);
+		if (ranged)
+		{
+			melee = false;
+			newObjectInfo.enemyType = EnemyType::RANGED;
+		}
+
+		ImGui::TreePop();
+	}
 	ImGui::Separator();
 }

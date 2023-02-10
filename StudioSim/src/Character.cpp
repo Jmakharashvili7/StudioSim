@@ -126,7 +126,7 @@ void Character::AdjustPosition(const Vector3 adjustPosition)
 	GameObject::AdjustPosition(adjustPosition);
 }
 
-void Character::AddCollision(GameObject* collidingObject)
+void Character::OnCollision(GameObject* collidingObject)
 {
 	if (IsGroundObject(collidingObject))
 	{
@@ -155,12 +155,11 @@ void Character::AddCollision(GameObject* collidingObject)
 		}
 	}
 
-	Actor::AddCollision(collidingObject);
+	Actor::OnCollision(collidingObject);
 }
 
-void Character::RemoveCollision(GameObject* gameObject)
+void Character::OnCollisionOver(GameObject* gameObject)
 {
-	GameObject::RemoveCollision(gameObject);
 
 	if (IsGroundObject(gameObject))
 	{

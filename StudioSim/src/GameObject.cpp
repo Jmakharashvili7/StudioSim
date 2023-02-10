@@ -57,7 +57,7 @@ void GameObject::Draw(OrthographicCamera* camera)
 	m_va->Bind();
 
 	m_shader->SetMatrixUniform4("u_world", m_transform->GetTransformationMatrix());
-	m_shader->SetUniform4x4("u_viewProjection", camera->GetProjectionMatrix());
+	m_shader->SetUniform4x4("u_viewProjection", camera->GetViewProjectionMatrix());
 	GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
 	
 	m_shader->Unbind();
@@ -155,7 +155,7 @@ const bool GameObject::GetIsCollidingGameObject(GameObject* gameObject) const
 	return bFound;
 }
 
-void GameObject::AddCollision(GameObject* collidingObject)
+void GameObject::OnCollision(GameObject* collidingObject)
 {
 	if (collidingObject)
 	{
@@ -163,7 +163,7 @@ void GameObject::AddCollision(GameObject* collidingObject)
 	}
 }
 
-void GameObject::RemoveCollision(GameObject* gameObject)
+void GameObject::OnCollisionOver(GameObject* gameObject)
 {
 	if (gameObject)
 	{
