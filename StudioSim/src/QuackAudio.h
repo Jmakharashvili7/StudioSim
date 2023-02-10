@@ -86,15 +86,44 @@ public:
 	void  Shutdown();
 
 	//functions using map
+
+	/// <summary>
+	/// Creates the sound
+	/// </summary>
+	/// <param name="pathToSound"></param>
+	/// <param name="is3D"></param>
+	/// <param name="isLoop"></param>
+	/// <param name="isStream"></param>
 	void CreateSound(const std::string& pathToSound,
 		bool is3D = true, bool isLoop = false, bool isStream = false);
+
+	/// <summary>
+	/// Erase sounds
+	/// </summary>
+	/// <param name="pathToSound"></param>
 	void EraseSound(const std::string& pathToSound);
 
+	/// <summary>
+	/// Plays and create the sound if not created
+	/// </summary>
+	/// <param name="pathToSound"></param>
+	/// <param name="pos"></param>
+	/// <param name="volume"></param>
+	/// <returns></returns>
 	int  PlaySound(const std::string& pathToSound,
 		const Vec3& pos, float volume = 0.0f);
+	/// <summary>
+	/// Overload play so channel groups can be passed
+	/// </summary>
+	/// <param name="pathToSound"></param>
+	/// <param name="channelGroup"></param>
+	/// <param name="pos"></param>
+	/// <param name="volume"></param>
+	/// <returns></returns>
 	int  PlaySound(const std::string& pathToSound, FMOD::ChannelGroup* channelGroup,
 		const Vec3& pos, float volume = 0.0f);
 
+	//Setter functions
 	void  SetVolume(int channelID, float volumeDB);
 	void  SetMasterChannelVolume(float volumeDB);
 	void  SetPitch(int channelID, float pitch);
@@ -105,13 +134,21 @@ public:
 	
 	void  AddDsp(int channelID, int index, FMOD::DSP* dsp);
 
+	//Mute channels
 	void  MuteChannel(int channelID, bool mute);
 	void  MuteMasterChannel(bool mute);
 
 	void  Pause(int channelID, bool pause);
 	void  FadeIn(int channelID, float fadeTime);
+	/// <summary>
+	/// Fade sounds at the end of the song
+	/// </summary>
+	/// <param name="pathToSound"></param>
+	/// <param name="channelID"></param>
+	/// <param name="fadeTime"></param>
 	void  FadeOut(const std::string& pathToSound, int channelID, float fadeTime);
 
+	//Channel helper functions
 	void  CreateChannelGroup(const char* groupName, FMOD::ChannelGroup** channelGroup);
 	void  StopChannelGroup(FMOD::ChannelGroup* channelGroup);
 	void  MasterChannelManager();
@@ -119,14 +156,25 @@ public:
 
 	void  StopChannel(int channelID, float fadeTime);
 
+	/// <summary>
+	/// Changes DB to Volume
+	/// </summary>
+	/// <param name="DB"></param>
+	/// <returns></returns>
 	float ChangingDBToVolume(float DB);
 
 	bool  IsPlaying(int channeID);
 
+	/// <summary>
+	/// Converting local vector to FMOD_VECTOR
+	/// </summary>
+	/// <param name="soundPo"></param>
+	/// <returns></returns>
 	FMOD_VECTOR VectorToFmodVec(const Vec3& soundPo);
 
 	Soundtrack m_Soundtracks;
 
+	//Functions to access the group
 	static FMOD::ChannelGroup* Effects();
 	static FMOD::ChannelGroup* Soundtrack();
 	static FMOD::ChannelGroup* Master();

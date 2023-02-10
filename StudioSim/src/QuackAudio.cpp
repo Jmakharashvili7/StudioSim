@@ -561,8 +561,8 @@ void QuackAudio::FadeOut(const std::string& pathToSound, int channelID, float fa
 
 	int test = 100000;
 	int sec = sampleRate * (lenght / 1000); // sample rate work by secods, so first I need to find how much is 1 secondon the lenght of the audio, 
-	found->second->addFadePoint(parentClock + (sec)-(sampleRate * fadeTime), 1.0f); // adding a fade point to the begging of the audio
-	result = found->second->addFadePoint(parentClock + (sec), 0.0f);//adding a fade point close to end of the song
+	found->second->addFadePoint(parentClock + (sec)-(sampleRate * fadeTime), 1.0f); // adding a fade point to the close to the end of the audio
+	result = found->second->addFadePoint(parentClock + (sec), 0.0f);//Tells the fade point to set volume to 0
 
 }
 
