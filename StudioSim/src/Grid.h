@@ -130,7 +130,7 @@ public:
     {
         if (x >= 0 && y >= 0 && x < m_width && y < m_height)
         {
-            return m_gridArray[y * m_height + x];
+            return m_gridArray[y * m_width + x];
         }
         else
         {

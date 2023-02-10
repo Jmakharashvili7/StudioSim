@@ -145,10 +145,10 @@ void Character::OnCollision(GameObject* collidingObject)
 	{
 		if (m_facingDirection == FacingDirection::RIGHT)
 		{
-			 m_bHitLeftWall = true;
-			 m_bHitRightWall = false;
+			m_bHitLeftWall = true;
+			m_bHitRightWall = false;
 		}
-		else if(m_facingDirection == FacingDirection::LEFT)
+		else if (m_facingDirection == FacingDirection::LEFT)
 		{
 			m_bHitLeftWall = false;
 			m_bHitRightWall = true;
@@ -160,6 +160,7 @@ void Character::OnCollision(GameObject* collidingObject)
 
 void Character::OnCollisionOver(GameObject* gameObject)
 {
+	GameObject::OnCollisionOver(gameObject);
 
 	if (IsGroundObject(gameObject))
 	{

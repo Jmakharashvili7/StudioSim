@@ -5,6 +5,7 @@
 #include "RangedAIComponent.h"
 #include "Quack.h"
 #include "Animate.h"
+#include "UILayer.h"
 
 Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, EnemyType enemyType) 
 	: Character{ name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData }
@@ -28,6 +29,7 @@ Enemy::Enemy(std::string name, VertexData* data, const TransformData& transformD
 		AddComponent(m_aiComponent);
 		break;
 	}
+
 	m_animator->SetAnimationRowNumber(0);
 }
 
@@ -37,7 +39,7 @@ Enemy::~Enemy()
 
 void Enemy::Update(const float deltaTime)
 {
-	Character::Update(deltaTime);	
+	Character::Update(deltaTime);
 }
 
 void Enemy::OnCollision(GameObject* collidingObject)
@@ -48,4 +50,37 @@ void Enemy::OnCollision(GameObject* collidingObject)
 void Enemy::OnCollisionOver(GameObject* gameObject)
 {
 	Character::OnCollisionOver(gameObject);
+}
+
+void Enemy::AdjustPosition(const Vector3 adjustPosition)
+{
+	const Vector3 newPosition = GetPosition();
+
+	if (m_combatComponent)
+	{
+		m_combatComponent->UpdateAttackHitboxPosition(newPosition);
+	}
+
+	if (adjustPosition.x > 0)
+	{
+
+		m_facingDirection = FacingDirection::RIGHT;
+
+		if (GetScale().x < 0)
+		{
+			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
+		}
+	}
+	else if (adjustPosition.x < 0)
+	{
+
+		m_facingDirection = FacingDirection::LEFT;
+
+		if (GetScale().x > 0)
+		{
+			SetScale(Vector3(-1 * GetScale().x, GetScale().y, GetScale().z));
+		}
+	}
+
+	GameObject::AdjustPosition(adjustPosition);
 }
