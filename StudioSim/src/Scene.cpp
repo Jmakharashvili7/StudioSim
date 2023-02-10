@@ -85,8 +85,6 @@ void Scene::Update()
 {
 	m_gameTimer.Tick();
 
-
-
 	if (!m_gameObjectsToAdd.empty())
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
@@ -251,6 +249,21 @@ void Scene::LoadScene()
 		m_gameObjectsToRemove.clear();
 	}
 	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects, m_grid);
+}
+
+void Scene::ResetScene()
+{
+	for (GameObject* gameObject : Quack::GetCurrentScene()->GetGameObjects())
+	{
+		Quack::GetCurrentScene()->RemoveGameObject(gameObject);
+	}
+
+	Quack::GetCurrentScene()->LoadScene();
+	Quack::GetUILayer()->GetEditorUI()->SetDisplayedGameObject(nullptr);
+	EngineManager::GetInputCharacter()->SetSimulateGravity(true);
+
+	//Quack::GetOrthoCam()->ResetZoom();
+	//Quack::GetOrthoCam()->SetPosition(Quack::GetOrthoCam()->GetDefaultPos());
 }
 
 void Scene::AddGameObject(GameObject* newGameObject)

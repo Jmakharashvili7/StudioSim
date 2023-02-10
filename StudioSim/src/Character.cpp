@@ -55,6 +55,16 @@ void Character::Update(const float deltaTime)
 		}
 	}
 	CheckDash();
+
+	if (EngineManager::GetInputCharacter() == this && m_currentHealth <= 0.0f)
+	{
+		m_deathTimer -= deltaTime;
+
+		if (m_deathTimer <= 0.0f)
+		{
+			Quack::GetCurrentScene()->ResetScene();
+		}
+	}
 }
 
 void Character::AdjustPosition(const Vector3 adjustPosition)

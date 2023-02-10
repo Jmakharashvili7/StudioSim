@@ -103,5 +103,8 @@ protected:
 	float m_DashCooldowm;
 	float m_DashTimeLeft;
 	float m_TimeSinceLastDash = -100;
+
+	// Reset
+	float m_deathTimer = 2.0f;
 };
 
