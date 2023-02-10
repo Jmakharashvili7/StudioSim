@@ -14,7 +14,7 @@ public:
 	inline void SetRotation(const float& rotation) { m_rotation = rotation; RecalculateViewMatrix(); }
 	inline float GetRotation() { return m_rotation; }
 
-	inline void SetZoom(float zoom) { m_Zoom = zoom; }
+	void SetZoom(float zoom, float aspect);
 	inline void ResetZoom() { m_Zoom = m_DefaultZoom; }
 	inline float GetZoom() { return m_Zoom; }
 	inline float GetGameZoom() { return m_GameZoom; }

@@ -7,6 +7,7 @@ PontiffSlashState::PontiffSlashState(MiniPontiff* pontiff) : PontiffState(pontif
 {
 	m_timer = 2.0f;
 	QE_LOG("SLASH");
+	pontiff->StartAnimation("wideslash");
 }
 
 void PontiffSlashState::Update(float deltaTime)

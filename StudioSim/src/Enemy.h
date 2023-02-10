@@ -24,6 +24,8 @@ public:
 	virtual void OnCollisionOver(GameObject* gameObject) override;
 	virtual AIComponent* GetAIComponent() { return m_aiComponent; }
 
+	virtual void AdjustPosition(const Vector3 adjustPosition) override;
+
 	inline EnemyType GetEnemyType() const { return m_enemyType; }
 protected:
 	// AI

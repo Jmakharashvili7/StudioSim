@@ -174,7 +174,7 @@ void UILayer::EnableDocking()
 
 					inEditor = false;
 					inPlay = true;
-					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetGameZoom());
+					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetGameZoom(), Quack::GetUILayer()->GetViewport()->GetSize().x / Quack::GetUILayer()->GetViewport()->GetSize().y);
 				}
 			}
 
@@ -195,7 +195,6 @@ void UILayer::EnableDocking()
 					inEditor = true;
 					inPlay = false;
 					Quack::GetOrthoCam()->ResetZoom();
-
 				}
 			}
 
@@ -316,6 +315,7 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Create"))
 			{
+				QE_LOG("MADE ENEMY");
 				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData, newObjectInfo.enemyType);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
@@ -504,9 +504,9 @@ void UILayer::ObjectTransformData()
 		Vector3 scale = newObjectInfo.transformData.scale;
 		ImGui::DragFloat3("Scale", &scale.x);
 
-		if (newObjectInfo.transformData.rotation.x != scale.x || newObjectInfo.transformData.rotation.y != scale.y || newObjectInfo.transformData.rotation.z != scale.z)
+		if (newObjectInfo.transformData.scale.x != scale.x || newObjectInfo.transformData.scale.y != scale.y || newObjectInfo.transformData.scale.z != scale.z)
 		{
-			newObjectInfo.transformData.rotation = scale;
+			newObjectInfo.transformData.scale = scale;
 		}
 
 		ImGui::TreePop();

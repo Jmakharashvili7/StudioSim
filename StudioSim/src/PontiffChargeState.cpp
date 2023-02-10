@@ -46,6 +46,22 @@ void PontiffChargeState::Update(float deltaTime)
 
 			// set direction to the player
 			m_direction = Vector3::Direction(m_pontiff->GetPosition(), m_player->GetPosition());
+			Vector3 currScale;
+			currScale = m_pontiff->GetScale();
+			if (m_direction.x < 0)
+			{
+				currScale.x *= -1;
+				m_pontiff->SetScale(currScale);
+			}
+			else
+			{
+				if (currScale.x < 0)
+				{
+					currScale.x *= -1;
+					m_pontiff->SetScale(currScale);
+				}
+			}
+			m_pontiff->StartAnimation("idle");
 			m_teleported = true;
 		}
 		else
@@ -65,6 +81,7 @@ void PontiffChargeState::Update(float deltaTime)
 				// Charge at the enemy and dissapear
 				else
 				{
+					m_pontiff->StartAnimation("charge");
 					Vector3 traveledDistance = deltaTime * m_direction * m_speed;
 					m_pontiff->AdjustPosition(traveledDistance);
 					m_traveled += traveledDistance.Length();

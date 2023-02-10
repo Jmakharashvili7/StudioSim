@@ -6,6 +6,7 @@
 #include "EnemyProjectile.h"
 #include "PontiffBaseState.h"
 #include "AIComponent.h"
+#include "UILayer.h"
 
 MiniPontiff::MiniPontiff(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const MovementData& movementData, const EntityData& entityData, const AnimationData& animationData, EnemyType enemyType) : 
 	Enemy(name, data, transformData, collisionData, textureName, physicsData, movementData, entityData, animationData, enemyType)
@@ -21,6 +22,24 @@ MiniPontiff::~MiniPontiff()
 
 void MiniPontiff::Update(const float deltaTime)
 {
+	if (m_animationDataRowsToAdd > 0)
+	{
+		for (int i = 0; i < m_animationDataRowsToAdd; i++)
+		{
+			m_animationData.animationRowData.push_back(AnimationRowData());
+		}
+		m_animationDataRowsToAdd = 0;
+	}
+
+	if (m_animationDataRowsToRemove.size() > 0)
+	{
+		for (int animIndexToRemove : m_animationDataRowsToRemove)
+		{
+			m_animationData.animationRowData.erase(m_animationData.animationRowData.begin() + animIndexToRemove);
+		}
+		m_animationDataRowsToRemove.clear();
+	}
+
 	for (Component* component : m_components)
 	{
 		AIComponent* aiComp = dynamic_cast<AIComponent*>(component);
@@ -30,7 +49,8 @@ void MiniPontiff::Update(const float deltaTime)
 			component->Update(deltaTime);
 	}
 
-	m_state->Update(deltaTime);
+	if (Quack::GetUILayer()->GetInPlay())
+		m_state->Update(deltaTime);
 }
 
 void MiniPontiff::OnCollision(GameObject* collidingObject)
