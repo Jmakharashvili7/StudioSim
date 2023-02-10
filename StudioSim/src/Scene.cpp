@@ -85,6 +85,8 @@ void Scene::Update()
 {
 	m_gameTimer.Tick();
 
+
+
 	if (!m_gameObjectsToAdd.empty())
 	{
 		for (GameObject* gameObjectToAdd : m_gameObjectsToAdd)
@@ -104,6 +106,7 @@ void Scene::Update()
 	}
 
 	const float deltaTime = m_gameTimer.GetDeltaTime();
+
 
 	// Make the camera and the background follow the player
 	if (Quack::GetUILayer()->GetInPlay())
@@ -129,11 +132,28 @@ void Scene::Update()
 
 void Scene::Render()
 {
+	GameObject* inputCharacter = EngineManager::GetInputCharacter();
+
+	if (!inputCharacter)
+	{
+		return;
+	}
+
 	// Draw game objects
 	for (GameObject* gameObject : m_gameObjects)
 	{
-		if (gameObject) gameObject->Draw(m_activeCamera);
+		if (gameObject)
+		{
+			if (gameObject->GetName() != inputCharacter->GetName())
+			{
+				gameObject->Draw(m_activeCamera);
+			}
+		}
 	}
+
+	inputCharacter->Draw(m_activeCamera);
+
+	
 
 	if (m_StopInput)
 	{
