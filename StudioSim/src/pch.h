@@ -30,6 +30,7 @@
 #include <assert.h>
 #include <unordered_map>
 #include <stdexcept>
+#include <map>
 
 //Engine stuff
 #include "QEKeyboard.h"

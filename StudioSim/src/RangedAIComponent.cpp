@@ -4,8 +4,7 @@
 #include "Quack.h"
 #include "EnemyProjectile.h"
 
-RangedAIComponent::RangedAIComponent(Actor* owningActor, const int updateOrder) : 
-	AIComponent(owningActor, updateOrder)
+RangedAIComponent::RangedAIComponent(Actor* owningActor, const int updateOrder) : AIComponent(owningActor, updateOrder)
 {
 	m_state = MeleeState::IDLE;
 	m_targetRange = 20.0f;
@@ -25,7 +24,6 @@ void RangedAIComponent::Update(const float deltaTime)
 	switch (m_state)
 	{
 	case MeleeState::IDLE:
-		m_owningActor->StartAnimation("idle");
 		if (Vector3::Distance(enemyPos, playerPos) <= m_targetRange)
 		{
 			m_path = m_pathFinder->FindPath(enemyPos, playerPos);
@@ -34,7 +32,6 @@ void RangedAIComponent::Update(const float deltaTime)
 		}
 		break;
 	case MeleeState::CHASING:
-		m_owningActor->StartAnimation("move");
 		m_timer += deltaTime;
 
 		if (m_timer >= m_pathUpdateTime)
@@ -68,7 +65,7 @@ void RangedAIComponent::Update(const float deltaTime)
 		{
 			if (!m_animStarted)
 			{
-				m_owningActor->StartAnimation("themicheydeluxe");
+				m_owningActor->StartAnimation("attack");
 				m_animStarted = true;
 			}
 		}

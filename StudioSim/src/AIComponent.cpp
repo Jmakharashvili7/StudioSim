@@ -18,18 +18,12 @@ AIComponent::AIComponent(Actor* owningActor, const int updateOrder) :
 
 void AIComponent::Update(const float deltaTime)
 {
-	if (!m_owningActor || !m_player)
-	{
-		return;
-	}
-
 	Vector3 enemyPos = m_owningActor->GetPosition();
 	Vector3 playerPos = m_player->GetPosition();
 
 	switch (m_state)
 	{
 	case MeleeState::IDLE:
-		m_owningActor->StartAnimation("idle");
 		if (Vector3::Distance(enemyPos, playerPos) <= m_targetRange)
 		{
 			m_path = m_pathFinder->FindPath(enemyPos, playerPos);
@@ -39,7 +33,6 @@ void AIComponent::Update(const float deltaTime)
 		break;
 	case MeleeState::CHASING:
 		m_timer += deltaTime;
-		m_owningActor->StartAnimation("move");
 
 		if (m_timer >= m_pathUpdateTime)
 		{
@@ -67,7 +60,6 @@ void AIComponent::Update(const float deltaTime)
 		}
 		break;
 	case MeleeState::ATTACKING:
-		m_owningActor->StartAnimation("attack");
 		if (Vector3::Distance(enemyPos, playerPos) >= m_attackRange)
 		{
 			m_state = MeleeState::IDLE;

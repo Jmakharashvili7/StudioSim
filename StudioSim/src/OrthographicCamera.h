@@ -53,4 +53,3 @@ private:
 
 	bool m_CanZoom : 1;
 };
-

@@ -206,6 +206,7 @@ void UILayer::EnableDocking()
 			if (ImGui::MenuItem("Close", NULL, false, &p_open != NULL))
 				p_open = false;
 
+
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
@@ -316,7 +317,6 @@ void UILayer::SetUpObjectCreator()
 
 			if (ImGui::Button("Create"))
 			{
-				QE_LOG("MADE ENEMY");
 				Enemy* newEnemy = new Enemy(newObjectInfo.objectName, vertexData, newObjectInfo.transformData, newObjectInfo.collisionData, newObjectInfo.textureName, newObjectInfo.physicsData, newObjectInfo.movementData, newObjectInfo.entityData, newObjectInfo.animationData, newObjectInfo.enemyType);
 				ImGui::CloseCurrentPopup();
 				Quack::GetOrthoCam()->SetCanZoom(true);
@@ -505,9 +505,9 @@ void UILayer::ObjectTransformData()
 		Vector3 scale = newObjectInfo.transformData.scale;
 		ImGui::DragFloat3("Scale", &scale.x);
 
-		if (newObjectInfo.transformData.scale.x != scale.x || newObjectInfo.transformData.scale.y != scale.y || newObjectInfo.transformData.scale.z != scale.z)
+		if (newObjectInfo.transformData.rotation.x != scale.x || newObjectInfo.transformData.rotation.y != scale.y || newObjectInfo.transformData.rotation.z != scale.z)
 		{
-			newObjectInfo.transformData.scale = scale;
+			newObjectInfo.transformData.rotation = scale;
 		}
 
 		ImGui::TreePop();

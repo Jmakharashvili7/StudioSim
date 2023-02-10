@@ -14,7 +14,7 @@ PontiffChargeState::PontiffChargeState(MiniPontiff* pontiff) :
 	m_speed(9.0f),
 	m_distance(5.0f),
 	m_directionChange(false),
-	m_chargeDelay(0.5),
+	m_chargeDelay(0.25),
 	m_delayed(false)
 {
 	m_player = EngineManager::GetInputCharacter();
@@ -61,7 +61,6 @@ void PontiffChargeState::Update(float deltaTime)
 					m_pontiff->SetScale(currScale);
 				}
 			}
-			m_pontiff->StartAnimation("idle");
 			m_teleported = true;
 		}
 		else
@@ -72,6 +71,7 @@ void PontiffChargeState::Update(float deltaTime)
 				if (!m_delayed)
 				{
 					m_currTime += deltaTime;
+					m_pontiff->StartAnimation("idle");
 					if (m_currTime >= m_chargeDelay)
 					{
 						m_delayed = true;

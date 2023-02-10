@@ -4,9 +4,7 @@
 #include "Animate.h"
 #include "Quack.h"
 #include "InputComponent.h"
-#include "AIComponent.h"
 #include "PhysicsComponent.h"
-#include "UILayer.h"
 
 Actor::Actor(std::string name, VertexData* data, const TransformData& transformData, const CollisionData& collisionData, const std::string& textureName, const PhysicsData& physicsData, const AnimationData& animationData)
 	: GameObject{ name, data, transformData, collisionData, textureName }, m_physicsData(physicsData), m_animationData(animationData)
@@ -60,12 +58,9 @@ void Actor::Update(const float deltaTime)
 {
 	GameObject::Update(deltaTime);
 
-	if (Quack::GetUILayer()->GetInPlay())
+	for (auto component : m_components)
 	{
-		for (auto component : m_components)
-		{
-			component->Update(deltaTime);
-		}
+		component->Update(deltaTime);
 	}
 
 	if (m_animationDataRowsToAdd > 0)
@@ -327,8 +322,6 @@ void Actor::OnCollision(GameObject* collidingObject)
 
 void Actor::OnCollisionOver(GameObject* gameObject)
 {
-	GameObject::OnCollisionOver(gameObject);
-
 	if (IsGroundObject(gameObject))
 	{
 		if (!HasObjectsCollidingWithName(m_groundNames))
@@ -336,6 +329,8 @@ void Actor::OnCollisionOver(GameObject* gameObject)
 			SetCollidingWithGround(false);
 		}
 	}
+	
+	GameObject::OnCollisionOver(gameObject);
 }
 
 void Actor::SetCollidingWithGround(const bool bcollidingWithGround)

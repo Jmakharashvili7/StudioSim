@@ -1,8 +1,6 @@
 #include "pch.h"
 
 #include "InputComponent.h"
-#include "Quack.h"
-#include "UILayer.h"
 
 InputComponent::InputComponent(Actor* owningActor, const int updateOrder) : Component{ owningActor, updateOrder }
 {
@@ -36,7 +34,7 @@ const bool InputComponent::GetKeyDown(const char key) const
 	}
 	for (int i = 0; i < keyEvent.size(); i++)
 	{
-		if (keyEvent[i].IsPressed())
+		if (keyEvent[i].IsHeld())
 		{
 			if (keyEvent[i].GetKeyCode() == upperCaseKey)
 			{
@@ -96,7 +94,6 @@ const bool InputComponent::GetKeyPressed(const char key) const
 			}
 		}
 	}
-
 	return bkeyPressed;
 }
 
@@ -219,4 +216,6 @@ void InputComponent::ProcessInput()
 {
 	keyEvent = KeyboardClass::ReadKeys();
 	mouseEvent = MouseClass::ReadEvent();
+
+	
 }

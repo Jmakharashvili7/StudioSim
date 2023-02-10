@@ -27,7 +27,7 @@ public:
 	Scene() {}
 	Scene(const std::string& path, UILayer* uiLayer, Window* window, FrameBuffer* frameBuffer);
 	~Scene() {}
-	
+
 	void RenderScene();
 
 	inline OrthographicCamera* GetCamera() { return m_activeCamera; }
@@ -45,6 +45,7 @@ public:
 	inline void ToggleStopInput(bool toggle) { m_StopInput = toggle; }
 
 	inline Grid<PathNode> GetGrid() { return m_grid; }
+	inline Grid<PathNode> GetBossGrid() { return m_bossGrid; }
 
 	void SetGravity(const bool bactive);
 	void SetInput(const bool bactive);
@@ -60,6 +61,7 @@ private:
 
 	std::vector<GameObject*> m_gameObjects;
 	Grid<PathNode> m_grid;
+	Grid<PathNode> m_bossGrid;
 	Pathfinding* m_pathfinder;
 
 	// windows
@@ -86,11 +88,11 @@ private:
 	glm::vec4 m_lightAmbient;
 
 	OrthographicCamera* m_activeCamera;
-;
+	;
 	CollisionManager* m_collisionManager;
 
 	GameTimer m_gameTimer;
-	
+
 	FrameBuffer* m_frameBuffer;
 
 	bool m_StopInput = true;
@@ -98,4 +100,3 @@ private:
 	std::vector<GameObject*> m_gameObjectsToAdd;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 };
-

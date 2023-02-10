@@ -14,7 +14,7 @@ Texture::Texture(const TextureData& textureData) :
 	// set texture filtering parameters
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-	
+
 	stbi_set_flip_vertically_on_load(1);
 	m_localBuffer = stbi_load(textureData.texturePath.c_str(), &m_width, &m_height, &m_BPP, 0);
 	if (m_localBuffer)
@@ -63,5 +63,4 @@ void Texture::UnBind() const
 {
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
-
 

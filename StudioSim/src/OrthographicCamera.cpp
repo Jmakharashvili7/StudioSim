@@ -26,7 +26,7 @@ OrthographicCamera::OrthographicCamera(float width, float height)
 
 void OrthographicCamera::SetZoom(float zoom, float aspect)
 {
-	m_Zoom = zoom; 
+	m_Zoom = zoom;
 	RecalculateProjection(-m_Zoom * aspect, m_Zoom * aspect, -m_Zoom, m_Zoom);
 }
 
