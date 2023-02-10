@@ -97,7 +97,18 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 	{
 		if (Quack::GetOrthoCam()->GetCanZoom())
 		{
-			// Only counting the click within viewport boundary
+			//Spikes child
+			//Vector2 port;
+			////Size of viewport
+			//port.x = GetSize().x;
+			//port.y = GetSize().y;
+
+			////Current mouse position within viewport scale
+			//Vector2 viewStart;
+			//viewStart.x = ImGui::GetMousePos().x - GetStartX();
+			//viewStart.y = ImGui::GetMousePos().y - GetStartY();
+
+			//Only counting the click within viewport boundary
 			if (m_isHovered)
 			{
 				float newZoom = Quack::GetOrthoCam()->GetZoom();
@@ -114,7 +125,9 @@ void ViewportUI::HandleMouseInput(MouseEvent e)
 				}
 
 				newZoom = newZoom <= 1.0f ? 1.0f : newZoom;
-				Quack::GetOrthoCam()->SetZoom(newZoom, aspect);
+				Quack::GetOrthoCam()->SetZoom(newZoom);
+
+				Quack::GetOrthoCam()->RecalculateProjection(-Quack::GetOrthoCam()->GetZoom() * aspect, Quack::GetOrthoCam()->GetZoom() * aspect, -Quack::GetOrthoCam()->GetZoom(), Quack::GetOrthoCam()->GetZoom());
 			}
 		}
 

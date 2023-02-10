@@ -1,8 +1,8 @@
 {
     "GameObject0": {
         "centerPosition": {
-            "x": -3.5,
-            "y": 2.0,
+            "x": 3.0,
+            "y": -0.5,
             "z": 0.0
         },
         "centerPositionOffset": {
@@ -34,8 +34,8 @@
         "name": "Platform",
         "objectType": 0,
         "position": {
-            "x": -3.5,
-            "y": 2.0,
+            "x": 3.0,
+            "y": -0.5,
             "z": 0.0
         },
         "radius": 0.0,
@@ -92,7 +92,7 @@
     },
     "GameObject1": {
         "centerPosition": {
-            "x": -10.966012001037598,
+            "x": -22.0,
             "y": 0.0,
             "z": 0.0
         },
@@ -125,7 +125,7 @@
         "name": "Background",
         "objectType": 0,
         "position": {
-            "x": -2.9660120010375977,
+            "x": -14.0,
             "y": 0.0,
             "z": 0.0
         },
@@ -136,8 +136,8 @@
             "z": 1.0
         },
         "scale": {
-            "x": 22.0,
-            "y": 16.5,
+            "x": 20.0,
+            "y": 15.0,
             "z": 1.0
         },
         "size": {
@@ -3059,8 +3059,8 @@
         "bconsumeInput": true,
         "bsimulateGravity": false,
         "centerPosition": {
-            "x": -2.9660120010375977,
-            "y": -1.252449870109558,
+            "x": -14.0,
+            "y": -2.0,
             "z": 0.0
         },
         "centerPositionOffset": {
@@ -3097,8 +3097,8 @@
         "name": "Jessica",
         "objectType": 2,
         "position": {
-            "x": -2.9660120010375977,
-            "y": -1.252449870109558,
+            "x": -14.0,
+            "y": -2.0,
             "z": 0.0
         },
         "radius": 1.0,
@@ -3108,7 +3108,7 @@
             "z": 34.0
         },
         "scale": {
-            "x": -3.5,
+            "x": 3.5,
             "y": 3.5,
             "z": 3.5
         },
@@ -3118,17 +3118,17 @@
             "z": 1.0
         },
         "texCoords": [
-            0.4545454680919647,
+            0.7272727489471436,
             0.0,
-            0.5454545617103577,
+            0.8181818127632141,
             0.0,
-            0.5454545617103577,
+            0.8181818127632141,
             0.125,
-            0.5454545617103577,
+            0.8181818127632141,
             0.125,
-            0.4545454680919647,
+            0.7272727489471436,
             0.125,
-            0.4545454680919647,
+            0.7272727489471436,
             0.0
         ],
         "textureName": "Player.png",
@@ -22538,300 +22538,6 @@
             0.0
         ]
     },
-    "GameObject320": {
-        "centerPosition": {
-            "x": -15.0,
-            "y": 1.0,
-            "z": 0.0
-        },
-        "centerPositionOffset": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "collisionType": 0,
-        "colors": [
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
-        ],
-        "name": "Wall",
-        "objectType": 0,
-        "position": {
-            "x": -15.0,
-            "y": 1.0,
-            "z": 0.0
-        },
-        "radius": 0.0,
-        "rotation": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "size": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "texCoords": [
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            0.0,
-            0.0
-        ],
-        "textureName": "damaged_brick_1.png",
-        "vertices": [
-            -0.5,
-            -0.5,
-            0.0,
-            0.5,
-            -0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            -0.5,
-            0.5,
-            0.0,
-            -0.5,
-            -0.5,
-            0.0
-        ]
-    },
-    "GameObject321": {
-        "EnemyType": 2,
-        "animationRowData": {
-            "animRowData0": {
-                "amountOfColumns": 36,
-                "blooping": false,
-                "playRate": 15.857000350952148,
-                "rowName": "death",
-                "rowNumber": 0
-            },
-            "animRowData1": {
-                "amountOfColumns": 2,
-                "blooping": false,
-                "playRate": 10.0,
-                "rowName": "hit",
-                "rowNumber": 1
-            },
-            "animRowData10": {
-                "amountOfColumns": 2,
-                "blooping": false,
-                "playRate": 0.0,
-                "rowName": "twoframe",
-                "rowNumber": 10
-            },
-            "animRowData11": {
-                "amountOfColumns": 9,
-                "blooping": false,
-                "playRate": 10.0,
-                "rowName": "wideslash",
-                "rowNumber": 11
-            },
-            "animRowData12": {
-                "amountOfColumns": 9,
-                "blooping": false,
-                "playRate": 0.0,
-                "rowName": "idle",
-                "rowNumber": 12
-            },
-            "animRowData13": {
-                "amountOfColumns": 10,
-                "blooping": false,
-                "playRate": 8.28600025177002,
-                "rowName": "projectile",
-                "rowNumber": 0
-            },
-            "animRowData2": {
-                "amountOfColumns": 13,
-                "blooping": false,
-                "playRate": 10.0,
-                "rowName": "recovery",
-                "rowNumber": 2
-            },
-            "animRowData3": {
-                "amountOfColumns": 13,
-                "blooping": false,
-                "playRate": 9.571000099182129,
-                "rowName": "appear",
-                "rowNumber": 3
-            },
-            "animRowData4": {
-                "amountOfColumns": 6,
-                "blooping": false,
-                "playRate": 10.142999649047852,
-                "rowName": "disappear",
-                "rowNumber": 4
-            },
-            "animRowData5": {
-                "amountOfColumns": 4,
-                "blooping": false,
-                "playRate": 10.428999900817871,
-                "rowName": "temp1",
-                "rowNumber": 5
-            },
-            "animRowData6": {
-                "amountOfColumns": 4,
-                "blooping": false,
-                "playRate": 10.0,
-                "rowName": "temp2",
-                "rowNumber": 6
-            },
-            "animRowData7": {
-                "amountOfColumns": 16,
-                "blooping": false,
-                "playRate": 10.0,
-                "rowName": "charge",
-                "rowNumber": 7
-            },
-            "animRowData8": {
-                "amountOfColumns": 8,
-                "blooping": true,
-                "playRate": 10.571999549865723,
-                "rowName": "move",
-                "rowNumber": 8
-            },
-            "animRowData9": {
-                "amountOfColumns": 8,
-                "blooping": true,
-                "playRate": 10.142999649047852,
-                "rowName": "move2",
-                "rowNumber": 9
-            },
-            "numOfAnim": 14
-        },
-        "banimated": true,
-        "bconsumeInput": false,
-        "bsimulateGravity": false,
-        "centerPosition": {
-            "x": -4.966012001037598,
-            "y": -1.252449870109558,
-            "z": 0.0
-        },
-        "centerPositionOffset": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "collisionType": 0,
-        "colors": [
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
-        ],
-        "gravityMultiplier": 0.0,
-        "jumpHeight": 7.2820000648498535,
-        "mass": 1.0,
-        "maxHealth": 500.0,
-        "movementSpeed": 1.0579999685287476,
-        "name": "MiniPontiff",
-        "objectType": 3,
-        "position": {
-            "x": -4.966012001037598,
-            "y": -1.252449870109558,
-            "z": 0.0
-        },
-        "radius": 0.0,
-        "rotation": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "scale": {
-            "x": 6.0,
-            "y": 6.0,
-            "z": 1.0
-        },
-        "size": {
-            "x": 3.0,
-            "y": 3.0,
-            "z": 1.0
-        },
-        "texCoords": [
-            0.1666666716337204,
-            0.6153846383094788,
-            0.1944444477558136,
-            0.6153846383094788,
-            0.1944444477558136,
-            0.692307710647583,
-            0.1944444477558136,
-            0.692307710647583,
-            0.1666666716337204,
-            0.692307710647583,
-            0.1666666716337204,
-            0.6153846383094788
-        ],
-        "textureName": "The Heart Hoarder Sprite sheet 222x119.png",
-        "totalColumns": 36,
-        "totalRows": 13,
-        "vertices": [
-            -0.5,
-            -0.5,
-            0.0,
-            0.5,
-            -0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            0.5,
-            0.5,
-            0.0,
-            -0.5,
-            0.5,
-            0.0,
-            -0.5,
-            -0.5,
-            0.0
-        ]
-    },
     "GameObject33": {
         "centerPosition": {
             "x": -15.0,
@@ -29475,5 +29181,5 @@
             0.0
         ]
     },
-    "ObjectCount": 322
+    "ObjectCount": 320
 }

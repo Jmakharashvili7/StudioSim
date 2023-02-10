@@ -48,6 +48,8 @@ public:
 	void SetGravity(const bool bactive);
 	void SetInput(const bool bactive);
 private:
+	void HandleLights();
+
 	void HandleInput();
 
 	void Render();

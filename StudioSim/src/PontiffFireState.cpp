@@ -14,7 +14,6 @@ void PontiffFireState::Update(float deltaTime)
 {
 	if (!m_fired)
 	{
-		m_pontiff->StartAnimation("projectile");
 		Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, { 1.0f, 0.0f, 0.0f }, m_pontiff->GetPosition()));
 		Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, { 0.0f, 1.0f, 0.0f }, m_pontiff->GetPosition()));
 		Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, { -1.0f, 0.0f, 0.0f }, m_pontiff->GetPosition()));

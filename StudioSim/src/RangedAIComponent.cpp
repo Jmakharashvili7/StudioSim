@@ -4,17 +4,9 @@
 #include "Quack.h"
 #include "EnemyProjectile.h"
 
-RangedAIComponent::RangedAIComponent(Actor* owningActor, const int updateOrder) : 
-	AIComponent(owningActor, updateOrder)
+RangedAIComponent::RangedAIComponent(Actor* owningActor, const int updateOrder) : AIComponent(owningActor, updateOrder)
 {
-	m_state = MeleeState::IDLE;
-	m_targetRange = 20.0f;
-	m_attackRange = 10.0f;
-	m_pathUpdateTime = 0.5f;
-	m_speed = 3.0f;
-	m_attackSpeed = 0.75f;
-	m_attackTimer = 0.0f;
-	m_animStarted = false;
+
 }
 
 void RangedAIComponent::Update(const float deltaTime)
@@ -25,7 +17,6 @@ void RangedAIComponent::Update(const float deltaTime)
 	switch (m_state)
 	{
 	case MeleeState::IDLE:
-		m_owningActor->StartAnimation("idle");
 		if (Vector3::Distance(enemyPos, playerPos) <= m_targetRange)
 		{
 			m_path = m_pathFinder->FindPath(enemyPos, playerPos);
@@ -34,7 +25,6 @@ void RangedAIComponent::Update(const float deltaTime)
 		}
 		break;
 	case MeleeState::CHASING:
-		m_owningActor->StartAnimation("move");
 		m_timer += deltaTime;
 
 		if (m_timer >= m_pathUpdateTime)
@@ -63,22 +53,7 @@ void RangedAIComponent::Update(const float deltaTime)
 		}
 		break;
 	case MeleeState::ATTACKING:
-		m_attackTimer += deltaTime;
-		if (m_attackTimer >= m_attackSpeed/2)
-		{
-			if (!m_animStarted)
-			{
-				m_owningActor->StartAnimation("themicheydeluxe");
-				m_animStarted = true;
-			}
-		}
-		if (m_attackTimer >= m_attackSpeed)
-		{
-			Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, Vector3::Direction(enemyPos, playerPos), enemyPos));
-			m_attackTimer = 0.0f;
-			m_animStarted = false;
-		}
-
+		Quack::GetCurrentScene()->AddGameObject(new EnemyProjectile("IceBlock", 10.0f, Vector3::Direction(enemyPos, playerPos), enemyPos));
 		if (Vector3::Distance(enemyPos, playerPos) >= m_attackRange)
 		{
 			m_state = MeleeState::IDLE;

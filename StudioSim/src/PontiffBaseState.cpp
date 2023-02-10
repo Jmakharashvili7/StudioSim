@@ -10,7 +10,7 @@
 
 PontiffBaseState::PontiffBaseState(MiniPontiff* pontiff) : PontiffState(pontiff)
 {
-	m_timer = 2.0f;
+	m_timer = 5.0f;
 }
 
 void PontiffBaseState::Update(float deltaTime)
