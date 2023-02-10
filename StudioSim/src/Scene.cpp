@@ -121,6 +121,12 @@ void Scene::Update()
 		if (gameObject) gameObject->Update(deltaTime);
 	}
 
+	if (bQueueReset)
+	{
+		bQueueReset = false;
+		ResetScene();
+	}
+
 	// get mouse position
 	double xpos, ypos;
 	glfwGetCursorPos(Quack::GetWindow()->GetGLFWWindow(), &xpos, &ypos);
@@ -150,8 +156,6 @@ void Scene::Render()
 	}
 
 	inputCharacter->Draw(m_activeCamera);
-
-	
 
 	if (m_StopInput)
 	{

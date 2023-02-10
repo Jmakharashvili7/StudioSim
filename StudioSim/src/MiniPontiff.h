@@ -18,8 +18,6 @@ public:
 
 	// Teleports to a position in the world
 	void Blink(Vector3 pos);
-private:
-
 	// A slash attack in both directions
 	void WideSlash(float attackSpeed);
 
@@ -32,9 +30,12 @@ private:
 	// An ultimate Attack where pontiff quickly descends down and launches his blades
 	void UltimateAttack(Vector3 posToAttackFrom, float attackSpeed);
 
+private:
 	// Stand menacingly
 	void Wait(float deltaTime, float duration);
 private:
 	PontiffState* m_state;
+
+	CombatComponent* m_combatComponent = nullptr;
 };
 

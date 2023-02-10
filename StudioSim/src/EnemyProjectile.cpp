@@ -4,6 +4,7 @@
 #include "Quack.h"
 #include "JsonLoader.h"
 #include "Transform.h"
+#include "EngineManager.h"
 
 EnemyProjectile::EnemyProjectile(std::string projName, float speed, Vector3 dir, Vector3 pos) :
 	GameObject(*JsonLoader::LoadGameObject2D(projName)),
@@ -14,6 +15,7 @@ EnemyProjectile::EnemyProjectile(std::string projName, float speed, Vector3 dir,
 	TransformData transform = TransformData(m_transform->GetPosition(), m_transform->GetRotation(), m_transform->GetScale());
 	m_transform->SetPosition(pos);
 	m_type = GameObjectType::PROJECTILE;
+
 }
 
 void EnemyProjectile::Update(float deltaTime)
@@ -34,5 +36,14 @@ void EnemyProjectile::OnCollision(GameObject* collidingObject)
 	if (collidingObject->GetType() != GameObjectType::ENEMY && collidingObject->GetType() != GameObjectType::PROJECTILE)
 	{
 		Quack::GetCurrentScene()->RemoveGameObject(this);
+	}
+
+	if (EngineManager::GetInputCharacter() == collidingObject)
+	{
+		Character* chara = dynamic_cast<Character*>(collidingObject);
+		if (chara)
+		{
+			chara->TakeDamage(10.0f, 0.1f, 0.1f, FacingDirection::RIGHT);
+		}
 	}
 }

@@ -48,6 +48,7 @@ public:
 
 	void SetGravity(const bool bactive);
 	void SetInput(const bool bactive);
+	bool bQueueReset = false;
 private:
 	void HandleInput();
 

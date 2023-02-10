@@ -62,7 +62,7 @@ void Character::Update(const float deltaTime)
 
 		if (m_deathTimer <= 0.0f)
 		{
-			Quack::GetCurrentScene()->ResetScene();
+			Quack::GetCurrentScene()->bQueueReset = true;
 		}
 	}
 }
@@ -384,7 +384,7 @@ void Character::TakeDamage(const float amount, const float knockbackAmount, cons
 		m_totalKnockbackAmount = bdamageDirectionRight ? -finalKnockbackAmount : finalKnockbackAmount;
 	}
 	AdjustCurrentHealth(-amount);
-	StartAnimation("takeHit");
+	StartAnimation("takeHit", true);
 }
 
 void Character::Kill()
@@ -396,5 +396,4 @@ void Character::Die()
 {
 	StartAnimation("die");
 	SetSimulateGravity(false);
-	//Quack::GetCurrentScene()->RemoveGameObject(this);
 }

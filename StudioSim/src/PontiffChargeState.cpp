@@ -82,6 +82,7 @@ void PontiffChargeState::Update(float deltaTime)
 				else
 				{
 					m_pontiff->StartAnimation("charge");
+					m_pontiff->FloatAttack(Vector3(0.0f), -1.0f);
 					Vector3 traveledDistance = deltaTime * m_direction * m_speed;
 					m_pontiff->AdjustPosition(traveledDistance);
 					m_traveled += traveledDistance.Length();
