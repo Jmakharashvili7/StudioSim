@@ -44,6 +44,7 @@ public:
 	inline void ToggleStopInput(bool toggle) { m_StopInput = toggle; }
 
 	inline Grid<PathNode> GetGrid() { return m_grid; }
+	inline Grid<PathNode> GetBossGrid() { return m_bossGrid; }
 
 	void SetGravity(const bool bactive);
 	void SetInput(const bool bactive);
@@ -58,6 +59,7 @@ private:
 
 	std::vector<GameObject*> m_gameObjects;
 	Grid<PathNode> m_grid;
+	Grid<PathNode> m_bossGrid;
 	Pathfinding* m_pathfinder;
 
 	// windows

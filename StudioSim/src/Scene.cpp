@@ -30,9 +30,10 @@ Scene::Scene(const std::string& name, UILayer* uiLayer, Window* window, FrameBuf
 	m_collisionManager = new CollisionManager();
 
 	m_grid = Grid<PathNode>(160, 40, 0.5, { -15.5,-10, 0 });
+	m_bossGrid = Grid<PathNode>(85, 40, 0.5, { 42, -60, 0});
 
 	// Load scene
-	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_grid);
+	m_sceneInfo = QuackEngine::JsonLoader::LoadScene(name, m_gameObjects, m_grid, m_bossGrid);
 	m_gameTimer.Start();
 
 	// Update engine manager
@@ -250,7 +251,7 @@ void Scene::LoadScene()
 		m_gameObjectsToAdd.clear();
 		m_gameObjectsToRemove.clear();
 	}
-	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects, m_grid);
+	QuackEngine::JsonLoader::LoadScene(m_sceneInfo.sceneName, m_gameObjects, m_grid, m_bossGrid);
 }
 
 void Scene::AddGameObject(GameObject* newGameObject)
