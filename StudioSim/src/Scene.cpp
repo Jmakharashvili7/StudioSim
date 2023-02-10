@@ -192,8 +192,15 @@ void Scene::Update()
 		if (gameObject) gameObject->Update(deltaTime);
 	}
 	//Make camera follow player
-	Quack::GetOrthoCam()->SetPosition({ EngineManager::GetGameObject("Jessica")->GetPosition().x, Quack::GetOrthoCam()->GetPosition().y, Quack::GetOrthoCam()->GetPosition().z });
+	//Quack::GetOrthoCam()->SetPosition({ EngineManager::GetGameObject("Jessica")->GetPosition().x, Quack::GetOrthoCam()->GetPosition().y, Quack::GetOrthoCam()->GetPosition().z });
 	//Quack::GetUILayer()->GetViewport()->SetPosition({ Quack::GetOrthoCam()->GetDimensions().x, Quack::GetOrthoCam()->GetDimensions().y});
+
+
+	if (Quack::GetUILayer()->GetInPlay())
+	{
+		Vector3 playerPos = EngineManager::GetInputCharacter()->GetPosition();
+		m_activeCamera->SetPosition(playerPos.GetglmVec3());
+	}
 
 	// get mouse position
 	double xpos, ypos;
