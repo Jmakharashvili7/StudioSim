@@ -174,7 +174,8 @@ void UILayer::EnableDocking()
 
 					inEditor = false;
 					inPlay = true;
-					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetGameZoom());
+					Quack::GetOrthoCam()->SetDefualtPosition(Quack::GetOrthoCam()->GetPosition());
+					Quack::GetOrthoCam()->SetZoom(Quack::GetOrthoCam()->GetGameZoom(), Quack::GetUILayer()->GetViewport()->GetSize().x / Quack::GetUILayer()->GetViewport()->GetSize().y);
 				}
 			}
 
@@ -195,7 +196,7 @@ void UILayer::EnableDocking()
 					inEditor = true;
 					inPlay = false;
 					Quack::GetOrthoCam()->ResetZoom();
-
+					Quack::GetOrthoCam()->SetPosition(Quack::GetOrthoCam()->GetDefaultPos());
 				}
 			}
 

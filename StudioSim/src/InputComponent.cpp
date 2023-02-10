@@ -1,6 +1,8 @@
 #include "pch.h"
 
 #include "InputComponent.h"
+#include "Quack.h"
+#include "UILayer.h"
 
 InputComponent::InputComponent(Actor* owningActor, const int updateOrder) : Component{ owningActor, updateOrder }
 {
@@ -94,6 +96,7 @@ const bool InputComponent::GetKeyPressed(const char key) const
 			}
 		}
 	}
+
 	return bkeyPressed;
 }
 
@@ -216,6 +219,4 @@ void InputComponent::ProcessInput()
 {
 	keyEvent = KeyboardClass::ReadKeys();
 	mouseEvent = MouseClass::ReadEvent();
-
-	
 }

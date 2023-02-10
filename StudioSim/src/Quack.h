@@ -16,6 +16,8 @@
 class LayerStack;
 class UIRenderer;
 class UILayer;
+class MouseEvent;
+class KeyEvent;
 
 #define MAX_FRAME_RATE 144
 #define NUMBER_OF_SQUARES 4
@@ -50,8 +52,9 @@ public:
 	static inline Grid<PathNode> GetGrid() { return m_mainScene.GetGrid(); }
 
 	static Scene* GetCurrentScene() { return &m_mainScene; }
-	
-	static inline QuackAudio* GetAudioEngine() { return m_AudioEngine; }
+
+	inline KeyEvent GetKeyEvent() { return m_keyEvent; }
+	//inline MouseEvent GetMouseEvent() { return m_mouseEvent; }
 private:
 	Quack();
 	~Quack();
@@ -80,4 +83,6 @@ private:
 	static std::map<std::string, Texture*> m_textures;
 
 	static QuackAudio* m_AudioEngine;
+	static  KeyEvent m_keyEvent;
+	//static  MouseEvent m_mouseEvent;
 };
